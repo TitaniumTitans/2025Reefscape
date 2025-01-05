@@ -2,27 +2,39 @@ package frc.robot.subsystems.vision;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import org.littletonrobotics.junction.AutoLog;
 
+/** Interface for a vision IO */
 public interface VisionIO {
+  /** The inputs for a vision system */
+  @AutoLog
   class VisionInputs {
     boolean hasResults = false;
 
-    // Ambiguity of the target, 0 is good, 1 is bad
+    /** Ambiguity ration of the target, 0 is no ambiguity (good), 1 is maximum ambiguity (bad) */
     double ambiguityRatio = 0;
 
-    int[] visableTagIDs = {};
+    int[] visibleTagIDs = {};
     Pose3d[] fieldSpaceRobotPoses = {};
-    double timestamp = 0;
+    double timeStamp = 0;
 
-    // percentage of the screen being taken up by the tags
+    /** Area of the tags as a percentage of the screen taken up by the tag (0 - 100) */
     double[] tagAreas = {};
 
     String cameraName = "";
   }
 
-  // update the vision inputs
+  /**
+   * Update the inputs of a vision system
+   *
+   * @param inputs the inputs to update
+   */
   void updateInputs(VisionInputs inputs);
 
-  // sets the robot actual rotation, must be updated each match
+  /**
+   * Pass the robot rotation that is measured with the IMU to the vision system This should be updated every loop
+   *
+   * @param robotRotation Actual rotation of the robot
+   */
   default void setRobotRotation(Rotation2d robotRotation) {}
 }
