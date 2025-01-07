@@ -7,14 +7,14 @@ public interface ModuleIO {
   @AutoLog
   class ModuleIOInputs {
     public boolean driveConnected = false;
-    public double drivePositionDegs = 0.0;
-    public double driveVelocityDegsPerSec = 0.0;
+    public double drivePositionRads = 0.0;
+    public double driveVelocityRadsPerSec = 0.0;
     public double driveAppliedVolts = 0.0;
     public double driveCurrentAmps = 0.0;
 
     public boolean steerConnected = false;
     public Rotation2d steerPosition = new Rotation2d();
-    public double steerVelocityDegsPerSec = 0.0;
+    public double steerVelocityRadsPerSec = 0.0;
     public double steerAppliedVolts = 0.0;
     public double steerCurrentAmps = 0.0;
 
@@ -22,7 +22,7 @@ public interface ModuleIO {
     public Rotation2d steerAbsolutePosition = new Rotation2d();
 
     public double[] odometryTimestamps = new double[] {};
-    public double[] odometryDrivePositionsDegs = new double[] {};
+    public double[] odometryDrivePositionsRads = new double[] {};
     public Rotation2d[] odometrySteerPositions = new Rotation2d[] {};
   }
 
@@ -36,7 +36,7 @@ public interface ModuleIO {
   public default void setSteerOpenLoop(double volts) {};
 
   // sets the drive motor to a certain velocity using onboard PID controllers
-  public default void setDriveVelocity(double degsPerSec) {};
+  public default void setDriveVelocity(double radsPerSec) {};
 
   // sets the steer motor position using onboard PID controllers
   public default void setSteerPosition(Rotation2d rotation) {};
