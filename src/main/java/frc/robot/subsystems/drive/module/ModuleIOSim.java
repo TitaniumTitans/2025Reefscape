@@ -82,9 +82,9 @@ public class ModuleIOSim implements ModuleIO {
 
     // Update drive inputs
     inputs.driveConnected = true;
-    inputs.drivePositionDegs = moduleSimulation.getDriveWheelFinalPosition().in(Degrees);
-    inputs.driveVelocityDegsPerSec =
-        moduleSimulation.getDriveWheelFinalSpeed().in(DegreesPerSecond);
+    inputs.drivePositionRads = moduleSimulation.getDriveWheelFinalPosition().in(Radians);
+    inputs.driveVelocityRadsPerSec =
+        moduleSimulation.getDriveWheelFinalSpeed().in(RadiansPerSecond);
     inputs.driveAppliedVolts = driveAppliedVolts;
     inputs.driveCurrentAmps =
         Math.abs(moduleSimulation.getDriveMotorStatorCurrent().in(Amps));
@@ -94,16 +94,16 @@ public class ModuleIOSim implements ModuleIO {
     inputs.steerEncoderConnected = true;
     inputs.steerAbsolutePosition = moduleSimulation.getSteerAbsoluteFacing();
     inputs.steerPosition = moduleSimulation.getSteerAbsoluteFacing();
-    inputs.steerVelocityDegsPerSec =
-        moduleSimulation.getSteerAbsoluteEncoderSpeed().in(DegreesPerSecond);
+    inputs.steerVelocityRadsPerSec =
+        moduleSimulation.getSteerAbsoluteEncoderSpeed().in(RadiansPerSecond);
     inputs.steerAppliedVolts = turnAppliedVolts;
     inputs.steerCurrentAmps =
         Math.abs(moduleSimulation.getSteerMotorStatorCurrent().in(Amps));
 
     // Update odometry inputs (50Hz because high-frequency odometry in sim doesn't matter)
     inputs.odometryTimestamps = PhoenixUtil.getSimulationOdometryTimeStamps();
-    inputs.odometryDrivePositionsDegs = Arrays.stream(moduleSimulation.getCachedDriveWheelFinalPositions())
-        .mapToDouble(angle -> angle.in(Degrees))
+    inputs.odometryDrivePositionsRads = Arrays.stream(moduleSimulation.getCachedDriveWheelFinalPositions())
+        .mapToDouble(angle -> angle.in(Radians))
         .toArray();
     inputs.odometrySteerPositions = moduleSimulation.getCachedSteerAbsolutePositions();
   }
@@ -121,10 +121,10 @@ public class ModuleIOSim implements ModuleIO {
   }
 
   @Override
-  public void setDriveVelocity(double velocityRadPerSec) {
+  public void setDriveVelocity(double radsPerSec) {
     driveClosedLoop = true;
-    driveFFVolts = DRIVE_KS * Math.signum(velocityRadPerSec) + DRIVE_KV * velocityRadPerSec;
-    driveController.setSetpoint(velocityRadPerSec);
+    driveFFVolts = DRIVE_KS * Math.signum(radsPerSec) + DRIVE_KV * radsPerSec;
+    driveController.setSetpoint(radsPerSec);
   }
 
   @Override
