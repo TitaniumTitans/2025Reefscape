@@ -15,9 +15,6 @@ public class Module {
   private final ModuleIO io;
   private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
   private final int index;
-  private final SwerveModuleConstants<
-      TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>
-      constants;
 
   private final Alert driveDisconnectedAlert;
   private final Alert steerDisconnectedAlert;
@@ -26,13 +23,10 @@ public class Module {
 
   public Module(
       ModuleIO io,
-      int index,
-      SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>
-        constants
+      int index
   ) {
     this.io = io;
     this.index = index;
-    this.constants = constants;
 
     driveDisconnectedAlert = new Alert(
         "Disconnected drive motor on module " + index + ".",
