@@ -14,7 +14,9 @@ public class DriveConstants {
       new Translation2d(-TRACK_WIDTH_X / 2, -TRACK_WIDTH_Y / 2)
   };
 
+  public static final double DRIVE_BASE_RADIUS = Math.hypot(TRACK_WIDTH_X / 2, TRACK_WIDTH_Y / 2);
   public static final double MAX_LINEAR_SPEED_MPS = Units.feetToMeters(16.0);
+  public static final double MAX_ANGULAR_SPEED = 4.69 / DRIVE_BASE_RADIUS;
 
   public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(2.0);
 }
