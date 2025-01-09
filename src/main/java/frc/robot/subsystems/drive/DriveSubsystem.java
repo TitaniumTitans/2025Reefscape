@@ -167,5 +167,9 @@ public class DriveSubsystem extends SubsystemBase {
   public double getMaxLinearSpeedMetersPerSec() {
     return DriveConstants.MAX_LINEAR_SPEED_MPS;
   }
+
+  public double getMaxAngularSpeedRadPerSec() {
+    return DriveConstants.MAX_ANGULAR_SPEED;
+  }
 }
 
