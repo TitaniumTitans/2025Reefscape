@@ -61,6 +61,11 @@ public class Module {
     steerEncoderDisconnectedAlert.set(inputs.steerEncoderConnected);
   }
 
+  public void updateInputs() {
+    io.updateInputs(inputs);
+    Logger.processInputs("Drive/Module" + index, inputs);
+  }
+
   // optimizes a module setpoint and runs it
   public void runSetpoint(SwerveModuleState state) {
     // optimize the state
