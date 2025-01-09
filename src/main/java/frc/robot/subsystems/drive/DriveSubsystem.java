@@ -21,7 +21,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class DriveSubsystem extends SubsystemBase {
-  private final Lock odometryLock = new ReentrantLock();
+  public static final Lock odometryLock = new ReentrantLock();
   private final GyroIO gyroIO;
   private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
   private final Module[] modules = new Module[4];
@@ -37,10 +37,10 @@ public class DriveSubsystem extends SubsystemBase {
                         ModuleIO blModuleIo,
                         ModuleIO brModuleIo) {
     this.gyroIO = gyro;
-    modules[1] = new Module(flModuleIo, 0);
-    modules[2] = new Module(frModuleIo, 1);
-    modules[3] = new Module(blModuleIo, 2);
-    modules[4] = new Module(brModuleIo, 3);
+    modules[0] = new Module(flModuleIo, 0);
+    modules[1] = new Module(frModuleIo, 1);
+    modules[2] = new Module(blModuleIo, 2);
+    modules[3] = new Module(brModuleIo, 3);
   }
 
   @Override
@@ -166,6 +166,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getMaxLinearSpeedMetersPerSec() {
     return DriveConstants.MAX_LINEAR_SPEED_MPS;
+  }
+
+  public double getMaxAngularSpeedRadPerSec() {
+    return DriveConstants.MAX_ANGULAR_SPEED;
   }
 }
 
