@@ -19,7 +19,7 @@ import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 
 public class RobotContainer {
   private SwerveDriveSimulation driveSimulation = null;
-  private CommandXboxController driveController = new CommandXboxController(0);
+  private final CommandXboxController driveController = new CommandXboxController(0);
 
   DriveSubsystem driveSubsystem;
   public RobotContainer() {
