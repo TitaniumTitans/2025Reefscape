@@ -37,10 +37,10 @@ public class DriveSubsystem extends SubsystemBase {
                         ModuleIO blModuleIo,
                         ModuleIO brModuleIo) {
     this.gyroIO = gyro;
-    modules[1] = new Module(flModuleIo, 0);
-    modules[2] = new Module(frModuleIo, 1);
-    modules[3] = new Module(blModuleIo, 2);
-    modules[4] = new Module(brModuleIo, 3);
+    modules[0] = new Module(flModuleIo, 0);
+    modules[1] = new Module(frModuleIo, 1);
+    modules[2] = new Module(blModuleIo, 2);
+    modules[3] = new Module(brModuleIo, 3);
   }
 
   @Override

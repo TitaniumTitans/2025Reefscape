@@ -11,7 +11,7 @@ public class Constants {
     if (Robot.isReal()) {
       return Mode.REAL;
     } else {
-      return Mode.REPLAY;
+      return Mode.SIM;
     }
   }
 }
