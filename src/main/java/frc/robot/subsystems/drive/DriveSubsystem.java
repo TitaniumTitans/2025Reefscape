@@ -1,11 +1,9 @@
 package frc.robot.subsystems.drive;
 
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,6 +29,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final SwerveDriveKinematics kinematics =
       new SwerveDriveKinematics(DriveConstants.MODULE_TRANSLATIONS);
 
+  private final SwerveDriveOdometry wpiOdom;
+
   public DriveSubsystem(GyroIO gyro,
                         ModuleIO flModuleIo,
                         ModuleIO frModuleIo,
@@ -41,6 +41,10 @@ public class DriveSubsystem extends SubsystemBase {
     modules[1] = new Module(frModuleIo, 1);
     modules[2] = new Module(blModuleIo, 2);
     modules[3] = new Module(brModuleIo, 3);
+
+    wpiOdom = new SwerveDriveOdometry(kinematics, new Rotation2d(), getModulePositions());
+
+    RobotState.getInstance().resetPose(new Pose2d());
   }
 
   @Override
@@ -76,7 +80,7 @@ public class DriveSubsystem extends SubsystemBase {
     int timestampLength = timestamps.length;
     for (int i = 0; i < timestampLength; i++) {
       SwerveModulePosition[] wheelPositions = new SwerveModulePosition[4];
-      if (modules[0].getOdometryPositions().length == 0) break;
+//      if (modules[0].getOdometryPositions().length == 0) break;
       for (int j = 0; j < 4; j++) {
         wheelPositions[j] = modules[j].getOdometryPositions()[i];
       }
@@ -88,6 +92,9 @@ public class DriveSubsystem extends SubsystemBase {
                       gyroInputs.connected ? gyroInputs.odometryYawPositions[i] : null),
                   timestamps[i]));
     }
+
+    wpiOdom.update(getGyroRotation(), getModulePositions());
+    Logger.recordOutput("RobotState/WPIOdometry", wpiOdom.getPoseMeters());
 
     // Update gyro alert
     gyroDisconnectAlert.set(!gyroInputs.connected && Constants.getMode() != Constants.Mode.SIM);
