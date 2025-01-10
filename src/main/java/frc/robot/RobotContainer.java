@@ -13,7 +13,9 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.drive.DriveConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIO;
+import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
+import frc.robot.subsystems.drive.module.ModuleIOSparkMax;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 
@@ -24,6 +26,15 @@ public class RobotContainer {
   DriveSubsystem driveSubsystem;
   public RobotContainer() {
     switch (Constants.getMode()) {
+      case REAL -> {
+        driveSubsystem = new DriveSubsystem(
+            new GyroIOPigeon2(),
+            new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[0]),
+            new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[1]),
+            new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[2]),
+            new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[3])
+        );
+      }
       case SIM -> {
         driveSimulation = new SwerveDriveSimulation(DriveConstants.MAPLE_SIM_CONFIG, new Pose2d(3, 3, new Rotation2d()));
         SimulatedArena.getInstance().addDriveTrainSimulation(driveSimulation);
