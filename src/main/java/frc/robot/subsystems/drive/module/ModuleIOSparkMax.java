@@ -1,7 +1,8 @@
 package frc.robot.subsystems.drive.module;
 
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.pathplanner.lib.config.ModuleConfig;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.*;
 import com.revrobotics.spark.config.ClosedLoopConfig;
@@ -11,7 +12,6 @@ import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import frc.robot.subsystems.drive.DriveConstants;
-import frc.robot.util.SparkUtil.*;
 
 import java.util.function.DoubleSupplier;
 
@@ -19,9 +19,9 @@ import static frc.robot.util.SparkUtil.ifOk;
 import static frc.robot.util.SparkUtil.sparkStickyFault;
 
 public class ModuleIOSparkMax implements ModuleIO {
-  private final SparkMax m_drive;
-  private final SparkMax m_steer;
-  private final CANcoder m_encoder;
+  private final SparkMax drive;
+  private final SparkMax steer;
+  private final CANcoder encoder;
   RelativeEncoder driveEncoder;
   RelativeEncoder steerEncoder;
   SparkClosedLoopController m_driveController;
@@ -34,9 +34,9 @@ public class ModuleIOSparkMax implements ModuleIO {
   private final Debouncer turnConnectedDebounce = new Debouncer(0.5);
   public ModuleIOSparkMax(DriveConstants.ModuleConstants config) {
     this.config = config;
-    m_drive = new SparkMax(config.driveId(), SparkLowLevel.MotorType.kBrushless);
-    m_steer = new SparkMax(config.steerId(), SparkLowLevel.MotorType.kBrushless);
-    m_encoder = new CANcoder(config.encoderId());
+    drive = new SparkMax(config.driveId(), SparkLowLevel.MotorType.kBrushless);
+    steer = new SparkMax(config.steerId(), SparkLowLevel.MotorType.kBrushless);
+    encoder = new CANcoder(config.encoderId());
 
     SparkMaxConfig driveConfig = new SparkMaxConfig();
     driveConfig
@@ -62,7 +62,7 @@ public class ModuleIOSparkMax implements ModuleIO {
         .appliedOutputPeriodMs(20)
         .busVoltagePeriodMs(20)
         .outputCurrentPeriodMs(20);
-    m_drive.configure(driveConfig,
+    drive.configure(driveConfig,
         SparkBase.ResetMode.kResetSafeParameters,
         SparkBase.PersistMode.kPersistParameters);
     SparkMaxConfig steerConfig = new SparkMaxConfig();
@@ -72,14 +72,13 @@ public class ModuleIOSparkMax implements ModuleIO {
         .smartCurrentLimit(30)
         .voltageCompensation(12.0);
     steerConfig
-        .absoluteEncoder
+        .encoder
         .inverted(true)
         .positionConversionFactor(DriveConstants.STEER_GEAR_RATIO)
-        .velocityConversionFactor(DriveConstants.STEER_GEAR_RATIO)
-        .averageDepth(2);
+        .velocityConversionFactor(DriveConstants.STEER_GEAR_RATIO);
     steerConfig
         .closedLoop
-        .feedbackSensor(ClosedLoopConfig.FeedbackSensor.kAbsoluteEncoder)
+        .feedbackSensor(ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder)
         .positionWrappingEnabled(true)
         .positionWrappingInputRange(0.0, 1.0)
         .pidf(0.5, 0.0, 0.0, 0.0);
@@ -92,55 +91,62 @@ public class ModuleIOSparkMax implements ModuleIO {
         .appliedOutputPeriodMs(20)
         .busVoltagePeriodMs(20)
         .outputCurrentPeriodMs(20);
-    m_steer.configure(steerConfig,
+    steer.configure(steerConfig,
         SparkBase.ResetMode.kResetSafeParameters,
         SparkBase.PersistMode.kPersistParameters);
 
-    m_driveController = m_drive.getClosedLoopController();
-    m_steerController = m_steer.getClosedLoopController();
+    var encoderConfig = new CANcoderConfiguration();
+    encoderConfig.MagnetSensor.MagnetOffset = config.encoderOffset().getRotations();
+    encoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+    encoder.getConfigurator().apply(encoderConfig);
 
-    driveEncoder = m_drive.getEncoder();
-    steerEncoder = m_steer.getEncoder();
+    m_driveController = drive.getClosedLoopController();
+    m_steerController = steer.getClosedLoopController();
+
+    driveEncoder = drive.getEncoder();
+    steerEncoder = steer.getEncoder();
+
+    steerEncoder.setPosition(encoder.getAbsolutePosition().getValueAsDouble());
   }
 
   @Override
   public void updateInputs(ModuleIOInputsAutoLogged inputs) {
     sparkStickyFault = false;
-    ifOk(m_drive, driveEncoder::getPosition, (value) -> inputs.drivePositionRads = Units.rotationsToRadians(value));
-    ifOk(m_drive, driveEncoder::getVelocity, (value) -> inputs.driveVelocityRadsPerSec = Units.rotationsToRadians(value));
+    ifOk(drive, driveEncoder::getPosition, (value) -> inputs.drivePositionRads = Units.rotationsToRadians(value));
+    ifOk(drive, driveEncoder::getVelocity, (value) -> inputs.driveVelocityRadsPerSec = Units.rotationsToRadians(value));
     ifOk(
-        m_drive,
-        new DoubleSupplier[] {m_drive::getAppliedOutput, m_drive::getBusVoltage},
+        drive,
+        new DoubleSupplier[] {drive::getAppliedOutput, drive::getBusVoltage},
         (values) -> inputs.driveAppliedVolts = values[0] * values[1]);
-    ifOk(m_drive, m_drive::getOutputCurrent, (value) -> inputs.driveCurrentAmps = value);
+    ifOk(drive, drive::getOutputCurrent, (value) -> inputs.driveCurrentAmps = value);
     inputs.driveConnected = driveConnectedDebounce.calculate(!sparkStickyFault);
 
     // Update turn inputs
     sparkStickyFault = false;
     ifOk(
-        m_steer,
+        steer,
         steerEncoder::getPosition,
         (value) -> inputs.steerPosition = Rotation2d.fromRotations(value).minus(config.encoderOffset()));
-    ifOk(m_steer, steerEncoder::getVelocity, (value) -> inputs.steerVelocityRadsPerSec = Units.rotationsToRadians(value));
+    ifOk(steer, steerEncoder::getVelocity, (value) -> inputs.steerVelocityRadsPerSec = Units.rotationsToRadians(value));
     ifOk(
-        m_steer,
-        new DoubleSupplier[] {m_steer::getAppliedOutput, m_steer::getBusVoltage},
+        steer,
+        new DoubleSupplier[] {steer::getAppliedOutput, steer::getBusVoltage},
         (values) -> inputs.steerAppliedVolts = values[0] * values[1]);
-    ifOk(m_steer, m_steer::getOutputCurrent, (value) -> inputs.steerCurrentAmps = value);
+    ifOk(steer, steer::getOutputCurrent, (value) -> inputs.steerCurrentAmps = value);
     inputs.steerConnected = turnConnectedDebounce.calculate(!sparkStickyFault);
 
-    inputs.steerAbsolutePosition = Rotation2d.fromRotations(m_encoder.getAbsolutePosition().getValueAsDouble());
+    inputs.steerAbsolutePosition = Rotation2d.fromRotations(encoder.getAbsolutePosition().getValueAsDouble());
   }
 
 
   @Override
   public void setDriveOpenLoop(double volts) {
-    m_drive.setVoltage(volts);
+    drive.setVoltage(volts);
   }
 
   @Override
   public void setSteerOpenLoop(double volts) {
-    m_steer.setVoltage(volts);
+    steer.setVoltage(volts);
   }
 
   @Override

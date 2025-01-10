@@ -10,14 +10,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
-import frc.robot.subsystems.drive.DriveConstants;
-import frc.robot.subsystems.drive.DriveSubsystem;
-import frc.robot.subsystems.drive.GyroIO;
-import frc.robot.subsystems.drive.GyroIOPigeon2;
+import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
 import frc.robot.subsystems.drive.module.ModuleIOSparkMax;
+import lombok.extern.java.Log;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
+import org.littletonrobotics.junction.Logger;
 
 public class RobotContainer {
   private SwerveDriveSimulation driveSimulation = null;
@@ -39,27 +38,33 @@ public class RobotContainer {
         driveSimulation = new SwerveDriveSimulation(DriveConstants.MAPLE_SIM_CONFIG, new Pose2d(3, 3, new Rotation2d()));
         SimulatedArena.getInstance().addDriveTrainSimulation(driveSimulation);
         driveSubsystem = new DriveSubsystem(
-            new GyroIO() {},
+            new GyroIOSim(driveSimulation.getGyroSimulation()),
             new ModuleIOSim(driveSimulation.getModules()[0]),
             new ModuleIOSim(driveSimulation.getModules()[1]),
             new ModuleIOSim(driveSimulation.getModules()[2]),
             new ModuleIOSim(driveSimulation.getModules()[3])
         );
+
+        SimulatedArena.getInstance().resetFieldForAuto();
       }
     }
     configureBindings();
   }
 
   private void configureBindings() {
-    DriveCommands.joystickDrive(
+    driveSubsystem.setDefaultCommand(DriveCommands.joystickDrive(
         driveSubsystem,
-        () -> driveController.getLeftX(),
         () -> -driveController.getLeftY(),
-        () -> driveController.getRightX()
-    );
+        () -> -driveController.getLeftX(),
+        () -> -driveController.getRightX()
+    ));
   }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
+  }
+
+  public void simTick() {
+    Logger.recordOutput("Sim/Simulated Robot Pose", driveSimulation.getSimulatedDriveTrainPose());
   }
 }
