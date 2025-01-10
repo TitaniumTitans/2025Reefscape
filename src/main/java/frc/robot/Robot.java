@@ -62,7 +62,7 @@ public class Robot extends LoggedRobot {
     }
 
     // Start AdvantageKit logger
-//    Logger.start();
+    Logger.start();
 
     // Configure brownout voltage
     RobotController.setBrownoutVoltage(6.0);
