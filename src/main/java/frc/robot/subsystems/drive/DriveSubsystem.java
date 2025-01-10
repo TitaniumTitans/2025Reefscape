@@ -56,7 +56,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     // update the module periodic
     for (var module : modules) {
-      module.updateInputs();
+      module.periodic();
     }
 
     // if disabled stop all output
@@ -76,6 +76,7 @@ public class DriveSubsystem extends SubsystemBase {
     int timestampLength = timestamps.length;
     for (int i = 0; i < timestampLength; i++) {
       SwerveModulePosition[] wheelPositions = new SwerveModulePosition[4];
+      if (modules[0].getOdometryPositions().length == 0) break;
       for (int j = 0; j < 4; j++) {
         wheelPositions[j] = modules[j].getOdometryPositions()[i];
       }

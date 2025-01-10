@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import frc.robot.Constants;
 import lombok.Builder;
 import org.ironmaple.simulation.drivesims.COTS;
 import org.ironmaple.simulation.drivesims.configs.DriveTrainSimulationConfig;
@@ -47,6 +48,56 @@ public class DriveConstants {
           Meters.of(WHEEL_RADIUS_METERS),
           KilogramSquareMeters.of(0.02),
           WHEEL_COF));
+
+
+  public static final ModuleConstants[] MODULE_CONSTANTS;
+  static {
+    switch (Constants.getMode()) {
+      case REAL -> {
+        MODULE_CONSTANTS = new ModuleConstants[]{
+            // Front Left
+            ModuleConstants.builder()
+                .driveId(1)
+                .steerId(2)
+                .encoderId(3)
+                .encoderOffset(new Rotation2d(0.0))
+                .steerInverted(true)
+                .turnInverted(false)
+                .build(),
+            // Front Right
+            ModuleConstants.builder()
+                .driveId(4)
+                .steerId(5)
+                .encoderId(6)
+                .encoderOffset(new Rotation2d(0.0))
+                .steerInverted(true)
+                .turnInverted(false)
+                .build(),
+            // Back Left
+            ModuleConstants.builder()
+                .driveId(7)
+                .steerId(8)
+                .encoderId(9)
+                .encoderOffset(new Rotation2d(0.0))
+                .steerInverted(true)
+                .turnInverted(false)
+                .build(),
+            // Back Right
+            ModuleConstants.builder()
+                .driveId(10)
+                .steerId(11)
+                .encoderId(12)
+                .encoderOffset(new Rotation2d(0.0))
+                .steerInverted(true)
+                .turnInverted(false)
+                .build()
+        };
+      }
+      default -> {
+        MODULE_CONSTANTS = new ModuleConstants[] {};
+      }
+    }
+  }
 
   // per module config object
   @Builder
