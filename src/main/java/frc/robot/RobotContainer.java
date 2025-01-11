@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.drive.*;
+import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
 import frc.robot.subsystems.drive.module.ModuleIOSparkMax;
-import lombok.extern.java.Log;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.Logger;
@@ -25,7 +25,7 @@ public class RobotContainer {
   DriveSubsystem driveSubsystem;
   public RobotContainer() {
     switch (Constants.getMode()) {
-      case REAL -> {
+      case REAL ->
         driveSubsystem = new DriveSubsystem(
             new GyroIOPigeon2(),
             new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[0]),
@@ -33,7 +33,7 @@ public class RobotContainer {
             new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[2]),
             new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[3])
         );
-      }
+
       case SIM -> {
         driveSimulation = new SwerveDriveSimulation(DriveConstants.MAPLE_SIM_CONFIG, new Pose2d(3, 3, new Rotation2d()));
         SimulatedArena.getInstance().addDriveTrainSimulation(driveSimulation);
@@ -47,6 +47,15 @@ public class RobotContainer {
 
         SimulatedArena.getInstance().resetFieldForAuto();
       }
+      case REPLAY ->
+        driveSubsystem = new DriveSubsystem(
+            new GyroIO() {
+            },
+            new ModuleIO() {},
+            new ModuleIO() {},
+            new ModuleIO() {},
+            new ModuleIO() {}
+        );
     }
     configureBindings();
   }

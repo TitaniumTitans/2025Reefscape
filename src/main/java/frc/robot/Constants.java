@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.RobotBase;
+
 public class Constants {
   public enum Mode {
     REAL,
@@ -8,7 +10,7 @@ public class Constants {
   }
 
   public static Mode getMode() {
-    if (Robot.isReal()) {
+    if (RobotBase.isReal()) {
       return Mode.REAL;
     } else {
       return Mode.SIM;
