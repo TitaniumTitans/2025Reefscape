@@ -11,6 +11,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drive.DriveConstants;
 
 import java.util.function.DoubleSupplier;
@@ -45,14 +46,14 @@ public class ModuleIOSparkMax implements ModuleIO {
         .voltageCompensation(12.0);
     driveConfig
         .encoder
-        .positionConversionFactor(DriveConstants.DRIVE_GEAR_RATIO)
-        .velocityConversionFactor(DriveConstants.DRIVE_GEAR_RATIO);
+        .positionConversionFactor(1.0 / DriveConstants.DRIVE_GEAR_RATIO)
+        .velocityConversionFactor(1.0 / DriveConstants.DRIVE_GEAR_RATIO);
     driveConfig
         .closedLoop
         .feedbackSensor(ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder)
         .pidf(
-            0.5, 0.0,
-            0.0, 0.0);
+            0.0, 0.0,
+            0.0, 0.065);
     driveConfig
         .signals
         .primaryEncoderPositionAlwaysOn(true)
@@ -73,15 +74,14 @@ public class ModuleIOSparkMax implements ModuleIO {
         .voltageCompensation(12.0);
     steerConfig
         .encoder
-        .inverted(true)
-        .positionConversionFactor(DriveConstants.STEER_GEAR_RATIO)
-        .velocityConversionFactor(DriveConstants.STEER_GEAR_RATIO);
+        .positionConversionFactor(1.0 / DriveConstants.STEER_GEAR_RATIO)
+        .velocityConversionFactor(1.0 / DriveConstants.STEER_GEAR_RATIO);
     steerConfig
         .closedLoop
         .feedbackSensor(ClosedLoopConfig.FeedbackSensor.kPrimaryEncoder)
         .positionWrappingEnabled(true)
         .positionWrappingInputRange(0.0, 1.0)
-        .pidf(0.5, 0.0, 0.0, 0.0);
+        .pidf(4.0, 0.0, 0.0, 0.0);
     steerConfig
         .signals
         .absoluteEncoderPositionAlwaysOn(true)
@@ -106,14 +106,16 @@ public class ModuleIOSparkMax implements ModuleIO {
     driveEncoder = drive.getEncoder();
     steerEncoder = steer.getEncoder();
 
+    Timer.delay(0.5);
     steerEncoder.setPosition(encoder.getAbsolutePosition().getValueAsDouble());
+    driveEncoder.setPosition(0.0);
   }
 
   @Override
   public void updateInputs(ModuleIOInputsAutoLogged inputs) {
     sparkStickyFault = false;
     ifOk(drive, driveEncoder::getPosition, (value) -> inputs.drivePositionRads = Units.rotationsToRadians(value));
-    ifOk(drive, driveEncoder::getVelocity, (value) -> inputs.driveVelocityRadsPerSec = Units.rotationsToRadians(value));
+    ifOk(drive, driveEncoder::getVelocity, (value) -> inputs.driveVelocityRadsPerSec = Units.rotationsToRadians(value / 60.0));
     ifOk(
         drive,
         new DoubleSupplier[] {drive::getAppliedOutput, drive::getBusVoltage},
@@ -126,8 +128,8 @@ public class ModuleIOSparkMax implements ModuleIO {
     ifOk(
         steer,
         steerEncoder::getPosition,
-        (value) -> inputs.steerPosition = Rotation2d.fromRotations(value).minus(config.encoderOffset()));
-    ifOk(steer, steerEncoder::getVelocity, (value) -> inputs.steerVelocityRadsPerSec = Units.rotationsToRadians(value));
+        (value) -> inputs.steerPosition = Rotation2d.fromRotations(value));
+    ifOk(steer, steerEncoder::getVelocity, (value) -> inputs.steerVelocityRadsPerSec = Units.rotationsToRadians(value / 60.0));
     ifOk(
         steer,
         new DoubleSupplier[] {steer::getAppliedOutput, steer::getBusVoltage},
@@ -156,6 +158,6 @@ public class ModuleIOSparkMax implements ModuleIO {
 
   @Override
   public void setSteerPosition(Rotation2d rotation) {
-    m_steerController.setReference(rotation.plus(config.encoderOffset()).getRotations(), SparkBase.ControlType.kPosition);
+    m_steerController.setReference(rotation.getRotations(), SparkBase.ControlType.kPosition);
   }
 }

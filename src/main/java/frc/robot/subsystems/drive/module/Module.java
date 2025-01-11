@@ -76,7 +76,10 @@ public class Module {
     // apply the state
     double speedRadsPerSecond = state.speedMetersPerSecond / DriveConstants.WHEEL_RADIUS_METERS;
     io.setDriveVelocity(speedRadsPerSecond);
+
+//    if (state.speedMetersPerSecond < 0.1) {
     io.setSteerPosition(state.angle);
+//    }
   }
 
   // use for determining ff gains
