@@ -21,6 +21,7 @@ import java.util.function.Supplier;
 import org.ironmaple.simulation.SimulatedArena;
 
 public class PhoenixUtil {
+  private PhoenixUtil() {}
   /** Attempts to run the command until no error is produced. */
   public static void tryUntilOk(int maxAttempts, Supplier<StatusCode> command) {
     for (int i = 0; i < maxAttempts; i++) {

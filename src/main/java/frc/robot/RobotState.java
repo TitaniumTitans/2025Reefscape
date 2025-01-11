@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class RobotState {
-  private static final double poseBufferSizeSec = 2.0;
+  private static final double POSE_BUFFER_SIZE_SEC = 2.0;
   private static final Matrix<N3, N1> odometryStateStdDevs =
       new Matrix<>(VecBuilder.fill(0.003, 0.003, 0.002));
 
@@ -42,7 +42,7 @@ public class RobotState {
 
   // used to filter vision measurements into odometry estimation
   private final TimeInterpolatableBuffer<Pose2d> poseBuffer =
-      TimeInterpolatableBuffer.createBuffer(poseBufferSizeSec);
+      TimeInterpolatableBuffer.createBuffer(POSE_BUFFER_SIZE_SEC);
   private final Matrix<N3, N1> qStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
   // Odometry
   private final SwerveDriveKinematics kinematics;
@@ -93,7 +93,7 @@ public class RobotState {
   public void addVisionMeasurement(VisionObservation update) {
     // If measurement is old enough to be outside the pose buffer's timespan, skip.
     try {
-      if (poseBuffer.getInternalBuffer().lastKey() - poseBufferSizeSec > update.timestamp()) {
+      if (poseBuffer.getInternalBuffer().lastKey() - POSE_BUFFER_SIZE_SEC > update.timestamp()) {
         return;
       }
     } catch (NoSuchElementException ex) {

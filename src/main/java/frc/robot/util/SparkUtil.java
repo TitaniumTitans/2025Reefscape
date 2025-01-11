@@ -21,6 +21,7 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 public class SparkUtil {
+  private SparkUtil() {}
   /** Stores whether any error was has been detected by other utility methods. */
   public static boolean sparkStickyFault = false;
 
