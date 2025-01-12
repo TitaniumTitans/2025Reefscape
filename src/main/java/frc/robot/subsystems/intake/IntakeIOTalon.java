@@ -1,4 +1,4 @@
-package frc.robot.subsystems.drive.intake;
+package frc.robot.subsystems.intake;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -104,7 +104,7 @@ public class IntakeIOTalon implements IntakeIO {
             );
             inputs.intakeVoltage = intakeVoltageSignal.refresh().getValueAsDouble();
             inputs.pivotVoltage = pivotVoltageSignal.refresh().getValueAsDouble();
-            inputs.intakeDraw = intakeDrawSignal.refresh().getValueAsDouble();
+            inputs.intakeCurrentDraw = intakeDrawSignal.refresh().getValueAsDouble();
             inputs.pivotDraw = pivotDrawSignal.refresh().getValueAsDouble();
             inputs.intakeAppliedVolts = intakeAppliedVoltsSignal.refresh().getValueAsDouble();
             inputs.pivotAppliedVolts = pivotAppliedVoltsSignal.refresh().getValueAsDouble();

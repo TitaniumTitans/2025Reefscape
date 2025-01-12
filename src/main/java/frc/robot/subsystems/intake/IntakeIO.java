@@ -1,4 +1,4 @@
-package frc.robot.subsystems.drive.intake;
+package frc.robot.subsystems.intake;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.AutoLog;
@@ -11,7 +11,7 @@ public interface IntakeIO {
         public double pivotVoltage = 0.0;
         public double intakeVoltage = 0.0;
         public double pivotDraw = 0.0;
-        public double intakeDraw = 0.0;
+        public double intakeCurrentDraw = 0.0;
         public double pivotAppliedVolts = 0.0;
         public double intakeAppliedVolts = 0.0;
         public double pivotTemperature = 0.0;

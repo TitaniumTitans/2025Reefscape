@@ -1,4 +1,4 @@
-package frc.robot.subsystems.drive.intake;
+package frc.robot.subsystems.intake;
 
 public class IntakeConstants {
     public static final int INTAKE_ID = 0;
