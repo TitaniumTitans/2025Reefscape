@@ -29,8 +29,8 @@ public class IntakeIOTalon implements IntakeIO {
 
 
     public IntakeIOTalon() {
-        intake = new TalonFX(1);
-        pivot = new TalonFX(2);
+        intake = new TalonFX(IntakeConstants.INTAKE_ID);
+        pivot = new TalonFX(IntakeConstants.PIVOT_ID);
 
         TalonFXConfiguration intakeConfig = new TalonFXConfiguration();
         intakeConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
