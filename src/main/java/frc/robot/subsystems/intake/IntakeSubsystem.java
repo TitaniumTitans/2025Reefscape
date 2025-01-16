@@ -18,10 +18,10 @@ public class IntakeSubsystem extends SubsystemBase {
         Logger.processInputs("Intake", inputs);
     }
     public void setIntakePower(double power) {
-        this.io.setMotorVoltageIntake(power);
+        io.setMotorVoltageIntake(power);
     }
     public void setPivotPower(double power) {
-        this.io.setMotorVoltagePivot(power);
+        io.setMotorVoltagePivot(power);
     }
     public Command runIntake(double intakePower) {
         return run(() -> setIntakePower(intakePower));
