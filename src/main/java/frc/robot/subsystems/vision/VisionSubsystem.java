@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotState;
 import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.numbers.N1;
@@ -81,6 +82,10 @@ public class VisionSubsystem extends SubsystemBase {
         // Log the accepted pose
         Logger.recordOutput(
                 "Vision/Accepted Poses/" + inputs[i].cameraName + " (" + i + ")", closestPose);
+
+        RobotState.getInstance().addVisionMeasurement(
+            new RobotState.VisionObservation(closestPose.toPose2d(), timestamp, stdDevMat)
+        );
       }
     });
   }
