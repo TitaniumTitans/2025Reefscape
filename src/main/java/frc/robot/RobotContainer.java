@@ -8,6 +8,8 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -83,6 +85,13 @@ public class RobotContainer {
         () -> -driveController.getLeftX(),
         () -> -driveController.getRightX()
     ));
+
+    if (RobotBase.isSimulation()) {
+      driveController.start().onTrue(
+          Commands.runOnce(() -> driveSimulation
+              .setSimulationWorldPose(
+                  RobotState.getInstance().getEstimatedPose())));
+    }
   }
 
   public Command getAutonomousCommand() {
