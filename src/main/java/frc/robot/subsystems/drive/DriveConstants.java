@@ -1,5 +1,7 @@
 package frc.robot.subsystems.drive;
 
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.RobotConfig;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -49,6 +51,19 @@ public class DriveConstants {
           KilogramSquareMeters.of(0.02),
           WHEEL_COF));
 
+  public static final RobotConfig ROBOT_CONFIG = new RobotConfig(
+      Pounds.of(100),
+      KilogramSquareMeters.of(4.2605686403),
+      new ModuleConfig(
+          WHEEL_RADIUS_METERS,
+          MAX_LINEAR_SPEED_MPS,
+          WHEEL_COF,
+          DCMotor.getKrakenX60Foc(1),
+          40,
+          1
+      ),
+      MODULE_TRANSLATIONS
+  );
 
   public static final ModuleConstants[] MODULE_CONSTANTS;
   static {
