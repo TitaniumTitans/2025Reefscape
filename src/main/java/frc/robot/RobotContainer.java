@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,12 +16,14 @@ import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
 import frc.robot.subsystems.drive.module.ModuleIOSparkMax;
+import frc.robot.subsystems.vision.*;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.Logger;
 
 public class RobotContainer {
-  private SwerveDriveSimulation driveSimulation = null;
+  private SwerveDriveSimulation driveSimulation;
+  private VisionSubsystem visionSubsystem;
   private final CommandXboxController driveController = new CommandXboxController(0);
 
   DriveSubsystem driveSubsystem;
@@ -44,6 +48,18 @@ public class RobotContainer {
             new ModuleIOSim(driveSimulation.getModules()[2]),
             new ModuleIOSim(driveSimulation.getModules()[3])
         );
+
+        visionSubsystem = new VisionSubsystem(
+            VisionConstants.FILTER_PARAMETERS,
+            new VisionIOPhotonSimulation(
+                "SIM",
+                VisionConstants.SIM_CAMERA_TRANSFORM,
+                AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField),
+                VisionConstants.SIM_CAMERA_PROPERTIES
+            ));
+
+        VisionEnvironmentSimulator.getInstance().addAprilTags(AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField));
+        VisionEnvironmentSimulator.getInstance().addRobotPoseSupplier(RobotState.getInstance()::getEstimatedPose);
 
         SimulatedArena.getInstance().resetFieldForAuto();
       }
