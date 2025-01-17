@@ -3,7 +3,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
-public class IntakeSimulation implements IntakeIO{
+public class IntakeIOSimulation implements IntakeIO {
     private final DCMotorSim intakeSim = new DCMotorSim(
             LinearSystemId.createDCMotorSystem(
                     DCMotor.getKrakenX60Foc(1), 0.001, IntakeConstants.INTAKE_GEAR_RATIO
