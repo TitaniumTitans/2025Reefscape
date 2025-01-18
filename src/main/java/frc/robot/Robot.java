@@ -4,6 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -79,6 +84,34 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+
+    double xMeters = Units.inchesToMeters(-2.25);
+    double yMeters = Units.inchesToMeters(-2.25);
+    double xOffset = Units.inchesToMeters(10.75);
+    double yOffset = Units.inchesToMeters(9.75);
+    double angle = 0;
+
+    Logger.recordOutput("Blank Pose 3D", new Pose3d());
+    Logger.recordOutput("Blank Pose 3D Array", new Pose3d(), new Pose3d());
+    Logger.recordOutput("90 Intake Pose 3D Array",
+        new Pose3d(
+            new Translation3d(
+                xOffset, //(xOffset * Math.cos(Units.degreesToRadians(angle)) - yOffset * Math.sin(Units.degreesToRadians(angle))),
+                0.3302,
+                yOffset //(yOffset * Math.cos(Units.degreesToRadians(angle)) + xOffset * Math.sin(Units.degreesToRadians(angle)))
+            ),
+            new Rotation3d(0.0, Units.degreesToRadians(angle), Units.degreesToRadians(180.0))
+        ).transformBy(
+            new Transform3d(
+                new Translation3d(
+                    xMeters * Math.cos(Units.degreesToRadians(angle) - yMeters * Math.sin(Units.degreesToRadians(angle))),
+                    0.0,
+                    0.0
+                ),
+                new Rotation3d()
+            )
+        ),
+        new Pose3d());
   }
 
   @Override
