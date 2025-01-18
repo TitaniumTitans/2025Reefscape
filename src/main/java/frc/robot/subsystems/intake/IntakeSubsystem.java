@@ -7,15 +7,19 @@ import org.littletonrobotics.junction.Logger;
 public class IntakeSubsystem extends SubsystemBase {
     private final IntakeIO io;
     private final IntakeIOInputsAutoLogged inputs;
+    private final IntakeVisualizer visualizer;
     public IntakeSubsystem(IntakeIO io) {
         this.io = io;
         inputs = new IntakeIOInputsAutoLogged();
+        visualizer = new IntakeVisualizer("Intake/");
     }
 
     @Override
     public void periodic() {
         io.updateInputs(inputs);
         Logger.processInputs("Intake", inputs);
+
+        visualizer.updateVisualization(0.0, 0.0);
     }
     public void setIntakePower(double power) {
         io.setMotorVoltageIntake(power);
