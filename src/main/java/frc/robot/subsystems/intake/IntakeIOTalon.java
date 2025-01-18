@@ -105,7 +105,7 @@ public class IntakeIOTalon implements IntakeIO {
             inputs.intakeVoltage = intakeVoltageSignal.refresh().getValueAsDouble();
             inputs.pivotVoltage = pivotVoltageSignal.refresh().getValueAsDouble();
             inputs.intakeCurrentDraw = intakeDrawSignal.refresh().getValueAsDouble();
-            inputs.pivotDraw = pivotDrawSignal.refresh().getValueAsDouble();
+            inputs.pivotCurrentDraw = pivotDrawSignal.refresh().getValueAsDouble();
             inputs.intakeAppliedVolts = intakeAppliedVoltsSignal.refresh().getValueAsDouble();
             inputs.pivotAppliedVolts = pivotAppliedVoltsSignal.refresh().getValueAsDouble();
             inputs.intakeTemperature = intakeTemperatureSignal.refresh().getValueAsDouble();

@@ -10,7 +10,7 @@ public interface IntakeIO {
         public Rotation2d pivotPosititon = new Rotation2d();
         public double pivotVoltage = 0.0;
         public double intakeVoltage = 0.0;
-        public double pivotDraw = 0.0;
+        public double pivotCurrentDraw = 0.0;
         public double intakeCurrentDraw = 0.0;
         public double pivotAppliedVolts = 0.0;
         public double intakeAppliedVolts = 0.0;

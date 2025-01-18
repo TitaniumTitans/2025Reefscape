@@ -1,10 +1,9 @@
 package frc.robot.subsystems.intake;
-import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
 public class IntakeIOSimulation implements IntakeIO {
@@ -38,9 +37,12 @@ public class IntakeIOSimulation implements IntakeIO {
         pivotMotorSim.setInputVoltage(pivotSim.getMotorVoltage());
 
         //inputs.intakeVoltage = in
+        inputs.pivotPosititon = Rotation2d.fromRadians(pivot.getPosition().refresh().getValueAsDouble());
         inputs.intakeVoltage = intake.getMotorVoltage().refresh().getValueAsDouble();
         inputs.pivotVoltage = pivot.getMotorVoltage().refresh().getValueAsDouble();
-        inputs.
-
+        inputs.intakeCurrentDraw = intake.getSupplyCurrent().refresh().getValueAsDouble();
+        inputs.pivotCurrentDraw = pivot.getSupplyCurrent().refresh().getValueAsDouble();
+        inputs.intakeTemperature = intake.getDeviceTemp().refresh().getValueAsDouble();
+        inputs.pivotTemperature = pivot.getDeviceTemp().refresh().getValueAsDouble();
     }
 }
