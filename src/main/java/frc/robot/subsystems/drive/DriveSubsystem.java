@@ -155,12 +155,12 @@ public class DriveSubsystem extends SubsystemBase {
     );
 
     // log speeds and setpoint
-    Logger.recordOutput("SwerveStates/Setpoints", states);
+    Logger.recordOutput("SwerveStates/Setpoints", prevSetpoint.moduleStates());
     Logger.recordOutput("SwerveSpeeds/Setpoints", discretizedSpeeds);
 
     // send setpoints to module
     for (int i = 0; i < 4; i++) {
-      modules[i].runSetpoint(states[i]);
+      modules[i].runSetpoint(prevSetpoint.moduleStates()[i]);
     }
 
     // log optimal setpoints, runSetpoint mutates the state

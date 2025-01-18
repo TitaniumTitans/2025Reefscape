@@ -58,6 +58,8 @@ public class RobotContainer {
             new ModuleIOSim(driveSimulation.getModules()[3])
         );
 
+        RobotState.getInstance().setDriveSimulation(driveSimulation);
+
         visionSubsystem = new VisionSubsystem(
             VisionConstants.FILTER_PARAMETERS,
             new VisionIOPhotonSimulation(
