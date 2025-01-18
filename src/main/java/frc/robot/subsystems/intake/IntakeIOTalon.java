@@ -7,10 +7,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.Current;
-import edu.wpi.first.units.measure.Temperature;
-import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.units.measure.*;
 
 //Current limiting config - 20 amps on both supply and stater
 public class IntakeIOTalon implements IntakeIO {
@@ -21,12 +18,11 @@ public class IntakeIOTalon implements IntakeIO {
     private final StatusSignal<Voltage> pivotVoltageSignal;
     private final StatusSignal<Current> intakeDrawSignal;
     private final StatusSignal<Current> pivotDrawSignal;
-    private final StatusSignal<Voltage> intakeAppliedVoltsSignal;
-    private final StatusSignal<Voltage> pivotAppliedVoltsSignal;
     private final StatusSignal<Temperature> intakeTemperatureSignal;
     private final StatusSignal<Temperature> pivotTemperatureSignal;
+    private final StatusSignal<AngularVelocity> intakeVelocitySignal;
+    private final StatusSignal<AngularVelocity> pivotVelocitySignal;
     private final NeutralOut stopRequest;
-
 
     public IntakeIOTalon() {
         intake = new TalonFX(IntakeConstants.INTAKE_ID);
@@ -69,10 +65,11 @@ public class IntakeIOTalon implements IntakeIO {
         pivotVoltageSignal = pivot.getMotorVoltage();
         intakeDrawSignal = intake.getSupplyCurrent();
         pivotDrawSignal = pivot.getSupplyCurrent();
-        intakeAppliedVoltsSignal = intake.getSupplyVoltage();
-        pivotAppliedVoltsSignal = pivot.getSupplyVoltage();
         intakeTemperatureSignal = intake.getDeviceTemp();
         pivotTemperatureSignal = pivot.getDeviceTemp();
+        intakeVelocitySignal = intake.getVelocity();
+        pivotVelocitySignal = pivot.getVelocity();
+
 
         BaseStatusSignal.setUpdateFrequencyForAll(50.0,
                 pivotPositionSignal,
@@ -80,10 +77,10 @@ public class IntakeIOTalon implements IntakeIO {
                 pivotVoltageSignal,
                 intakeDrawSignal,
                 pivotDrawSignal,
-                intakeAppliedVoltsSignal,
-                pivotAppliedVoltsSignal,
                 intakeTemperatureSignal,
-                pivotTemperatureSignal);
+                pivotTemperatureSignal,
+                intakeVelocitySignal,
+                pivotVelocitySignal);
 
 
         intake.optimizeBusUtilization();
@@ -97,20 +94,20 @@ public class IntakeIOTalon implements IntakeIO {
                     pivotVoltageSignal,
                     intakeDrawSignal,
                     pivotDrawSignal,
-                    intakeAppliedVoltsSignal,
-                    pivotAppliedVoltsSignal,
                     intakeTemperatureSignal,
-                    pivotTemperatureSignal
+                    pivotTemperatureSignal,
+                    intakeVelocitySignal,
+                    pivotVelocitySignal
             );
             inputs.intakeVoltage = intakeVoltageSignal.refresh().getValueAsDouble();
             inputs.pivotVoltage = pivotVoltageSignal.refresh().getValueAsDouble();
             inputs.intakeCurrentDraw = intakeDrawSignal.refresh().getValueAsDouble();
             inputs.pivotCurrentDraw = pivotDrawSignal.refresh().getValueAsDouble();
-            inputs.intakeAppliedVolts = intakeAppliedVoltsSignal.refresh().getValueAsDouble();
-            inputs.pivotAppliedVolts = pivotAppliedVoltsSignal.refresh().getValueAsDouble();
             inputs.intakeTemperature = intakeTemperatureSignal.refresh().getValueAsDouble();
             inputs.pivotTemperature = pivotTemperatureSignal.refresh().getValueAsDouble();
-        }
+            inputs.intakeVelocity = intakeVelocitySignal.refresh().getValueAsDouble();
+            inputs.pivotVelocity = pivotVelocitySignal.refresh().getValueAsDouble();
+    }
 
     @Override
     public void setMotorVoltageIntake(double voltage) {
