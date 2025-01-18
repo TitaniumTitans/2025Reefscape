@@ -124,4 +124,5 @@ public class IntakeIOTalon implements IntakeIO {
     public void stop() {
         intake.setControl(stopRequest);
     }
+
 }
