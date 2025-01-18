@@ -85,11 +85,9 @@ public class Robot extends LoggedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    double xMeters = Units.inchesToMeters(-2.25);
-    double yMeters = Units.inchesToMeters(-2.25);
     double xOffset = Units.inchesToMeters(10.75);
     double yOffset = Units.inchesToMeters(9.75);
-    double angle = 0;
+    double angle = -45;
 
     Logger.recordOutput("Blank Pose 3D", new Pose3d());
     Logger.recordOutput("Blank Pose 3D Array", new Pose3d(), new Pose3d());
@@ -104,10 +102,10 @@ public class Robot extends LoggedRobot {
         ).transformBy(
             new Transform3d(
                 new Translation3d(
-                    xMeters * Math.cos(Units.degreesToRadians(angle) - yMeters * Math.sin(Units.degreesToRadians(angle))),
+                    Units.inchesToMeters(2.3),
                     0.0,
-                    0.0
-                ),
+                    Units.inchesToMeters(9.75)
+                ).unaryMinus(),
                 new Rotation3d()
             )
         ),
