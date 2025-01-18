@@ -7,7 +7,7 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
 public class IntakeIOSimulation implements IntakeIO {
-    private final TalonFX intake = new TalonFX(IntakeConstants.INTAKE_ID);
+    private final TalonFX intake = new TalonFX(17);
     private final TalonFX pivot = new TalonFX(IntakeConstants.PIVOT_ID);
     private final TalonFXSimState intakeSim = intake.getSimState();
     private final TalonFXSimState pivotSim = pivot.getSimState();
@@ -45,5 +45,7 @@ public class IntakeIOSimulation implements IntakeIO {
         inputs.pivotCurrentDraw = pivot.getSupplyCurrent().refresh().getValueAsDouble();
         inputs.intakeTemperature = intake.getDeviceTemp().refresh().getValueAsDouble();
         inputs.pivotTemperature = pivot.getDeviceTemp().refresh().getValueAsDouble();
+
+        
     }
 }
