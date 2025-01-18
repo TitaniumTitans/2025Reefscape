@@ -4,8 +4,10 @@ import com.ctre.phoenix6.sim.TalonFXSimState;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeIOSimulation implements IntakeIO {
     private final TalonFX intake = new TalonFX(IntakeConstants.INTAKE_ID);
@@ -30,14 +32,22 @@ public class IntakeIOSimulation implements IntakeIO {
     public void updateInputs(IntakeIOInputsAutoLogged inputs) {
         intakeSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
         pivotSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
+        // update simulation
+        intakeMotorSim.update(IntakeConstants.LOOP_PERIOD_SECS);
+        pivotMotorSim.update(IntakeConstants.LOOP_PERIOD_SECS);
 
         // update inputs
         intakeMotorSim.setInputVoltage(intakeSimState.getMotorVoltage());
         pivotMotorSim.setInputVoltage(pivotSimState.getMotorVoltage());
 
-        // update simulation
-        intakeMotorSim.update(IntakeConstants.LOOP_PERIOD_SECS);
-        pivotMotorSim.update(IntakeConstants.LOOP_PERIOD_SECS);
+        intakeSimState.setRawRotorPosition(
+                Units.radiansToRotations(intakeMotorSim.getAngularPositionRad()));
+        intakeSimState.setRotorVelocity(
+                Units.radiansToRotations(intakeMotorSim.getAngularVelocityRadPerSec()));
+        pivotSimState.setRawRotorPosition(
+                Units.radiansToRotations(pivotMotorSim.getAngularPositionRad()));
+        pivotSimState.setRotorVelocity(
+                Units.radiansToRotations(pivotMotorSim.getAngularVelocityRadPerSec()));
 
         //inputs.intakeVoltage = in
         inputs.pivotPosititon = Rotation2d.fromRotations(pivot.getPosition().getValueAsDouble());
@@ -47,5 +57,11 @@ public class IntakeIOSimulation implements IntakeIO {
         inputs.pivotCurrentDraw = pivot.getSupplyCurrent().getValueAsDouble();
         inputs.intakeTemperature = intake.getDeviceTemp().getValueAsDouble();
         inputs.pivotTemperature = pivot.getDeviceTemp().getValueAsDouble();
+        inputs.intakeVelocity = intake.getVelocity().getValueAsDouble();
+        inputs.pivotVelocity = pivot.getVelocity().getValueAsDouble();
+    }
+    @Override
+    public void setMotorVoltageIntake(double voltage) {
+        intake.setVoltage(voltage);
     }
 }

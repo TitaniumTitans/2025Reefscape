@@ -18,7 +18,7 @@ public class IntakeIOProto implements IntakeIO {
 
   @Override
   public void updateInputs(IntakeIOInputsAutoLogged inputs) {
-    inputs.intakeAppliedVolts = intake.getMotorVoltage().getValueAsDouble();
+    inputs.intakeVoltage = intake.getMotorVoltage().getValueAsDouble();
     inputs.intakeCurrentDraw = intake.getSupplyCurrent().getValueAsDouble();
   }
 
