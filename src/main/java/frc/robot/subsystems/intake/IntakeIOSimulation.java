@@ -11,6 +11,7 @@ public class IntakeIOSimulation implements IntakeIO {
     private final TalonFX pivot = new TalonFX(IntakeConstants.PIVOT_ID);
     private final TalonFXSimState intakeSim = intake.getSimState();
     private final TalonFXSimState pivotSim = pivot.getSimState();
+
     private final DCMotorSim intakeMotorSim = new DCMotorSim(
             LinearSystemId.createDCMotorSystem(
                     DCMotor.getKrakenX60Foc(1), 0.001, IntakeConstants.INTAKE_GEAR_RATIO

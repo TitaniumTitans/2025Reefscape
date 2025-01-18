@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -16,6 +17,7 @@ import frc.robot.subsystems.drive.module.ModuleIOSim;
 import frc.robot.subsystems.drive.module.ModuleIOSparkMax;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOProto;
+import frc.robot.subsystems.intake.IntakeIOSimulation;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -54,7 +56,7 @@ public class RobotContainer {
 
         SimulatedArena.getInstance().resetFieldForAuto();
 
-        intakeSubsystem = new IntakeSubsystem(new IntakeIO() {});
+        intakeSubsystem = new IntakeSubsystem(new IntakeIOSimulation());
       }
       case REPLAY -> {
         driveSubsystem = new DriveSubsystem(
