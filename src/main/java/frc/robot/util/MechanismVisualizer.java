@@ -1,25 +1,39 @@
-package frc.robot.subsystems.intake;
+package frc.robot.util;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import lombok.Setter;
 import org.littletonrobotics.junction.Logger;
 
-public class IntakeVisualizer {
+public class MechanismVisualizer {
   private final double xOffsetIntake = Units.inchesToMeters(10.75);
   private final double yOffsetIntake = Units.inchesToMeters(9.75);
   private final double xOffsetCoral = Units.inchesToMeters(-7.5);
   private final double yOffsetCoral = Units.inchesToMeters(18.8);
 
-  private final String key;
+  private final String key = "Visualizer";
 
-  public IntakeVisualizer(String key) {
-    this.key = key;
+  @Setter
+  private double intakeAngle;
+  @Setter
+  private double coralAngle;
+
+  private static MechanismVisualizer instance;
+
+  public static MechanismVisualizer getInstance() {
+    if (instance == null) instance = new MechanismVisualizer();
+    return instance;
   }
 
-  public void updateVisualization(double intakeAngle, double coralAngle) {
+  private MechanismVisualizer() {
+    intakeAngle = 0.0;
+    coralAngle = 0.0;
+  }
+
+  public void updateVisualization() {
     Pose3d intakePose = new Pose3d(
         new Translation3d(
             xOffsetIntake,
@@ -54,7 +68,7 @@ public class IntakeVisualizer {
             new Rotation3d()
         ));
 
-    Logger.recordOutput(key + "3D Pose",
+    Logger.recordOutput(key + "/3D Pose",
         intakePose,
         coralPose);
   }
