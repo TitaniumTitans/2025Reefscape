@@ -6,6 +6,8 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -19,11 +21,16 @@ import frc.robot.subsystems.drive.PhoenixOdometryThread;
 
 import java.util.Queue;
 
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+
 public class ModuleIOTalonFX implements ModuleIO {
   private final TalonFX driveMotor;
   private final TalonFX steerMotor;
   private final CANcoder encoder;
   private final DriveConstants.ModuleConstants config;
+
+  private final VelocityVoltage driveRequest;
+  private final PositionVoltage steerRequest;
 
   // drive motor signals
   private final StatusSignal<Angle> drivePositionSignal;
@@ -50,6 +57,13 @@ public class ModuleIOTalonFX implements ModuleIO {
     encoder = new CANcoder(config.encoderId());
 
     configureDevices();
+
+    driveRequest = new VelocityVoltage(0.0)
+        .withEnableFOC(true)
+        .withSlot(0);
+    steerRequest = new PositionVoltage(0.0)
+        .withEnableFOC(true)
+        .withSlot(0);
 
     drivePositionSignal = driveMotor.getPosition();
     driveVelocitySignal = driveMotor.getVelocity();
@@ -110,6 +124,33 @@ public class ModuleIOTalonFX implements ModuleIO {
     inputs.steerVelocityRadsPerSec = Units.rotationsToRadians(steerVelocitySignal.getValueAsDouble());
     inputs.steerAppliedVolts = steerVoltageSignal.getValueAsDouble();
     inputs.steerCurrentAmps = steerCurrentSignal.getValueAsDouble();
+
+    inputs.odometryTimestamps =
+        odometryTimestampQueue.stream().mapToDouble((Double value) -> value).toArray();
+    inputs.odometryDrivePositionsRads =
+        odometryDrivePositionQueue.stream().mapToDouble(Units::rotationsToRadians).toArray();
+    inputs.odometrySteerPositions =
+        odometrySteerPositionQueue.stream().map(Rotation2d::fromRotations).toArray(Rotation2d[]::new);
+  }
+
+  @Override
+  public void setDriveOpenLoop(double volts) {
+    driveMotor.setVoltage(volts);
+  }
+
+  @Override
+  public void setSteerOpenLoop(double volts) {
+    steerMotor.setVoltage(volts);
+  }
+
+  @Override
+  public void setDriveVelocity(double radsPerSec) {
+    driveMotor.setControl(driveRequest.withVelocity(RadiansPerSecond.of(radsPerSec)));
+  }
+
+  @Override
+  public void setSteerPosition(Rotation2d rotation) {
+    steerMotor.setControl(steerRequest.withPosition(rotation.getRotations()));
   }
 
   private void configureDevices() {
