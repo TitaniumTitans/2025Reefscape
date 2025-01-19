@@ -10,8 +10,6 @@ public class CoralScoralConstants {
     public static final double PIVOT_KP = 0.0;
     public static final double PIVOT_KI = 0.0;
     public static final double PIVOT_KD = 0.0;
-    public static final double SCORER_OFFSET = 0.0;
-    public static final double PIVOT_OFFSET = 0.0;
     public static final double LOOP_PERIOD_SECS = .02;
     public static final double SCORER_GEAR_RATIO = 0.0;
     public static final double PIVOT_GEAR_RATIO = 0.0;

@@ -5,6 +5,7 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.NeutralOut;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -66,6 +67,22 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         followerPivot.getConfigurator().apply(followerPivotConfig);
 
         pivotFollowerRequest = new Follower(CoralScoralConstants.MASTER_PIVOT_ID, false);
+
+        var scorerConfigs = new Slot0Configs();
+        scorerConfigs.kP = 0.0;
+        scorerConfigs.kI = 0.0;
+        scorerConfigs.kD = 0.0;
+        scorer.getConfigurator().apply(scorerConfigs);
+        final PositionVoltage scorerRequest = new PositionVoltage(0).withSlot(0);
+        scorer.setControl(scorerRequest.withPosition(10));
+
+        var pivotConfigs = new Slot0Configs();
+        pivotConfigs.kP = 0.0;
+        pivotConfigs.kI = 0.0;
+        pivotConfigs.kD = 0.0;
+        masterPivot.getConfigurator().apply(pivotConfigs);
+        final PositionVoltage pivotRequest = new PositionVoltage(0).withSlot(0);
+        masterPivot.setControl(pivotRequest.withPosition(10));
 
         stopRequest = new NeutralOut();
 
@@ -139,6 +156,12 @@ public class CoralScoralIOTalon implements CoralScoralIO {
     @Override
     public void setMotorVoltagePivot(double voltage) {
         masterPivot.setVoltage(voltage);
+    }
+
+    @Override
+    public void resetPosition() {
+        masterPivot.setPosition(0);
+        followerPivot.setPosition(0);
     }
 
     @Override
