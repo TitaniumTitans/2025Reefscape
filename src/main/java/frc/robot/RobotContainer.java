@@ -114,7 +114,7 @@ public class RobotContainer {
 
     visionSubsystem.setDefaultCommand(visionSubsystem.processVision(RobotBase.isReal() ?
         RobotState.getInstance()::getEstimatedPose :
-        driveSimulation::getSimulatedDriveTrainPose));
+        driveSimulation::getSimulatedDriveTrainPose).ignoringDisable(true));
 
     if (RobotBase.isSimulation()) {
       driveController.start().onTrue(
