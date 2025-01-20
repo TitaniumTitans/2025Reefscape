@@ -1,6 +1,8 @@
 package frc.robot.subsystems.vision;
 
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -9,12 +11,16 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotState;
+import lombok.extern.java.Log;
 import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import org.opencv.core.Mat;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -52,6 +58,7 @@ public class VisionSubsystem extends SubsystemBase {
     return run(() -> {
       // update the real robot pose
       actualRobotPose = poseSupplier.get();
+      List<Pose3d> tagPoses = new ArrayList<>();
 
       // get all cameras
       for (int i = 0; i < visionIOs.length; i++) {
@@ -63,6 +70,12 @@ public class VisionSubsystem extends SubsystemBase {
         // if ambiguity is too high, skip
         if (inputs[i].ambiguityRatio > filterParameters.maxAmbiguityRatio()) {
           continue;
+        }
+
+        for (int tagId : inputs[i].visibleTagIDs) {
+          Optional<Pose3d> tagPose = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField)
+              .getTagPose(tagId);
+          tagPose.ifPresent(tagPoses::add);
         }
 
         // use the closest pose
@@ -88,6 +101,8 @@ public class VisionSubsystem extends SubsystemBase {
             new RobotState.VisionObservation(closestPose.toPose2d(), timestamp, stdDevMat)
         );
       }
+
+      Logger.recordOutput("Vision/Visible Tag Poses", tagPoses.toArray(Pose3d[]::new));
     });
   }
 

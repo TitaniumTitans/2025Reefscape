@@ -63,14 +63,24 @@ public class RobotContainer {
         visionSubsystem = new VisionSubsystem(
             VisionConstants.FILTER_PARAMETERS,
             new VisionIOPhotonSimulation(
-                "SIM",
-                VisionConstants.SIM_CAMERA_TRANSFORM,
+                "BACK_RIGHT",
+                VisionConstants.BACK_RIGHT_TRANSFORM,
+                AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField),
+                VisionConstants.SIM_CAMERA_PROPERTIES
+            ),
+            new VisionIOPhotonSimulation(
+                "BACK_LEFT",
+                VisionConstants.BACK_LEFT_TRANSFORM,
                 AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField),
                 VisionConstants.SIM_CAMERA_PROPERTIES
             ));
 
         VisionEnvironmentSimulator.getInstance().addAprilTags(AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField));
-        VisionEnvironmentSimulator.getInstance().addRobotPoseSupplier(RobotState.getInstance()::getEstimatedPose);
+        VisionEnvironmentSimulator.getInstance().addRobotPoseSupplier(
+            RobotBase.isReal() ?
+                RobotState.getInstance()::getEstimatedPose :
+                driveSimulation::getSimulatedDriveTrainPose
+        );
 
         SimulatedArena.getInstance().resetFieldForAuto();
 
@@ -101,6 +111,10 @@ public class RobotContainer {
         () -> -driveController.getLeftX(),
         () -> -driveController.getRightX()
     ));
+
+    visionSubsystem.setDefaultCommand(visionSubsystem.processVision(RobotBase.isReal() ?
+        RobotState.getInstance()::getEstimatedPose :
+        driveSimulation::getSimulatedDriveTrainPose));
 
     if (RobotBase.isSimulation()) {
       driveController.start().onTrue(

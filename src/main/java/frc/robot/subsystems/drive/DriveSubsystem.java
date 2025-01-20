@@ -21,6 +21,7 @@ import frc.robot.RobotState;
 import frc.robot.subsystems.drive.module.Module;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.Logger;
 
 import java.util.Optional;
@@ -51,6 +52,8 @@ public class DriveSubsystem extends SubsystemBase {
                         ModuleIO frModuleIo,
                         ModuleIO blModuleIo,
                         ModuleIO brModuleIo) {
+    AutoLogOutputManager.addObject(this);
+
     this.gyroIO = gyro;
     modules[0] = new Module(flModuleIo, 0);
     modules[1] = new Module(frModuleIo, 1);
@@ -112,8 +115,8 @@ public class DriveSubsystem extends SubsystemBase {
       }
 
       // log empty setpoints when disabled
-      Logger.recordOutput("SwerveStates/Setpoints", new SwerveModuleState[]{});
-      Logger.recordOutput("SwerveStates/SetpointsOptimized", new SwerveModuleState[]{});
+      Logger.recordOutput("SwerveStates/Setpoints", prevSetpoint.moduleStates());
+      Logger.recordOutput("SwerveStates/Optimized", new SwerveModuleState[]{});
     }
 
     // update odometry measurements
@@ -148,19 +151,20 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveModuleState[] states = kinematics.toSwerveModuleStates(discretizedSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(states, DriveConstants.MAX_LINEAR_SPEED_MPS);
 
-    prevSetpoint = setpointGenerator.generateSetpoint(
-        prevSetpoint,
-        discretizedSpeeds,
-        0.02
-    );
+//    prevSetpoint = setpointGenerator.generateSetpoint(
+//        prevSetpoint,
+//        speeds,
+//        0.02
+//    );
 
     // log speeds and setpoint
-    Logger.recordOutput("SwerveStates/Setpoints", prevSetpoint.moduleStates());
-    Logger.recordOutput("SwerveSpeeds/Setpoints", discretizedSpeeds);
+//    Logger.recordOutput("SwerveStates/Setpoints", prevSetpoint.moduleStates());
+    Logger.recordOutput("SwerveSpeeds/Setpoints", speeds);
+    Logger.recordOutput("SwerveSpeeds/Optimized", discretizedSpeeds);
 
     // send setpoints to module
     for (int i = 0; i < 4; i++) {
-      modules[i].runSetpoint(prevSetpoint.moduleStates()[i]);
+      modules[i].runSetpoint(states[i]);
     }
 
     // log optimal setpoints, runSetpoint mutates the state

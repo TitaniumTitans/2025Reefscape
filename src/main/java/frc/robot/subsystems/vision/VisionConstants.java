@@ -1,14 +1,19 @@
 package frc.robot.subsystems.vision;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.Units;
 import org.photonvision.simulation.SimCameraProperties;
 
+import static edu.wpi.first.math.util.Units.degreesToRadians;
+import static edu.wpi.first.math.util.Units.inchesToMeters;
+
 public class VisionConstants {
   public static final VisionFilterParameters FILTER_PARAMETERS = new VisionFilterParameters(
-      0.5,
-      1.5,
+      0.15,
+      1.0,
       Units.Centimeters.of(21),
       0.5,
       Rotation2d.fromDegrees(70),
@@ -27,4 +32,29 @@ public class VisionConstants {
   }
 
   public static final Transform3d SIM_CAMERA_TRANSFORM = new Transform3d();
+  public static final Transform3d BACK_RIGHT_TRANSFORM = new Transform3d(
+      new Translation3d(
+          inchesToMeters(-9.2198),
+          inchesToMeters(-10.7368),
+          inchesToMeters(8.2636)
+      ),
+      new Rotation3d(
+          degreesToRadians(90 - 76.3672), //90 - 76.3672
+          degreesToRadians(0.0), // 65.9
+          degreesToRadians(-60.0) //180 + 60
+      )
+  );
+
+  public static final Transform3d BACK_LEFT_TRANSFORM = new Transform3d(
+      new Translation3d(
+          inchesToMeters(-9.2198),
+          inchesToMeters(10.7368),
+          inchesToMeters(8.2636)
+      ),
+      new Rotation3d(
+          degreesToRadians(76.3672), //90 - 76.3672
+          degreesToRadians(0.0), // 65.9
+          degreesToRadians(180-60.0) //180 + 60
+      )
+  );
 }
