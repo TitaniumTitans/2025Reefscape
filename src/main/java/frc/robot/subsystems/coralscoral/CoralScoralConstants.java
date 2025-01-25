@@ -1,4 +1,4 @@
-package frc.robot.subsystems.CoralScoral;
+package frc.robot.subsystems.coralscoral;
 
 public class CoralScoralConstants {
     public static final int SCORER_ID = 1;
