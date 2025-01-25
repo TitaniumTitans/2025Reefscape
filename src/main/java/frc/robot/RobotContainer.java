@@ -8,6 +8,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -16,6 +17,10 @@ import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
 import frc.robot.subsystems.drive.module.ModuleIOSparkMax;
+import frc.robot.subsystems.intake.IntakeIO;
+import frc.robot.subsystems.intake.IntakeIOProto;
+import frc.robot.subsystems.intake.IntakeIOSimulation;
+import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.vision.*;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -27,9 +32,11 @@ public class RobotContainer {
   private final CommandXboxController driveController = new CommandXboxController(0);
 
   DriveSubsystem driveSubsystem;
+  private final IntakeSubsystem intakeSubsystem;
+
   public RobotContainer() {
     switch (Constants.getMode()) {
-      case REAL ->
+      case REAL -> {
         driveSubsystem = new DriveSubsystem(
             new GyroIOPigeon2(),
             new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[0]),
@@ -37,6 +44,8 @@ public class RobotContainer {
             new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[2]),
             new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[3])
         );
+        intakeSubsystem = new IntakeSubsystem(new IntakeIOProto());
+      }
 
       case SIM -> {
         driveSimulation = new SwerveDriveSimulation(DriveConstants.MAPLE_SIM_CONFIG, new Pose2d(3, 3, new Rotation2d()));
@@ -62,8 +71,10 @@ public class RobotContainer {
         VisionEnvironmentSimulator.getInstance().addRobotPoseSupplier(RobotState.getInstance()::getEstimatedPose);
 
         SimulatedArena.getInstance().resetFieldForAuto();
+
+        intakeSubsystem = new IntakeSubsystem(new IntakeIOSimulation());
       }
-      case REPLAY ->
+      case REPLAY -> {
         driveSubsystem = new DriveSubsystem(
             new GyroIO() {
             },
@@ -72,6 +83,11 @@ public class RobotContainer {
             new ModuleIO() {},
             new ModuleIO() {}
         );
+        intakeSubsystem = new IntakeSubsystem(new IntakeIO() {});
+      }
+      default -> {
+        intakeSubsystem = new IntakeSubsystem(new IntakeIO() {});
+      }
     }
     configureBindings();
   }
@@ -83,6 +99,17 @@ public class RobotContainer {
         () -> -driveController.getLeftX(),
         () -> -driveController.getRightX()
     ));
+
+    driveController.a().whileTrue(
+        Commands.run(() -> intakeSubsystem.setIntakePower(6.0), intakeSubsystem)
+    ).whileFalse(
+        Commands.run(() -> intakeSubsystem.setIntakePower(0.0))
+    );
+    driveController.b().whileTrue(
+        Commands.run(() -> intakeSubsystem.setIntakePower(-6.0), intakeSubsystem)
+    ).whileFalse(
+        Commands.run(() -> intakeSubsystem.setIntakePower(0.0))
+    );
   }
 
   public Command getAutonomousCommand() {

@@ -26,5 +26,4 @@ public class ModuleIOTalonFX implements ModuleIO {
 
   }
 
-
 }
