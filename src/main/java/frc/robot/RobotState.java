@@ -12,9 +12,13 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import org.littletonrobotics.junction.AutoLogOutput;
 import frc.robot.subsystems.drive.DriveConstants;
+import org.littletonrobotics.junction.AutoLogOutputManager;
+import org.littletonrobotics.junction.Logger;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -62,6 +66,8 @@ public class RobotState {
       qStdDevs.set(i, 0, Math.pow(odometryStateStdDevs.get(i, 0), 2));
     }
     kinematics = new SwerveDriveKinematics(DriveConstants.MODULE_TRANSLATIONS);
+    AutoLogOutputManager.addObject(this);
+    Logger.recordOutput("Robot State Created", true);
   }
 
   public void resetPose(Pose2d pose) {
