@@ -32,6 +32,8 @@ public class CoralScoralIOTalon implements CoralScoralIO {
     private final StatusSignal<Temperature> scorerTemperatureSignal;
     private final StatusSignal<Temperature> masterPivotTemperatureSignal;
     private final StatusSignal<Temperature> followerPivotTemperatureSignal;
+
+    private final PositionVoltage pivotRequest;
     private final Follower pivotFollowerRequest;
     private final NeutralOut stopRequest;
 
@@ -49,7 +51,7 @@ public class CoralScoralIOTalon implements CoralScoralIO {
 
         TalonFXConfiguration masterPivotConfig = new TalonFXConfiguration();
         masterPivotConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-        masterPivotConfig.CurrentLimits.StatorCurrentLimit = 20;
+        masterPivotConfig.CurrentLimits.SupplyCurrentLimit = 20;
         masterPivotConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         masterPivotConfig.CurrentLimits.StatorCurrentLimit = 20;
         masterPivotConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
@@ -58,13 +60,14 @@ public class CoralScoralIOTalon implements CoralScoralIO {
 
         TalonFXConfiguration followerPivotConfig = new TalonFXConfiguration();
         followerPivotConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-        followerPivotConfig.CurrentLimits.StatorCurrentLimit = 20;
+        followerPivotConfig.CurrentLimits.SupplyCurrentLimit = 20;
         followerPivotConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         followerPivotConfig.CurrentLimits.StatorCurrentLimit = 20;
-        followerPivotConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        followerPivotConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         followerPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
         followerPivot.getConfigurator().apply(followerPivotConfig);
 
+        pivotRequest = new PositionVoltage(0.0);
         pivotFollowerRequest = new Follower(CoralScoralConstants.MASTER_PIVOT_ID, false);
 
         var scorerConfigs = new Slot0Configs();
@@ -72,16 +75,12 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         scorerConfigs.kI = 0.0;
         scorerConfigs.kD = 0.0;
         scorer.getConfigurator().apply(scorerConfigs);
-        final PositionVoltage scorerRequest = new PositionVoltage(0).withSlot(0);
-        scorer.setControl(scorerRequest.withPosition(10));
 
         var pivotConfigs = new Slot0Configs();
         pivotConfigs.kP = 0.0;
         pivotConfigs.kI = 0.0;
         pivotConfigs.kD = 0.0;
         masterPivot.getConfigurator().apply(pivotConfigs);
-        final PositionVoltage pivotRequest = new PositionVoltage(0).withSlot(0);
-        masterPivot.setControl(pivotRequest.withPosition(10));
 
         stopRequest = new NeutralOut();
 
@@ -155,6 +154,7 @@ public class CoralScoralIOTalon implements CoralScoralIO {
     @Override
     public void setMotorVoltagePivot(double voltage) {
         masterPivot.setVoltage(voltage);
+        followerPivot.setControl(pivotFollowerRequest);
     }
 
     @Override
