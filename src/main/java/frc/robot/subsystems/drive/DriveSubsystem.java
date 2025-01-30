@@ -93,8 +93,6 @@ public class DriveSubsystem extends SubsystemBase {
                   timestamps[i]));
     }
 
-    RobotState.getInstance().getEstimatedPose();
-
     wpiOdom.update(getGyroRotation(), getModulePositions());
     Logger.recordOutput("RobotState/WPIOdometry", wpiOdom.getPoseMeters());
 

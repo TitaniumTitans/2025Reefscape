@@ -188,3 +188,4 @@ compile_commands.json
 
 # Auto generated build constants
 src/main/java/frc/robot/BuildConstants.java
+src/main/java/frc/robot/BuildConstants.java

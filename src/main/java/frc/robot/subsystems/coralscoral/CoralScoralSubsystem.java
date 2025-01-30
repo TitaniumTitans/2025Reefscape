@@ -1,5 +1,6 @@
 package frc.robot.subsystems.coralscoral;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.CoralScoralIO;
@@ -25,6 +26,7 @@ public class CoralScoralSubsystem extends SubsystemBase {
     }
 
     public void setPivotPower(double power) {
+        power = MathUtil.clamp(power, 0.0, 1.0);
         io.setMotorVoltagePivot(power);
     }
 

@@ -1,9 +1,10 @@
 package frc.robot.subsystems.coralscoral;
 
 public class CoralScoralConstants {
-    public static final int SCORER_ID = 1;
-    public static final int MASTER_PIVOT_ID = 2;
-    public static final int FOLLOWER_PIVOT_ID = 3;
+    public static final int SCORER_ID = 16;
+    public static final int MASTER_PIVOT_ID = 14;
+    public static final int FOLLOWER_PIVOT_ID = 15;
+    public static final int[] LIDAR_IDS = {20, 21, 22, 23};
     public static final double SCORER_KP = 0.0;
     public static final double SCORER_KI = 0.0;
     public static final double SCORER_KD = 0.0;

@@ -2,7 +2,7 @@ package frc.robot.subsystems.intake;
 
 public class IntakeConstants {
     public static final int INTAKE_ID = 17;
-    public static final int PIVOT_ID = 16;
+    public static final int PIVOT_ID = 18;
     public static final double INTAKE_KP = 0.0;
     public static final double INTAKE_KI = 0.0;
     public static final double INTAKE_KD = 0.0;
