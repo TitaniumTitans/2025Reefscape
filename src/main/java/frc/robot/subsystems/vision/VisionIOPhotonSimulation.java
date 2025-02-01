@@ -2,6 +2,7 @@ package frc.robot.subsystems.vision;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
+import org.littletonrobotics.junction.Logger;
 import org.photonvision.simulation.PhotonCameraSim;
 import org.photonvision.simulation.SimCameraProperties;
 
@@ -31,5 +32,6 @@ public class VisionIOPhotonSimulation extends VisionIOPhoton {
         // This is extremely resource-intensive and is disabled by default.
         camSim.enableDrawWireframe(true);
         VisionEnvironmentSimulator.getInstance().addCamera(camSim, robotToCameraTransform);
+        Logger.recordOutput("Vision/Camera Transforms/" + cameraName, robotToCameraTransform);
     }
 }

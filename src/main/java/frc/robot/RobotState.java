@@ -14,7 +14,9 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
+import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.AutoLogOutput;
 import frc.robot.subsystems.drive.DriveConstants;
 import org.littletonrobotics.junction.AutoLogOutputManager;
@@ -44,6 +46,10 @@ public class RobotState {
   @AutoLogOutput(key = "RobotState/EstimatedPose")
   private Pose2d estimatedPose = new Pose2d();
 
+  // use for simulation
+  @Setter
+  private SwerveDriveSimulation driveSimulation;
+
   // used to filter vision measurements into odometry estimation
   private final TimeInterpolatableBuffer<Pose2d> poseBuffer =
       TimeInterpolatableBuffer.createBuffer(POSE_BUFFER_SIZE_SEC);
@@ -67,7 +73,6 @@ public class RobotState {
     }
     kinematics = new SwerveDriveKinematics(DriveConstants.MODULE_TRANSLATIONS);
     AutoLogOutputManager.addObject(this);
-    Logger.recordOutput("Robot State Created", true);
   }
 
   public void resetPose(Pose2d pose) {
@@ -75,6 +80,10 @@ public class RobotState {
     odometryPose = pose;
     gyroOffset = pose.getRotation().minus(gyroOffset);
     poseBuffer.clear();
+
+    if (driveSimulation != null) {
+      driveSimulation.setSimulationWorldPose(pose);
+    }
   }
 
   public void addOdometryMeasurement(OdometryObservation update) {

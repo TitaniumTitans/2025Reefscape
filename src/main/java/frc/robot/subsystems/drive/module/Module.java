@@ -51,7 +51,7 @@ public class Module {
     int sampleCount = inputs.odometryTimestamps.length;
     odometryPositions = new SwerveModulePosition[sampleCount];
     for (int i = 0; i < sampleCount; i++) {
-      double positionMeters = Units.degreesToRadians(inputs.odometryDrivePositionsRads[i]) * DriveConstants.WHEEL_RADIUS_METERS;
+      double positionMeters = inputs.odometryDrivePositionsRads[i] * DriveConstants.WHEEL_RADIUS_METERS;
       Rotation2d angle = inputs.odometrySteerPositions[i];
       odometryPositions[i] = new SwerveModulePosition(positionMeters, angle);
     }

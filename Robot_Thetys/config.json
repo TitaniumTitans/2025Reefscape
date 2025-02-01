@@ -1,0 +1,70 @@
+{
+  "name": "4467 Tethys",
+  "sourceUrl": "https://cad.onshape.com/documents/7bc29be4342772fc741ea201/w/72d85fa68f0e9d0ce28c624b/e/033aff10bbfab8525e72a496",
+  "rotations": [
+    {
+      "axis": "x",
+      "degrees": 0
+    },
+    {
+      "axis" : "y",
+      "degrees": 0
+    },
+    {
+      "axis": "z",
+      "degrees": 180
+    }
+  ],
+  "position": [
+    0.3302, 
+    0.3302, 
+    -0.0254
+  ],
+  "cameras": [],
+  "components": [
+	{
+	  "zeroedRotations": [
+		{
+		  "axis": "x",
+		  "degrees": 0
+		},
+		{
+		  "axis": "y",
+		  "degrees": 0
+		},
+		{
+		  "axis": "z",
+		  "degrees": 0
+		}
+	  ],
+	  
+	  "zeroedPosition": [
+		0.0,
+		0.0,
+		0.0
+	  ]
+	},
+	{
+	  "zeroedRotations": [
+		{
+		  "axis": "y",
+		  "degrees": 0
+		},
+		{
+		  "axis": "x",
+		  "degrees": 0
+		},
+		{
+		  "axis": "z",
+		  "degrees": 0
+		}
+	  ],
+	  
+	  "zeroedPosition": [
+		0.0,
+		0.0,
+		0.0
+	  ]
+	}
+  ]
+}

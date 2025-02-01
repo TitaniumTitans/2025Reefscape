@@ -1,9 +1,18 @@
 package frc.robot.subsystems.drive;
 
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.util.DriveFeedforwards;
+import com.pathplanner.lib.util.swerve.SwerveSetpoint;
+import com.pathplanner.lib.util.swerve.SwerveSetpointGenerator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,11 +21,16 @@ import frc.robot.RobotState;
 import frc.robot.subsystems.drive.module.Module;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.Logger;
 
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import static edu.wpi.first.units.Units.KilogramSquareMeters;
+import static edu.wpi.first.units.Units.Pounds;
+import static frc.robot.subsystems.drive.DriveConstants.ROBOT_CONFIG;
 
 public class DriveSubsystem extends SubsystemBase {
   public static final Lock odometryLock = new ReentrantLock();
@@ -30,12 +44,16 @@ public class DriveSubsystem extends SubsystemBase {
       new SwerveDriveKinematics(DriveConstants.MODULE_TRANSLATIONS);
 
   private final SwerveDriveOdometry wpiOdom;
+  private SwerveSetpoint prevSetpoint;
+  private final SwerveSetpointGenerator setpointGenerator;
 
   public DriveSubsystem(GyroIO gyro,
                         ModuleIO flModuleIo,
                         ModuleIO frModuleIo,
                         ModuleIO blModuleIo,
                         ModuleIO brModuleIo) {
+    AutoLogOutputManager.addObject(this);
+
     this.gyroIO = gyro;
     modules[0] = new Module(flModuleIo, 0);
     modules[1] = new Module(frModuleIo, 1);
@@ -45,6 +63,33 @@ public class DriveSubsystem extends SubsystemBase {
     wpiOdom = new SwerveDriveOdometry(kinematics, new Rotation2d(), getModulePositions());
 
     RobotState.getInstance().resetPose(new Pose2d());
+    setpointGenerator = new SwerveSetpointGenerator(ROBOT_CONFIG, Units.degreesToRadians(1080));
+
+    prevSetpoint = new SwerveSetpoint(getChassisSpeeds(), getModuleStates(), DriveFeedforwards.zeros(ROBOT_CONFIG.numModules));
+
+    AutoBuilder.configure(
+        RobotState.getInstance()::getEstimatedPose,
+        RobotState.getInstance()::resetPose,
+        this::getChassisSpeeds,
+        (ChassisSpeeds speeds, DriveFeedforwards feedforwards) ->  runVelocity(speeds),
+        new PPHolonomicDriveController(
+            new PIDConstants(5.0, 0.0, 0.0),
+            new PIDConstants(5.0, 0.0, 0.0)
+        ),
+        ROBOT_CONFIG,
+        () -> {
+          // Boolean supplier that controls when the path will be mirrored for the red alliance
+          // This will flip the path being followed to the red side of the field.
+          // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+          var alliance = DriverStation.getAlliance();
+          if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+          }
+          return false;
+        },
+        this
+    );
   }
 
   @Override
@@ -70,8 +115,8 @@ public class DriveSubsystem extends SubsystemBase {
       }
 
       // log empty setpoints when disabled
-      Logger.recordOutput("SwerveStates/Setpoints", new SwerveModuleState[]{});
-      Logger.recordOutput("SwerveStates/SetpointsOptimized", new SwerveModuleState[]{});
+      Logger.recordOutput("SwerveStates/Setpoints", prevSetpoint.moduleStates());
+      Logger.recordOutput("SwerveStates/Optimized", new SwerveModuleState[]{});
     }
 
     // update odometry measurements
@@ -80,7 +125,6 @@ public class DriveSubsystem extends SubsystemBase {
     int timestampLength = timestamps.length;
     for (int i = 0; i < timestampLength; i++) {
       SwerveModulePosition[] wheelPositions = new SwerveModulePosition[4];
-//      if (modules[0].getOdometryPositions().length == 0) break;
       for (int j = 0; j < 4; j++) {
         wheelPositions[j] = modules[j].getOdometryPositions()[i];
       }
@@ -107,9 +151,16 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveModuleState[] states = kinematics.toSwerveModuleStates(discretizedSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(states, DriveConstants.MAX_LINEAR_SPEED_MPS);
 
+//    prevSetpoint = setpointGenerator.generateSetpoint(
+//        prevSetpoint,
+//        speeds,
+//        0.02
+//    );
+
     // log speeds and setpoint
-    Logger.recordOutput("SwerveStates/Setpoints", states);
-    Logger.recordOutput("SwerveSpeeds/Setpoints", discretizedSpeeds);
+//    Logger.recordOutput("SwerveStates/Setpoints", prevSetpoint.moduleStates());
+    Logger.recordOutput("SwerveSpeeds/Setpoints", speeds);
+    Logger.recordOutput("SwerveSpeeds/Optimized", discretizedSpeeds);
 
     // send setpoints to module
     for (int i = 0; i < 4; i++) {
@@ -147,7 +198,7 @@ public class DriveSubsystem extends SubsystemBase {
     return states;
   }
 
-  @AutoLogOutput(key = "SwerveChassisSpeeds/Measured")
+  @AutoLogOutput(key = "SwerveSpeeds/Measured")
   private ChassisSpeeds getChassisSpeeds() {
     return kinematics.toChassisSpeeds(getModuleStates());
   }
