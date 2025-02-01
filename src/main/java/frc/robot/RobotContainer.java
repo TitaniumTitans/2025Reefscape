@@ -13,15 +13,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
+import frc.robot.subsystems.coralscoral.CoralScoralIOTalon;
+import frc.robot.subsystems.coralscoral.CoralScoralSubsystem;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
 import frc.robot.subsystems.drive.module.ModuleIOSparkMax;
 import frc.robot.subsystems.drive.module.ModuleIOTalonFX;
-import frc.robot.subsystems.intake.IntakeIO;
-import frc.robot.subsystems.intake.IntakeIOProto;
-import frc.robot.subsystems.intake.IntakeIOSimulation;
-import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.intake.*;
 import frc.robot.subsystems.vision.*;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -33,6 +32,7 @@ public class RobotContainer {
   private final CommandXboxController driveController = new CommandXboxController(0);
 
   DriveSubsystem driveSubsystem;
+  CoralScoralSubsystem coralSubsystem;
   private final IntakeSubsystem intakeSubsystem;
 
   public RobotContainer() {
@@ -45,7 +45,8 @@ public class RobotContainer {
             new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[2]),
             new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[3])
         );
-        intakeSubsystem = new IntakeSubsystem(new IntakeIOProto());
+        intakeSubsystem = new IntakeSubsystem(new IntakeIOTalon());
+        coralSubsystem = new CoralScoralSubsystem(new CoralScoralIOTalon());
       }
 
       case SIM -> {
@@ -110,6 +111,20 @@ public class RobotContainer {
         Commands.run(() -> intakeSubsystem.setIntakePower(-6.0), intakeSubsystem)
     ).whileFalse(
         Commands.run(() -> intakeSubsystem.setIntakePower(0.0))
+    );
+
+    driveController.leftTrigger().whileTrue(
+        intakeSubsystem.runPivot(3.0)
+    );
+    driveController.leftBumper().whileTrue(
+        intakeSubsystem.runPivot(-3.0)
+    );
+
+    driveController.rightTrigger().whileTrue(
+        intakeSubsystem.runIntake(12.0)
+    );
+    driveController.rightBumper().whileTrue(
+        intakeSubsystem.runIntake(-12.0)
     );
   }
 

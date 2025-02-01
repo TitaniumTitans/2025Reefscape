@@ -13,6 +13,6 @@ public class IntakeConstants {
     public static final double PIVOT_OFFSET = 0.0;
     public static final double LOOP_PERIOD_SECS = .02;
     public static final double INTAKE_GEAR_RATIO = 10.0;
-    public static final double PIVOT_GEAR_RATIO = 10.0;
+    public static final double PIVOT_GEAR_RATIO = (9.0 * (22.0 / 50.0) * (18.0 / 44.0));
 
 }

@@ -31,10 +31,10 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public Command runIntake(double intakePower) {
-        return run(() -> setIntakePower(intakePower));
+        return runEnd(() -> setIntakePower(intakePower), ()-> setIntakePower(-0.5));
     }
 
     public Command runPivot(double pivotPower) {
-        return run(() -> setPivotPower(pivotPower));
+        return runEnd(() -> setPivotPower(pivotPower), () -> setPivotPower(0.0));
     }
 }
