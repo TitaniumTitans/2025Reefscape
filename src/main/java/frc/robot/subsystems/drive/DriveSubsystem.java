@@ -158,7 +158,7 @@ public class DriveSubsystem extends SubsystemBase {
 //    );
 
     // log speeds and setpoint
-//    Logger.recordOutput("SwerveStates/Setpoints", prevSetpoint.moduleStates());
+    Logger.recordOutput("SwerveStates/Setpoints", states);
     Logger.recordOutput("SwerveSpeeds/Setpoints", speeds);
     Logger.recordOutput("SwerveSpeeds/Optimized", discretizedSpeeds);
 

@@ -44,6 +44,8 @@ public class ModuleIOTalonFX implements ModuleIO {
   private final StatusSignal<Voltage> steerVoltageSignal;
   private final StatusSignal<Current> steerCurrentSignal;
 
+  private final StatusSignal<Angle> steerAbsolutePositionSignal;
+
   // odometry signals
   private final Queue<Double> odometryTimestampQueue;
   private final Queue<Double> odometrySteerPositionQueue;
@@ -52,11 +54,14 @@ public class ModuleIOTalonFX implements ModuleIO {
   public ModuleIOTalonFX(DriveConstants.ModuleConstants config) {
     this.config = config;
 
-    driveMotor = new TalonFX(config.driveId());
-    steerMotor = new TalonFX(config.steerId());
-    encoder = new CANcoder(config.encoderId());
+    driveMotor = new TalonFX(config.driveId(), "canivore");
+    steerMotor = new TalonFX(config.steerId(), "canivore");
+    encoder = new CANcoder(config.encoderId(), "canivore");
 
     configureDevices();
+
+    steerMotor.setPosition(encoder.getAbsolutePosition().getValueAsDouble()
+        - config.encoderOffset().getRotations());
 
     driveRequest = new VelocityVoltage(0.0)
         .withEnableFOC(true)
@@ -75,6 +80,8 @@ public class ModuleIOTalonFX implements ModuleIO {
     steerVoltageSignal = steerMotor.getMotorVoltage();
     steerCurrentSignal = steerMotor.getStatorCurrent();
 
+    steerAbsolutePositionSignal = encoder.getAbsolutePosition();
+
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0,
         driveVelocitySignal,
@@ -82,7 +89,8 @@ public class ModuleIOTalonFX implements ModuleIO {
         driveCurrentSignal,
         steerVelocitySignal,
         steerVoltageSignal,
-        steerCurrentSignal
+        steerCurrentSignal,
+        steerAbsolutePositionSignal
     );
 
     odometryTimestampQueue = PhoenixOdometryThread.getInstance().makeTimestampQueue();
@@ -109,7 +117,8 @@ public class ModuleIOTalonFX implements ModuleIO {
         steerPositionSignal,
         steerVelocitySignal,
         steerVoltageSignal,
-        steerCurrentSignal
+        steerCurrentSignal,
+        steerAbsolutePositionSignal
     );
 
     inputs.driveConnected = driveMotor.isConnected();
@@ -119,11 +128,11 @@ public class ModuleIOTalonFX implements ModuleIO {
     inputs.driveCurrentAmps = driveCurrentSignal.getValueAsDouble();
 
     inputs.steerConnected = steerMotor.isConnected();
-    inputs.steerPosition = Rotation2d.fromRotations(
-        Units.rotationsToRadians(drivePositionSignal.getValueAsDouble()));
+    inputs.steerPosition = Rotation2d.fromRotations(steerPositionSignal.getValueAsDouble());
     inputs.steerVelocityRadsPerSec = Units.rotationsToRadians(steerVelocitySignal.getValueAsDouble());
     inputs.steerAppliedVolts = steerVoltageSignal.getValueAsDouble();
     inputs.steerCurrentAmps = steerCurrentSignal.getValueAsDouble();
+    inputs.steerAbsolutePosition = Rotation2d.fromRotations(steerAbsolutePositionSignal.getValueAsDouble());
 
     inputs.odometryTimestamps =
         odometryTimestampQueue.stream().mapToDouble((Double value) -> value).toArray();
@@ -168,17 +177,20 @@ public class ModuleIOTalonFX implements ModuleIO {
 
     motorConfig.Slot0.withKP(0.0)
         .withKD(0.0)
-        .withKS(0.0)
-        .withKV(0.0);
+        .withKS(0.125)
+        .withKV(0.1);
 
     driveMotor.getConfigurator().apply(motorConfig);
 
+    motorConfig.Feedback.SensorToMechanismRatio = DriveConstants.STEER_GEAR_RATIO;
     motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive);
     motorConfig.CurrentLimits.withStatorCurrentLimit(60);
-    motorConfig.Slot0.withKP(0.0)
+    motorConfig.ClosedLoopGeneral.ContinuousWrap = true;
+    motorConfig.Slot0.withKP(60.0)
         .withKD(0.0)
         .withKS(0.0)
         .withKV(0.0);
+
 
     steerMotor.getConfigurator().apply(motorConfig);
 
