@@ -47,4 +47,9 @@ public class GyroIOPigeon2 implements GyroIO {
     yawPositionQueue.clear();
     yawTimestampQueue.clear();
   }
+
+  @Override
+  public void reset() {
+    pigeon.reset();
+  }
 }

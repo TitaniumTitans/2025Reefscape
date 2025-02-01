@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
+import frc.robot.subsystems.climber.ClimberIOKraken;
+import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.coralscoral.CoralScoralIOTalon;
 import frc.robot.subsystems.coralscoral.CoralScoralSubsystem;
 import frc.robot.subsystems.drive.*;
@@ -35,6 +37,7 @@ public class RobotContainer {
 
   DriveSubsystem driveSubsystem;
   CoralScoralSubsystem coralSubsystem;
+  ClimberSubsystem climberSubsystem;
   private final IntakeSubsystem intakeSubsystem;
 
   public RobotContainer() {
@@ -49,6 +52,7 @@ public class RobotContainer {
         );
         intakeSubsystem = new IntakeSubsystem(new IntakeIOTalon());
         coralSubsystem = new CoralScoralSubsystem(new CoralScoralIOTalon());
+        climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
       }
 
       case SIM -> {
@@ -107,40 +111,28 @@ public class RobotContainer {
     ));
 
     driveController.a().whileTrue(
-        coralSubsystem.setScorerPowerFactory(6.0)
+        coralSubsystem.setPivotPowerFactory(-2.0)
     );
-
     driveController.b().whileTrue(
-        coralSubsystem.setScorerPowerFactory(-6.0)
+        coralSubsystem.setPivotPowerFactory(2.0)
     );
 
     driveController.x().whileTrue(
-        intakeSubsystem.setPivotPositionFactory(45)
+        climberSubsystem.setClimberPowerFactory(12.0)
     );
     driveController.y().whileTrue(
-        intakeSubsystem.fullIntake()
-    );
-
-    driveController.leftTrigger().whileTrue(
-        intakeSubsystem.runPivot(-3.0)
-    );
-    driveController.leftBumper().whileTrue(
-        intakeSubsystem.runPivot(3.0)
-    );
-
-    driveController.rightTrigger().whileTrue(
-        intakeSubsystem.runIntake(12.0)
-    );
-    driveController.rightBumper().whileTrue(
-        intakeSubsystem.runIntake(-12.0)
+        climberSubsystem.setClimberPowerFactory(-12.0)
     );
 
     driveController.start().onTrue(
         Commands.runOnce(
-            () -> RobotState.getInstance().resetPose(
+            () -> { RobotState.getInstance().resetPose(
                 new Pose2d(RobotState.getInstance().getEstimatedPose().getTranslation(),
                     new Rotation2d())
-            ))
+            );
+
+            driveSubsystem.resetGyro();
+            })
     );
   }
 

@@ -173,15 +173,16 @@ public class ModuleIOTalonFX implements ModuleIO {
     motorConfig.Feedback.SensorToMechanismRatio = DriveConstants.DRIVE_GEAR_RATIO;
 
     motorConfig.CurrentLimits.withSupplyCurrentLimitEnable(true)
-        .withSupplyCurrentLimit(40)
+        .withSupplyCurrentLimit(70)
         .withSupplyCurrentLowerTime(0.1)
+        .withSupplyCurrentLowerLimit(40)
         .withStatorCurrentLimitEnable(true)
-        .withStatorCurrentLimit(80);
+        .withStatorCurrentLimit(140);
 
     motorConfig.Slot0.withKP(0.0)
         .withKD(0.0)
         .withKS(0.125)
-        .withKV(0.5);
+        .withKV(0.75);
 
     driveMotor.getConfigurator().apply(motorConfig);
 

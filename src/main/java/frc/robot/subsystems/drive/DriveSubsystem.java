@@ -124,7 +124,7 @@ public class DriveSubsystem extends SubsystemBase {
     // update odometry measurements
     double[] timestamps =
         modules[0].getOdometryTimestamps();
-    int timestampLength = timestamps.length;
+    int timestampLength = Math.min(timestamps.length, gyroInputs.odometryYawTimestamps.length);
     for (int i = 0; i < timestampLength; i++) {
       SwerveModulePosition[] wheelPositions = new SwerveModulePosition[4];
       for (int j = 0; j < 4; j++) {
@@ -171,6 +171,10 @@ public class DriveSubsystem extends SubsystemBase {
 
     // log optimal setpoints, runSetpoint mutates the state
     Logger.recordOutput("SwerveStates/Optimized", states);
+  }
+
+  public void resetGyro() {
+    gyroIO.reset();
   }
 
   public void runCharacterization(double output) {

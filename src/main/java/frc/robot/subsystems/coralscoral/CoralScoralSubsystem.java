@@ -44,6 +44,7 @@ public class CoralScoralSubsystem extends SubsystemBase {
     }
 
     public Command setPivotPowerFactory(double pivotPower) {
-        return run(() -> setPivotPower(pivotPower));
+        return runEnd(() -> setPivotPower(pivotPower),
+            () -> setPivotPower(0.0));
     }
 }

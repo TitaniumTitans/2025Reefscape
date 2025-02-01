@@ -44,9 +44,6 @@ public class Module {
   }
 
   public void periodic() {
-    io.updateInputs(inputs);
-    Logger.processInputs("Drive/Module" + index, inputs);
-
     // calculate samples for odometry
     int sampleCount = inputs.odometryTimestamps.length;
     odometryPositions = new SwerveModulePosition[sampleCount];

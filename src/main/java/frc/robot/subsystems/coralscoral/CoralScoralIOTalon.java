@@ -60,7 +60,8 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         masterPivotConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         masterPivotConfig.CurrentLimits.StatorCurrentLimit = 100;
         masterPivotConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-        masterPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        masterPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        masterPivotConfig.Feedback.SensorToMechanismRatio = CoralScoralConstants.PIVOT_GEAR_RATIO;
 
         masterPivot.getConfigurator().apply(masterPivotConfig);
         followerPivot.getConfigurator().apply(masterPivotConfig);
