@@ -119,8 +119,7 @@ public class RobotContainer {
         coralSubsystem.setScorerPowerFactory(4.0)
     );
     driveController.leftBumper().whileTrue(
-        coralSubsystem.setScorerPowerFactory(-3]\[
-            .0)
+        coralSubsystem.setScorerPowerFactory(-3.0)
     );
 
     driveController.x().whileTrue(
