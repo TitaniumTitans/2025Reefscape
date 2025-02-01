@@ -44,28 +44,26 @@ public class CoralScoralIOTalon implements CoralScoralIO {
 
         TalonFXConfiguration scorerConfig = new TalonFXConfiguration();
         scorerConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-        scorerConfig.CurrentLimits.SupplyCurrentLimit = 20;
+        scorerConfig.CurrentLimits.SupplyCurrentLimit = 70;
+        scorerConfig.CurrentLimits.SupplyCurrentLowerTime = 1.0;
+        scorerConfig.CurrentLimits.SupplyCurrentLowerLimit = 40;
         scorerConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-        scorerConfig.CurrentLimits.StatorCurrentLimit = 20;
+        scorerConfig.CurrentLimits.StatorCurrentLimit = 100;
+        scorerConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
         scorer.getConfigurator().apply(scorerConfig);
 
         TalonFXConfiguration masterPivotConfig = new TalonFXConfiguration();
         masterPivotConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-        masterPivotConfig.CurrentLimits.SupplyCurrentLimit = 20;
+        masterPivotConfig.CurrentLimits.SupplyCurrentLimit = 70;
+        masterPivotConfig.CurrentLimits.SupplyCurrentLowerTime = 1.0;
+        masterPivotConfig.CurrentLimits.SupplyCurrentLowerLimit = 40;
         masterPivotConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-        masterPivotConfig.CurrentLimits.StatorCurrentLimit = 20;
+        masterPivotConfig.CurrentLimits.StatorCurrentLimit = 100;
         masterPivotConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         masterPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-        masterPivot.getConfigurator().apply(masterPivotConfig);
 
-        TalonFXConfiguration followerPivotConfig = new TalonFXConfiguration();
-        followerPivotConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-        followerPivotConfig.CurrentLimits.SupplyCurrentLimit = 20;
-        followerPivotConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-        followerPivotConfig.CurrentLimits.StatorCurrentLimit = 20;
-        followerPivotConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-        followerPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-        followerPivot.getConfigurator().apply(followerPivotConfig);
+        masterPivot.getConfigurator().apply(masterPivotConfig);
+        followerPivot.getConfigurator().apply(masterPivotConfig);
 
         pivotRequest = new PositionVoltage(0.0);
         pivotFollowerRequest = new Follower(CoralScoralConstants.MASTER_PIVOT_ID, false);

@@ -84,7 +84,7 @@ public class DriveConstants {
                 .driveId(4)
                 .steerId(5)
                 .encoderId(6)
-                .encoderOffset(Rotation2d.fromDegrees(54.052))
+                .encoderOffset(Rotation2d.fromDegrees(54.052).plus(Rotation2d.k180deg))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build(),
@@ -102,7 +102,7 @@ public class DriveConstants {
                 .driveId(10)
                 .steerId(11)
                 .encoderId(12)
-                .encoderOffset(Rotation2d.fromDegrees(-57))
+                .encoderOffset(Rotation2d.fromDegrees(-82.617))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build()

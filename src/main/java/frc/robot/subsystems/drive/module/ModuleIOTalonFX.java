@@ -85,7 +85,6 @@ public class ModuleIOTalonFX implements ModuleIO {
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0,
         driveVelocitySignal,
-        driveVelocitySignal,
         driveCurrentSignal,
         steerVelocitySignal,
         steerVoltageSignal,
@@ -93,15 +92,15 @@ public class ModuleIOTalonFX implements ModuleIO {
         steerAbsolutePositionSignal
     );
 
-    odometryTimestampQueue = PhoenixOdometryThread.getInstance().makeTimestampQueue();
-    odometrySteerPositionQueue = PhoenixOdometryThread.getInstance()
-        .registerSignal(steerMotor.getPosition());
-    odometryDrivePositionQueue = PhoenixOdometryThread.getInstance()
-        .registerSignal(driveMotor.getPosition());
-
     BaseStatusSignal.setUpdateFrequencyForAll(
         DriveConstants.ODOMETRY_FREQUENCY, drivePositionSignal, steerPositionSignal
     );
+
+    odometryTimestampQueue = PhoenixOdometryThread.getInstance().makeTimestampQueue();
+    odometrySteerPositionQueue = PhoenixOdometryThread.getInstance()
+        .registerSignal(steerPositionSignal);
+    odometryDrivePositionQueue = PhoenixOdometryThread.getInstance()
+        .registerSignal(drivePositionSignal);
 
     driveMotor.optimizeBusUtilization();
     steerMotor.optimizeBusUtilization();
@@ -140,6 +139,10 @@ public class ModuleIOTalonFX implements ModuleIO {
         odometryDrivePositionQueue.stream().mapToDouble(Units::rotationsToRadians).toArray();
     inputs.odometrySteerPositions =
         odometrySteerPositionQueue.stream().map(Rotation2d::fromRotations).toArray(Rotation2d[]::new);
+
+    odometryTimestampQueue.clear();
+    odometrySteerPositionQueue.clear();
+    odometryDrivePositionQueue.clear();
   }
 
   @Override
@@ -178,7 +181,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     motorConfig.Slot0.withKP(0.0)
         .withKD(0.0)
         .withKS(0.125)
-        .withKV(0.1);
+        .withKV(0.5);
 
     driveMotor.getConfigurator().apply(motorConfig);
 

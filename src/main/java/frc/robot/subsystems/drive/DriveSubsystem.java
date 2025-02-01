@@ -60,6 +60,8 @@ public class DriveSubsystem extends SubsystemBase {
     modules[2] = new Module(blModuleIo, 2);
     modules[3] = new Module(brModuleIo, 3);
 
+    PhoenixOdometryThread.getInstance().start();
+
     wpiOdom = new SwerveDriveOdometry(kinematics, new Rotation2d(), getModulePositions());
 
     RobotState.getInstance().resetPose(new Pose2d());

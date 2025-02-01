@@ -19,6 +19,8 @@ public interface IntakeIO {
     }
     default void setMotorVoltageIntake(double voltage) {}
     default void setMotorVoltagePivot(double voltage) {}
+    default void setPivotAngle(double angleDegrees) {}
     default void updateInputs(IntakeIOInputsAutoLogged inputs) {}
     default void stop() {}
+    default void zeroPivot() {}
 }

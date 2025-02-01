@@ -30,11 +30,37 @@ public class IntakeSubsystem extends SubsystemBase {
         io.setMotorVoltagePivot(power);
     }
 
+    public void setPivotPosition(double angleDegrees) {
+        io.setPivotAngle(angleDegrees);
+    }
+
     public Command runIntake(double intakePower) {
         return runEnd(() -> setIntakePower(intakePower), ()-> setIntakePower(-0.5));
     }
 
     public Command runPivot(double pivotPower) {
         return runEnd(() -> setPivotPower(pivotPower), () -> setPivotPower(0.0));
+    }
+
+    public Command setPivotPositionFactory(double angleDegrees) {
+        return runEnd(() -> {
+            setPivotPosition(angleDegrees);
+        }, () -> {
+            setPivotPosition(inputs.pivotPosititon.getDegrees());
+        });
+    }
+
+    public Command fullIntake() {
+        return runEnd(() -> {
+            setIntakePower(9.0);
+            setPivotPosition(30);
+        }, () -> {
+            setPivotPosition(90);
+            setIntakePower(0.0);
+        });
+    }
+
+    public Command zeroPivot() {
+        return run(io::zeroPivot);
     }
 }

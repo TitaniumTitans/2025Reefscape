@@ -8,6 +8,8 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -91,7 +93,9 @@ public class RobotContainer {
         intakeSubsystem = new IntakeSubsystem(new IntakeIO() {});
       }
     }
+
     configureBindings();
+    setShuffleboardCommands();
   }
 
   private void configureBindings() {
@@ -103,21 +107,25 @@ public class RobotContainer {
     ));
 
     driveController.a().whileTrue(
-        Commands.run(() -> intakeSubsystem.setIntakePower(6.0), intakeSubsystem)
-    ).whileFalse(
-        Commands.run(() -> intakeSubsystem.setIntakePower(0.0))
+        coralSubsystem.setScorerPowerFactory(6.0)
     );
+
     driveController.b().whileTrue(
-        Commands.run(() -> intakeSubsystem.setIntakePower(-6.0), intakeSubsystem)
-    ).whileFalse(
-        Commands.run(() -> intakeSubsystem.setIntakePower(0.0))
+        coralSubsystem.setScorerPowerFactory(-6.0)
+    );
+
+    driveController.x().whileTrue(
+        intakeSubsystem.setPivotPositionFactory(45)
+    );
+    driveController.y().whileTrue(
+        intakeSubsystem.fullIntake()
     );
 
     driveController.leftTrigger().whileTrue(
-        intakeSubsystem.runPivot(3.0)
+        intakeSubsystem.runPivot(-3.0)
     );
     driveController.leftBumper().whileTrue(
-        intakeSubsystem.runPivot(-3.0)
+        intakeSubsystem.runPivot(3.0)
     );
 
     driveController.rightTrigger().whileTrue(
@@ -126,10 +134,24 @@ public class RobotContainer {
     driveController.rightBumper().whileTrue(
         intakeSubsystem.runIntake(-12.0)
     );
+
+    driveController.start().onTrue(
+        Commands.runOnce(
+            () -> RobotState.getInstance().resetPose(
+                new Pose2d(RobotState.getInstance().getEstimatedPose().getTranslation(),
+                    new Rotation2d())
+            ))
+    );
   }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
+  }
+
+  public void setShuffleboardCommands() {
+    ShuffleboardTab commands = Shuffleboard.getTab("Commands");
+
+    commands.add("Reset Pivot Position", intakeSubsystem.zeroPivot().ignoringDisable(true));
   }
 
   public void simTick() {
