@@ -117,10 +117,24 @@ public class RobotContainer {
         coralSubsystem.setPivotPowerFactory(2.0)
     );
 
+    driveController.rightBumper().whileTrue(
+        coralSubsystem.setScorerPowerFactory(3.0)
+    );
+    driveController.leftBumper().whileTrue(
+        coralSubsystem.setScorerPowerFactory(-3.0)
+    );
+
     driveController.x().whileTrue(
-        climberSubsystem.setClimberPowerFactory(12.0)
+        intakeSubsystem.fullIntake()
     );
     driveController.y().whileTrue(
+        intakeSubsystem.runIntake(3.0)
+    );
+
+    driveController.leftTrigger().whileTrue(
+        climberSubsystem.setClimberPowerFactory(12.0)
+    );
+    driveController.rightTrigger().whileTrue(
         climberSubsystem.setClimberPowerFactory(-12.0)
     );
 

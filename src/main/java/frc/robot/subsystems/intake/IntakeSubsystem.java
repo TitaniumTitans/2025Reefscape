@@ -35,7 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public Command runIntake(double intakePower) {
-        return runEnd(() -> setIntakePower(intakePower), ()-> setIntakePower(-0.5));
+        return runEnd(() -> setIntakePower(intakePower), ()-> setIntakePower(-0.0));
     }
 
     public Command runPivot(double pivotPower) {
@@ -52,11 +52,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public Command fullIntake() {
         return runEnd(() -> {
-            setIntakePower(9.0);
-            setPivotPosition(30);
+            setIntakePower(-9.0);
+            setPivotPosition(35);
         }, () -> {
             setPivotPosition(90);
-            setIntakePower(0.0);
+            setIntakePower(-0.5);
         });
     }
 
