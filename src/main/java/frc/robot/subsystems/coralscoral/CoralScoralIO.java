@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.coralscoral;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.AutoLog;
@@ -18,6 +18,7 @@ public interface CoralScoralIO {
         public double scorerTemperature = 0.0;
         public double masterPivotTemperature = 0.0;
         public double followerPivotTemperature = 0.0;
+        public boolean[] hasCoral = {false, false, false, false};
     }
     default void setMotorVoltageScorer(double voltage) {}
     default void setMotorVoltagePivot(double voltage) {}

@@ -8,8 +8,8 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import frc.robot.subsystems.CoralScoralIO;
-import frc.robot.subsystems.CoralScoralIOInputsAutoLogged;
+import frc.robot.subsystems.coralscoral.CoralScoralIO;
+import frc.robot.subsystems.coralscoral.CoralScoralIOInputsAutoLogged;
 
 public class CoralScoralSimulation implements CoralScoralIO {
     private final TalonFX scorer = new TalonFX(CoralScoralConstants.SCORER_ID);
