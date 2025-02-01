@@ -50,13 +50,23 @@ public class IntakeSubsystem extends SubsystemBase {
         });
     }
 
-    public Command fullIntake() {
+    public Command pickUpAlgea() {
         return runEnd(() -> {
-            setIntakePower(-9.0);
+            setIntakePower(-12.0);
             setPivotPosition(35);
         }, () -> {
-            setPivotPosition(90);
+            setPivotPosition(75);
             setIntakePower(-0.5);
+        });
+    }
+
+    public Command dropAlgea() {
+        return runEnd(() -> {
+            setIntakePower(6.0);
+            setPivotPosition(75);
+        }, () -> {
+            setPivotPosition(90);
+            setIntakePower(0.0);
         });
     }
 

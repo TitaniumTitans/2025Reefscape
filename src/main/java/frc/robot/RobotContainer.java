@@ -10,7 +10,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -22,7 +21,6 @@ import frc.robot.subsystems.coralscoral.CoralScoralSubsystem;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
-import frc.robot.subsystems.drive.module.ModuleIOSparkMax;
 import frc.robot.subsystems.drive.module.ModuleIOTalonFX;
 import frc.robot.subsystems.intake.*;
 import frc.robot.subsystems.vision.*;
@@ -125,10 +123,10 @@ public class RobotContainer {
     );
 
     driveController.x().whileTrue(
-        intakeSubsystem.fullIntake()
+        intakeSubsystem.pickUpAlgea()
     );
     driveController.y().whileTrue(
-        intakeSubsystem.runIntake(3.0)
+        intakeSubsystem.dropAlgea()
     );
 
     driveController.leftTrigger().whileTrue(
