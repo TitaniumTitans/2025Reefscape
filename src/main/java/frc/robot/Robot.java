@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import au.grapplerobotics.CanBridge;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,13 +43,15 @@ public class Robot extends LoggedRobot {
         break;
     }
 
+    CanBridge.runTCP();
+
     // Set up data receivers & replay source
     switch (Constants.getMode()) {
       case REAL:
         // Running on a real robot, log to a USB stick ("/U/logs")
         Logger.addDataReceiver(new WPILOGWriter());
         Logger.addDataReceiver(new NT4Publisher());
-        new PowerDistribution(0, PowerDistribution.ModuleType.kRev); // enable power logging
+        new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // enable power logging
         break;
 
       case SIM:

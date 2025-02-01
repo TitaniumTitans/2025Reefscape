@@ -17,6 +17,7 @@ import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
 import frc.robot.subsystems.drive.module.ModuleIOSparkMax;
+import frc.robot.subsystems.drive.module.ModuleIOTalonFX;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOProto;
 import frc.robot.subsystems.intake.IntakeIOSimulation;
@@ -39,10 +40,10 @@ public class RobotContainer {
       case REAL -> {
         driveSubsystem = new DriveSubsystem(
             new GyroIOPigeon2(),
-            new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[0]),
-            new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[1]),
-            new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[2]),
-            new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[3])
+            new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[0]),
+            new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[1]),
+            new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[2]),
+            new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[3])
         );
         intakeSubsystem = new IntakeSubsystem(new IntakeIOProto());
       }
