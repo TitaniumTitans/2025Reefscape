@@ -22,6 +22,7 @@ import frc.robot.Constants;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.module.Module;
 import frc.robot.subsystems.drive.module.ModuleIO;
+import lombok.extern.java.Log;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.Logger;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Supplier;
 
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Pounds;
@@ -252,9 +254,14 @@ public class DriveSubsystem extends SubsystemBase {
 
   public Command resetPose(Pose2d pose) {
     return runOnce(() -> {
+      Logger.recordOutput("Pose Reset To", pose);
       RobotState.getInstance().resetPose(pose);
       gyroIO.reset(pose.getRotation());
     });
+  }
+
+  public Command resetPose(Supplier<Pose2d> pose) {
+    return resetPose(pose.get());
   }
 }
 

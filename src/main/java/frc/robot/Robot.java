@@ -87,6 +87,7 @@ public class Robot extends LoggedRobot {
   @Override
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
+    SimulatedArena.getInstance().resetFieldForAuto();
 
     if (autonomousCommand != null) {
       autonomousCommand.schedule();

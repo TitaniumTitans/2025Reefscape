@@ -11,7 +11,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 
 public class AutoCommands {
-  public Command followChoreoPath(String name) {
+  public static Command followChoreoPath(String name) {
     try {
       return AutoBuilder.followPath(PathPlannerPath.fromChoreoTrajectory(name));
     } catch (IOException | ParseException e) {
@@ -19,7 +19,7 @@ public class AutoCommands {
     }
   }
 
-  public Command resetPoseAndFollowChoreoPath(DriveSubsystem drive, String name) {
+  public static Command resetPoseAndFollowChoreoPath(DriveSubsystem drive, String name) {
     return Commands.sequence(
         drive.resetPose(ChoreoUtils.getPathStartingPose(name).getPose()),
         followChoreoPath(name)

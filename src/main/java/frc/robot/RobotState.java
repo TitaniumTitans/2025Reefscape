@@ -48,7 +48,7 @@ public class RobotState {
 
   // use for simulation
   @Setter
-  private SwerveDriveSimulation driveSimulation;
+  private Optional<SwerveDriveSimulation> driveSimulation = Optional.empty();
 
   // used to filter vision measurements into odometry estimation
   private final TimeInterpolatableBuffer<Pose2d> poseBuffer =
@@ -81,9 +81,7 @@ public class RobotState {
     gyroOffset = pose.getRotation().minus(gyroOffset);
     poseBuffer.clear();
 
-    if (driveSimulation != null) {
-      driveSimulation.setSimulationWorldPose(pose);
-    }
+    driveSimulation.ifPresent(swerveDriveSimulation -> swerveDriveSimulation.setSimulationWorldPose(pose));
   }
 
   public void addOdometryMeasurement(OdometryObservation update) {

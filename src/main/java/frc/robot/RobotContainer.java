@@ -32,6 +32,8 @@ import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.Logger;
 
+import java.util.Optional;
+
 public class RobotContainer {
   private SwerveDriveSimulation driveSimulation;
   private VisionSubsystem visionSubsystem;
@@ -42,7 +44,7 @@ public class RobotContainer {
   private final ClimberSubsystem climberSubsystem;
   private final IntakeSubsystem intakeSubsystem;
 
-  private final AutoSelector autoSelector = new AutoSelector();
+  private final AutoSelector autoSelector;
 
   public RobotContainer() {
     switch (Constants.getMode()) {
@@ -84,6 +86,8 @@ public class RobotContainer {
 
         SimulatedArena.getInstance().resetFieldForAuto();
 
+        RobotState.getInstance().setDriveSimulation(Optional.of(driveSimulation));
+
         intakeSubsystem = new IntakeSubsystem(new IntakeIOSimulation());
         coralSubsystem = new CoralScoralSubsystem(new CoralScoralSimulation());
         climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
@@ -102,6 +106,8 @@ public class RobotContainer {
         climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
       }
     }
+
+    autoSelector = new AutoSelector(driveSubsystem);
 
     configureBindings();
     setShuffleboardCommands();
@@ -145,9 +151,8 @@ public class RobotContainer {
 
     driveController.start().onTrue(
         driveSubsystem.resetPose(
-            RobotState.getInstance().getEstimatedPose()
-                .rotateBy(RobotState.getInstance().getRotation().unaryMinus())
-        )
+            RobotState.getInstance()::getEstimatedPose)
+
     );
   }
 
