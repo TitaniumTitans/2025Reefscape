@@ -7,6 +7,7 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.DriveFeedforwards;
+import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.swerve.SwerveSetpoint;
 import com.pathplanner.lib.util.swerve.SwerveSetpointGenerator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -24,6 +25,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.Logger;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -91,6 +93,16 @@ public class DriveSubsystem extends SubsystemBase {
           return false;
         },
         this
+    );
+
+    PathPlannerLogging.setLogActivePathCallback(
+        (List<Pose2d> path) -> Logger.recordOutput("PathPlanner/ActivePath", path.toArray(Pose2d[]::new))
+    );
+    PathPlannerLogging.setLogCurrentPoseCallback(
+        (Pose2d pose) -> Logger.recordOutput("PathPlanner/CurrentPose", pose)
+    );
+    PathPlannerLogging.setLogTargetPoseCallback(
+        (Pose2d pose) -> Logger.recordOutput("PathPlanner/TargetPose", pose)
     );
   }
 
