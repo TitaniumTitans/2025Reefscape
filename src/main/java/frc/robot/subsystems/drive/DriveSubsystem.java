@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotState;
@@ -185,8 +186,8 @@ public class DriveSubsystem extends SubsystemBase {
     Logger.recordOutput("SwerveStates/Optimized", states);
   }
 
-  public void resetGyro() {
-    gyroIO.reset();
+  public void resetGyro(Rotation2d angle) {
+    gyroIO.reset(angle);
   }
 
   public void runCharacterization(double output) {
@@ -247,6 +248,13 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getMaxAngularSpeedRadPerSec() {
     return DriveConstants.MAX_ANGULAR_SPEED;
+  }
+
+  public Command resetPose(Pose2d pose) {
+    return runOnce(() -> {
+      RobotState.getInstance().resetPose(pose);
+      gyroIO.reset(pose.getRotation());
+    });
   }
 }
 

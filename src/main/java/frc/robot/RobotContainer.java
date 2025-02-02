@@ -137,14 +137,10 @@ public class RobotContainer {
     );
 
     driveController.start().onTrue(
-        Commands.runOnce(
-            () -> { RobotState.getInstance().resetPose(
-                new Pose2d(RobotState.getInstance().getEstimatedPose().getTranslation(),
-                    new Rotation2d())
-            );
-
-            driveSubsystem.resetGyro();
-            })
+        driveSubsystem.resetPose(
+            RobotState.getInstance().getEstimatedPose()
+                .rotateBy(RobotState.getInstance().getRotation().unaryMinus())
+        )
     );
   }
 

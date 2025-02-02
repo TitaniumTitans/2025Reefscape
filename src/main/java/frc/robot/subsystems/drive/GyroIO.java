@@ -15,5 +15,5 @@ public interface GyroIO {
 
   default void updateInputs(GyroIOInputsAutoLogged inputs) {};
 
-  default void reset() {}
+  default void reset(Rotation2d angle) {}
 }
