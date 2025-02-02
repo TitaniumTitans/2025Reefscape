@@ -6,12 +6,14 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.*;
 
 //inverted and neutral mode coast
@@ -32,6 +34,7 @@ public class CoralScoralIOTalon implements CoralScoralIO {
     private final StatusSignal<Temperature> masterPivotTemperatureSignal;
     private final StatusSignal<Temperature> followerPivotTemperatureSignal;
 
+    private final MotionMagicVoltage mmPivotRequest;
     private final Follower pivotFollowerRequest;
     private final NeutralOut stopRequest;
 
@@ -62,6 +65,11 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         masterPivotConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         masterPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         masterPivotConfig.Feedback.SensorToMechanismRatio = CoralScoralConstants.PIVOT_GEAR_RATIO;
+        masterPivotConfig.Slot0.kP = 0.0;
+        masterPivotConfig.Slot0.kI = 0.0;
+        masterPivotConfig.Slot0.kD = 0.0;
+        masterPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
+        masterPivotConfig.MotionMagic.MotionMagicAcceleration = 5;
 
         masterPivot.getConfigurator().apply(masterPivotConfig);
         followerPivot.getConfigurator().apply(masterPivotConfig);
@@ -73,18 +81,13 @@ public class CoralScoralIOTalon implements CoralScoralIO {
 //            new LaserCan(CoralScoralConstants.LIDAR_IDS[3]),
 //        };
 
+
+        mmPivotRequest = new MotionMagicVoltage(0.0)
+            .withSlot(0);
         pivotFollowerRequest = new Follower(CoralScoralConstants.MASTER_PIVOT_ID, false);
 
-        var scorerConfigs = new Slot0Configs();
-        scorerConfigs.kP = 0.0;
-        scorerConfigs.kI = 0.0;
-        scorerConfigs.kD = 0.0;
-        scorer.getConfigurator().apply(scorerConfigs);
-
         var pivotConfigs = new Slot0Configs();
-        pivotConfigs.kP = 0.0;
-        pivotConfigs.kI = 0.0;
-        pivotConfigs.kD = 0.0;
+
         masterPivot.getConfigurator().apply(pivotConfigs);
 
         stopRequest = new NeutralOut();
@@ -167,6 +170,12 @@ public class CoralScoralIOTalon implements CoralScoralIO {
     @Override
     public void setMotorVoltagePivot(double voltage) {
         masterPivot.setVoltage(voltage);
+        followerPivot.setControl(pivotFollowerRequest);
+    }
+
+    @Override
+    public void setPivotAngle(double angleDegrees) {
+        masterPivot.setControl(mmPivotRequest.withPosition(Units.degreesToRotations(angleDegrees)));
         followerPivot.setControl(pivotFollowerRequest);
     }
 
