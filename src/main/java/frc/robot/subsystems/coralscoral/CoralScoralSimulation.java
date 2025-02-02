@@ -20,14 +20,18 @@ public class CoralScoralSimulation implements CoralScoralIO {
     private final TalonFXSimState followerPivotSimState = followerPivot.getSimState();
 
     private final DCMotorSim scorerMotorSim = new DCMotorSim(
-            LinearSystemId.createDCMotorSystem(
-                    DCMotor.getKrakenX60Foc(1), 0.001, CoralScoralConstants.SCORER_GEAR_RATIO),
-                    DCMotor.getKrakenX60Foc(1)
-            );
+        LinearSystemId.createDCMotorSystem(
+            DCMotor.getKrakenX60Foc(1), 0.001, CoralScoralConstants.SCORER_GEAR_RATIO),
+        DCMotor.getKrakenX60Foc(1),
+        0.0,
+        0.0
+    );
     private final DCMotorSim pivotMotorSim = new DCMotorSim(
-            LinearSystemId.createDCMotorSystem(
-                    DCMotor.getKrakenX60Foc(2), 0.001, CoralScoralConstants.SCORER_GEAR_RATIO),
-            DCMotor.getKrakenX60Foc(2)
+        LinearSystemId.createDCMotorSystem(
+            DCMotor.getKrakenX60Foc(2), 0.001, CoralScoralConstants.SCORER_GEAR_RATIO),
+        DCMotor.getKrakenX60Foc(2),
+        0.0,
+        0.0
     );
 
     @Override

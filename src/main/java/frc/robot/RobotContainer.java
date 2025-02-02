@@ -13,10 +13,14 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.AutoSelector;
 import frc.robot.commands.DriveCommands;
+import frc.robot.subsystems.climber.ClimberIO;
 import frc.robot.subsystems.climber.ClimberIOKraken;
 import frc.robot.subsystems.climber.ClimberSubsystem;
+import frc.robot.subsystems.coralscoral.CoralScoralIO;
 import frc.robot.subsystems.coralscoral.CoralScoralIOTalon;
+import frc.robot.subsystems.coralscoral.CoralScoralSimulation;
 import frc.robot.subsystems.coralscoral.CoralScoralSubsystem;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
@@ -33,10 +37,12 @@ public class RobotContainer {
   private VisionSubsystem visionSubsystem;
   private final CommandXboxController driveController = new CommandXboxController(0);
 
-  DriveSubsystem driveSubsystem;
-  CoralScoralSubsystem coralSubsystem;
-  ClimberSubsystem climberSubsystem;
+  private final DriveSubsystem driveSubsystem;
+  private final CoralScoralSubsystem coralSubsystem;
+  private final ClimberSubsystem climberSubsystem;
   private final IntakeSubsystem intakeSubsystem;
+
+  private final AutoSelector autoSelector = new AutoSelector();
 
   public RobotContainer() {
     switch (Constants.getMode()) {
@@ -79,8 +85,10 @@ public class RobotContainer {
         SimulatedArena.getInstance().resetFieldForAuto();
 
         intakeSubsystem = new IntakeSubsystem(new IntakeIOSimulation());
+        coralSubsystem = new CoralScoralSubsystem(new CoralScoralSimulation());
+        climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
       }
-      case REPLAY -> {
+      default -> {
         driveSubsystem = new DriveSubsystem(
             new GyroIO() {
             },
@@ -90,9 +98,8 @@ public class RobotContainer {
             new ModuleIO() {}
         );
         intakeSubsystem = new IntakeSubsystem(new IntakeIO() {});
-      }
-      default -> {
-        intakeSubsystem = new IntakeSubsystem(new IntakeIO() {});
+        coralSubsystem = new CoralScoralSubsystem(new CoralScoralIO() {});
+        climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
       }
     }
 
@@ -145,7 +152,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return autoSelector.getAutoCommand();
   }
 
   public void setShuffleboardCommands() {
