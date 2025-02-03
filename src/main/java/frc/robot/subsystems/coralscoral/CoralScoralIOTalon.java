@@ -20,19 +20,15 @@ import edu.wpi.first.units.measure.*;
 public class CoralScoralIOTalon implements CoralScoralIO {
     private final TalonFX scorer;
     private final TalonFX masterPivot;
-    private final TalonFX followerPivot;
     private final StatusSignal<Angle> pivotPositionSignal;
     private final StatusSignal<AngularVelocity> pivotVelocitySignal;
     private final StatusSignal<AngularVelocity> scorerVelocity;
     private final StatusSignal<Voltage> scorerVoltageSignal;
     private final StatusSignal<Voltage> masterPivotVoltageSignal;
-    private final StatusSignal<Voltage> followerPivotVoltageSignal;
     private final StatusSignal<Current> scorerCurrentDrawSignal;
     private final StatusSignal<Current> masterPivotCurrentDrawSignal;
-    private final StatusSignal<Current> followerPivotCurrentDrawSignal;
     private final StatusSignal<Temperature> scorerTemperatureSignal;
     private final StatusSignal<Temperature> masterPivotTemperatureSignal;
-    private final StatusSignal<Temperature> followerPivotTemperatureSignal;
 
     private final MotionMagicVoltage mmPivotRequest;
     private final Follower pivotFollowerRequest;
@@ -43,7 +39,6 @@ public class CoralScoralIOTalon implements CoralScoralIO {
     public CoralScoralIOTalon() {
         scorer = new TalonFX(CoralScoralConstants.SCORER_ID);
         masterPivot = new TalonFX(CoralScoralConstants.MASTER_PIVOT_ID);
-        followerPivot = new TalonFX(CoralScoralConstants.FOLLOWER_PIVOT_ID);
 
         TalonFXConfiguration scorerConfig = new TalonFXConfiguration();
         scorerConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
@@ -72,7 +67,7 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         masterPivotConfig.MotionMagic.MotionMagicAcceleration = 5;
 
         masterPivot.getConfigurator().apply(masterPivotConfig);
-        followerPivot.getConfigurator().apply(masterPivotConfig);
+
 
 //        lidars = new LaserCan[]{
 //            new LaserCan(CoralScoralConstants.LIDAR_IDS[0]),
@@ -97,13 +92,11 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         scorerVelocity = scorer.getVelocity();
         scorerVoltageSignal = scorer.getMotorVoltage();
         masterPivotVoltageSignal = masterPivot.getMotorVoltage();
-        followerPivotVoltageSignal = followerPivot.getMotorVoltage();
         scorerCurrentDrawSignal = scorer.getSupplyCurrent();
         masterPivotCurrentDrawSignal = masterPivot.getSupplyCurrent();
-        followerPivotCurrentDrawSignal = followerPivot.getSupplyCurrent();
         scorerTemperatureSignal = scorer.getDeviceTemp();
         masterPivotTemperatureSignal = masterPivot.getDeviceTemp();
-        followerPivotTemperatureSignal = followerPivot.getDeviceTemp();
+
 
         BaseStatusSignal.setUpdateFrequencyForAll(50.0,
                 pivotPositionSignal,
@@ -111,17 +104,13 @@ public class CoralScoralIOTalon implements CoralScoralIO {
                 scorerVelocity,
                 scorerVoltageSignal,
                 masterPivotVoltageSignal,
-                followerPivotVoltageSignal,
                 scorerCurrentDrawSignal,
                 masterPivotCurrentDrawSignal,
-                followerPivotCurrentDrawSignal,
                 scorerTemperatureSignal,
-                masterPivotTemperatureSignal,
-                followerPivotTemperatureSignal);
+                masterPivotTemperatureSignal);
 
         scorer.optimizeBusUtilization();
         masterPivot.optimizeBusUtilization();
-        followerPivot.optimizeBusUtilization();
     }
 
     @Override
@@ -132,26 +121,21 @@ public class CoralScoralIOTalon implements CoralScoralIO {
                 scorerVelocity,
                 scorerVoltageSignal,
                 masterPivotVoltageSignal,
-                followerPivotVoltageSignal,
                 scorerCurrentDrawSignal,
                 masterPivotCurrentDrawSignal,
-                followerPivotCurrentDrawSignal,
                 scorerTemperatureSignal,
-                masterPivotTemperatureSignal,
-                followerPivotTemperatureSignal
+                masterPivotTemperatureSignal
         );
+
         inputs.pivotPosition = Rotation2d.fromRotations(pivotPositionSignal.refresh().getValueAsDouble());
         inputs.pivotVelocity = pivotVelocitySignal.refresh().getValueAsDouble();
         inputs.scorerVelocity = scorerVelocity.refresh().getValueAsDouble();
         inputs.scorerVoltage = scorerVoltageSignal.refresh().getValueAsDouble();
         inputs.masterPivotVoltage = masterPivotVoltageSignal.refresh().getValueAsDouble();
-        inputs.followerPivotVoltage = followerPivotVoltageSignal.refresh().getValueAsDouble();
         inputs.scorerCurrentDraw = scorerCurrentDrawSignal.refresh().getValueAsDouble();
         inputs.masterPivotCurrentDraw = masterPivotCurrentDrawSignal.refresh().getValueAsDouble();
-        inputs.followerPivotCurrentDraw = followerPivotCurrentDrawSignal.refresh().getValueAsDouble();
         inputs.scorerTemperature = scorerTemperatureSignal.refresh().getValueAsDouble();
         inputs.masterPivotTemperature = masterPivotTemperatureSignal.refresh().getValueAsDouble();
-        inputs.followerPivotTemperature = followerPivotTemperatureSignal.refresh().getValueAsDouble();
 
 //        for (int i = 0; i < 4; i++) {
 //            var measurement = lidars[i].getMeasurement();
@@ -170,25 +154,21 @@ public class CoralScoralIOTalon implements CoralScoralIO {
     @Override
     public void setMotorVoltagePivot(double voltage) {
         masterPivot.setVoltage(voltage);
-        followerPivot.setControl(pivotFollowerRequest);
     }
 
     @Override
     public void setPivotAngle(double angleDegrees) {
         masterPivot.setControl(mmPivotRequest.withPosition(Units.degreesToRotations(angleDegrees)));
-        followerPivot.setControl(pivotFollowerRequest);
     }
 
     @Override
     public void resetPosition() {
         masterPivot.setPosition(0);
-        followerPivot.setPosition(0);
     }
 
     @Override
     public void stop() {
         scorer.setControl(stopRequest);
         masterPivot.setControl(stopRequest);
-        followerPivot.setControl(stopRequest);
     }
 }

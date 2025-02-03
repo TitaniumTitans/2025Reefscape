@@ -151,7 +151,8 @@ public class RobotContainer {
 
     driveController.start().onTrue(
         driveSubsystem.resetPose(
-            RobotState.getInstance()::getEstimatedPose)
+            RobotState.getInstance()::getEstimatedPose[]\
+    )
 
     );
   }
