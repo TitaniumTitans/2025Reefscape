@@ -5,10 +5,8 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -31,10 +29,9 @@ public class CoralScoralIOTalon implements CoralScoralIO {
     private final StatusSignal<Temperature> masterPivotTemperatureSignal;
 
     private final MotionMagicVoltage mmPivotRequest;
-    private final Follower pivotFollowerRequest;
     private final NeutralOut stopRequest;
 
-//    private final LaserCan[] lidars;
+    private final LaserCan[] lidars;
 
     public CoralScoralIOTalon() {
         scorer = new TalonFX(CoralScoralConstants.SCORER_ID);
@@ -69,17 +66,16 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         masterPivot.getConfigurator().apply(masterPivotConfig);
 
 
-//        lidars = new LaserCan[]{
-//            new LaserCan(CoralScoralConstants.LIDAR_IDS[0]),
-//            new LaserCan(CoralScoralConstants.LIDAR_IDS[1]),
-//            new LaserCan(CoralScoralConstants.LIDAR_IDS[2]),
-//            new LaserCan(CoralScoralConstants.LIDAR_IDS[3]),
-//        };
+        lidars = new LaserCan[]{
+            new LaserCan(CoralScoralConstants.LIDAR_IDS[0]),
+            new LaserCan(CoralScoralConstants.LIDAR_IDS[1]),
+            new LaserCan(CoralScoralConstants.LIDAR_IDS[2]),
+            new LaserCan(CoralScoralConstants.LIDAR_IDS[3])
+        };
 
 
         mmPivotRequest = new MotionMagicVoltage(0.0)
             .withSlot(0);
-        pivotFollowerRequest = new Follower(CoralScoralConstants.MASTER_PIVOT_ID, false);
 
         var pivotConfigs = new Slot0Configs();
 
@@ -137,13 +133,15 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         inputs.scorerTemperature = scorerTemperatureSignal.refresh().getValueAsDouble();
         inputs.masterPivotTemperature = masterPivotTemperatureSignal.refresh().getValueAsDouble();
 
-//        for (int i = 0; i < 4; i++) {
-//            var measurement = lidars[i].getMeasurement();
-//
-//            if (measurement.status == 0) {
-//                inputs.hasCoral[i] = measurement.distance_mm < 5000;
-//            }
-//        }
+        for (int i = 0; i < 4; i++) {
+            var measurement = lidars[i].getMeasurement();
+
+            if (measurement.status == 0) {
+                inputs.coralRanges[i] = measurement.distance_mm;
+            } else {
+                inputs.coralRanges[i] = 70.0;
+            }
+        }
     }
 
     @Override

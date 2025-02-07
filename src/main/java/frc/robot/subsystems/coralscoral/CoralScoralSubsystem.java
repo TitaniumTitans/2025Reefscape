@@ -4,25 +4,36 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.coralscoral.CoralScoralIO;
-import frc.robot.subsystems.coralscoral.CoralScoralIOInputsAutoLogged;
+import lombok.Getter;
+import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.Logger;
-
-import java.sql.Time;
 
 public class CoralScoralSubsystem extends SubsystemBase {
     private final CoralScoralIO io;
     private final CoralScoralIOInputsAutoLogged inputs;
     private final Timer reverseTimer = new Timer();
+
+    @Getter
+    @AutoLogOutput(key="Coral Scoral/Has Coral")
+    private boolean hasCoral = false;
+
     public CoralScoralSubsystem(CoralScoralIO io) {
         this.io = io;
         inputs = new CoralScoralIOInputsAutoLogged();
+
+        AutoLogOutputManager.addObject(this);
     }
 
     @Override
     public void periodic() {
         io.updateInputs(inputs);
         Logger.processInputs("Coral Scoral", inputs);
+
+        hasCoral = false;
+        for (double range : inputs.coralRanges) {
+            hasCoral |= range < 30;
+        }
     }
 
     public void setScorerPower(double voltage) {
