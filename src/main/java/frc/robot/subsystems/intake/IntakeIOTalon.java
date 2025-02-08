@@ -52,6 +52,7 @@ public class IntakeIOTalon implements IntakeIO {
         pivotConfig.CurrentLimits.SupplyCurrentLimit = 70;
         intakeConfig.CurrentLimits.SupplyCurrentLowerTime = 1.0;
         intakeConfig.CurrentLimits.SupplyCurrentLowerLimit = 40;
+
         pivotConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         pivotConfig.CurrentLimits.StatorCurrentLimit = 80;
         pivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;

@@ -11,7 +11,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AutoSelector;
 import frc.robot.commands.DriveCommands;
@@ -59,6 +58,12 @@ public class RobotContainer {
         intakeSubsystem = new IntakeSubsystem(new IntakeIOTalon());
         coralSubsystem = new CoralScoralSubsystem(new CoralScoralIOTalon());
         climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
+        visionSubsystem = new VisionSubsystem(
+            VisionConstants.FILTER_PARAMETERS,
+            new VisionIOPhotonReal("BackCamera",
+                VisionConstants.BACK_CAMERA_TRANSFORM,
+                AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField))
+        );
       }
 
       case SIM -> {
@@ -121,6 +126,10 @@ public class RobotContainer {
         () -> -driveController.getRightX()
     ));
 
+    visionSubsystem.setDefaultCommand(visionSubsystem.processVision(
+        RobotState.getInstance()::getEstimatedPose
+    ).ignoringDisable(true));
+
     driveController.a().whileTrue(
         coralSubsystem.setPivotPowerFactory(-2.0)
     );
@@ -129,7 +138,7 @@ public class RobotContainer {
     );
 
     driveController.rightBumper().whileTrue(
-        coralSubsystem.setScorerPowerFactory(4.0)
+        coralSubsystem.setScorerPowerFactory(9.0)
     );
     driveController.leftBumper().whileTrue(
         coralSubsystem.setScorerPowerFactory(-3.0)
@@ -142,6 +151,24 @@ public class RobotContainer {
         intakeSubsystem.dropAlgea()
     );
 
+    driveController.povUp().onTrue(
+        driveSubsystem.resetPoseFactory(new Pose2d(
+            0.0, 0.0, Rotation2d.fromDegrees(180)
+        ))
+    );
+
+    driveController.povLeft().onTrue(
+        driveSubsystem.resetPoseFactory(new Pose2d(
+            0.0, 0.0, Rotation2d.fromDegrees(45)
+        ))
+    );
+
+    driveController.povDown().onTrue(
+        driveSubsystem.resetPoseFactory(new Pose2d(
+            0.0, 0.0, Rotation2d.fromDegrees(155)
+        ))
+    );
+
     driveController.leftTrigger().whileTrue(
         climberSubsystem.setClimberPowerFactory(12.0)
     );
@@ -150,7 +177,7 @@ public class RobotContainer {
     );
 
     driveController.start().onTrue(
-        driveSubsystem.resetPose(
+        driveSubsystem.resetPoseFactory(
             RobotState.getInstance()::getEstimatedPose
         )
 

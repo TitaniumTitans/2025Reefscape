@@ -29,7 +29,7 @@ public class DriveConstants {
   public static final double MAX_LINEAR_SPEED_MPS = Units.feetToMeters(16.0);
   public static final double MAX_ANGULAR_SPEED = MAX_LINEAR_SPEED_MPS / DRIVE_BASE_RADIUS;
 
-  public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(2.0);
+  public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(2.0 - 1.0 / 16.0);
   public static final double DRIVE_GEAR_RATIO = 6.122448979591837;
   public static final double STEER_GEAR_RATIO = 21.428571428571427;
 
@@ -57,7 +57,7 @@ public class DriveConstants {
       new ModuleConfig(
           WHEEL_RADIUS_METERS,
           MAX_LINEAR_SPEED_MPS,
-          WHEEL_COF,
+          0.8,
           DCMotor.getKrakenX60Foc(1),
           40,
           1

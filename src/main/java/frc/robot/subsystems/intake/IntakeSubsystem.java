@@ -12,6 +12,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem(IntakeIO io) {
         this.io = io;
         inputs = new IntakeIOInputsAutoLogged();
+
+        setPivotPosition(90);
     }
 
     @Override

@@ -198,6 +198,9 @@ public class ModuleIOTalonFX implements ModuleIO {
 
     steerMotor.getConfigurator().apply(motorConfig);
 
+    driveMotor.setPosition(0.0);
+    steerMotor.setPosition(0.0);
+
     var encoderConfig = new CANcoderConfiguration();
     encoder.getConfigurator().apply(encoderConfig);
   }

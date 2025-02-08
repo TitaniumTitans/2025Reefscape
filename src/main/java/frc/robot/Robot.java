@@ -6,6 +6,7 @@ package frc.robot;
 
 import au.grapplerobotics.CanBridge;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -87,7 +88,10 @@ public class Robot extends LoggedRobot {
   @Override
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
-    SimulatedArena.getInstance().resetFieldForAuto();
+
+    if (RobotBase.isSimulation()) {
+      SimulatedArena.getInstance().resetFieldForAuto();
+    }
 
     if (autonomousCommand != null) {
       autonomousCommand.schedule();

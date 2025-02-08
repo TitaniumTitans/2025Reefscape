@@ -21,7 +21,7 @@ public class AutoCommands {
 
   public static Command resetPoseAndFollowChoreoPath(DriveSubsystem drive, String name) {
     return Commands.sequence(
-        drive.resetPose(ChoreoUtils.getPathStartingPose(name).getPose()),
+        drive.resetPoseFactory(ChoreoUtils.getPathStartingPose(name).getPose()),
         followChoreoPath(name)
     );
   }

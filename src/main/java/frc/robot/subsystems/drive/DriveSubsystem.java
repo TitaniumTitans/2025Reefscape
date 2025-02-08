@@ -2,9 +2,7 @@ package frc.robot.subsystems.drive;
 
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.pathplanner.lib.util.PathPlannerLogging;
@@ -22,7 +20,6 @@ import frc.robot.Constants;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.module.Module;
 import frc.robot.subsystems.drive.module.ModuleIO;
-import lombok.extern.java.Log;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.Logger;
@@ -33,8 +30,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
 
-import static edu.wpi.first.units.Units.KilogramSquareMeters;
-import static edu.wpi.first.units.Units.Pounds;
 import static frc.robot.subsystems.drive.DriveConstants.ROBOT_CONFIG;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -76,12 +71,12 @@ public class DriveSubsystem extends SubsystemBase {
 
     AutoBuilder.configure(
         RobotState.getInstance()::getEstimatedPose,
-        RobotState.getInstance()::resetPose,
+        this::resetPose,
         this::getChassisSpeeds,
         (ChassisSpeeds speeds, DriveFeedforwards feedforwards) ->  runVelocity(speeds),
         new PPHolonomicDriveController(
-            new PIDConstants(5.0, 0.0, 0.0),
-            new PIDConstants(5.0, 0.0, 0.0)
+            new PIDConstants(4.5, 0.0, 0.0),
+            new PIDConstants(4.5, 0.0, 0.0)
         ),
         ROBOT_CONFIG,
         () -> {
@@ -146,12 +141,9 @@ public class DriveSubsystem extends SubsystemBase {
         wheelPositions[j] = modules[j].getOdometryPositions()[i];
       }
       RobotState.getInstance()
-          .addOdometryMeasurement(
-              new RobotState.OdometryObservation(
-                  wheelPositions,
-                  Optional.ofNullable(
-                      gyroInputs.connected ? gyroInputs.odometryYawPositions[i] : null),
-                  timestamps[i]));
+          .addOdometryMeasurement(gyroInputs.odometryYawPositions[i],
+              wheelPositions,
+              timestamps[i]);
     }
 
     wpiOdom.update(getGyroRotation(), getModulePositions());
@@ -252,16 +244,22 @@ public class DriveSubsystem extends SubsystemBase {
     return DriveConstants.MAX_ANGULAR_SPEED;
   }
 
-  public Command resetPose(Pose2d pose) {
-    return runOnce(() -> {
-      Logger.recordOutput("Pose Reset To", pose);
-      RobotState.getInstance().resetPose(pose);
-      gyroIO.reset(pose.getRotation());
-    });
+//  public Command driveToPose(Pose2d pose) {
+//
+//  }
+
+  public void resetPose(Pose2d pose) {
+    Logger.recordOutput("Pose Reset To", pose);
+    RobotState.getInstance().resetPose(pose);
+    gyroIO.reset(Rotation2d.kZero);
   }
 
-  public Command resetPose(Supplier<Pose2d> pose) {
-    return resetPose(pose.get());
+  public Command resetPoseFactory(Pose2d pose) {
+    return runOnce(() -> resetPose(pose));
+  }
+
+  public Command resetPoseFactory(Supplier<Pose2d> pose) {
+    return resetPoseFactory(pose.get());
   }
 }
 

@@ -1,9 +1,12 @@
 package frc.robot.subsystems.vision;
 
+import com.gos.lib.properties.TunableTransform3d;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.interpolation.TimeInterpolatableBuffer;
 import edu.wpi.first.units.Units;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +23,7 @@ public abstract class VisionIOPhoton implements VisionIO {
     PhotonCamera camera;
     AprilTagFieldLayout aprilTagFieldLayout;
     Transform3d cameraToRobotTransform;
+    TunableTransform3d robotToCameraTuneable;
     String cameraName;
 
     /**
@@ -37,10 +41,11 @@ public abstract class VisionIOPhoton implements VisionIO {
      * @param aprilTagFieldLayout Layout of the april tags around the field
      */
     public VisionIOPhoton(
-            String cameraName, Transform3d robotToCameraTransform, AprilTagFieldLayout aprilTagFieldLayout) {
+        String cameraName, TunableTransform3d robotToCameraTransform, AprilTagFieldLayout aprilTagFieldLayout) {
         this.cameraName = cameraName;
         camera = new PhotonCamera(cameraName);
-        this.cameraToRobotTransform = robotToCameraTransform.inverse();
+        this.robotToCameraTuneable = robotToCameraTransform;
+        this.cameraToRobotTransform = robotToCameraTransform.getTransform().inverse();
         this.aprilTagFieldLayout = aprilTagFieldLayout;
     }
 
@@ -55,6 +60,8 @@ public abstract class VisionIOPhoton implements VisionIO {
     public void updateInputs(VisionInputsAutoLogged inputs) {
         // Pass the camera name to the inputs
         inputs.cameraName = cameraName;
+
+        cameraToRobotTransform = robotToCameraTuneable.getTransform().inverse();
 
         List<PhotonPipelineResult> resultList = camera.getAllUnreadResults();
 
@@ -136,8 +143,8 @@ public abstract class VisionIOPhoton implements VisionIO {
             // Now we can combine the rotation of the robot with the translation determined by the
             // camera
             Transform3d[] camToTargetOptions = {
-                    new Transform3d(target.getBestCameraToTarget().getTranslation(), cameraToTargetRot),
-                    new Transform3d(target.getAlternateCameraToTarget().getTranslation(), cameraToTargetRot)
+                    new Transform3d(target.getBestCameraToTarget().getTranslation(), target.getBestCameraToTarget().getRotation()),
+                    new Transform3d(target.getAlternateCameraToTarget().getTranslation(), target.getAlternateCameraToTarget().getRotation())
             };
 
             for (int i = 0; i < camToTargetOptions.length; i++) {
@@ -146,6 +153,8 @@ public abstract class VisionIOPhoton implements VisionIO {
                         PhotonUtils.estimateFieldToRobotAprilTag(camToTarget, tagPose, cameraToRobotTransform);
             }
             logRotationDiff(tagPose.plus(target.getBestCameraToTarget().inverse()));
+        } else {
+            possibleRobotPoses = new Pose3d[]{new Pose3d(), new Pose3d()};
         }
         return possibleRobotPoses;
     }
