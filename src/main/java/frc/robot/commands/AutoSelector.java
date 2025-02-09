@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import choreo.auto.AutoFactory;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.events.EventTrigger;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,11 +17,12 @@ public class AutoSelector {
 
   public AutoSelector(DriveSubsystem drive, CoralScoralSubsystem coral) {
     NamedCommands.registerCommand("score", coral.setScorerPowerFactory(2.5).withTimeout(0.5));
+    NamedCommands.registerCommand("print", Commands.print("Waiting"));
 
     autoChooser.addDefaultOption("3L1Left", AutoCommands.resetPoseAndFollowChoreoPath(drive, "3L1Left"));
 //    autoChooser.addOption("L1HP", AutoCommands.resetPoseAndFollowChoreoPath(drive, "L1HP"));
     autoChooser.addOption("1L1Right", AutoCommands.resetPoseAndFollowChoreoPath(drive, "1L1Right"));
-    autoChooser.addOption("2L1Right", AutoCommands.resetPoseAndFollowChoreoPath(drive, "2L1Right"));
+    autoChooser.addOption("2L1Right", AutoBuilder.buildAuto("2L1Right"));
 
     // Set up SysId routines
     autoChooser.addOption(

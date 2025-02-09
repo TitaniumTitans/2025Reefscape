@@ -23,6 +23,7 @@ import frc.robot.Constants;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.module.Module;
 import frc.robot.subsystems.drive.module.ModuleIO;
+import lombok.extern.java.Log;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.Logger;
@@ -80,8 +81,8 @@ public class DriveSubsystem extends SubsystemBase {
         this::getChassisSpeeds,
         (ChassisSpeeds speeds, DriveFeedforwards feedforwards) ->  runVelocity(speeds),
         new PPHolonomicDriveController(
-            new PIDConstants(5.0, 0.0, 0.0),
-            new PIDConstants(5.0, 0.0, 0.0)
+            new PIDConstants(5.0, 0.5, 0.0),
+            new PIDConstants(5.0, 0.5, 0.0)
         ),
         ROBOT_CONFIG,
         () -> {
@@ -180,7 +181,7 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveModuleState[] setpointStates;
 
     // calculate module setpoints
-    if (DriverStation.isAutonomousEnabled()) {
+    if (!DriverStation.isTeleop()) {
       ChassisSpeeds discretizedSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
       setpointStates = kinematics.toSwerveModuleStates(discretizedSpeeds);
       SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_LINEAR_SPEED_MPS);
@@ -188,6 +189,7 @@ public class DriveSubsystem extends SubsystemBase {
       Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
       Logger.recordOutput("SwerveSpeeds/Setpoints", speeds);
       Logger.recordOutput("SwerveSpeeds/Optimized", discretizedSpeeds);
+      Logger.recordOutput("SwerveStates/UsingSetpoints", false);
     } else {
       prevSetpoint = setpointGenerator.generateSetpoint(
           prevSetpoint,
@@ -197,9 +199,12 @@ public class DriveSubsystem extends SubsystemBase {
 
       Logger.recordOutput("SwerveStates/Setpoints", prevSetpoint.moduleStates());
       Logger.recordOutput("SwerveSpeeds/Setpoints", prevSetpoint.robotRelativeSpeeds());
+      Logger.recordOutput("SwerveStates/UsingSetpoints", true);
 
       setpointStates = prevSetpoint.moduleStates();
     }
+
+    Logger.recordOutput("SwerveStates/Actual Setpoints", setpointStates);
 
     // send setpoints to module
     for (int i = 0; i < 4; i++) {

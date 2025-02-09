@@ -130,10 +130,10 @@ public class RobotContainer {
         RobotState.getInstance()::getEstimatedPose
     ).ignoringDisable(true));
 
-    coralSubsystem.setDefaultCommand(
-        coralSubsystem.setScorerPowerFactory(0.175)
-            .withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf)
-    );
+//    coralSubsystem.setDefaultCommand(
+//        coralSubsystem.setScorerPowerFactory(0.175)
+//            .withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf)
+//    );
 
     driveController.a().whileTrue(
         coralSubsystem.setPivotPowerFactory(-2.0)

@@ -23,6 +23,7 @@ public class CoralScoralSubsystem extends SubsystemBase {
         inputs = new CoralScoralIOInputsAutoLogged();
 
         AutoLogOutputManager.addObject(this);
+        setScorerPower(0.2);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class CoralScoralSubsystem extends SubsystemBase {
     }
 
     public Command setScorerPowerFactory(double scorerPower) {
-        return runEnd(() -> setScorerPower(scorerPower), () -> setScorerPower(0.0));
+        return runEnd(() -> setScorerPower(scorerPower), () -> setScorerPower(0.2));
     }
 
     public Command setPivotPowerFactory(double pivotPower) {
