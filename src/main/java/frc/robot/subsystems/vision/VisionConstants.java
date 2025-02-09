@@ -16,7 +16,7 @@ public class VisionConstants {
       1.0, // 0.5
       1.5, // 1.5
       Units.Centimeters.of(21),
-      0.5,
+      0.25,
       Rotation2d.fromDegrees(70),
       Units.Centimeters.of(805),
       Units.Centimeters.of(1755),
