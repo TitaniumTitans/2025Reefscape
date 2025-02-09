@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.module.Module;
@@ -30,6 +31,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
 
+import static edu.wpi.first.units.Units.Volts;
 import static frc.robot.subsystems.drive.DriveConstants.ROBOT_CONFIG;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -46,6 +48,7 @@ public class DriveSubsystem extends SubsystemBase {
   private final SwerveDriveOdometry wpiOdom;
   private SwerveSetpoint prevSetpoint;
   private final SwerveSetpointGenerator setpointGenerator;
+  private final SysIdRoutine sysId;
 
   public DriveSubsystem(GyroIO gyro,
                         ModuleIO flModuleIo,
@@ -102,6 +105,17 @@ public class DriveSubsystem extends SubsystemBase {
     PathPlannerLogging.setLogTargetPoseCallback(
         (Pose2d pose) -> Logger.recordOutput("PathPlanner/TargetPose", pose)
     );
+
+    // Configure SysId
+    sysId =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                null,
+                null,
+                null,
+                (state) -> Logger.recordOutput("Drive/SysIdState", state.toString())),
+            new SysIdRoutine.Mechanism(
+                (voltage) -> runCharacterization(voltage.in(Volts)), null, this));
   }
 
   @Override
@@ -260,6 +274,18 @@ public class DriveSubsystem extends SubsystemBase {
 
   public Command resetPoseFactory(Supplier<Pose2d> pose) {
     return resetPoseFactory(pose.get());
+  }
+
+  /** Returns a command to run a quasistatic test in the specified direction. */
+  public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+    return run(() -> runCharacterization(0.0))
+        .withTimeout(1.0)
+        .andThen(sysId.quasistatic(direction));
+  }
+
+  /** Returns a command to run a dynamic test in the specified direction. */
+  public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+    return run(() -> runCharacterization(0.0)).withTimeout(1.0).andThen(sysId.dynamic(direction));
   }
 }
 
