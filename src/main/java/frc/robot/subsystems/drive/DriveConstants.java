@@ -16,8 +16,8 @@ import static edu.wpi.first.units.Units.*;
 
 public class DriveConstants {
   public static final double ODOMETRY_FREQUENCY = 250;
-  public static final double TRACK_WIDTH_X = Units.inchesToMeters(26);
-  public static final double TRACK_WIDTH_Y = Units.inchesToMeters(26);
+  public static final double TRACK_WIDTH_X = Units.inchesToMeters(21);
+  public static final double TRACK_WIDTH_Y = Units.inchesToMeters(21);
   public static final Translation2d[] MODULE_TRANSLATIONS = {
       new Translation2d(TRACK_WIDTH_X / 2, TRACK_WIDTH_Y / 2),
       new Translation2d(TRACK_WIDTH_X / 2, -TRACK_WIDTH_Y / 2),
@@ -29,7 +29,7 @@ public class DriveConstants {
   public static final double MAX_LINEAR_SPEED_MPS = Units.feetToMeters(16.0);
   public static final double MAX_ANGULAR_SPEED = MAX_LINEAR_SPEED_MPS / DRIVE_BASE_RADIUS;
 
-  public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(2.0 - 1.0 / 16.0);
+  public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.976); // 2.0
   public static final double DRIVE_GEAR_RATIO = 6.122448979591837;
   public static final double STEER_GEAR_RATIO = 21.428571428571427;
 
@@ -52,14 +52,15 @@ public class DriveConstants {
           WHEEL_COF));
 
   public static final RobotConfig ROBOT_CONFIG = new RobotConfig(
-      Pounds.of(100),
-      KilogramSquareMeters.of(4.2605686403),
+      Pounds.of(115),
+      KilogramSquareMeters.of(6),
       new ModuleConfig(
           WHEEL_RADIUS_METERS,
           MAX_LINEAR_SPEED_MPS,
-          0.8,
-          DCMotor.getKrakenX60Foc(1),
-          40,
+          1.2,
+          DCMotor.getKrakenX60Foc(1)
+              .withReduction(DRIVE_GEAR_RATIO),
+          70,
           1
       ),
       MODULE_TRANSLATIONS

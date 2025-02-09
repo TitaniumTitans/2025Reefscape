@@ -14,6 +14,8 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -78,8 +80,8 @@ public class DriveSubsystem extends SubsystemBase {
         this::getChassisSpeeds,
         (ChassisSpeeds speeds, DriveFeedforwards feedforwards) ->  runVelocity(speeds),
         new PPHolonomicDriveController(
-            new PIDConstants(4.5, 0.0, 0.0),
-            new PIDConstants(4.5, 0.0, 0.0)
+            new PIDConstants(5.0, 0.0, 0.0),
+            new PIDConstants(5.0, 0.0, 0.0)
         ),
         ROBOT_CONFIG,
         () -> {
@@ -143,6 +145,12 @@ public class DriveSubsystem extends SubsystemBase {
       // log empty setpoints when disabled
       Logger.recordOutput("SwerveStates/Setpoints", prevSetpoint.moduleStates());
       Logger.recordOutput("SwerveStates/Optimized", new SwerveModuleState[]{});
+
+      prevSetpoint = new SwerveSetpoint(
+          new ChassisSpeeds(),
+          getModuleStates(),
+          DriveFeedforwards.zeros(4)
+      );
     }
 
     // update odometry measurements
@@ -169,29 +177,37 @@ public class DriveSubsystem extends SubsystemBase {
 
   // runs the drivetrainat a set chassis speed
   public void runVelocity(ChassisSpeeds speeds) {
+    SwerveModuleState[] setpointStates;
+
     // calculate module setpoints
-    ChassisSpeeds discretizedSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
-    SwerveModuleState[] states = kinematics.toSwerveModuleStates(discretizedSpeeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, DriveConstants.MAX_LINEAR_SPEED_MPS);
+    if (DriverStation.isAutonomousEnabled()) {
+      ChassisSpeeds discretizedSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
+      setpointStates = kinematics.toSwerveModuleStates(discretizedSpeeds);
+      SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_LINEAR_SPEED_MPS);
 
-//    prevSetpoint = setpointGenerator.generateSetpoint(
-//        prevSetpoint,
-//        speeds,
-//        0.02
-//    );
+      Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
+      Logger.recordOutput("SwerveSpeeds/Setpoints", speeds);
+      Logger.recordOutput("SwerveSpeeds/Optimized", discretizedSpeeds);
+    } else {
+      prevSetpoint = setpointGenerator.generateSetpoint(
+          prevSetpoint,
+          speeds,
+          0.02
+      );
 
-    // log speeds and setpoint
-    Logger.recordOutput("SwerveStates/Setpoints", states);
-    Logger.recordOutput("SwerveSpeeds/Setpoints", speeds);
-    Logger.recordOutput("SwerveSpeeds/Optimized", discretizedSpeeds);
+      Logger.recordOutput("SwerveStates/Setpoints", prevSetpoint.moduleStates());
+      Logger.recordOutput("SwerveSpeeds/Setpoints", prevSetpoint.robotRelativeSpeeds());
+
+      setpointStates = prevSetpoint.moduleStates();
+    }
 
     // send setpoints to module
     for (int i = 0; i < 4; i++) {
-      modules[i].runSetpoint(states[i]);
+      modules[i].runSetpoint(setpointStates[i]);
     }
 
     // log optimal setpoints, runSetpoint mutates the state
-    Logger.recordOutput("SwerveStates/Optimized", states);
+    Logger.recordOutput("SwerveStates/Optimized", setpointStates);
   }
 
   public void resetGyro(Rotation2d angle) {
@@ -265,7 +281,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void resetPose(Pose2d pose) {
     Logger.recordOutput("Pose Reset To", pose);
     RobotState.getInstance().resetPose(pose);
-    gyroIO.reset(Rotation2d.kZero);
   }
 
   public Command resetPoseFactory(Pose2d pose) {

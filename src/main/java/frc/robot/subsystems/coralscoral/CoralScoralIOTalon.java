@@ -136,10 +136,12 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         for (int i = 0; i < 4; i++) {
             var measurement = lidars[i].getMeasurement();
 
-            if (measurement.status == 0) {
-                inputs.coralRanges[i] = measurement.distance_mm;
-            } else {
-                inputs.coralRanges[i] = 70.0;
+            if (measurement != null) {
+                if (measurement.status == 0) {
+                    inputs.coralRanges[i] = measurement.distance_mm;
+                } else {
+                    inputs.coralRanges[i] = 70.0;
+                }
             }
         }
     }

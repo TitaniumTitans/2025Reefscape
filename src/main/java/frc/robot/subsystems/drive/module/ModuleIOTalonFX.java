@@ -179,10 +179,10 @@ public class ModuleIOTalonFX implements ModuleIO {
         .withStatorCurrentLimitEnable(true)
         .withStatorCurrentLimit(140);
 
-    motorConfig.Slot0.withKP(0.05)
+    motorConfig.Slot0.withKP(0.1) // 0.05 0.075
         .withKD(0.0)
-        .withKS(0.125)
-        .withKV(0.7);
+        .withKS(0.14957)
+        .withKV(0.71149);
 
     driveMotor.getConfigurator().apply(motorConfig);
 

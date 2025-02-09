@@ -112,7 +112,7 @@ public class RobotContainer {
       }
     }
 
-    autoSelector = new AutoSelector(driveSubsystem);
+    autoSelector = new AutoSelector(driveSubsystem, coralSubsystem);
 
     configureBindings();
     setShuffleboardCommands();
@@ -130,6 +130,11 @@ public class RobotContainer {
         RobotState.getInstance()::getEstimatedPose
     ).ignoringDisable(true));
 
+    coralSubsystem.setDefaultCommand(
+        coralSubsystem.setScorerPowerFactory(0.175)
+            .withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf)
+    );
+
     driveController.a().whileTrue(
         coralSubsystem.setPivotPowerFactory(-2.0)
     );
@@ -138,7 +143,7 @@ public class RobotContainer {
     );
 
     driveController.rightBumper().whileTrue(
-        coralSubsystem.setScorerPowerFactory(9.0)
+        coralSubsystem.setScorerPowerFactory(2.5)
     );
     driveController.leftBumper().whileTrue(
         coralSubsystem.setScorerPowerFactory(-3.0)
