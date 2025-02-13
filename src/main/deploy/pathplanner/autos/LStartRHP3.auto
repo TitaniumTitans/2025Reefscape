@@ -7,7 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1L1Right"
+            "pathName": "RSEF"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "score"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "EFHPR"
           }
         },
         {
@@ -26,6 +38,24 @@
           "type": "named",
           "data": {
             "name": "score"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CDHPR"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HPRAB.0"
           }
         }
       ]
