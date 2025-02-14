@@ -15,11 +15,13 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.*;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 //Current limiting config - 20 amps on both supply and stater
 public class IntakeIOTalon implements IntakeIO {
     private final TalonFX intake;
     private final TalonFX pivot;
+    private final DigitalInput limitSwitch;
     private final StatusSignal<Angle> pivotPositionSignal;
     private final StatusSignal<Voltage> intakeVoltageSignal;
     private final StatusSignal<Voltage> pivotVoltageSignal;
@@ -36,6 +38,7 @@ public class IntakeIOTalon implements IntakeIO {
     public IntakeIOTalon() {
         intake = new TalonFX(IntakeConstants.INTAKE_ID);
         pivot = new TalonFX(IntakeConstants.PIVOT_ID);
+        limitSwitch = new DigitalInput(0);
 
         TalonFXConfiguration intakeConfig = new TalonFXConfiguration();
         intakeConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
@@ -130,6 +133,7 @@ public class IntakeIOTalon implements IntakeIO {
             inputs.pivotTemperature = pivotTemperatureSignal.refresh().getValueAsDouble();
             inputs.intakeVelocity = intakeVelocitySignal.refresh().getValueAsDouble();
             inputs.pivotVelocity = pivotVelocitySignal.refresh().getValueAsDouble();
+            inputs.limitSwitch = limitSwitch.get();
     }
 
     @Override
