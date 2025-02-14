@@ -38,7 +38,7 @@ public class IntakeIOTalon implements IntakeIO {
     public IntakeIOTalon() {
         intake = new TalonFX(IntakeConstants.INTAKE_ID);
         pivot = new TalonFX(IntakeConstants.PIVOT_ID);
-        limitSwitch = new DigitalInput(0);
+        limitSwitch = new DigitalInput(9);
 
         TalonFXConfiguration intakeConfig = new TalonFXConfiguration();
         intakeConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
@@ -133,7 +133,7 @@ public class IntakeIOTalon implements IntakeIO {
             inputs.pivotTemperature = pivotTemperatureSignal.refresh().getValueAsDouble();
             inputs.intakeVelocity = intakeVelocitySignal.refresh().getValueAsDouble();
             inputs.pivotVelocity = pivotVelocitySignal.refresh().getValueAsDouble();
-            inputs.limitSwitch = limitSwitch.get();
+            inputs.limitSwitch = !limitSwitch.get();
     }
 
     @Override

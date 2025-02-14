@@ -23,6 +23,10 @@ public class IntakeSubsystem extends SubsystemBase {
         Logger.processInputs("Intake", inputs);
 
         MechanismVisualizer.getInstance().setIntakeAngle(inputs.pivotPosititon.getDegrees());
+
+        if (inputs.limitSwitch) {
+            io.zeroPivot();
+        }
     }
 
     public void setIntakePower(double power) {
