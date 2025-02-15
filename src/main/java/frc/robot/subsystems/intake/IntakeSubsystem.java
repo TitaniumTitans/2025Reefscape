@@ -14,7 +14,7 @@ public class IntakeSubsystem extends SubsystemBase {
         this.io = io;
         inputs = new IntakeIOInputsAutoLogged();
 
-//        setPivotPosition(90);
+        setPivotPosition(100);
     }
 
     @Override
@@ -60,19 +60,19 @@ public class IntakeSubsystem extends SubsystemBase {
     public Command pickUpAlgea() {
         return runEnd(() -> {
             setIntakePower(-12.0);
-            setPivotPosition(35);
+            setPivotPosition(37.5);
         }, () -> {
             setPivotPosition(75);
-            setIntakePower(-0.5);
+            setIntakePower(-1.0);
         });
     }
 
     public Command dropAlgea() {
         return runEnd(() -> {
-            setIntakePower(6.0);
+            setIntakePower(2.0);
             setPivotPosition(75);
         }, () -> {
-            setPivotPosition(90);
+            setPivotPosition(100);
             setIntakePower(0.0);
         });
     }
@@ -82,5 +82,12 @@ public class IntakeSubsystem extends SubsystemBase {
             .until(() -> inputs.limitSwitch)
             .andThen(runOnce(() -> setPivotPower(0.0))
             .andThen(runOnce(io::zeroPivot)));
+    }
+
+    public Command zeroPivot(double power) {
+        return run(() -> setPivotPower(power))
+            .until(() -> inputs.limitSwitch)
+            .andThen(runOnce(() -> setPivotPower(0.0))
+                .andThen(runOnce(io::zeroPivot)));
     }
 }

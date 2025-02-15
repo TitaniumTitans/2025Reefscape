@@ -38,12 +38,6 @@ public class CoralScoralSubsystem extends SubsystemBase {
     }
 
     public void setScorerPower(double voltage) {
-        if (voltage < 0.0 && !reverseTimer.isRunning()) {
-            reverseTimer.start();
-        } else if (voltage < 0.0 && reverseTimer.hasElapsed(1.0)) {
-            voltage = MathUtil.clamp(voltage, 0.0, 1.0);
-        }
-
         io.setMotorVoltageScorer(voltage);
     }
 
@@ -58,5 +52,9 @@ public class CoralScoralSubsystem extends SubsystemBase {
     public Command setPivotPowerFactory(double pivotPower) {
         return runEnd(() -> setPivotPower(pivotPower),
             () -> setPivotPower(0.0));
+    }
+
+    public Command holdPositionFactory() {
+        return run(() -> io.setPivotAngle(inputs.pivotPosition.getDegrees()));
     }
 }

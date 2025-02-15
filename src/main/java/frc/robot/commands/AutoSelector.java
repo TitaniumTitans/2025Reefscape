@@ -22,7 +22,7 @@ public class AutoSelector {
 
   public AutoSelector(DriveSubsystem drive, CoralScoralSubsystem coral) {
     NamedCommands.registerCommand("score", coral.setScorerPowerFactory(2.5).withTimeout(0.5));
-    NamedCommands.registerCommand("print", Commands.print("Waiting"));
+    NamedCommands.registerCommand("intake", Commands.print("Waiting"));
 
     autoChooser.addDefaultOption("3L1Left", AutoCommands.resetPoseAndFollowChoreoPath(drive, "3L1Left"));
 //    autoChooser.addOption("L1HP", AutoCommands.resetPoseAndFollowChoreoPath(drive, "L1HP"));
@@ -32,40 +32,40 @@ public class AutoSelector {
     // parametric autos
     autoChooser.addOption("LeftFar.IJ.K.L",
         AutoCommands.choreoSequence(drive, coral,
-            StartingPositions.StartingPoseLeft,
+            StartingPositions.StartingPosLeft,
             HumanPlayerSide.HumanPlayerLeftFar,
             List.of(
-                CoralLocations.IJ,
+                CoralLocations.I,
                 CoralLocations.K,
                 CoralLocations.L
             )));
 
     autoChooser.addOption("LeftClose.IJ.K.L",
         AutoCommands.choreoSequence(drive, coral,
-            StartingPositions.StartingPoseLeft,
+            StartingPositions.StartingPosLeft,
             HumanPlayerSide.HumanPlayerLeftClose,
             List.of(
-                CoralLocations.IJ,
+                CoralLocations.I,
                 CoralLocations.K,
                 CoralLocations.L
             )));
 
     autoChooser.addOption("RightFar.EF.D.C",
         AutoCommands.choreoSequence(drive, coral,
-            StartingPositions.StartingPoseRight,
+            StartingPositions.StartingPosRight,
             HumanPlayerSide.HumanPlayerRightFar,
             List.of(
-                CoralLocations.EF,
+                CoralLocations.E,
                 CoralLocations.D,
                 CoralLocations.C
             )));
 
     autoChooser.addOption("RightClose.EF.D.C",
         AutoCommands.choreoSequence(drive, coral,
-            StartingPositions.StartingPoseRight,
+            StartingPositions.StartingPosRight,
             HumanPlayerSide.HumanPlayerRightClose,
             List.of(
-                CoralLocations.EF,
+                CoralLocations.E,
                 CoralLocations.D,
                 CoralLocations.C
             )));

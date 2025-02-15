@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import com.gos.lib.properties.GosDoubleProperty;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -43,6 +44,10 @@ public class DriveCommands {
   private static final double FF_RAMP_RATE = 0.1; // Volts/Sec
   private static final double WHEEL_RADIUS_MAX_VELOCITY = 0.25; // Rad/Sec
   private static final double WHEEL_RADIUS_RAMP_RATE = 0.05; // Rad/Sec^2
+
+  private static final GosDoubleProperty MAX_TURN_SPEED = new GosDoubleProperty(
+      false, "Drive/Max Turn Speed", 0.7
+  );
 
   private DriveCommands() {}
 
@@ -85,7 +90,7 @@ public class DriveCommands {
               new ChassisSpeeds(
                   linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
                   linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
-                  omega * drive.getMaxAngularSpeedRadPerSec());
+                  omega * drive.getMaxAngularSpeedRadPerSec() * MAX_TURN_SPEED.getValue());
           boolean isFlipped =
               DriverStation.getAlliance().isPresent()
                   && DriverStation.getAlliance().get() == Alliance.Red;

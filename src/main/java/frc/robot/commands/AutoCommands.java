@@ -14,9 +14,9 @@ import java.util.List;
 
 public class AutoCommands {
   public enum StartingPositions {
-    StartingPoseLeft,
-    StartingPoseRight,
-    StartingPoseCenter
+    StartingPosLeft,
+    StartingPosRight,
+    StartingPosCenter
   }
 
   public enum CoralLocations {

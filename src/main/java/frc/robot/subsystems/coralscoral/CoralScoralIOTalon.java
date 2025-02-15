@@ -57,9 +57,9 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         masterPivotConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         masterPivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         masterPivotConfig.Feedback.SensorToMechanismRatio = CoralScoralConstants.PIVOT_GEAR_RATIO;
-        masterPivotConfig.Slot0.kP = 0.0;
-        masterPivotConfig.Slot0.kI = 0.0;
-        masterPivotConfig.Slot0.kD = 0.0;
+        masterPivotConfig.Slot0.kP = CoralScoralConstants.PIVOT_KP;
+        masterPivotConfig.Slot0.kI = CoralScoralConstants.PIVOT_KI;
+        masterPivotConfig.Slot0.kD = CoralScoralConstants.PIVOT_KD;
         masterPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
         masterPivotConfig.MotionMagic.MotionMagicAcceleration = 5;
 

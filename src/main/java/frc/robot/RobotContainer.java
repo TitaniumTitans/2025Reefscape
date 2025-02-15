@@ -130,22 +130,24 @@ public class RobotContainer {
         RobotState.getInstance()::getEstimatedPose
     ).ignoringDisable(true));
 
+    coralSubsystem.setDefaultCommand(coralSubsystem.holdPositionFactory());
+
 //    coralSubsystem.setDefaultCommand(
 //        coralSubsystem.setScorerPowerFactory(0.175)
 //            .withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf)
 //    );
 
-    driveController.a().whileTrue(
+    driveController.rightBumper().whileTrue(
         coralSubsystem.setPivotPowerFactory(-2.0)
     );
-    driveController.b().whileTrue(
+    driveController.leftBumper().whileTrue(
         coralSubsystem.setPivotPowerFactory(2.0)
     );
 
-    driveController.rightBumper().whileTrue(
+    driveController.a().whileTrue(
         coralSubsystem.setScorerPowerFactory(2.5)
     );
-    driveController.leftBumper().whileTrue(
+    driveController.b().whileTrue(
         coralSubsystem.setScorerPowerFactory(-3.0)
     );
 
@@ -154,7 +156,7 @@ public class RobotContainer {
     );
     driveController.y().whileTrue(
         intakeSubsystem.dropAlgea()
-    );
+    ).onFalse(intakeSubsystem.zeroPivot(0.5));
 
     driveController.povUp().onTrue(
         driveSubsystem.resetPoseFactory(new Pose2d(
@@ -183,14 +185,14 @@ public class RobotContainer {
 
     driveController.start().onTrue(
         driveSubsystem.resetPoseFactory(
-            RobotState.getInstance()::getEstimatedPose
+            new Pose2d(RobotState.getInstance().getEstimatedPose().getTranslation(),
+            new Rotation2d())
         )
-
     );
   }
 
   public Command getAutonomousCommand() {
-    return autoSelector.getAutoCommand();
+    return intakeSubsystem.zeroPivot().andThen(autoSelector.getAutoCommand());
   }
 
   public void setShuffleboardCommands() {
