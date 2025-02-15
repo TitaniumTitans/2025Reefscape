@@ -78,8 +78,9 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public Command zeroPivot() {
-        return run(() -> setPivotPower(-1.0))
+        return run(() -> setPivotPower(0.5))
             .until(() -> inputs.limitSwitch)
-            .andThen(run(io::zeroPivot));
+            .andThen(runOnce(() -> setPivotPower(0.0))
+            .andThen(runOnce(io::zeroPivot)));
     }
 }

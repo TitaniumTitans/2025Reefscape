@@ -26,6 +26,8 @@ public class Robot extends LoggedRobot {
 
   private final RobotContainer robotContainer;
 
+  private PowerDistribution powerDistribution;
+
   public Robot() {
     // record metadata
     Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
@@ -53,7 +55,7 @@ public class Robot extends LoggedRobot {
         // Running on a real robot, log to a USB stick ("/U/logs")
         Logger.addDataReceiver(new WPILOGWriter());
         Logger.addDataReceiver(new NT4Publisher());
-        new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // enable power logging
+        powerDistribution = new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // enable power logging
         break;
 
       case SIM:
@@ -97,12 +99,41 @@ public class Robot extends LoggedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }
+
+    if (RobotBase.isReal()) {
+      powerDistribution.setSwitchableChannel(true);
+    }
   }
 
   @Override
   public void teleopInit() {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
+    }
+
+    if (RobotBase.isReal()) {
+      powerDistribution.setSwitchableChannel(true);
+    }
+  }
+
+  @Override
+  public void teleopPeriodic() {
+    if (RobotBase.isReal()) {
+      powerDistribution.setSwitchableChannel(true);
+    }
+  }
+
+  @Override
+  public void disabledInit() {
+    if (RobotBase.isReal()) {
+      powerDistribution.setSwitchableChannel(false);
+    }
+  }
+
+  @Override
+  public void disabledPeriodic() {
+    if (RobotBase.isReal()) {
+      powerDistribution.setSwitchableChannel(false);
     }
   }
 

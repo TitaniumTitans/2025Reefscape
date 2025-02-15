@@ -157,6 +157,6 @@ public class IntakeIOTalon implements IntakeIO {
 
     @Override
     public void zeroPivot() {
-        pivot.setPosition((5.625 + 90) / 360.0);
+        pivot.setPosition((10.625 + 90) / 360.0);
     }
 }

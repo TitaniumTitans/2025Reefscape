@@ -35,12 +35,16 @@ def main():
     variables = load_choreo_variables(choreo_dir / r"ChoreoAutos.chor")
 
     for reef_position in ["A", "B", "L", "K", "J", "I", "G", "H"]:
-        create_path(choreo_dir, variables, reef_position, "HumanPlayerLeft")
-        create_path(choreo_dir, variables, "HumanPlayerLeft", reef_position)
+        create_path(choreo_dir, variables, reef_position, "HumanPlayerLeftFar")
+        create_path(choreo_dir, variables, "HumanPlayerLeftFar", reef_position)
+        create_path(choreo_dir, variables, reef_position, "HumanPlayerLeftClose")
+        create_path(choreo_dir, variables, "HumanPlayerLeftClose", reef_position)
 
     for reef_position in ["A", "B", "C", "D", "E", "F", "G", "H"]:
         create_path(choreo_dir, variables, reef_position, "HumanPlayerRightFar")
         create_path(choreo_dir, variables, "HumanPlayerRightFar", reef_position)
+        create_path(choreo_dir, variables, reef_position, "HumanPlayerRightClose")
+        create_path(choreo_dir, variables, "HumanPlayerRightClose", reef_position)
 
     for reef_position in ["D", "E", "F", "G"]:
         create_path(choreo_dir, variables, "StartingPosRight", reef_position)
