@@ -69,7 +69,8 @@ public class AutoCommands {
                                        List<CoralLocations> coralPoses) {
 
     Command command =
-        resetPoseAndFollowChoreoPath(drive, start.name() + "To" + coralPoses.get(0));
+        resetPoseAndFollowChoreoPath(drive, start.name() + "To" + coralPoses.get(0))
+            .andThen(coral.setScorerPowerFactory(0.25).withTimeout(0.5));
 
     for (int i = 1; i < coralPoses.size(); i++) {
       command = command

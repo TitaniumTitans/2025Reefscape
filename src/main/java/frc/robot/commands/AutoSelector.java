@@ -40,6 +40,36 @@ public class AutoSelector {
                 CoralLocations.L
             )));
 
+    autoChooser.addOption("LeftClose.IJ.K.L",
+        AutoCommands.choreoSequence(drive, coral,
+            StartingPositions.StartingPoseLeft,
+            HumanPlayerSide.HumanPlayerLeftClose,
+            List.of(
+                CoralLocations.IJ,
+                CoralLocations.K,
+                CoralLocations.L
+            )));
+
+    autoChooser.addOption("RightFar.EF.D.C",
+        AutoCommands.choreoSequence(drive, coral,
+            StartingPositions.StartingPoseRight,
+            HumanPlayerSide.HumanPlayerRightFar,
+            List.of(
+                CoralLocations.EF,
+                CoralLocations.D,
+                CoralLocations.C
+            )));
+
+    autoChooser.addOption("RightClose.EF.D.C",
+        AutoCommands.choreoSequence(drive, coral,
+            StartingPositions.StartingPoseRight,
+            HumanPlayerSide.HumanPlayerRightClose,
+            List.of(
+                CoralLocations.EF,
+                CoralLocations.D,
+                CoralLocations.C
+            )));
+
     // Set up SysId routines
     autoChooser.addOption(
         "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
