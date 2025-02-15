@@ -68,8 +68,17 @@ public class AutoCommands {
                                        HumanPlayerSide humanPlayerSide,
                                        List<CoralLocations> coralPoses) {
 
-    
+    Command command =
+        resetPoseAndFollowChoreoPath(drive, start.name() + "To" + coralPoses.get(0));
 
-    return Commands.none();
+    for (int i = 1; i < coralPoses.size(); i++) {
+      command = command
+          .andThen(followChoreoPath(coralPoses.get(i - 1) + "To" + humanPlayerSide))
+          .andThen(Commands.waitSeconds(1.0))
+          .andThen(followChoreoPath(humanPlayerSide + "To" + coralPoses.get(i)))
+          .andThen(coral.setScorerPowerFactory(0.25).withTimeout(0.5));
+    }
+
+    return command;
   }
 }

@@ -10,6 +10,11 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.coralscoral.CoralScoralSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import frc.robot.commands.AutoCommands.HumanPlayerSide;
+import frc.robot.commands.AutoCommands.StartingPositions;
+import frc.robot.commands.AutoCommands.CoralLocations;
+
+import java.util.List;
 
 public class AutoSelector {
   private final LoggedDashboardChooser<Command> autoChooser =
@@ -23,6 +28,17 @@ public class AutoSelector {
 //    autoChooser.addOption("L1HP", AutoCommands.resetPoseAndFollowChoreoPath(drive, "L1HP"));
     autoChooser.addOption("1L1Right", AutoCommands.resetPoseAndFollowChoreoPath(drive, "1L1Right"));
     autoChooser.addOption("2L1Right", AutoBuilder.buildAuto("2L1Right"));
+
+    // parametric autos
+    autoChooser.addOption("LeftFar.IJ.K.L",
+        AutoCommands.choreoSequence(drive, coral,
+            StartingPositions.StartingPoseLeft,
+            HumanPlayerSide.HumanPlayerLeftFar,
+            List.of(
+                CoralLocations.IJ,
+                CoralLocations.K,
+                CoralLocations.L
+            )));
 
     // Set up SysId routines
     autoChooser.addOption(
