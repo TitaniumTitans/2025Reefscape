@@ -29,7 +29,7 @@ public class DriveConstants {
   public static final double MAX_LINEAR_SPEED_MPS = Units.feetToMeters(16.0);
   public static final double MAX_ANGULAR_SPEED = MAX_LINEAR_SPEED_MPS / DRIVE_BASE_RADIUS;
 
-  public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.976); // 2.0
+  public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(2.0); //Units.inchesToMeters(1.976); // 2.0
   public static final double DRIVE_GEAR_RATIO = 6.122448979591837;
   public static final double STEER_GEAR_RATIO = 21.428571428571427;
 
@@ -76,7 +76,7 @@ public class DriveConstants {
                 .driveId(1)
                 .steerId(2)
                 .encoderId(3)
-                .encoderOffset(Rotation2d.fromDegrees(-46.406))
+                .encoderOffset(Rotation2d.fromDegrees(-46.406).plus(Rotation2d.k180deg))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build(),
@@ -85,7 +85,7 @@ public class DriveConstants {
                 .driveId(4)
                 .steerId(5)
                 .encoderId(6)
-                .encoderOffset(Rotation2d.fromDegrees(54.052).plus(Rotation2d.k180deg))
+                .encoderOffset(Rotation2d.fromDegrees(54.052).plus(Rotation2d.k180deg).plus(Rotation2d.k180deg))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build(),
@@ -94,7 +94,7 @@ public class DriveConstants {
                 .driveId(7)
                 .steerId(8)
                 .encoderId(9)
-                .encoderOffset(Rotation2d.fromDegrees(-3.076))
+                .encoderOffset(Rotation2d.fromDegrees(-3.076).plus(Rotation2d.k180deg))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build(),
@@ -103,7 +103,7 @@ public class DriveConstants {
                 .driveId(10)
                 .steerId(11)
                 .encoderId(12)
-                .encoderOffset(Rotation2d.fromDegrees(-82.617))
+                .encoderOffset(Rotation2d.fromDegrees(-82.617).plus(Rotation2d.k180deg))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build()

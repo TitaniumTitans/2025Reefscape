@@ -21,6 +21,7 @@ def create_path(choreo_dir, variables, first_variable, second_variable, keepout=
     template = TRAJECTORY_TEMPLATE
     if keepout:
         template = TRAJECTORY_KEEPOUT_TEMPLATE
+        print("Keepout zone")
 
     contents = Template(template).render(
         name=filename,
@@ -38,13 +39,13 @@ def main():
     print(choreo_dir / r"ChoreoAutos.chor")
     variables = load_choreo_variables(choreo_dir / r"ChoreoAutos.chor")
 
-    for reef_position in ["A", "B", "L", "K", "J", "I", "G", "H"]:
+    for reef_position in ["A", "B", "L", "K", "J", "I", "H"]:
         create_path(choreo_dir, variables, reef_position, "HumanPlayerLeftFar", True)
         create_path(choreo_dir, variables, "HumanPlayerLeftFar", reef_position)
         create_path(choreo_dir, variables, reef_position, "HumanPlayerLeftClose", True)
         create_path(choreo_dir, variables, "HumanPlayerLeftClose", reef_position)
 
-    for reef_position in ["A", "B", "C", "D", "E", "F", "G", "H"]:
+    for reef_position in ["A", "B", "C", "D", "E", "F", "G"]:
         create_path(choreo_dir, variables, reef_position, "HumanPlayerRightFar", True)
         create_path(choreo_dir, variables, "HumanPlayerRightFar", reef_position)
         create_path(choreo_dir, variables, reef_position, "HumanPlayerRightClose", True)
@@ -111,8 +112,14 @@ TRAJECTORY_KEEPOUT_TEMPLATE = """{
   "constraints":[
     {"from":"first", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
-    {"from":0, "to":1, "data":{"type":"MaxVelocity", "props":{"max":{"exp":"DefaultMaxVelocity", "val":1.524}}}, "enabled":true}],
-    {"from":"first", "to":"last", "data":{"type":"KeepOutCircle", "props":{"x":{"exp":"4.500539489090443 m", "val":4.500539489090443}, "y":{"exp":"4.011054694652557 m", "val":4.011054694652557}, "r":{"exp":"0.8647821661866374 m", "val":0.8647821661866374}}}, "enabled":true}],
+    {"from":0, "to":1, "data":{"type":"MaxVelocity", "props":{"max":{"exp":"DefaultMaxVelocity", "val":1.524}}}, "enabled":true},
+    {"from":"first", "to":"last", "data":{"type":"KeepOutCircle", "props":{"x":{"exp":"4.500539489090443 m", "val":4.500539489090443}, "y":{"exp":"4.011054694652557 m", "val":4.011054694652557}, "r":{"exp":"0.9088200308047361 m", "val":0.908820030804736}}}, "enabled":true},
+    {"from":"first", "to":"last", "data":{"type":"KeepOutCircle", "props":{"x":{"exp":"4.485787129029632 m", "val":4.485787129029632}, "y":{"exp":"3.1479875072836876 m", "val":3.1479875072836876}, "r":{"exp":"0.1033116783456731 m", "val":0.1033116783456731}}}, "enabled":true},
+    {"from":"first", "to":"last", "data":{"type":"KeepOutCircle", "props":{"x":{"exp":"5.252504387870431 m", "val":5.252504387870431}, "y":{"exp":"3.5905269272625446 m", "val":3.5905269272625446}, "r":{"exp":"0.1033116783456731 m", "val":0.1033116783456731}}}, "enabled":true},
+    {"from":"first", "to":"last", "data":{"type":"KeepOutCircle", "props":{"x":{"exp":"3.732968019321561 m", "val":3.732968019321561}, "y":{"exp":"3.5768594816327095 m", "val":3.5768594816327095}, "r":{"exp":"0.1033116783456731 m", "val":0.1033116783456731}}}, "enabled":true},
+    {"from":"first", "to":"last", "data":{"type":"KeepOutCircle", "props":{"x":{"exp":"3.729197174310684 m", "val":3.729197174310684}, "y":{"exp":"4.468318946659565 m", "val":4.468318946659565}, "r":{"exp":"0.1033116783456731 m", "val":0.1033116783456731}}}, "enabled":true},
+    {"from":"first", "to":"last", "data":{"type":"KeepOutCircle", "props":{"x":{"exp":"4.487039112253115 m", "val":4.487039112253115}, "y":{"exp":"4.906476908363402 m", "val":4.906476908363402}, "r":{"exp":"0.1033116783456731 m", "val":0.1033116783456731}}}, "enabled":true},
+    {"from":"first", "to":"last", "data":{"type":"KeepOutCircle", "props":{"x":{"exp":"5.245879590511322 m", "val":5.245879590511322}, "y":{"exp":"4.463507607579231 m", "val":4.463507607579231}, "r":{"exp":"0.1033116783456731 m", "val":0.1033116783456731}}}, "enabled":true}],
   "targetDt":{
    "exp":"0.05 s",
    "val":0.05
