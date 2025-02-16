@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2025Reefscape.iml" filepath="$PROJECT_DIR$/.idea/modules/2025Reefscape.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2025Reefscape.main.iml" filepath="$PROJECT_DIR$/.idea/modules/2025Reefscape.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oceanus/oceanus.iml" filepath="$PROJECT_DIR$/oceanus/oceanus.iml" />
+    </modules>
+  </component>
+</project>
