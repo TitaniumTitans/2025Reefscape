@@ -9,14 +9,12 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final ElevatorIOInputsAutoLogged inputs = new ElevatorIOInputsAutoLogged();
 
   public enum ElevatorState {
-    HOME,
-    L1,
-    L2,
-    L3,
-    L4
+    ZEROING,
+    POSITION_CONTROL,
+    DISABLED
   }
 
-  private ElevatorState goalState = ElevatorState.HOME;
+  private ElevatorState goalState = ElevatorState.ZEROING;
 
   public ElevatorSubsystem(ElevatorIO io) {
     this.io = io;

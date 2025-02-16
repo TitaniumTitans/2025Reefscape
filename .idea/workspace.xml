@@ -48,11 +48,13 @@
       <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/libgrapplefrc2025.json" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/maple-sim.json" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/photonlib.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/Robot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorSubsystem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +114,7 @@
     "Gradle.oceanus [build].executor": "Run",
     "Gradle.tethys [build].executor": "Run",
     "git-widget-placeholder": "V2",
-    "last_opened_file_path": "C:/Users/lboog/GitHub/2025Reefscape/oceanus/src/main/java/frc/robot",
+    "last_opened_file_path": "C:/Users/lboog/GitHub/2025Reefscape/oceanus/src/main/java/frc/robot/subsystems",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.5103448",
@@ -121,8 +123,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\lboog\GitHub\2025Reefscape\oceanus\src\main\java\frc\robot" />
       <recent name="C:\Users\lboog\GitHub\2025Reefscape\oceanus\src\main\java\frc\robot\subsystems" />
+      <recent name="C:\Users\lboog\GitHub\2025Reefscape\oceanus\src\main\java\frc\robot" />
       <recent name="C:\Users\lboog\GitHub\2025Reefscape\oceanus\vendordeps" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
