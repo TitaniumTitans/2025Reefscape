@@ -1,0 +1,29 @@
+
+{
+  "fileName": "GirlsOfSteelLib.json",
+  "name": "GirlsOfSteelLib",
+  "version": "2025.02.01-17",
+  "uuid": "e148f6a0-e0c1-11ef-adce-29b15b23e9a6",
+  "frcYear": "2025",
+  "mavenUrls": ["https://raw.githubusercontent.com/snobotsim/maven_repo/master/release"],
+  "jsonUrl": "http://raw.githubusercontent.com/snobotsim/maven_repo/master/release/GirlsOfSteelLib.json",
+  "javaDependencies": [
+    {
+      "groupId": "com.gos.lib",
+      "artifactId": "GirlsOfSteelLib",
+      "version": "2025.02.01-17"
+    },
+    {
+      "groupId": "com.gos.lib.ctre",
+      "artifactId": "GirlsOfSteelLibPhoenix6",
+      "version": "2025.02.01-17"
+    },
+    {
+      "groupId": "com.gos.lib.rev",
+      "artifactId": "GirlsOfSteelLibRev",
+      "version": "2025.02.01-17"
+    }
+  ],
+  "jniDependencies": [],
+  "cppDependencies": []
+}

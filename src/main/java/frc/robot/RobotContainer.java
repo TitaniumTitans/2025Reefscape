@@ -8,43 +8,63 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.AutoSelector;
 import frc.robot.commands.DriveCommands;
+import frc.robot.subsystems.climber.ClimberIO;
+import frc.robot.subsystems.climber.ClimberIOKraken;
+import frc.robot.subsystems.climber.ClimberSubsystem;
+import frc.robot.subsystems.coralscoral.CoralScoralIO;
+import frc.robot.subsystems.coralscoral.CoralScoralIOTalon;
+import frc.robot.subsystems.coralscoral.CoralScoralSimulation;
+import frc.robot.subsystems.coralscoral.CoralScoralSubsystem;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
-import frc.robot.subsystems.drive.module.ModuleIOSparkMax;
-import frc.robot.subsystems.intake.IntakeIO;
-import frc.robot.subsystems.intake.IntakeIOProto;
-import frc.robot.subsystems.intake.IntakeIOSimulation;
-import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.drive.module.ModuleIOTalonFX;
+import frc.robot.subsystems.intake.*;
 import frc.robot.subsystems.vision.*;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.Logger;
+
+import java.util.Optional;
 
 public class RobotContainer {
   private SwerveDriveSimulation driveSimulation;
   private VisionSubsystem visionSubsystem;
   private final CommandXboxController driveController = new CommandXboxController(0);
 
-  DriveSubsystem driveSubsystem;
+  private final DriveSubsystem driveSubsystem;
+  private final CoralScoralSubsystem coralSubsystem;
+  private final ClimberSubsystem climberSubsystem;
   private final IntakeSubsystem intakeSubsystem;
+
+  private final AutoSelector autoSelector;
 
   public RobotContainer() {
     switch (Constants.getMode()) {
       case REAL -> {
         driveSubsystem = new DriveSubsystem(
             new GyroIOPigeon2(),
-            new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[0]),
-            new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[1]),
-            new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[2]),
-            new ModuleIOSparkMax(DriveConstants.MODULE_CONSTANTS[3])
+            new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[0]),
+            new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[1]),
+            new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[2]),
+            new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[3])
         );
-        intakeSubsystem = new IntakeSubsystem(new IntakeIOProto());
+        intakeSubsystem = new IntakeSubsystem(new IntakeIOTalon());
+        coralSubsystem = new CoralScoralSubsystem(new CoralScoralIOTalon());
+        climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
+        visionSubsystem = new VisionSubsystem(
+            VisionConstants.FILTER_PARAMETERS,
+            new VisionIOPhotonReal("BackCamera",
+                VisionConstants.BACK_CAMERA_TRANSFORM,
+                AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField))
+        );
       }
 
       case SIM -> {
@@ -72,9 +92,13 @@ public class RobotContainer {
 
         SimulatedArena.getInstance().resetFieldForAuto();
 
+        RobotState.getInstance().setDriveSimulation(Optional.of(driveSimulation));
+
         intakeSubsystem = new IntakeSubsystem(new IntakeIOSimulation());
+        coralSubsystem = new CoralScoralSubsystem(new CoralScoralSimulation());
+        climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
       }
-      case REPLAY -> {
+      default -> {
         driveSubsystem = new DriveSubsystem(
             new GyroIO() {
             },
@@ -84,12 +108,15 @@ public class RobotContainer {
             new ModuleIO() {}
         );
         intakeSubsystem = new IntakeSubsystem(new IntakeIO() {});
-      }
-      default -> {
-        intakeSubsystem = new IntakeSubsystem(new IntakeIO() {});
+        coralSubsystem = new CoralScoralSubsystem(new CoralScoralIO() {});
+        climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
       }
     }
+
+    autoSelector = new AutoSelector(driveSubsystem, coralSubsystem, intakeSubsystem);
+
     configureBindings();
+    setShuffleboardCommands();
   }
 
   private void configureBindings() {
@@ -100,20 +127,79 @@ public class RobotContainer {
         () -> -driveController.getRightX()
     ));
 
+    visionSubsystem.setDefaultCommand(visionSubsystem.processVision(
+        RobotState.getInstance()::getEstimatedPose
+    ).ignoringDisable(true));
+
+    coralSubsystem.setDefaultCommand(coralSubsystem.holdPositionFactory());
+
+//    coralSubsystem.setDefaultCommand(
+//        coralSubsystem.setScorerPowerFactory(0.175)
+//            .withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf)
+//    );
+
+    driveController.rightBumper().whileTrue(
+        coralSubsystem.setPivotPowerFactory(-2.0)
+    );
+    driveController.leftBumper().whileTrue(
+        coralSubsystem.setPivotPowerFactory(2.0)
+    );
+
     driveController.a().whileTrue(
-        Commands.run(() -> intakeSubsystem.setIntakePower(6.0), intakeSubsystem)
-    ).whileFalse(
-        Commands.run(() -> intakeSubsystem.setIntakePower(0.0))
+        coralSubsystem.setScorerPowerFactory(2.5)
     );
     driveController.b().whileTrue(
-        Commands.run(() -> intakeSubsystem.setIntakePower(-6.0), intakeSubsystem)
-    ).whileFalse(
-        Commands.run(() -> intakeSubsystem.setIntakePower(0.0))
+        coralSubsystem.setScorerPowerFactory(-3.0)
+    );
+
+    driveController.x().whileTrue(
+        intakeSubsystem.pickUpAlgea()
+    );
+    driveController.y().whileTrue(
+        intakeSubsystem.dropAlgea()
+    ).onFalse(intakeSubsystem.zeroPivot(0.5));
+
+    driveController.povUp().onTrue(
+        driveSubsystem.resetPoseFactory(new Pose2d(
+            0.0, 0.0, Rotation2d.fromDegrees(180)
+        ))
+    );
+
+    driveController.povLeft().onTrue(
+        driveSubsystem.resetPoseFactory(new Pose2d(
+            0.0, 0.0, Rotation2d.fromDegrees(45)
+        ))
+    );
+
+    driveController.povDown().onTrue(
+        driveSubsystem.resetPoseFactory(new Pose2d(
+            0.0, 0.0, Rotation2d.fromDegrees(155)
+        ))
+    );
+
+    driveController.leftTrigger().whileTrue(
+        climberSubsystem.setClimberPowerFactory(12.0)
+    );
+    driveController.rightTrigger().whileTrue(
+        climberSubsystem.setClimberPowerFactory(-12.0)
+    );
+
+    driveController.start().onTrue(
+        driveSubsystem.resetPoseFactory(
+            new Pose2d(RobotState.getInstance().getEstimatedPose().getTranslation(),
+            new Rotation2d())
+        )
     );
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return autoSelector.getAutoCommand();
+  }
+
+  public void setShuffleboardCommands() {
+    ShuffleboardTab commands = Shuffleboard.getTab("Commands");
+
+    commands.add("Reset Pivot Position", intakeSubsystem.zeroPivot().ignoringDisable(true));
   }
 
   public void simTick() {

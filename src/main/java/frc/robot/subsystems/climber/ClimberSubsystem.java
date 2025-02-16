@@ -28,8 +28,8 @@ public class ClimberSubsystem extends SubsystemBase {
         return runOnce(() -> climberLock = false).ignoringDisable(true);
     }
     public Command setClimberPowerFactory(double power) {
-        climberLock = true;
-        return run(() -> setClimberPower(power));
+        return runEnd(() -> setClimberPower(power),
+            () -> setClimberPower(0.0));
     }
     public Command setClimberPosition(double degrees) {
         climberLock = true;

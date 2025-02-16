@@ -16,9 +16,12 @@ public interface IntakeIO {
         public double intakeCurrentDraw = 0.0;
         public double pivotTemperature = 0.0;
         public double intakeTemperature = 0.0;
+        public boolean limitSwitch = false;
     }
     default void setMotorVoltageIntake(double voltage) {}
     default void setMotorVoltagePivot(double voltage) {}
+    default void setPivotAngle(double angleDegrees) {}
     default void updateInputs(IntakeIOInputsAutoLogged inputs) {}
     default void stop() {}
+    default void zeroPivot() {}
 }

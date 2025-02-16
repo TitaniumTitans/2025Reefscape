@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import au.grapplerobotics.CanBridge;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -22,6 +25,8 @@ public class Robot extends LoggedRobot {
   private Command autonomousCommand;
 
   private final RobotContainer robotContainer;
+
+  private PowerDistribution powerDistribution;
 
   public Robot() {
     // record metadata
@@ -42,13 +47,15 @@ public class Robot extends LoggedRobot {
         break;
     }
 
+    CanBridge.runTCP();
+
     // Set up data receivers & replay source
     switch (Constants.getMode()) {
       case REAL:
         // Running on a real robot, log to a USB stick ("/U/logs")
         Logger.addDataReceiver(new WPILOGWriter());
         Logger.addDataReceiver(new NT4Publisher());
-        new PowerDistribution(0, PowerDistribution.ModuleType.kRev); // enable power logging
+        powerDistribution = new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // enable power logging
         break;
 
       case SIM:
@@ -85,8 +92,16 @@ public class Robot extends LoggedRobot {
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
 
+    if (RobotBase.isSimulation()) {
+      SimulatedArena.getInstance().resetFieldForAuto();
+    }
+
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
+    }
+
+    if (RobotBase.isReal()) {
+      powerDistribution.setSwitchableChannel(true);
     }
   }
 
@@ -94,6 +109,31 @@ public class Robot extends LoggedRobot {
   public void teleopInit() {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
+    }
+
+    if (RobotBase.isReal()) {
+      powerDistribution.setSwitchableChannel(true);
+    }
+  }
+
+  @Override
+  public void teleopPeriodic() {
+    if (RobotBase.isReal()) {
+      powerDistribution.setSwitchableChannel(true);
+    }
+  }
+
+  @Override
+  public void disabledInit() {
+    if (RobotBase.isReal()) {
+      powerDistribution.setSwitchableChannel(false);
+    }
+  }
+
+  @Override
+  public void disabledPeriodic() {
+    if (RobotBase.isReal()) {
+      powerDistribution.setSwitchableChannel(false);
     }
   }
 

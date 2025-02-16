@@ -14,12 +14,12 @@ public interface VisionIO {
     /** Ambiguity ration of the target, 0 is no ambiguity (good), 1 is maximum ambiguity (bad) */
     double ambiguityRatio = 0;
 
-    int[] visibleTagIDs = {};
-    Pose3d[] fieldSpaceRobotPoses = {};
+    int[] visibleTagIDs = {-1};
+    Pose3d[] fieldSpaceRobotPoses = {new Pose3d()};
     double timeStamp = 0;
 
     /** Area of the tags as a percentage of the screen taken up by the tag (0 - 100) */
-    double[] tagAreas = {};
+    double[] tagAreas = {-1};
 
     String cameraName = "";
   }

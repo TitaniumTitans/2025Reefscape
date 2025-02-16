@@ -1,6 +1,8 @@
 package frc.robot.subsystems.vision;
 
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -9,12 +11,16 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotState;
+import lombok.extern.java.Log;
 import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import org.opencv.core.Mat;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -52,6 +58,7 @@ public class VisionSubsystem extends SubsystemBase {
     return run(() -> {
       // update the real robot pose
       actualRobotPose = poseSupplier.get();
+      List<Pose3d> tagPoses = new ArrayList<>();
 
       // get all cameras
       for (int i = 0; i < visionIOs.length; i++) {
@@ -65,13 +72,19 @@ public class VisionSubsystem extends SubsystemBase {
           continue;
         }
 
+        for (int tagId : inputs[i].visibleTagIDs) {
+          Optional<Pose3d> tagPose = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField)
+              .getTagPose(tagId);
+          tagPose.ifPresent(tagPoses::add);
+        }
+
         // use the closest pose
         Pose3d closestPose = selectClosestPose(inputs[i].fieldSpaceRobotPoses, actualRobotPose);
         if (closestPose == null || outsideFieldBounds(closestPose)) {
           continue;
         }
 
-        // Determine the standard deviation of the measurement using the distance
+        // Determine the standard deviation of the measurement using the distance.
         // The distance is estimated based on the tag area in percent (0-100)
         double tagDistance = calcuateAverageTagDistance(inputs[i].tagAreas);
         Matrix<N3, N1> stdDevMat =
@@ -88,6 +101,8 @@ public class VisionSubsystem extends SubsystemBase {
             new RobotState.VisionObservation(closestPose.toPose2d(), timestamp, stdDevMat)
         );
       }
+
+      Logger.recordOutput("Vision/Visible Tag Poses", tagPoses.toArray(Pose3d[]::new));
     });
   }
 
@@ -144,7 +159,7 @@ public class VisionSubsystem extends SubsystemBase {
       thetaStandardDeviations = filterParameters.rotStandardDevBase();
     } else {
       // scale the deviations with distance
-      xyStandardDeviations = filterParameters.xyStandardDevBase() * Math.pow(tagDistance, 2);
+      xyStandardDeviations = filterParameters.xyStandardDevBase() * Math.pow(tagDistance, 3);
       // don't use rotation with only one tag
       thetaStandardDeviations = 1e4;
     }

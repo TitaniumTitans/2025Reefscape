@@ -59,6 +59,7 @@ public class IntakeIOSimulation implements IntakeIO {
         inputs.pivotTemperature = pivot.getDeviceTemp().getValueAsDouble();
         inputs.intakeVelocity = intake.getVelocity().getValueAsDouble();
         inputs.pivotVelocity = pivot.getVelocity().getValueAsDouble();
+        inputs.limitSwitch = true;
     }
     @Override
     public void setMotorVoltageIntake(double voltage) {

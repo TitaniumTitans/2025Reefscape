@@ -1,7 +1,9 @@
 package frc.robot.subsystems.vision;
 
+import com.gos.lib.properties.TunableTransform3d;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
+import org.littletonrobotics.junction.Logger;
 import org.photonvision.simulation.PhotonCameraSim;
 import org.photonvision.simulation.SimCameraProperties;
 
@@ -18,10 +20,10 @@ public class VisionIOPhotonSimulation extends VisionIOPhoton {
      * @param simCameraProperties Properties of the simulated PhotonVision camera
      */
     public VisionIOPhotonSimulation(
-            String cameraName,
-            Transform3d robotToCameraTransform,
-            AprilTagFieldLayout aprilTagFieldLayout,
-            SimCameraProperties simCameraProperties) {
+        String cameraName,
+        TunableTransform3d robotToCameraTransform,
+        AprilTagFieldLayout aprilTagFieldLayout,
+        SimCameraProperties simCameraProperties) {
         super(cameraName, robotToCameraTransform, aprilTagFieldLayout);
         PhotonCameraSim camSim = new PhotonCameraSim(camera, simCameraProperties);
         // Enable the processed streams to localhost:1182.
@@ -30,6 +32,7 @@ public class VisionIOPhotonSimulation extends VisionIOPhoton {
         // Enable drawing a wireframe visualization of the field to the camera streams.
         // This is extremely resource-intensive and is disabled by default.
         camSim.enableDrawWireframe(true);
-        VisionEnvironmentSimulator.getInstance().addCamera(camSim, robotToCameraTransform);
+        VisionEnvironmentSimulator.getInstance().addCamera(camSim, robotToCameraTransform.getTransform());
+        Logger.recordOutput("Vision/Camera Transforms/" + cameraName, robotToCameraTransform.getTransform());
     }
 }
