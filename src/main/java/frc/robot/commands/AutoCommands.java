@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.coralscoral.CoralScoralSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.util.ChoreoUtils;
 import org.json.simple.parser.ParseException;
 
@@ -64,12 +65,13 @@ public class AutoCommands {
 
   public static Command choreoSequence(DriveSubsystem drive,
                                        CoralScoralSubsystem coral,
+                                       IntakeSubsystem intake,
                                        StartingPositions start,
                                        HumanPlayerSide humanPlayerSide,
                                        List<CoralLocations> coralPoses) {
 
-    Command command =
-        resetPoseAndFollowChoreoPath(drive, start.name() + "To" + coralPoses.get(0))
+    Command command = intake.zeroPivot()
+        .andThen(resetPoseAndFollowChoreoPath(drive, start.name() + "To" + coralPoses.get(0)))
             .andThen(coral.setScorerPowerFactory(0.25).withTimeout(0.5));
 
     for (int i = 1; i < coralPoses.size(); i++) {

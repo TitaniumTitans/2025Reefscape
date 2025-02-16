@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "zeroIntake"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "1L1Right"

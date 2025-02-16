@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AutoSelector;
 import frc.robot.commands.DriveCommands;
@@ -112,7 +113,7 @@ public class RobotContainer {
       }
     }
 
-    autoSelector = new AutoSelector(driveSubsystem, coralSubsystem);
+    autoSelector = new AutoSelector(driveSubsystem, coralSubsystem, intakeSubsystem);
 
     configureBindings();
     setShuffleboardCommands();
@@ -192,7 +193,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return intakeSubsystem.zeroPivot().andThen(autoSelector.getAutoCommand());
+    return autoSelector.getAutoCommand();
   }
 
   public void setShuffleboardCommands() {

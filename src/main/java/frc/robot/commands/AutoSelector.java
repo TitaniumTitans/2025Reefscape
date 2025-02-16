@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.coralscoral.CoralScoralSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.intake.IntakeSubsystem;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import frc.robot.commands.AutoCommands.HumanPlayerSide;
 import frc.robot.commands.AutoCommands.StartingPositions;
@@ -20,18 +21,19 @@ public class AutoSelector {
   private final LoggedDashboardChooser<Command> autoChooser =
       new LoggedDashboardChooser<>("Auto Routine");
 
-  public AutoSelector(DriveSubsystem drive, CoralScoralSubsystem coral) {
+  public AutoSelector(DriveSubsystem drive, CoralScoralSubsystem coral, IntakeSubsystem intake) {
     NamedCommands.registerCommand("score", coral.setScorerPowerFactory(2.5).withTimeout(0.5));
     NamedCommands.registerCommand("intake", Commands.print("Waiting"));
+    NamedCommands.registerCommand("zeroIntake", intake.zeroPivot());
 
-    autoChooser.addDefaultOption("3L1Left", AutoCommands.resetPoseAndFollowChoreoPath(drive, "3L1Left"));
+//    autoChooser.addDefaultOption("3L1Left", AutoCommands.resetPoseAndFollowChoreoPath(drive, "3L1Left"));
 //    autoChooser.addOption("L1HP", AutoCommands.resetPoseAndFollowChoreoPath(drive, "L1HP"));
     autoChooser.addOption("1L1Right", AutoCommands.resetPoseAndFollowChoreoPath(drive, "1L1Right"));
     autoChooser.addOption("2L1Right", AutoBuilder.buildAuto("2L1Right"));
 
     // parametric autos
     autoChooser.addOption("LeftFar.IJ.K.L",
-        AutoCommands.choreoSequence(drive, coral,
+        AutoCommands.choreoSequence(drive, coral, intake,
             StartingPositions.StartingPosLeft,
             HumanPlayerSide.HumanPlayerLeftFar,
             List.of(
@@ -41,7 +43,7 @@ public class AutoSelector {
             )));
 
     autoChooser.addOption("LeftClose.IJ.K.L",
-        AutoCommands.choreoSequence(drive, coral,
+        AutoCommands.choreoSequence(drive, coral, intake,
             StartingPositions.StartingPosLeft,
             HumanPlayerSide.HumanPlayerLeftClose,
             List.of(
@@ -51,7 +53,7 @@ public class AutoSelector {
             )));
 
     autoChooser.addOption("RightFar.EF.D.C",
-        AutoCommands.choreoSequence(drive, coral,
+        AutoCommands.choreoSequence(drive, coral, intake,
             StartingPositions.StartingPosRight,
             HumanPlayerSide.HumanPlayerRightFar,
             List.of(
@@ -61,7 +63,7 @@ public class AutoSelector {
             )));
 
     autoChooser.addOption("RightClose.EF.D.C",
-        AutoCommands.choreoSequence(drive, coral,
+        AutoCommands.choreoSequence(drive, coral, intake,
             StartingPositions.StartingPosRight,
             HumanPlayerSide.HumanPlayerRightClose,
             List.of(
