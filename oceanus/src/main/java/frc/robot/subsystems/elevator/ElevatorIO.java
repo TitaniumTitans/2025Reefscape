@@ -5,8 +5,8 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ElevatorIO {
   @AutoLog
   class ElevatorIOInputs {
-    public double elevatorPosition = 0.0;
-    public double elevatorVelocity = 0.0;
+    public double elevatorPositionMeters = 0.0;
+    public double elevatorVelocityMPS = 0.0;
     public double elevatorAppliedVoltage = 0.0;
     public double[] elevatorCurrentDraw = {0.0, 0.0};
     public boolean bottomLimitSwitch = false;
@@ -14,6 +14,6 @@ public interface ElevatorIO {
 
   default void updateInputs(ElevatorIOInputsAutoLogged inputs) {}
   default void setElevatorVoltage(double voltage) {}
-  default void setElevatorPosition(double positionRotations) {}
-  default void resetElevatorPosition(double positionRotations) {}
+  default void setElevatorPosition(double positionMeters) {}
+  default void resetElevatorPosition(double positionMeters) {}
 }

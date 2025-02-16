@@ -1,11 +1,11 @@
 package frc.robot.subsystems.elevator;
 
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
+import frc.robot.util.MechanismVisualizer;
 import org.littletonrobotics.junction.Logger;
 
 import java.util.function.DoubleSupplier;
@@ -39,6 +39,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     Logger.recordOutput("Elevator/Goal State", goalState);
+    Logger.recordOutput("Elevator/Setpoint", elevatorGoal);
 
     switch (goalState) {
       case ZEROING -> {
@@ -50,15 +51,17 @@ public class ElevatorSubsystem extends SubsystemBase {
         io.setElevatorPosition(elevatorGoal);
       }
       case DISABLED -> {
-        elevatorGoal = inputs.elevatorPosition;
+        elevatorGoal = inputs.elevatorPositionMeters;
         io.setElevatorPosition(elevatorGoal);
       }
     }
+
+    MechanismVisualizer.getInstance().setElevatorHeightInches(Units.metersToInches(inputs.elevatorPositionMeters));
   }
 
   public void setElevatorSetpoint(DoubleSupplier goal) {
     goalState = ElevatorState.POSITION_CONTROL;
-    elevatorGoal = goal.getAsDouble();
+    elevatorGoal = Units.inchesToMeters(goal.getAsDouble());
   }
 
   public Command setElevatorSetpointFactory(DoubleSupplier goal) {

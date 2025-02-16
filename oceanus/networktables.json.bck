@@ -1,0 +1,42 @@
+[
+  {
+    "name": "/Preferences/ElevatorSetpoints/Home Setpoint",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/ElevatorSetpoints/L1 Setpoint",
+    "type": "double",
+    "value": 10.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/ElevatorSetpoints/L2 Setpoint",
+    "type": "double",
+    "value": 30.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/ElevatorSetpoints/L3 Setpoint",
+    "type": "double",
+    "value": 50.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/ElevatorSetpoints/L4 Setpoint",
+    "type": "double",
+    "value": 70.0,
+    "properties": {
+      "persistent": true
+    }
+  }
+]

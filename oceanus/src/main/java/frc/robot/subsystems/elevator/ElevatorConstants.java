@@ -10,7 +10,7 @@ public class ElevatorConstants {
   // N = number of pulley grooves
   // P = pulley groove pitch, 5mm
   // pd = PN/pi
-  public static final double SPOOL_DIAMETER_METERS = ((5.0 * 24.0) / Math.PI) * 1000;
+  public static final double SPOOL_DIAMETER_METERS = ((5.0 * 24.0) / Math.PI) / 1000;
 
   public static final double ELEVATOR_KP = 0.0;
   public static final double ELEVATOR_KI = 0.0;

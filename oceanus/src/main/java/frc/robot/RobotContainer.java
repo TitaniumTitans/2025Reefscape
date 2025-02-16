@@ -10,12 +10,14 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.drive.DriveConstants;
-import frc.robot.subsystems.drive.DriveSubsystem;
-import frc.robot.subsystems.drive.GyroIOPigeon2;
-import frc.robot.subsystems.drive.GyroIOSim;
+import frc.robot.commands.DriveCommands;
+import frc.robot.subsystems.drive.*;
+import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
 import frc.robot.subsystems.drive.module.ModuleIOTalonFX;
+import frc.robot.subsystems.elevator.ElevatorConstants;
+import frc.robot.subsystems.elevator.ElevatorIO;
+import frc.robot.subsystems.elevator.ElevatorIOSim;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -58,8 +60,20 @@ public class RobotContainer
 
               SimulatedArena.getInstance().resetFieldForAuto();
               RobotState.getInstance().setDriveSimulation(Optional.of(driveSimulation));
+
+              elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOSim());
           }
           case REPLAY -> {
+              driveSubsystem = new DriveSubsystem(
+                  new GyroIO() {
+                  },
+                  new ModuleIO() {},
+                  new ModuleIO() {},
+                  new ModuleIO() {},
+                  new ModuleIO() {}
+              );
+
+              elevatorSubsystem = new ElevatorSubsystem(new ElevatorIO() {});
           }
         }
 
@@ -67,7 +81,40 @@ public class RobotContainer
     }
     
     
-    private void configureBindings() {}
+    private void configureBindings() {
+        driveSubsystem.setDefaultCommand(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> -driverController.getLeftY(),
+                () -> -driverController.getLeftX(),
+                () -> -driverController.getRightX()
+            )
+        );
+
+        driverController.a().whileTrue(
+            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L4_SETPOINT::getValue)
+        ).onFalse(
+            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue)
+        );
+
+        driverController.b().whileTrue(
+            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L3_SETPOINT::getValue)
+        ).onFalse(
+            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue)
+        );
+
+        driverController.x().whileTrue(
+            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L2_SETPOINT::getValue)
+        ).onFalse(
+            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue)
+        );
+
+        driverController.y().whileTrue(
+            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L1_SETPOINT::getValue)
+        ).onFalse(
+            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue)
+        );
+    }
     
     
     public Command getAutonomousCommand()

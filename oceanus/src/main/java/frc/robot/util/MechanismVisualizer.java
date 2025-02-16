@@ -9,17 +9,16 @@ import lombok.Setter;
 import org.littletonrobotics.junction.Logger;
 
 public class MechanismVisualizer {
-  private final double xOffsetIntake = Units.inchesToMeters(10.75);
-  private final double yOffsetIntake = Units.inchesToMeters(9.75);
-  private final double xOffsetCoral = Units.inchesToMeters(-7.5);
-  private final double yOffsetCoral = Units.inchesToMeters(18.8);
+
 
   private final String key = "Visualizer";
 
   @Setter
-  private double intakeAngle;
+  private double intakeAngleDegrees;
   @Setter
-  private double coralAngle;
+  private double coralAngleDegrees;
+  @Setter
+  private double elevatorHeightInches;
 
   private static MechanismVisualizer instance;
 
@@ -29,47 +28,27 @@ public class MechanismVisualizer {
   }
 
   private MechanismVisualizer() {
-    intakeAngle = 0.0;
-    coralAngle = 0.0;
+    intakeAngleDegrees = 0.0;
+    coralAngleDegrees = 0.0;
+    elevatorHeightInches = 0.0;
   }
 
   public void updateVisualization() {
-    Pose3d intakePose = new Pose3d(
-        new Translation3d(
-            xOffsetIntake,
-            0.3302,
-            yOffsetIntake
-        ),
-        new Rotation3d(0.0, Units.degreesToRadians(45 - intakeAngle), Units.degreesToRadians(180.0))
-    ).transformBy(
-        new Transform3d(
-            new Translation3d(
-                Units.inchesToMeters(2.3),
-                0.0,
-                Units.inchesToMeters(9.75)
-            ).unaryMinus(),
-            new Rotation3d()
-        ));
+    Pose3d intakePose = new Pose3d();
+    Pose3d coralPose = new Pose3d();
 
-    Pose3d coralPose = new Pose3d(
-        new Translation3d(
-            xOffsetCoral,
-            0.3302,
-            yOffsetCoral
-        ),
-        new Rotation3d(0.0, Units.degreesToRadians(coralAngle - 80), Units.degreesToRadians(180.0))
-    ).transformBy(
-        new Transform3d(
-            new Translation3d(
-                Units.inchesToMeters(20.5),
-                0.0,
-                Units.inchesToMeters(18.8)
-            ).unaryMinus(),
-            new Rotation3d()
-        ));
+    Pose3d lowerStagePose = new Pose3d(
+      0.0, 0.0, Units.inchesToMeters(elevatorHeightInches) / 2.0,
+      new Rotation3d()
+    );
+
+    Pose3d upperStagePose = new Pose3d(
+        0.0, 0.0,
+        Units.inchesToMeters(elevatorHeightInches) * ((70.0 - 6.0) / 70.0),
+        new Rotation3d()
+    );
 
     Logger.recordOutput(key + "/3D Pose",
-        intakePose,
-        coralPose);
+        lowerStagePose, upperStagePose);
   }
 }

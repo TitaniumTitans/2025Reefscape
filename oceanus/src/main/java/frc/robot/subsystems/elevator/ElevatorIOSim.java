@@ -1,23 +1,23 @@
 package frc.robot.subsystems.elevator;
 
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
+import org.littletonrobotics.junction.Logger;
 
 public class ElevatorIOSim implements ElevatorIO {
   private final ElevatorSim sim = new ElevatorSim(
       DCMotor.getKrakenX60Foc(2),
-      ElevatorConstants.GEAR_REDUCTION,
-      5.0,
-      Units.inchesToMeters(0.728),
+      1.0 / ElevatorConstants.GEAR_REDUCTION,
+      0.1,
+      ElevatorConstants.SPOOL_DIAMETER_METERS / 2.0,
       0.0,
-      Units.inchesToMeters(35.617839),
-      true,
+      Units.inchesToMeters(70),
+      false,
       0.0,
-      0.01,
-      0.01
+      0.0,
+      0.0
   );
 
   private final PIDController pidController;
@@ -26,23 +26,25 @@ public class ElevatorIOSim implements ElevatorIO {
   private boolean useClosedLoop = false;
 
   public ElevatorIOSim() {
-    pidController = new PIDController(1.0, 0.0, 0.0);
+    pidController = new PIDController(40.0, 0.0, 0.0);
   }
 
   @Override
   public void updateInputs(ElevatorIOInputsAutoLogged inputs) {
-    inputs.elevatorPosition = Units.metersToInches(sim.getPositionMeters());
+    inputs.elevatorPositionMeters = sim.getPositionMeters();
+
+    Logger.recordOutput("ElevatorSim/PositionMeters", sim.getPositionMeters());
 
     sim.update(0.02);
 
     if (useClosedLoop) {
-      appliedVoltage = pidController.calculate(inputs.elevatorPosition);
+      appliedVoltage = pidController.calculate(inputs.elevatorPositionMeters);
     }
 
     sim.setInputVoltage(appliedVoltage);
 
     inputs.elevatorAppliedVoltage = appliedVoltage;
-    inputs.elevatorVelocity = Units.metersToInches(sim.getVelocityMetersPerSecond());
+    inputs.elevatorVelocityMPS = sim.getVelocityMetersPerSecond();
     inputs.elevatorCurrentDraw = new double[]{sim.getCurrentDrawAmps(), 0.0};
   }
 
@@ -52,12 +54,13 @@ public class ElevatorIOSim implements ElevatorIO {
   }
 
   @Override
-  public void setElevatorPosition(double positionRotations) {
-    pidController.setSetpoint(positionRotations);
+  public void setElevatorPosition(double positionMeters) {
+    useClosedLoop = true;
+    pidController.setSetpoint(positionMeters);
   }
 
   @Override
-  public void resetElevatorPosition(double positionRotations) {
-    sim.setState(Units.inchesToMeters(positionRotations), 0.0);
+  public void resetElevatorPosition(double positionMeters) {
+    sim.setState(Units.inchesToMeters(positionMeters), 0.0);
   }
 }

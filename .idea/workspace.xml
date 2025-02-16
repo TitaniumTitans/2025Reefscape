@@ -5,60 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c585a44-a51b-455f-b323-bbe5119c28ff" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/oceanus/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/.vscode/launch.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/.vscode/settings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/.wpilib/wpilib_preferences.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/WPILib-License.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/example.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/Constants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/commands/DriveCommands.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/DriveConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/GyroIO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/GyroIOPigeon2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/GyroIOSim.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/PhoenixOdometryThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/Module.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/ModuleIO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/ModuleIOSim.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/ModuleIOSparkMax.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/ModuleIOTalonFX.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/util/ChoreoUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/util/MaybeFlippedPose2d.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/util/MechanismVisualizer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/util/PhoenixUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/util/SparkUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/test/java/frc/robot/ExampleTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/AdvantageKit.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/ChoreoLib.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/GirlsOfSteelLib.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/PathplannerLib-2025.1.1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/Phoenix6-25.1.0.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/REVLib.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/WPILibNewCommands.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/libgrapplefrc2025.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/maple-sim.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/photonlib.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/BuildConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/BuildConstants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/Robot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/commands/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/.gitkeep" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorConstants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorIO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorIOSim.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorIOSim.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorSubsystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/util/MechanismVisualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/util/MechanismVisualizer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,18 +45,18 @@
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="tethys" type="f1a62948:ProjectNode" />
+                <item name="oceanus" type="f1a62948:ProjectNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="tethys" type="f1a62948:ProjectNode" />
+                <item name="oceanus" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="tethys" type="f1a62948:ProjectNode" />
+                <item name="oceanus" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
+                <item name="other" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -123,6 +78,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Gradle.oceanus [build].executor": "Run",
+    "Gradle.oceanus [simulateJava].executor": "Run",
     "Gradle.tethys [build].executor": "Run",
     "git-widget-placeholder": "V2",
     "last_opened_file_path": "C:/Users/lboog/GitHub/2025Reefscape/oceanus/src/main/java/frc/robot/subsystems",
@@ -146,7 +102,7 @@
       <recent name="frc.robot" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.oceanus [build]">
+  <component name="RunManager" selected="Gradle.oceanus [simulateJava]">
     <configuration name="oceanus [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -159,6 +115,28 @@
         <option name="taskNames">
           <list>
             <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="oceanus [simulateJava]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/oceanus" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="simulateJava" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -283,6 +261,7 @@
       <item itemvalue="Gradle.Clean Build &amp; Run Simulate Java" />
       <item itemvalue="Gradle.Clean Build Robot" />
       <item itemvalue="Gradle.oceanus [build]" />
+      <item itemvalue="Gradle.oceanus [simulateJava]" />
       <item itemvalue="Gradle.tethys [build]" />
       <item itemvalue="JAR Application.Launch Shuffleboard" />
       <item itemvalue="JAR Application.Launch SmartDashboard" />
@@ -291,6 +270,7 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.oceanus [simulateJava]" />
         <item itemvalue="Gradle.oceanus [build]" />
         <item itemvalue="Gradle.tethys [build]" />
       </list>
@@ -298,5 +278,8 @@
   </component>
   <component name="TaskManager">
     <servers />
+  </component>
+  <component name="WpiLibVersionService">
+    <option name="lastChecked" value="20250216165524" />
   </component>
 </project>

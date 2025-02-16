@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.util.MechanismVisualizer;
 import org.ironmaple.simulation.SimulatedArena;
 import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.LogFileUtil;
@@ -72,6 +73,8 @@ public class Robot extends LoggedRobot
     @Override
     public void robotPeriodic()
     {
+        MechanismVisualizer.getInstance().updateVisualization();
+        SimulatedArena.getInstance().simulationPeriodic();
         CommandScheduler.getInstance().run();
     }
     
