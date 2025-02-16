@@ -7,6 +7,10 @@ public class ElevatorConstants {
   public static final int FOLLOWER_MOTOR_ID = 15;
 
   public static final double GEAR_REDUCTION = (12.0 / 36.0);
+  // N = number of pulley grooves
+  // P = pulley groove pitch, 5mm
+  // pd = PN/pi
+  public static final double SPOOL_DIAMETER_METERS = ((5.0 * 24.0) / Math.PI) * 1000;
 
   public static final double ELEVATOR_KP = 0.0;
   public static final double ELEVATOR_KI = 0.0;

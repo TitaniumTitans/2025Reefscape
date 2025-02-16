@@ -31,7 +31,6 @@
       <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/ModuleIOSim.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/ModuleIOSparkMax.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/ModuleIOTalonFX.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorConstants.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/util/ChoreoUtils.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/util/MaybeFlippedPose2d.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/util/MechanismVisualizer.java" afterDir="false" />
@@ -56,6 +55,7 @@
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/commands/.gitkeep" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorConstants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorIO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorIOSim.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorIOSim.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorSubsystem.java" afterDir="false" />
