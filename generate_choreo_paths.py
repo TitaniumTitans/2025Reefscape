@@ -15,10 +15,14 @@ def load_choreo_variables(choreo_file: pathlib.Path):
     return variables
 
 
-def create_path(choreo_dir, variables, first_variable, second_variable):
+def create_path(choreo_dir, variables, first_variable, second_variable, keepout=False):
     filename = f"{first_variable}To{second_variable}"
 
-    contents = Template(TRAJECTORY_TEMPLATE).render(
+    template = TRAJECTORY_TEMPLATE
+    if keepout:
+        template = TRAJECTORY_KEEPOUT_TEMPLATE
+
+    contents = Template(template).render(
         name=filename,
         first_pose=variables[first_variable],
         second_pose=variables[second_variable],
@@ -35,15 +39,15 @@ def main():
     variables = load_choreo_variables(choreo_dir / r"ChoreoAutos.chor")
 
     for reef_position in ["A", "B", "L", "K", "J", "I", "G", "H"]:
-        create_path(choreo_dir, variables, reef_position, "HumanPlayerLeftFar")
+        create_path(choreo_dir, variables, reef_position, "HumanPlayerLeftFar", True)
         create_path(choreo_dir, variables, "HumanPlayerLeftFar", reef_position)
-        create_path(choreo_dir, variables, reef_position, "HumanPlayerLeftClose")
+        create_path(choreo_dir, variables, reef_position, "HumanPlayerLeftClose", True)
         create_path(choreo_dir, variables, "HumanPlayerLeftClose", reef_position)
 
     for reef_position in ["A", "B", "C", "D", "E", "F", "G", "H"]:
-        create_path(choreo_dir, variables, reef_position, "HumanPlayerRightFar")
+        create_path(choreo_dir, variables, reef_position, "HumanPlayerRightFar", True)
         create_path(choreo_dir, variables, "HumanPlayerRightFar", reef_position)
-        create_path(choreo_dir, variables, reef_position, "HumanPlayerRightClose")
+        create_path(choreo_dir, variables, reef_position, "HumanPlayerRightClose", True)
         create_path(choreo_dir, variables, "HumanPlayerRightClose", reef_position)
 
     for reef_position in ["D", "E", "F", "G"]:
@@ -76,6 +80,39 @@ TRAJECTORY_TEMPLATE = """{
     {"from":"first", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":0, "to":1, "data":{"type":"MaxVelocity", "props":{"max":{"exp":"DefaultMaxVelocity", "val":1.524}}}, "enabled":true}],
+  "targetDt":{
+   "exp":"0.05 s",
+   "val":0.05
+  }
+ },
+ "trajectory":{
+  "sampleType":null,
+  "waypoints":[],
+  "samples":[],
+  "splits":[]
+ },
+ "events":[]
+}
+
+"""
+
+TRAJECTORY_KEEPOUT_TEMPLATE = """{
+ "name":"{{ name }}",
+ "version":1,
+ "snapshot":{
+  "waypoints":[],
+  "constraints":[],
+  "targetDt":0.05
+ },
+ "params":{
+  "waypoints":[
+    {"x":{"exp":"{{ first_pose.name }}.x", "val":{{ first_pose.x }}}, "y":{"exp":"{{ first_pose.name }}.y", "val":{{ first_pose.y }}}, "heading":{"exp":"{{ first_pose.name }}.heading", "val":{{ first_pose.heading }}}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
+    {"x":{"exp":"{{ second_pose.name }}.x", "val":{{ second_pose.x }}}, "y":{"exp":"{{ second_pose.name }}.y", "val":{{ second_pose.y }}}, "heading":{"exp":"{{ second_pose.name }}.heading", "val":{{ second_pose.heading }}}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+  "constraints":[
+    {"from":"first", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
+    {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
+    {"from":0, "to":1, "data":{"type":"MaxVelocity", "props":{"max":{"exp":"DefaultMaxVelocity", "val":1.524}}}, "enabled":true}],
+    {"from":"first", "to":"last", "data":{"type":"KeepOutCircle", "props":{"x":{"exp":"4.500539489090443 m", "val":4.500539489090443}, "y":{"exp":"4.011054694652557 m", "val":4.011054694652557}, "r":{"exp":"0.8647821661866374 m", "val":0.8647821661866374}}}, "enabled":true}],
   "targetDt":{
    "exp":"0.05 s",
    "val":0.05

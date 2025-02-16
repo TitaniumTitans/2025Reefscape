@@ -19,10 +19,10 @@ public class DriveConstants {
   public static final double TRACK_WIDTH_X = Units.inchesToMeters(21);
   public static final double TRACK_WIDTH_Y = Units.inchesToMeters(21);
   public static final Translation2d[] MODULE_TRANSLATIONS = {
-      new Translation2d(TRACK_WIDTH_X / 2, TRACK_WIDTH_Y / 2),
-      new Translation2d(TRACK_WIDTH_X / 2, -TRACK_WIDTH_Y / 2),
       new Translation2d(-TRACK_WIDTH_X / 2, TRACK_WIDTH_Y / 2),
-      new Translation2d(-TRACK_WIDTH_X / 2, -TRACK_WIDTH_Y / 2)
+      new Translation2d(-TRACK_WIDTH_X / 2, -TRACK_WIDTH_Y / 2),
+      new Translation2d(TRACK_WIDTH_X / 2, TRACK_WIDTH_Y / 2),
+      new Translation2d(TRACK_WIDTH_X / 2, -TRACK_WIDTH_Y / 2)
   };
 
   public static final double DRIVE_BASE_RADIUS = Math.hypot(TRACK_WIDTH_X / 2, TRACK_WIDTH_Y / 2);
