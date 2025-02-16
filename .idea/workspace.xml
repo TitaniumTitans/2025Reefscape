@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2c585a44-a51b-455f-b323-bbe5119c28ff" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/.vscode/launch.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/.vscode/settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/.wpilib/wpilib_preferences.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/WPILib-License.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/example.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/Robot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/commands/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/.gitkeep" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/DriveConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/GyroIO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/GyroIOPigeon2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/GyroIOSim.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/PhoenixOdometryThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/Module.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/ModuleIO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/ModuleIOSim.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/ModuleIOSparkMax.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/ModuleIOTalonFX.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/src/test/java/frc/robot/ExampleTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/AdvantageKit.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/ChoreoLib.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/GirlsOfSteelLib.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/PathplannerLib-2025.1.1.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/Phoenix6-25.1.0.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/REVLib.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/WPILibNewCommands.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/libgrapplefrc2025.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/maple-sim.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/vendordeps/photonlib.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/oceanus">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/tethys">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/tethys">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/oceanus">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="tethys" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="tethys" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="tethys" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.oceanus [build].executor": "Run",
+    "Gradle.tethys [build].executor": "Run",
+    "git-widget-placeholder": "V2",
+    "last_opened_file_path": "C:/Users/lboog/GitHub/2025Reefscape/oceanus/src/main/java/frc/robot/subsystems",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.5103448",
+    "settings.editor.selected.configurable": "advanced.settings"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\lboog\GitHub\2025Reefscape\oceanus\src\main\java\frc\robot\subsystems" />
+      <recent name="C:\Users\lboog\GitHub\2025Reefscape\oceanus\vendordeps" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\lboog\GitHub\2025Reefscape\oceanus" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.tethys [build]">
+    <configuration name="oceanus [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/oceanus" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="tethys [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/tethys" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="oceanus" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="oceanus" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="oceanus" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <module name="oceanus" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Autodetect">
+      <module name="tethys" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <module name="tethys" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.Build &amp; Deploy Robot" />
+      <item itemvalue="Gradle.Build &amp; Deploy Robot for Debugging" />
+      <item itemvalue="Gradle.Build &amp; Run Simulate Java" />
+      <item itemvalue="Gradle.Build Robot" />
+      <item itemvalue="Gradle.Clean" />
+      <item itemvalue="Gradle.Clean Build &amp; Deploy Robot" />
+      <item itemvalue="Gradle.Clean Build &amp; Deploy Robot for Debugging" />
+      <item itemvalue="Gradle.Clean Build &amp; Run Simulate Java" />
+      <item itemvalue="Gradle.Clean Build Robot" />
+      <item itemvalue="Gradle.oceanus [build]" />
+      <item itemvalue="Gradle.tethys [build]" />
+      <item itemvalue="JAR Application.Launch Shuffleboard" />
+      <item itemvalue="JAR Application.Launch SmartDashboard" />
+      <item itemvalue="Remote JVM Debug.Debug Robot via IP" />
+      <item itemvalue="Remote JVM Debug.Debug Robot via USB" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.tethys [build]" />
+        <item itemvalue="Gradle.oceanus [build]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+</project>
