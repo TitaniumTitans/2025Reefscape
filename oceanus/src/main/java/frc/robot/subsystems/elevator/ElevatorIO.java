@@ -9,10 +9,11 @@ public interface ElevatorIO {
     public double elevatorVelocity = 0.0;
     public double elevatorAppliedVoltage = 0.0;
     public double[] elevatorCurrentDraw = {0.0, 0.0};
+    public boolean bottomLimitSwitch = false;
   }
 
   default void updateInputs(ElevatorIOInputsAutoLogged inputs) {}
   default void setElevatorVoltage(double voltage) {}
-  default void setElevatorPosition(double positionInches) {}
-  default void resetElevatorPosition(double positionInches) {}
+  default void setElevatorPosition(double positionRotations) {}
+  default void resetElevatorPosition(double positionRotations) {}
 }

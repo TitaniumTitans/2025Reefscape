@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 public class ElevatorIOSim implements ElevatorIO {
   private final ElevatorSim sim = new ElevatorSim(
       DCMotor.getKrakenX60Foc(2),
-      1.0,
+      ElevatorConstants.GEAR_REDUCTION,
       5.0,
       Units.inchesToMeters(0.728),
       0.0,
@@ -52,12 +52,12 @@ public class ElevatorIOSim implements ElevatorIO {
   }
 
   @Override
-  public void setElevatorPosition(double positionInches) {
-    pidController.setSetpoint(positionInches);
+  public void setElevatorPosition(double positionRotations) {
+    pidController.setSetpoint(positionRotations);
   }
 
   @Override
-  public void resetElevatorPosition(double positionInches) {
-    sim.setState(Units.inchesToMeters(positionInches), 0.0);
+  public void resetElevatorPosition(double positionRotations) {
+    sim.setState(Units.inchesToMeters(positionRotations), 0.0);
   }
 }
