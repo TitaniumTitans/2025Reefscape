@@ -22,7 +22,7 @@ public class AutoSelector {
       new LoggedDashboardChooser<>("Auto Routine");
 
   public AutoSelector(DriveSubsystem drive, CoralScoralSubsystem coral, IntakeSubsystem intake) {
-    NamedCommands.registerCommand("score", coral.setScorerPowerFactory(2.5).withTimeout(0.5));
+    NamedCommands.registerCommand("score", coral.setScorerPowerFactory(2.75).withTimeout(0.5));
     NamedCommands.registerCommand("intake", Commands.print("Waiting"));
     NamedCommands.registerCommand("zeroIntake", intake.zeroPivot());
 
@@ -32,6 +32,7 @@ public class AutoSelector {
     autoChooser.addDefaultOption("2L1Right", AutoBuilder.buildAuto("2L1Right"));
     autoChooser.addOption("3L1Right", AutoBuilder.buildAuto("3L1Right"));
     autoChooser.addOption("4L1Right", AutoBuilder.buildAuto("4L1Right"));
+    autoChooser.addOption("StraightTest", AutoBuilder.buildAuto("StraightTest"));
 
     // parametric autos
 //    autoChooser.addOption("LeftFar.IJ.K.L",

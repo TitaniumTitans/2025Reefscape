@@ -5,104 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c585a44-a51b-455f-b323-bbe5119c28ff" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/1L1Right.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/1L1Right.traj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/2L1Right.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/2L1Right.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/AToHumanPlayerLeftClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/AToHumanPlayerLeftFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/AToHumanPlayerRightClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/AToHumanPlayerRightFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/BToHumanPlayerLeftClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/BToHumanPlayerLeftFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/BToHumanPlayerRightClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/BToHumanPlayerRightFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/CDHPR.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/CToHumanPlayerRightClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/CToHumanPlayerRightFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/ChoreoAutos.chor" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/ChoreoAutos.chor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/DToHumanPlayerRightClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/DToHumanPlayerRightFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/EFToProcessor.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/EToHumanPlayerRightClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/EToHumanPlayerRightFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/FToHumanPlayerRightClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/FToHumanPlayerRightFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/GHToProcessor.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/GToHumanPlayerLeftClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/GToHumanPlayerLeftFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/GToHumanPlayerRightClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/GToHumanPlayerRightFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HPRAB.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HPRCD.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HToHumanPlayerLeftClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HToHumanPlayerLeftFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HToHumanPlayerRightClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HToHumanPlayerRightFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToA.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToB.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToG.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToH.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToI.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToJ.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToK.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToL.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToA.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToB.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToG.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToH.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToI.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToJ.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToK.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToL.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToA.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToB.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToC.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToD.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToE.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToF.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToG.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToH.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToA.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToB.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToC.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToD.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToE.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToF.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToG.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToH.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/IJToProcessor.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/IToHumanPlayerLeftClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/IToHumanPlayerLeftFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/JToHumanPlayerLeftClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/JToHumanPlayerLeftFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/KToHumanPlayerLeftClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/KToHumanPlayerLeftFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/LToHumanPlayerLeftClose.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/LToHumanPlayerLeftFar.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/ProcessorToEF.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/ProcessorToGH.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/ProcessorToIJ.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/CHPR.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/CHPR.traj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/DHPR.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/DHPR.traj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HPRB.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HPRB.traj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HPRC.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HPRC.traj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HPRD.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HPRD.traj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/RSEF.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/RSEF.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosCenterToG.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosCenterToH.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosLeftToH.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosLeftToI.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosLeftToJ.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosLeftToK.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosRightToD.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosRightToE.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosRightToF.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosRightToG.traj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/pathplanner/autos/2L1Right.auto" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/pathplanner/autos/2L1Right.auto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/pathplanner/autos/4L1Right.auto" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/pathplanner/autos/4L1Right.auto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/commands/AutoSelector.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/commands/AutoSelector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/DriveConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/DriveConstants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/module/ModuleIOTalonFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/module/ModuleIOTalonFX.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/intake/IntakeSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/intake/IntakeSubsystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/vision/VisionConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/vision/VisionConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/vision/VisionSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/vision/VisionSubsystem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
