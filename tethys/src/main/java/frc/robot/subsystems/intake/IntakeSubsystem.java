@@ -81,13 +81,15 @@ public class IntakeSubsystem extends SubsystemBase {
         return run(() -> setPivotPower(0.5))
             .until(() -> inputs.limitSwitch)
             .andThen(runOnce(() -> setPivotPower(0.0))
-            .andThen(runOnce(io::zeroPivot)));
+            .andThen(runOnce(io::zeroPivot)))
+            .andThen(() -> io.setPivotAngle(100));
     }
 
     public Command zeroPivot(double power) {
         return run(() -> setPivotPower(power))
             .until(() -> inputs.limitSwitch)
             .andThen(runOnce(() -> setPivotPower(0.0))
-                .andThen(runOnce(io::zeroPivot)));
+                .andThen(runOnce(io::zeroPivot)))
+            .andThen(() -> io.setPivotAngle(100));
     }
 }

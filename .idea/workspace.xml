@@ -5,15 +5,104 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c585a44-a51b-455f-b323-bbe5119c28ff" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/BuildConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/BuildConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/Robot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorIO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorIOSim.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorIOSim.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorSubsystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/util/MechanismVisualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/util/MechanismVisualizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/1L1Right.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/1L1Right.traj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/2L1Right.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/2L1Right.traj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/AToHumanPlayerLeftClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/AToHumanPlayerLeftFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/AToHumanPlayerRightClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/AToHumanPlayerRightFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/BToHumanPlayerLeftClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/BToHumanPlayerLeftFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/BToHumanPlayerRightClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/BToHumanPlayerRightFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/CDHPR.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/CToHumanPlayerRightClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/CToHumanPlayerRightFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/ChoreoAutos.chor" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/ChoreoAutos.chor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/DToHumanPlayerRightClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/DToHumanPlayerRightFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/EFToProcessor.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/EToHumanPlayerRightClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/EToHumanPlayerRightFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/FToHumanPlayerRightClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/FToHumanPlayerRightFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/GHToProcessor.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/GToHumanPlayerLeftClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/GToHumanPlayerLeftFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/GToHumanPlayerRightClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/GToHumanPlayerRightFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HPRAB.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HPRCD.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HToHumanPlayerLeftClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HToHumanPlayerLeftFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HToHumanPlayerRightClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HToHumanPlayerRightFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToA.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToB.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToG.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToH.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToI.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToJ.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToK.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftCloseToL.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToA.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToB.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToG.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToH.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToI.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToJ.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToK.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerLeftFarToL.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToA.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToB.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToC.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToD.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToE.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToF.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToG.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightCloseToH.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToA.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToB.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToC.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToD.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToE.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToF.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToG.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HumanPlayerRightFarToH.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/IJToProcessor.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/IToHumanPlayerLeftClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/IToHumanPlayerLeftFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/JToHumanPlayerLeftClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/JToHumanPlayerLeftFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/KToHumanPlayerLeftClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/KToHumanPlayerLeftFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/LToHumanPlayerLeftClose.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/LToHumanPlayerLeftFar.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/ProcessorToEF.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/ProcessorToGH.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/ProcessorToIJ.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/RSEF.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/RSEF.traj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosCenterToG.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosCenterToH.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosLeftToH.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosLeftToI.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosLeftToJ.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosLeftToK.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosRightToD.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosRightToE.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosRightToF.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/StartingPosRightToG.traj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/pathplanner/autos/2L1Right.auto" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/pathplanner/autos/2L1Right.auto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/commands/AutoSelector.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/commands/AutoSelector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/DriveConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/DriveConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/module/ModuleIOTalonFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/module/ModuleIOTalonFX.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/intake/IntakeSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/intake/IntakeSubsystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/vision/VisionConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/vision/VisionConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/vision/VisionSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/vision/VisionSubsystem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,18 +134,18 @@
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="oceanus" type="f1a62948:ProjectNode" />
+                <item name="tethys" type="f1a62948:ProjectNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="oceanus" type="f1a62948:ProjectNode" />
+                <item name="tethys" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="oceanus" type="f1a62948:ProjectNode" />
+                <item name="tethys" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="other" type="c8890929:TasksNode$1" />
+                <item name="deployutils" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -72,15 +161,34 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2tEaiYGFwwzZjDkp21woJJyLwGg" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Gradle.oceanus [build].executor": "Run",
     "Gradle.oceanus [simulateJava].executor": "Run",
     "Gradle.tethys [build].executor": "Run",
+    "Gradle.tethys [deploy].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "V2",
+    "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/lboog/GitHub/2025Reefscape/oceanus/src/main/java/frc/robot/subsystems",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
@@ -102,7 +210,7 @@
       <recent name="frc.robot" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.oceanus [simulateJava]">
+  <component name="RunManager" selected="Gradle.tethys [deploy]">
     <configuration name="oceanus [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -169,6 +277,28 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="tethys [deploy]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/tethys" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="deploy" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="oceanus" />
       <method v="2">
@@ -216,40 +346,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Autodetect">
-      <module name="tethys" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <module name="tethys" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Gradle.Build &amp; Deploy Robot" />
       <item itemvalue="Gradle.Build &amp; Deploy Robot for Debugging" />
@@ -260,6 +356,7 @@
       <item itemvalue="Gradle.Clean Build &amp; Deploy Robot for Debugging" />
       <item itemvalue="Gradle.Clean Build &amp; Run Simulate Java" />
       <item itemvalue="Gradle.Clean Build Robot" />
+      <item itemvalue="Gradle.tethys [deploy]" />
       <item itemvalue="Gradle.oceanus [build]" />
       <item itemvalue="Gradle.oceanus [simulateJava]" />
       <item itemvalue="Gradle.tethys [build]" />
@@ -270,16 +367,32 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.tethys [deploy]" />
         <item itemvalue="Gradle.oceanus [simulateJava]" />
         <item itemvalue="Gradle.oceanus [build]" />
         <item itemvalue="Gradle.tethys [build]" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-20.0.2-corretto-20.0.2.1-4caba194b151-5bc9ecd2" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2c585a44-a51b-455f-b323-bbe5119c28ff" name="Changes" comment="" />
+      <created>1739919818472</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1739919818472</updated>
+    </task>
     <servers />
   </component>
   <component name="WpiLibVersionService">
-    <option name="lastChecked" value="20250216165524" />
+    <option name="lastChecked" value="20250218180341" />
   </component>
 </project>

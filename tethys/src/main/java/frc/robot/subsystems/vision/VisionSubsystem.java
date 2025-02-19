@@ -159,7 +159,7 @@ public class VisionSubsystem extends SubsystemBase {
       thetaStandardDeviations = filterParameters.rotStandardDevBase();
     } else {
       // scale the deviations with distance
-      xyStandardDeviations = filterParameters.xyStandardDevBase() * Math.pow(tagDistance, 3);
+      xyStandardDeviations = filterParameters.xyStandardDevBase() * Math.pow(tagDistance, 2);
       // don't use rotation with only one tag
       thetaStandardDeviations = 1e4;
     }

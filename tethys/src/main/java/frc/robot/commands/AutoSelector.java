@@ -29,48 +29,50 @@ public class AutoSelector {
 //    autoChooser.addDefaultOption("3L1Left", AutoCommands.resetPoseAndFollowChoreoPath(drive, "3L1Left"));
 //    autoChooser.addOption("L1HP", AutoCommands.resetPoseAndFollowChoreoPath(drive, "L1HP"));
     autoChooser.addOption("1L1Right", AutoCommands.resetPoseAndFollowChoreoPath(drive, "1L1Right"));
-    autoChooser.addOption("2L1Right", AutoBuilder.buildAuto("2L1Right"));
+    autoChooser.addDefaultOption("2L1Right", AutoBuilder.buildAuto("2L1Right"));
+    autoChooser.addOption("3L1Right", AutoBuilder.buildAuto("3L1Right"));
+    autoChooser.addOption("4L1Right", AutoBuilder.buildAuto("4L1Right"));
 
     // parametric autos
-    autoChooser.addOption("LeftFar.IJ.K.L",
-        AutoCommands.choreoSequence(drive, coral, intake,
-            StartingPositions.StartingPosLeft,
-            HumanPlayerSide.HumanPlayerLeftFar,
-            List.of(
-                CoralLocations.I,
-                CoralLocations.K,
-                CoralLocations.L
-            )));
+//    autoChooser.addOption("LeftFar.IJ.K.L",
+//        AutoCommands.choreoSequence(drive, coral, intake,
+//            StartingPositions.StartingPosLeft,
+//            HumanPlayerSide.HumanPlayerLeftFar,
+//            List.of(
+//                CoralLocations.I,
+//                CoralLocations.K,
+//                CoralLocations.L
+//            )));
+//
+//    autoChooser.addOption("LeftClose.IJ.K.L",
+//        AutoCommands.choreoSequence(drive, coral, intake,
+//            StartingPositions.StartingPosLeft,
+//            HumanPlayerSide.HumanPlayerLeftClose,
+//            List.of(
+//                CoralLocations.I,
+//                CoralLocations.K,
+//                CoralLocations.L
+//            )));
 
-    autoChooser.addOption("LeftClose.IJ.K.L",
-        AutoCommands.choreoSequence(drive, coral, intake,
-            StartingPositions.StartingPosLeft,
-            HumanPlayerSide.HumanPlayerLeftClose,
-            List.of(
-                CoralLocations.I,
-                CoralLocations.K,
-                CoralLocations.L
-            )));
-
-    autoChooser.addOption("RightFar.EF.D.C",
-        AutoCommands.choreoSequence(drive, coral, intake,
-            StartingPositions.StartingPosRight,
-            HumanPlayerSide.HumanPlayerRightFar,
-            List.of(
-                CoralLocations.E,
-                CoralLocations.D,
-                CoralLocations.C
-            )));
-
-    autoChooser.addOption("RightClose.EF.D.C",
-        AutoCommands.choreoSequence(drive, coral, intake,
-            StartingPositions.StartingPosRight,
-            HumanPlayerSide.HumanPlayerRightClose,
-            List.of(
-                CoralLocations.E,
-                CoralLocations.D,
-                CoralLocations.C
-            )));
+//    autoChooser.addOption("RightFar.EF.D.C",
+//        AutoCommands.choreoSequence(drive, coral, intake,
+//            StartingPositions.StartingPosRight,
+//            HumanPlayerSide.HumanPlayerRightFar,
+//            List.of(
+//                CoralLocations.E,
+//                CoralLocations.D,
+//                CoralLocations.C
+//            )));
+//
+//    autoChooser.addOption("RightClose.EF.D.C",
+//        AutoCommands.choreoSequence(drive, coral, intake,
+//            StartingPositions.StartingPosRight,
+//            HumanPlayerSide.HumanPlayerRightClose,
+//            List.of(
+//                CoralLocations.E,
+//                CoralLocations.D,
+//                CoralLocations.C
+//            )));
 
     // Set up SysId routines
     autoChooser.addOption(
