@@ -172,12 +172,13 @@ public class ModuleIOTalonFX implements ModuleIO {
     motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     motorConfig.Feedback.SensorToMechanismRatio = DriveConstants.DRIVE_GEAR_RATIO;
 
-    motorConfig.CurrentLimits.withSupplyCurrentLimitEnable(true)
-        .withSupplyCurrentLimit(70)
-        .withSupplyCurrentLowerTime(1.0)
-        .withSupplyCurrentLowerLimit(40)
-        .withStatorCurrentLimitEnable(true)
-        .withStatorCurrentLimit(140);
+//    motorConfig.CurrentLimits
+//        .withSupplyCurrentLimitEnable(true)
+//        .withSupplyCurrentLimit(70)
+//        .withSupplyCurrentLowerTime(1.0)
+//        .withSupplyCurrentLowerLimit(40)
+//        .withStatorCurrentLimitEnable(true)
+//        .withStatorCurrentLimit(140);
 
     motorConfig.Slot0.withKP(0.1) // 0.05 0.075
         .withKD(0.0)
@@ -188,6 +189,7 @@ public class ModuleIOTalonFX implements ModuleIO {
 
     motorConfig.Feedback.SensorToMechanismRatio = DriveConstants.STEER_GEAR_RATIO;
     motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive);
+    motorConfig.CurrentLimits.withStatorCurrentLimitEnable(true);
     motorConfig.CurrentLimits.withStatorCurrentLimit(60);
     motorConfig.ClosedLoopGeneral.ContinuousWrap = true;
     motorConfig.Slot0.withKP(60.0)

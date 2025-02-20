@@ -25,6 +25,8 @@ public class AutoSelector {
     NamedCommands.registerCommand("score", coral.setScorerPowerFactory(2.75).withTimeout(0.5));
     NamedCommands.registerCommand("intake", Commands.print("Waiting"));
     NamedCommands.registerCommand("zeroIntake", intake.zeroPivot());
+    NamedCommands.registerCommand("pickupWait", Commands.waitSeconds(0.5));
+    NamedCommands.registerCommand("scoreWait", Commands.waitSeconds(0.25));
 
 //    autoChooser.addDefaultOption("3L1Left", AutoCommands.resetPoseAndFollowChoreoPath(drive, "3L1Left"));
 //    autoChooser.addOption("L1HP", AutoCommands.resetPoseAndFollowChoreoPath(drive, "L1HP"));
