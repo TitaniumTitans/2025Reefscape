@@ -21,6 +21,7 @@ import frc.robot.Constants;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.module.Module;
 import frc.robot.subsystems.drive.module.ModuleIO;
+import frc.robot.util.FieldRelativeSpeeds;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.Logger;
@@ -149,6 +150,14 @@ public class DriveSubsystem extends SubsystemBase {
           DriveFeedforwards.zeros(4)
       );
     }
+
+    // update robot velocity for feedforwards
+    RobotState.getInstance().setLastFieldRelativeSpeeds(
+        new FieldRelativeSpeeds(
+            kinematics.toChassisSpeeds(getModuleStates()),
+            RobotState.getInstance().getRotation()
+        )
+    );
 
     // update odometry measurements
     double[] timestamps =
