@@ -1,10 +1,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotState;
 import frc.robot.subsystems.drive.DriveConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
+import frc.robot.util.FieldRelativeSpeeds;
 
 
 public class AutoScoreCommand extends Command {
@@ -38,7 +42,16 @@ public class AutoScoreCommand extends Command {
 
   @Override
   public void initialize() {
+    Pose2d robotPose = RobotState.getInstance().getEstimatedPose();
+    FieldRelativeSpeeds robotSpeeds = RobotState.getInstance().getLastFieldRelativeSpeeds();
 
+    TrapezoidProfile.State xState = new TrapezoidProfile.State(robotPose.getX(), robotSpeeds.vx);
+    TrapezoidProfile.State yState = new TrapezoidProfile.State(robotPose.getY(), robotSpeeds.vy);
+    TrapezoidProfile.State thetaState = new TrapezoidProfile.State(robotPose.getRotation().getRadians(), robotSpeeds.omega);
+
+    xController.reset(xState);
+    yController.reset(yState);
+    thetaController.reset(thetaState);
   }
 
   @Override
