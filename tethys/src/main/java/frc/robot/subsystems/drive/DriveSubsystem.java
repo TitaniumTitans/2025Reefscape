@@ -79,10 +79,10 @@ public class DriveSubsystem extends SubsystemBase {
         RobotState.getInstance()::getEstimatedPose,
         this::resetPose,
         this::getChassisSpeeds,
-        (ChassisSpeeds speeds, DriveFeedforwards feedforwards) ->  runVelocity(speeds),
+        (ChassisSpeeds speeds, DriveFeedforwards feedforwards) -> runVelocity(speeds, feedforwards),
         new PPHolonomicDriveController(
-            new PIDConstants(5.0, 0.0, 0.0),
-            new PIDConstants(5.0, 0.0, 0.0)
+            new PIDConstants(10.0, 0.0, 0.0),
+            new PIDConstants(10.0, 0.0, 0.0)
         ),
         ROBOT_CONFIG,
         () -> {
@@ -176,15 +176,19 @@ public class DriveSubsystem extends SubsystemBase {
     gyroDisconnectAlert.set(!gyroInputs.connected && Constants.getMode() != Constants.Mode.SIM);
   }
 
-  // runs the drivetrainat a set chassis speed
   public void runVelocity(ChassisSpeeds speeds) {
+    runVelocity(speeds, DriveFeedforwards.zeros(4));
+  }
+
+  // runs the drivetrain at a set chassis speed
+  public void runVelocity(ChassisSpeeds speeds, DriveFeedforwards feedforwards) {
     SwerveModuleState[] setpointStates;
 
     // calculate module setpoints
-    if (!DriverStation.isTeleop()) {
+    if (!DriverStation.isTeleop() && false) {
       ChassisSpeeds discretizedSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
       setpointStates = kinematics.toSwerveModuleStates(discretizedSpeeds);
-      SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_LINEAR_SPEED_MPS);
+//      SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_LINEAR_SPEED_MPS);
 
       Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
       Logger.recordOutput("SwerveSpeeds/Setpoints", speeds);
@@ -208,7 +212,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     // send setpoints to module
     for (int i = 0; i < 4; i++) {
-      modules[i].runSetpoint(setpointStates[i]);
+      modules[i].runSetpoint(setpointStates[i], feedforwards.torqueCurrents()[i]);
     }
 
     // log optimal setpoints, runSetpoint mutates the state

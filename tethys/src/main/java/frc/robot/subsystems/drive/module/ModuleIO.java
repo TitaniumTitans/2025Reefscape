@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drive.module;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.measure.Current;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface ModuleIO {
@@ -37,6 +38,7 @@ public interface ModuleIO {
 
   // sets the drive motor to a certain velocity using onboard PID controllers
   public default void setDriveVelocity(double radsPerSec) {};
+  public default void setDriveVelocity(double radsPerSec, Current torqueCurrent) {};
 
   // sets the steer motor position using onboard PID controllers
   public default void setSteerPosition(Rotation2d rotation) {};

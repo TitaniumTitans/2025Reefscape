@@ -7,6 +7,7 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -30,6 +31,7 @@ public class ModuleIOTalonFX implements ModuleIO {
   private final DriveConstants.ModuleConstants config;
 
   private final VelocityVoltage driveRequest;
+  private final VelocityTorqueCurrentFOC driveTorqueRequest;
   private final PositionVoltage steerRequest;
 
   // drive motor signals
@@ -66,6 +68,9 @@ public class ModuleIOTalonFX implements ModuleIO {
     driveRequest = new VelocityVoltage(0.0)
         .withEnableFOC(true)
         .withSlot(0);
+    driveTorqueRequest = new VelocityTorqueCurrentFOC(0.0)
+        .withSlot(1);
+
     steerRequest = new PositionVoltage(0.0)
         .withEnableFOC(true)
         .withSlot(0);
@@ -156,8 +161,10 @@ public class ModuleIOTalonFX implements ModuleIO {
   }
 
   @Override
-  public void setDriveVelocity(double radsPerSec) {
+  public void setDriveVelocity(double radsPerSec, Current torqueCurrent) {
     driveMotor.setControl(driveRequest.withVelocity(RadiansPerSecond.of(radsPerSec)));
+//    driveMotor.setControl(driveTorqueRequest.withVelocity(Units.radiansToRotations(radsPerSec))
+//        .withFeedForward(torqueCurrent));
   }
 
   @Override
@@ -172,27 +179,34 @@ public class ModuleIOTalonFX implements ModuleIO {
     motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     motorConfig.Feedback.SensorToMechanismRatio = DriveConstants.DRIVE_GEAR_RATIO;
 
-//    motorConfig.CurrentLimits
-//        .withSupplyCurrentLimitEnable(true)
-//        .withSupplyCurrentLimit(70)
-//        .withSupplyCurrentLowerTime(1.0)
-//        .withSupplyCurrentLowerLimit(40)
-//        .withStatorCurrentLimitEnable(true)
-//        .withStatorCurrentLimit(140);
+    motorConfig.CurrentLimits
+        .withSupplyCurrentLimitEnable(true)
+        .withSupplyCurrentLimit(70)
+        .withSupplyCurrentLowerTime(1.0)
+        .withSupplyCurrentLowerLimit(40)
+        .withStatorCurrentLimitEnable(true)
+        .withStatorCurrentLimit(140);
 
-    motorConfig.Slot0.withKP(0.1) // 0.05 0.075
+    motorConfig.Slot0.withKP(2.35) // 0.05 0.075
         .withKD(0.0)
         .withKS(0.14957)
-        .withKV(0.71149);
+        .withKV(0.75649) // 0.71149
+        .withKA(0.125);
+
+    motorConfig.Slot1.withKP(62.5) // 0.05 0.075
+        .withKD(0.0)
+        .withKS(0.14957)
+        .withKV(0.71149) // 0.71149
+        .withKA(0.0);
 
     driveMotor.getConfigurator().apply(motorConfig);
 
     motorConfig.Feedback.SensorToMechanismRatio = DriveConstants.STEER_GEAR_RATIO;
     motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive);
-    motorConfig.CurrentLimits.withStatorCurrentLimitEnable(true);
+//    motorConfig.CurrentLimits.withStatorCurrentLimitEnable(true);
     motorConfig.CurrentLimits.withStatorCurrentLimit(60);
     motorConfig.ClosedLoopGeneral.ContinuousWrap = true;
-    motorConfig.Slot0.withKP(60.0)
+    motorConfig.Slot0.withKP(65.0)
         .withKD(0.0)
         .withKS(0.0)
         .withKV(0.0);
