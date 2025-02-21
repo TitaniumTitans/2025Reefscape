@@ -25,10 +25,8 @@ public class LedSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (hasCoral.getAsBoolean() && prevHasCoral) {
-//            m_candle.setLEDs(0, 255, 0);
       candle.animate(full);
     } else if (!hasCoral.getAsBoolean() && !prevHasCoral) {
-//            m_candle.setLEDs(255, 0, 0);
       candle.animate(empty);
     }
 

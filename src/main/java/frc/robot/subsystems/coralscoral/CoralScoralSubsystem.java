@@ -36,6 +36,9 @@ public class CoralScoralSubsystem extends SubsystemBase {
             hasCoral |= range < 30;
         }
     }
+    public boolean hasPiece() {
+        return io.hasPiece();
+    }
 
     public void setScorerPower(double voltage) {
         io.setMotorVoltageScorer(voltage);

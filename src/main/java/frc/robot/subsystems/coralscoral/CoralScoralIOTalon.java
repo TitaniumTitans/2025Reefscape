@@ -18,7 +18,7 @@ import edu.wpi.first.units.measure.*;
 public class CoralScoralIOTalon implements CoralScoralIO {
     private final TalonFX scorer;
     private final TalonFX masterPivot;
-    private final TimeOfFlight
+    private final LaserCan lasercan;
     private final StatusSignal<Angle> pivotPositionSignal;
     private final StatusSignal<AngularVelocity> pivotVelocitySignal;
     private final StatusSignal<AngularVelocity> scorerVelocity;
@@ -37,6 +37,11 @@ public class CoralScoralIOTalon implements CoralScoralIO {
     public CoralScoralIOTalon() {
         scorer = new TalonFX(CoralScoralConstants.SCORER_ID);
         masterPivot = new TalonFX(CoralScoralConstants.MASTER_PIVOT_ID);
+        //arbitrary id
+        lasercan = new LaserCan(0);
+        lasercan.setRangingMode(LaserCan.RangingMode.SHORT);
+        lasercan.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 16, 16));
+        lasercan.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
 
         TalonFXConfiguration scorerConfig = new TalonFXConfiguration();
         scorerConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
@@ -147,6 +152,11 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         }
     }
 
+    @Override
+    public boolean hasPiece() {
+        //random value
+        return lasercan.getMeasurement().distance_mm < 60.0;
+    }
     @Override
     public void setMotorVoltageScorer(double voltage) {
         scorer.setVoltage(voltage);

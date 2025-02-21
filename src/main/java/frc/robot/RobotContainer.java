@@ -116,7 +116,7 @@ public class RobotContainer {
     }
 
     autoSelector = new AutoSelector(driveSubsystem, coralSubsystem, intakeSubsystem);
-    ledsubsystem = new LedSubsystem(coralSubsystem.)
+    ledsubsystem = new LedSubsystem(coralSubsystem::hasPiece);
 
     configureBindings();
     setShuffleboardCommands();
