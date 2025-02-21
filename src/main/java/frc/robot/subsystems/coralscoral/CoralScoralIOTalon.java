@@ -18,6 +18,7 @@ import edu.wpi.first.units.measure.*;
 public class CoralScoralIOTalon implements CoralScoralIO {
     private final TalonFX scorer;
     private final TalonFX masterPivot;
+    private final TimeOfFlight
     private final StatusSignal<Angle> pivotPositionSignal;
     private final StatusSignal<AngularVelocity> pivotVelocitySignal;
     private final StatusSignal<AngularVelocity> scorerVelocity;

@@ -24,6 +24,7 @@ public interface CoralScoralIO {
     default void setMotorVoltagePivot(double voltage) {}
     default void setPivotAngle(double angleDegrees) {}
     default void resetPosition() {}
+    default boolean hasPiece() {return false;}
     default void updateInputs(CoralScoralIOInputsAutoLogged inputs) {}
     default void stop() {}
 }

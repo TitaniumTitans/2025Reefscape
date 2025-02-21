@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AutoSelector;
 import frc.robot.commands.DriveCommands;
+import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.climber.ClimberIO;
 import frc.robot.subsystems.climber.ClimberIOKraken;
 import frc.robot.subsystems.climber.ClimberSubsystem;
@@ -45,6 +46,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem;
 
   private final AutoSelector autoSelector;
+  private final LedSubsystem ledsubsystem;
 
   public RobotContainer() {
     switch (Constants.getMode()) {
@@ -114,6 +116,7 @@ public class RobotContainer {
     }
 
     autoSelector = new AutoSelector(driveSubsystem, coralSubsystem, intakeSubsystem);
+    ledsubsystem = new LedSubsystem(coralSubsystem.)
 
     configureBindings();
     setShuffleboardCommands();
