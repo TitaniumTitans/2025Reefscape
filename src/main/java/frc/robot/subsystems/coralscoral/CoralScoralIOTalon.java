@@ -1,5 +1,6 @@
 package frc.robot.subsystems.coralscoral;
 
+import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -39,9 +40,13 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         masterPivot = new TalonFX(CoralScoralConstants.MASTER_PIVOT_ID);
         //arbitrary id
         lasercan = new LaserCan(0);
-        lasercan.setRangingMode(LaserCan.RangingMode.SHORT);
-        lasercan.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 16, 16));
-        lasercan.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
+        try {
+            lasercan.setRangingMode(LaserCan.RangingMode.SHORT);
+            lasercan.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 16, 16));
+            lasercan.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
+        } catch (ConfigurationFailedException e) {
+            System.out.println("Configuration failed! " + e);
+        }
 
         TalonFXConfiguration scorerConfig = new TalonFXConfiguration();
         scorerConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
