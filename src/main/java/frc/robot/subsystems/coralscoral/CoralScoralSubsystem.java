@@ -34,15 +34,8 @@ public class CoralScoralSubsystem extends SubsystemBase {
 
         hasCoral = false;
         for (double range : inputs.coralRanges) {
-            hasCoral |= range < 30;
+            RobotState.getInstance().setHasCoral(hasCoral |= range < 30);
         }
-    }
-
-    public void setHasPiece() {
-        RobotState.getInstance().setHasCoral(inputs.hasPiece);
-    }
-    public boolean hasPiece() {
-        return RobotState.getInstance().isHasCoral();
     }
 
     public void setScorerPower(double voltage) {
