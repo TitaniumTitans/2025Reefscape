@@ -6,6 +6,7 @@ import org.littletonrobotics.junction.AutoLog;
 public interface CoralScoralIO {
     @AutoLog
     class CoralScoralIOInputs {
+        public boolean hasPiece = false;
         public Rotation2d pivotPosition = new Rotation2d();
         public double pivotVelocity = 0.0;
         public double scorerVelocity = 0.0;
@@ -24,7 +25,6 @@ public interface CoralScoralIO {
     default void setMotorVoltagePivot(double voltage) {}
     default void setPivotAngle(double angleDegrees) {}
     default void resetPosition() {}
-    default boolean hasPiece() {return false;}
     default void updateInputs(CoralScoralIOInputsAutoLogged inputs) {}
     default void stop() {}
 }

@@ -1,6 +1,5 @@
 package frc.robot.subsystems.coralscoral;
 
-import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -19,7 +18,6 @@ import edu.wpi.first.units.measure.*;
 public class CoralScoralIOTalon implements CoralScoralIO {
     private final TalonFX scorer;
     private final TalonFX masterPivot;
-    private final LaserCan lasercan;
     private final StatusSignal<Angle> pivotPositionSignal;
     private final StatusSignal<AngularVelocity> pivotVelocitySignal;
     private final StatusSignal<AngularVelocity> scorerVelocity;
@@ -32,21 +30,11 @@ public class CoralScoralIOTalon implements CoralScoralIO {
 
     private final MotionMagicVoltage mmPivotRequest;
     private final NeutralOut stopRequest;
-
     private final LaserCan[] lidars;
 
     public CoralScoralIOTalon() {
         scorer = new TalonFX(CoralScoralConstants.SCORER_ID);
         masterPivot = new TalonFX(CoralScoralConstants.MASTER_PIVOT_ID);
-        //arbitrary id
-        lasercan = new LaserCan(0);
-        try {
-            lasercan.setRangingMode(LaserCan.RangingMode.SHORT);
-            lasercan.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 16, 16));
-            lasercan.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
-        } catch (ConfigurationFailedException e) {
-            System.out.println("Configuration failed! " + e);
-        }
 
         TalonFXConfiguration scorerConfig = new TalonFXConfiguration();
         scorerConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
@@ -157,10 +145,6 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         }
     }
 
-    @Override
-    public boolean hasPiece() {
-        //random value
-        return lasercan.getMeasurement().distance_mm < 60.0;
     }
     @Override
     public void setMotorVoltageScorer(double voltage) {
@@ -187,4 +171,4 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         scorer.setControl(stopRequest);
         masterPivot.setControl(stopRequest);
     }
-}
+    }

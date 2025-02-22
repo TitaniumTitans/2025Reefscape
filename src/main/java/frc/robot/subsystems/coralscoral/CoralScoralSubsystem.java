@@ -4,6 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotState;
 import lombok.Getter;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
@@ -36,8 +37,12 @@ public class CoralScoralSubsystem extends SubsystemBase {
             hasCoral |= range < 30;
         }
     }
+
+    public void setHasPiece() {
+        RobotState.getInstance().setHasCoral(inputs.hasPiece);
+    }
     public boolean hasPiece() {
-        return io.hasPiece();
+        return RobotState.getInstance().isHasCoral();
     }
 
     public void setScorerPower(double voltage) {

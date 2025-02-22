@@ -49,6 +49,10 @@ public class RobotState {
   @Setter
   private Optional<SwerveDriveSimulation> driveSimulation = Optional.empty();
 
+  @Setter
+  @Getter
+  private boolean hasCoral = false;
+
   private final SwerveDrivePoseEstimator poseEstimator =
       new SwerveDrivePoseEstimator(
           new SwerveDriveKinematics(DriveConstants.MODULE_TRANSLATIONS),
@@ -115,6 +119,12 @@ public class RobotState {
 
   public Rotation2d getRotation() {
     return poseEstimator.getEstimatedPosition().getRotation();
+  }
+  public void setHasCoral(boolean hasPiece) {
+    hasCoral = hasPiece;
+  }
+  public boolean isHasCoral() {
+    return hasCoral;
   }
 
   public record OdometryObservation(
