@@ -37,9 +37,9 @@ public class AutoSelector {
     autoChooser.addOption("4L1Right", AutoBuilder.buildAuto("4L1Right"));
 
     autoChooser.addOption("1L1Left", AutoCommands.resetPoseAndFollowChoreoPath(drive, "1L1Left"));
-    autoChooser.addOption("2L1Left", AutoBuilder.buildAuto("2L1Left"));
-    autoChooser.addOption("3L1Left", AutoBuilder.buildAuto("3L1Left"));
-    autoChooser.addOption("4L1Left", AutoBuilder.buildAuto("4L1Left"));
+    autoChooser.addOption("2L1LeftFar", AutoBuilder.buildAuto("2L1LeftFar"));
+    autoChooser.addOption("3L1LeftFar", AutoBuilder.buildAuto("3L1LeftFar"));
+    autoChooser.addOption("4L1LeftFar", AutoBuilder.buildAuto("4L1LeftFar"));
 
     // parametric autos
 //    autoChooser.addOption("LeftFar.IJ.K.L",

@@ -159,23 +159,7 @@ public class RobotContainer {
         intakeSubsystem.dropAlgea()
     ).onFalse(intakeSubsystem.zeroPivot(0.5));
 
-    driveController.povUp().onTrue(
-        driveSubsystem.resetPoseFactory(new Pose2d(
-            0.0, 0.0, Rotation2d.fromDegrees(180)
-        ))
-    );
-
-    driveController.povLeft().onTrue(
-        driveSubsystem.resetPoseFactory(new Pose2d(
-            0.0, 0.0, Rotation2d.fromDegrees(45)
-        ))
-    );
-
-    driveController.povDown().onTrue(
-        driveSubsystem.resetPoseFactory(new Pose2d(
-            0.0, 0.0, Rotation2d.fromDegrees(155)
-        ))
-    );
+    driveController.povUp().onTrue(driveSubsystem.resetPoseFactory(new Pose2d()));
 
     driveController.leftTrigger().whileTrue(
         climberSubsystem.setClimberPowerFactory(12.0)

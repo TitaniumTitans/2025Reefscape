@@ -81,8 +81,8 @@ public class DriveSubsystem extends SubsystemBase {
         this::getChassisSpeeds,
         (ChassisSpeeds speeds, DriveFeedforwards feedforwards) -> runVelocity(speeds, feedforwards),
         new PPHolonomicDriveController(
-            new PIDConstants(10.0, 0.0, 0.0),
-            new PIDConstants(10.0, 0.0, 0.0)
+            new PIDConstants(2.5, 0.0, 0.0),
+            new PIDConstants(5.0, 0.0, 0.0)
         ),
         ROBOT_CONFIG,
         () -> {
@@ -185,7 +185,7 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveModuleState[] setpointStates;
 
     // calculate module setpoints
-    if (!DriverStation.isTeleop() && false) {
+    if (!DriverStation.isTeleop()) {
       ChassisSpeeds discretizedSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
       setpointStates = kinematics.toSwerveModuleStates(discretizedSpeeds);
 //      SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_LINEAR_SPEED_MPS);
@@ -206,6 +206,7 @@ public class DriveSubsystem extends SubsystemBase {
       Logger.recordOutput("SwerveStates/UsingSetpoints", true);
 
       setpointStates = prevSetpoint.moduleStates();
+      feedforwards = prevSetpoint.feedforwards();
     }
 
     Logger.recordOutput("SwerveStates/Actual Setpoints", setpointStates);
@@ -293,7 +294,9 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public Command resetPoseFactory(Pose2d pose) {
-    return runOnce(() -> resetPose(pose));
+    return runOnce(() -> RobotState.getInstance().resetPose(
+        RobotState.getInstance().getEstimatedPose()
+    ));
   }
 
   public Command resetPoseFactory(Supplier<Pose2d> pose) {

@@ -164,7 +164,7 @@ public class ModuleIOTalonFX implements ModuleIO {
   @Override
   public void setDriveVelocity(double radsPerSec, LinearAcceleration torqueCurrent) {
     driveMotor.setControl(driveRequest.withVelocity(RadiansPerSecond.of(radsPerSec))
-        .withAcceleration(torqueCurrent.in(edu.wpi.first.units.Units.MetersPerSecondPerSecond) / DriveConstants.WHEEL_RADIUS_METERS));
+        .withAcceleration(Units.radiansToRotations(torqueCurrent.in(edu.wpi.first.units.Units.MetersPerSecondPerSecond) / DriveConstants.WHEEL_RADIUS_METERS)));
 //    driveMotor.setControl(driveTorqueRequest.withVelocity(Units.radiansToRotations(radsPerSec))
 //        .withFeedForward(torqueCurrent));
   }
@@ -189,11 +189,11 @@ public class ModuleIOTalonFX implements ModuleIO {
         .withStatorCurrentLimitEnable(true)
         .withStatorCurrentLimit(140);
 
-    motorConfig.Slot0.withKP(2.35) // 0.05 0.075
+    motorConfig.Slot0.withKP(2.15) // 0.05 0.075
         .withKD(0.0)
         .withKS(0.14957)
         .withKV(0.75649) // 0.71149
-        .withKA(0.125);
+        .withKA(0.2);
 
     motorConfig.Slot1.withKP(62.5) // 0.05 0.075
         .withKD(0.0)
@@ -208,7 +208,7 @@ public class ModuleIOTalonFX implements ModuleIO {
 //    motorConfig.CurrentLimits.withStatorCurrentLimitEnable(true);
     motorConfig.CurrentLimits.withStatorCurrentLimit(60);
     motorConfig.ClosedLoopGeneral.ContinuousWrap = true;
-    motorConfig.Slot0.withKP(65.0)
+    motorConfig.Slot0.withKP(80.0)
         .withKD(0.0)
         .withKS(0.0)
         .withKV(0.0);

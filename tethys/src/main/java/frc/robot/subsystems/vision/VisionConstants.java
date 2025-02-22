@@ -13,10 +13,10 @@ import static edu.wpi.first.math.util.Units.inchesToMeters;
 
 public class VisionConstants {
   public static final VisionFilterParameters FILTER_PARAMETERS = new VisionFilterParameters(
-      0.15, // 0.5
-      1.5, // 1.5
+      0.075, // 0.5
+      1.0, // 1.5
       Units.Centimeters.of(21),
-      0.25,
+      0.5,
       Rotation2d.fromDegrees(70),
       Units.Centimeters.of(805),
       Units.Centimeters.of(1755),

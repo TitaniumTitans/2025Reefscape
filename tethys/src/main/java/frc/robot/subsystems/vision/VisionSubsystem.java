@@ -87,6 +87,9 @@ public class VisionSubsystem extends SubsystemBase {
         // Determine the standard deviation of the measurement using the distance.
         // The distance is estimated based on the tag area in percent (0-100)
         double tagDistance = calcuateAverageTagDistance(inputs[i].tagAreas);
+        if (tagDistance > 3.0) {
+          continue;
+        }
         Matrix<N3, N1> stdDevMat =
                 calculateStandardDeviations(tagDistance, inputs[i].fieldSpaceRobotPoses.length > 1);
 

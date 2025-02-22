@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.interpolation.TimeInterpolatableBuffer;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -39,9 +40,16 @@ public class RobotState {
   }
 
   // Pose estimation
-  @Getter
-  @AutoLogOutput(key = "RobotState/OdometryPose")
-  private Pose2d odometryPose = new Pose2d();
+  private SwerveDriveOdometry odometry = new SwerveDriveOdometry(
+      new SwerveDriveKinematics(DriveConstants.MODULE_TRANSLATIONS),
+      new Rotation2d(),
+      new SwerveModulePosition[]{
+          new SwerveModulePosition(),
+          new SwerveModulePosition(),
+          new SwerveModulePosition(),
+          new SwerveModulePosition()
+      }
+  );
 
   private Rotation2d lastRawGyro = new Rotation2d();
 
@@ -61,15 +69,11 @@ public class RobotState {
           },
           new Pose2d(),
           VecBuilder.fill(0.01, 0.01, 0.02),
-          VecBuilder.fill(0.1, 0.1, 0.03)
+          VecBuilder.fill(0.05, 0.05, 0.03) // 0.1, 0.1, 0.03
       );
 
-  // used to filter vision measurements into odometry estimation
-  private final TimeInterpolatableBuffer<Pose2d> poseBuffer =
-      TimeInterpolatableBuffer.createBuffer(POSE_BUFFER_SIZE_SEC);
   private final Matrix<N3, N1> qStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
   // Odometry
-  private final SwerveDriveKinematics kinematics;
   private SwerveModulePosition[] lastWheelPositions =
       new SwerveModulePosition[] {
           new SwerveModulePosition(),
@@ -82,17 +86,12 @@ public class RobotState {
     for (int i = 0; i < 3; ++i) {
       qStdDevs.set(i, 0, Math.pow(odometryStateStdDevs.get(i, 0), 2));
     }
-    kinematics = new SwerveDriveKinematics(DriveConstants.MODULE_TRANSLATIONS);
     AutoLogOutputManager.addObject(this);
   }
 
   public void resetPose(Pose2d pose) {
-//    estimatedPose = pose;
-//    odometryPose = pose;
-//    gyroOffset = pose.getRotation().minus(gyroOffset);
-//    poseBuffer.clear();
-
     poseEstimator.resetPosition(lastRawGyro, lastWheelPositions, pose);
+    odometry.resetPose(pose);
 
     driveSimulation.ifPresent(swerveDriveSimulation -> swerveDriveSimulation.setSimulationWorldPose(pose));
   }
@@ -101,6 +100,7 @@ public class RobotState {
     lastRawGyro = heading;
     lastWheelPositions = modulePositions;
     poseEstimator.updateWithTime(timestamp, heading, modulePositions);
+    odometry.update(heading, modulePositions);
   }
 
   public void addVisionMeasurement(VisionObservation update) {
@@ -117,8 +117,10 @@ public class RobotState {
     return poseEstimator.getEstimatedPosition().getRotation();
   }
 
-  public record OdometryObservation(
-      SwerveModulePosition[] wheelPositions, Optional<Rotation2d> gyroAngle, double timestamp) {}
+  @AutoLogOutput(key = "RobotState/OdometryPose")
+  public Pose2d getOdometryPose() {
+    return odometry.getPoseMeters();
+  }
 
   public record VisionObservation(Pose2d visionPose, double timestamp, Matrix<N3, N1> stdDevs) {}
 }
