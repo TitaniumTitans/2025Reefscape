@@ -144,8 +144,7 @@ public class CoralScoralIOTalon implements CoralScoralIO {
             }
         }
     }
-
-    }
+    
     @Override
     public void setMotorVoltageScorer(double voltage) {
         scorer.setVoltage(voltage);
