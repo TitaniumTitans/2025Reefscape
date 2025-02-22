@@ -16,6 +16,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.LinearAccelerationUnit;
 import edu.wpi.first.units.measure.*;
 import frc.robot.subsystems.drive.DriveConstants;
 import frc.robot.subsystems.drive.PhoenixOdometryThread;
@@ -161,8 +162,9 @@ public class ModuleIOTalonFX implements ModuleIO {
   }
 
   @Override
-  public void setDriveVelocity(double radsPerSec, Current torqueCurrent) {
-    driveMotor.setControl(driveRequest.withVelocity(RadiansPerSecond.of(radsPerSec)));
+  public void setDriveVelocity(double radsPerSec, LinearAcceleration torqueCurrent) {
+    driveMotor.setControl(driveRequest.withVelocity(RadiansPerSecond.of(radsPerSec))
+        .withAcceleration(torqueCurrent.in(edu.wpi.first.units.Units.MetersPerSecondPerSecond) / DriveConstants.WHEEL_RADIUS_METERS));
 //    driveMotor.setControl(driveTorqueRequest.withVelocity(Units.radiansToRotations(radsPerSec))
 //        .withFeedForward(torqueCurrent));
   }

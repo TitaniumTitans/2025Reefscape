@@ -212,7 +212,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     // send setpoints to module
     for (int i = 0; i < 4; i++) {
-      modules[i].runSetpoint(setpointStates[i], feedforwards.torqueCurrents()[i]);
+      modules[i].runSetpoint(setpointStates[i], feedforwards.accelerations()[i]);
     }
 
     // log optimal setpoints, runSetpoint mutates the state
