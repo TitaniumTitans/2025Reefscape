@@ -76,7 +76,7 @@ public class DriveSubsystem extends SubsystemBase {
         RobotState.getInstance()::getEstimatedPose,
         this::resetPose,
         this::getChassisSpeeds,
-        (ChassisSpeeds speeds, DriveFeedforwards feedforwards) ->  runVelocity(speeds),
+        (ChassisSpeeds speeds, DriveFeedforwards feedforwards) ->  runVelocity(speeds, feedforwards),
         new PPHolonomicDriveController(
             new PIDConstants(5.0, 0.5, 0.0),
             new PIDConstants(5.0, 0.5, 0.0)
@@ -182,7 +182,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   // runs the drivetrainat a set chassis speed
-  public void runVelocity(ChassisSpeeds speeds) {
+  public void runVelocity(ChassisSpeeds speeds, DriveFeedforwards feedforwards) {
     SwerveModuleState[] setpointStates;
 
     // calculate module setpoints
@@ -207,13 +207,14 @@ public class DriveSubsystem extends SubsystemBase {
       Logger.recordOutput("SwerveStates/UsingSetpoints", true);
 
       setpointStates = prevSetpoint.moduleStates();
+      feedforwards = prevSetpoint.feedforwards();
     }
 
     Logger.recordOutput("SwerveStates/Actual Setpoints", setpointStates);
 
     // send setpoints to module
     for (int i = 0; i < 4; i++) {
-      modules[i].runSetpoint(setpointStates[i]);
+      modules[i].runSetpoint(setpointStates[i], feedforwards.accelerations()[i]);
     }
 
     // log optimal setpoints, runSetpoint mutates the state

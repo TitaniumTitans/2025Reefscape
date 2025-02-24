@@ -12,15 +12,13 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Current;
-import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.units.measure.*;
 import frc.robot.subsystems.drive.DriveConstants;
 import frc.robot.subsystems.drive.PhoenixOdometryThread;
 
 import java.util.Queue;
 
+import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 
 public class ModuleIOTalonFX implements ModuleIO {
@@ -156,8 +154,9 @@ public class ModuleIOTalonFX implements ModuleIO {
   }
 
   @Override
-  public void setDriveVelocity(double radsPerSec) {
-    driveMotor.setControl(driveRequest.withVelocity(RadiansPerSecond.of(radsPerSec)));
+  public void setDriveVelocity(double radsPerSec, LinearAcceleration feedforward) {
+    driveMotor.setControl(driveRequest.withVelocity(RadiansPerSecond.of(radsPerSec))
+        .withAcceleration(Units.radiansToRotations(feedforward.in(MetersPerSecondPerSecond) / DriveConstants.WHEEL_RADIUS_METERS)));
   }
 
   @Override
@@ -179,10 +178,11 @@ public class ModuleIOTalonFX implements ModuleIO {
         .withStatorCurrentLimitEnable(true)
         .withStatorCurrentLimit(140);
 
-    motorConfig.Slot0.withKP(0.1) // 0.05 0.075
+    motorConfig.Slot0.withKP(2.15) // 0.05 0.075
         .withKD(0.0)
         .withKS(0.14957)
-        .withKV(0.71149);
+        .withKV(0.75649) // 0.71149
+        .withKA(0.2);
 
     driveMotor.getConfigurator().apply(motorConfig);
 

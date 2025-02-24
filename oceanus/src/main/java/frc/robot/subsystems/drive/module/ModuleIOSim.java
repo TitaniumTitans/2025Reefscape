@@ -16,6 +16,7 @@ package frc.robot.subsystems.drive.module;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.LinearAcceleration;
 import frc.robot.util.PhoenixUtil;
 import org.ironmaple.simulation.drivesims.SwerveModuleSimulation;
 import org.ironmaple.simulation.motorsims.SimulatedMotorController;
@@ -122,7 +123,7 @@ public class ModuleIOSim implements ModuleIO {
   }
 
   @Override
-  public void setDriveVelocity(double radsPerSec) {
+  public void setDriveVelocity(double radsPerSec, LinearAcceleration feedforward) {
     driveClosedLoop = true;
     driveFFVolts = DRIVE_KS * Math.signum(radsPerSec) + DRIVE_KV * radsPerSec;
     driveController.setSetpoint(radsPerSec);

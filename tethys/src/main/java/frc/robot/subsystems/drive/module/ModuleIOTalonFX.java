@@ -165,8 +165,6 @@ public class ModuleIOTalonFX implements ModuleIO {
   public void setDriveVelocity(double radsPerSec, LinearAcceleration torqueCurrent) {
     driveMotor.setControl(driveRequest.withVelocity(RadiansPerSecond.of(radsPerSec))
         .withAcceleration(Units.radiansToRotations(torqueCurrent.in(edu.wpi.first.units.Units.MetersPerSecondPerSecond) / DriveConstants.WHEEL_RADIUS_METERS)));
-//    driveMotor.setControl(driveTorqueRequest.withVelocity(Units.radiansToRotations(radsPerSec))
-//        .withFeedForward(torqueCurrent));
   }
 
   @Override
@@ -205,7 +203,6 @@ public class ModuleIOTalonFX implements ModuleIO {
 
     motorConfig.Feedback.SensorToMechanismRatio = DriveConstants.STEER_GEAR_RATIO;
     motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive);
-//    motorConfig.CurrentLimits.withStatorCurrentLimitEnable(true);
     motorConfig.CurrentLimits.withStatorCurrentLimit(60);
     motorConfig.ClosedLoopGeneral.ContinuousWrap = true;
     motorConfig.Slot0.withKP(80.0)
