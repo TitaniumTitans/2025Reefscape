@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.DriveConstants;
@@ -38,6 +39,11 @@ public class AutoScoreCommand extends Command {
         DriveConstants.THETA_KP, 0.0, 0.0,
         DriveConstants.THETA_CONSTRAINTS
     );
+
+    // Set tolerence in meters
+    xController.setTolerance(0.1);
+    yController.setTolerance(0.1);
+    thetaController.setTolerance(Units.degreesToRadians(10));
   }
 
   @Override
@@ -68,5 +74,11 @@ public class AutoScoreCommand extends Command {
   @Override
   public void end(boolean interrupted) {
 
+  }
+
+  private boolean robotAtPose() {
+    return xController.atSetpoint()
+        && yController.atSetpoint()
+        && thetaController.atSetpoint();
   }
 }
