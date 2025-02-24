@@ -181,6 +181,10 @@ public class DriveSubsystem extends SubsystemBase {
     gyroDisconnectAlert.set(!gyroInputs.connected && Constants.getMode() != Constants.Mode.SIM);
   }
 
+  public void runVelocity(ChassisSpeeds speeds) {
+    runVelocity(speeds, DriveFeedforwards.zeros(4));
+  }
+
   // runs the drivetrainat a set chassis speed
   public void runVelocity(ChassisSpeeds speeds, DriveFeedforwards feedforwards) {
     SwerveModuleState[] setpointStates;
