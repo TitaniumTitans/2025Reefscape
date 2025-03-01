@@ -187,10 +187,10 @@ public class ModuleIOTalonFX implements ModuleIO {
     motorConfig.CurrentLimits = new CurrentLimitsConfigs()
         .withSupplyCurrentLimitEnable(true)
         .withSupplyCurrentLimit(70)
-        .withSupplyCurrentLowerTime(1.0)
+        .withSupplyCurrentLowerTime(0.1)
         .withSupplyCurrentLowerLimit(40)
         .withStatorCurrentLimitEnable(true)
-        .withStatorCurrentLimit(140);
+        .withStatorCurrentLimit(100);
 
     motorConfig.Slot0.withKP(2.15) // 0.05 0.075
         .withKD(0.0)

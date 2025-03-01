@@ -145,10 +145,10 @@ public class RobotContainer {
         coralSubsystem.setPivotPowerFactory(2.0)
     );
 
-    driveController.a().whileTrue(
+    driveController.b().whileTrue(
         coralSubsystem.setScorerPowerFactory(2.5)
     );
-    driveController.b().whileTrue(
+    driveController.a().whileTrue(
         coralSubsystem.setScorerPowerFactory(-3.0)
     );
 
