@@ -66,7 +66,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public Command dropAlgae() {
         return runEnd(() -> {
-            setIntakePower(2.0);
+            setIntakePower(3.0);
             setPivotPosition(75);
         }, () -> {
             setPivotPosition(100);

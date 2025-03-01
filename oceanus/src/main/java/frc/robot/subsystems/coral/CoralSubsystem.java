@@ -20,8 +20,8 @@ public class CoralSubsystem extends SubsystemBase {
     Logger.processInputs("Coral", inputs);
   }
 
-  public Command setPivotAngle(double angle) {
-    return run
-  }
+//  public Command setPivotAngle(double angle) {
+//    return run
+//  }
 }
 

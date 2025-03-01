@@ -145,7 +145,7 @@ public class IntakeIOTalon implements IntakeIO {
 
             if (measurement != null) {
                 Logger.recordOutput("Intake/LaserCAN Distance", measurement.distance_mm);
-                inputs.hasAlgae = measurement.distance_mm < 250.0;
+                inputs.hasAlgae = measurement.distance_mm < 150.0;
             }
         }
 
