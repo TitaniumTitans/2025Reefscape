@@ -52,15 +52,15 @@ public class DriveConstants {
           WHEEL_COF));
 
   public static final RobotConfig ROBOT_CONFIG = new RobotConfig(
-      Pounds.of(135),
-      KilogramSquareMeters.of(4),
+      Pounds.of(145),
+      KilogramSquareMeters.of(6),
       new ModuleConfig(
           WHEEL_RADIUS_METERS,
           MAX_LINEAR_SPEED_MPS,
           1.0,
           DCMotor.getKrakenX60Foc(1)
               .withReduction(DRIVE_GEAR_RATIO),
-          70,
+          40,
           1
       ),
       MODULE_TRANSLATIONS
