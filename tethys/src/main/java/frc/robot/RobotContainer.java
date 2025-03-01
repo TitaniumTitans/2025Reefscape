@@ -157,7 +157,7 @@ public class RobotContainer {
     );
     driveController.y().whileTrue(
         intakeSubsystem.dropAlgea()
-    ).onFalse(intakeSubsystem.zeroPivot(0.5));
+    ).whileFalse(intakeSubsystem.setPivotPositionFactory(100).andThen(intakeSubsystem.zeroPivot(0.5)));
 
     driveController.povUp().onTrue(driveSubsystem.resetPoseFactory(new Pose2d()));
 
