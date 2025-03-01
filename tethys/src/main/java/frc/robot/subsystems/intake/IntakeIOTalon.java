@@ -1,5 +1,7 @@
 package frc.robot.subsystems.intake;
 
+import au.grapplerobotics.LaserCan;
+import au.grapplerobotics.interfaces.LaserCanInterface;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -11,11 +13,11 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.*;
 import edu.wpi.first.wpilibj.DigitalInput;
+import org.littletonrobotics.junction.Logger;
 
 //Current limiting config - 20 amps on both supply and stater
 public class IntakeIOTalon implements IntakeIO {
@@ -34,6 +36,8 @@ public class IntakeIOTalon implements IntakeIO {
     private final NeutralOut stopRequest;
 
     private final MotionMagicVoltage mmPositionRequest;
+
+    private final LaserCan laserCan;
 
     public IntakeIOTalon() {
         intake = new TalonFX(IntakeConstants.INTAKE_ID);
@@ -108,20 +112,22 @@ public class IntakeIOTalon implements IntakeIO {
 
         intake.optimizeBusUtilization();
         pivot.optimizeBusUtilization();
+
+        laserCan = new LaserCan(24);
     }
 
         @Override
         public void updateInputs (IntakeIOInputsAutoLogged inputs){
             BaseStatusSignal.refreshAll(
-                    pivotPositionSignal,
-                    intakeVoltageSignal,
-                    pivotVoltageSignal,
-                    intakeDrawSignal,
-                    pivotDrawSignal,
-                    intakeTemperatureSignal,
-                    pivotTemperatureSignal,
-                    intakeVelocitySignal,
-                    pivotVelocitySignal
+                pivotPositionSignal,
+                intakeVoltageSignal,
+                pivotVoltageSignal,
+                intakeDrawSignal,
+                pivotDrawSignal,
+                intakeTemperatureSignal,
+                pivotTemperatureSignal,
+                intakeVelocitySignal,
+                pivotVelocitySignal
             );
 
             inputs.pivotPosititon = Rotation2d.fromRotations(pivotPositionSignal.getValueAsDouble());
@@ -134,7 +140,14 @@ public class IntakeIOTalon implements IntakeIO {
             inputs.intakeVelocity = intakeVelocitySignal.refresh().getValueAsDouble();
             inputs.pivotVelocity = pivotVelocitySignal.refresh().getValueAsDouble();
             inputs.limitSwitch = !limitSwitch.get();
-    }
+
+            LaserCanInterface.Measurement measurement = laserCan.getMeasurement();
+
+            if (measurement != null) {
+                Logger.recordOutput("Intake/LaserCAN Distance", measurement.distance_mm);
+                inputs.hasAlgae = measurement.distance_mm < 250.0;
+            }
+        }
 
     @Override
     public void setMotorVoltageIntake(double voltage) {

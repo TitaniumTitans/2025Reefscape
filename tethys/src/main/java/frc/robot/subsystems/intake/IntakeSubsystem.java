@@ -2,7 +2,6 @@ package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.util.MechanismVisualizer;
 import org.littletonrobotics.junction.Logger;
 
@@ -50,11 +49,9 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public Command setPivotPositionFactory(double angleDegrees) {
-        return runEnd(() -> {
-            setPivotPosition(angleDegrees);
-        }, () -> {
-            setPivotPosition(inputs.pivotPosititon.getDegrees());
-        });
+        return runEnd(
+            () -> setPivotPosition(angleDegrees),
+            () -> setPivotPosition(inputs.pivotPosititon.getDegrees()));
     }
 
     public Command pickUpAlgea() {
@@ -64,10 +61,10 @@ public class IntakeSubsystem extends SubsystemBase {
         }, () -> {
             setPivotPosition(75);
             setIntakePower(-1.0);
-        });
+        }).until(() -> inputs.hasAlgae);
     }
 
-    public Command dropAlgea() {
+    public Command dropAlgae() {
         return runEnd(() -> {
             setIntakePower(2.0);
             setPivotPosition(75);

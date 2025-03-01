@@ -17,6 +17,7 @@ public interface IntakeIO {
         public double pivotTemperature = 0.0;
         public double intakeTemperature = 0.0;
         public boolean limitSwitch = false;
+        public boolean hasAlgae = false;
     }
     default void setMotorVoltageIntake(double voltage) {}
     default void setMotorVoltagePivot(double voltage) {}

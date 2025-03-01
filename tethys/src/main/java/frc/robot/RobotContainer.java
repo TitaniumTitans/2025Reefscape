@@ -11,7 +11,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AutoSelector;
 import frc.robot.commands.DriveCommands;
@@ -132,6 +131,7 @@ public class RobotContainer {
     ).ignoringDisable(true));
 
     coralSubsystem.setDefaultCommand(coralSubsystem.holdPositionFactory());
+//    intakeSubsystem.setDefaultCommand(intakeSubsystem.zeroPivot(0.6));
 
 //    coralSubsystem.setDefaultCommand(
 //        coralSubsystem.setScorerPowerFactory(0.175)
@@ -156,8 +156,10 @@ public class RobotContainer {
         intakeSubsystem.pickUpAlgea()
     );
     driveController.y().whileTrue(
-        intakeSubsystem.dropAlgea()
-    ).whileFalse(intakeSubsystem.setPivotPositionFactory(100).andThen(intakeSubsystem.zeroPivot(0.5)));
+        intakeSubsystem.dropAlgae()
+    ).onFalse(intakeSubsystem.setPivotPositionFactory(100)
+        .withTimeout(0.5)
+        .andThen(intakeSubsystem.zeroPivot()));
 
     driveController.povUp().onTrue(driveSubsystem.resetPoseFactory(new Pose2d()));
 

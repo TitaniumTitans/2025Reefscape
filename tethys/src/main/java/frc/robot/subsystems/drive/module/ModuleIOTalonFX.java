@@ -18,6 +18,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.LinearAccelerationUnit;
 import edu.wpi.first.units.measure.*;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drive.DriveConstants;
 import frc.robot.subsystems.drive.PhoenixOdometryThread;
 
@@ -63,6 +64,7 @@ public class ModuleIOTalonFX implements ModuleIO {
 
     configureDevices();
 
+    Timer.delay(0.5);
     steerMotor.setPosition(encoder.getAbsolutePosition().getValueAsDouble()
         - config.encoderOffset().getRotations());
 
@@ -126,6 +128,9 @@ public class ModuleIOTalonFX implements ModuleIO {
         steerAbsolutePositionSignal
     );
 
+    steerMotor.setPosition(encoder.getAbsolutePosition().getValueAsDouble()
+        - config.encoderOffset().getRotations());
+
     inputs.driveConnected = driveMotor.isConnected();
     inputs.drivePositionRads = Units.rotationsToRadians(drivePositionSignal.getValueAsDouble());
     inputs.driveVelocityRadsPerSec = Units.rotationsToRadians(driveVelocitySignal.getValueAsDouble());
@@ -179,7 +184,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     motorConfig.Feedback.SensorToMechanismRatio = DriveConstants.DRIVE_GEAR_RATIO;
 
-    motorConfig.CurrentLimits
+    motorConfig.CurrentLimits = new CurrentLimitsConfigs()
         .withSupplyCurrentLimitEnable(true)
         .withSupplyCurrentLimit(70)
         .withSupplyCurrentLowerTime(1.0)

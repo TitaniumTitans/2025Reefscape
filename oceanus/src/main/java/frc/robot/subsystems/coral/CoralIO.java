@@ -12,6 +12,7 @@ public interface CoralIO {
     public double[] coralCurrentDraw = new double[] {0.0, 0.0, 0.0, 0.0};
   }
 
+  default void updateInputs(CoralIOInputsAutoLogged inputs) {}
   default void setPivotVoltage(double appliedVolts) {}
   default void setPivotAngle(double appliedVolts) {}
   default void setHopperVoltage(double appliedVolts) {}
