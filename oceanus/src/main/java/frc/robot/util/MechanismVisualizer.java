@@ -19,6 +19,8 @@ public class MechanismVisualizer {
   private double coralAngleDegrees;
   @Setter
   private double elevatorHeightInches;
+  @Setter
+  private double armAngleDegrees;
 
   private static MechanismVisualizer instance;
 
@@ -34,21 +36,26 @@ public class MechanismVisualizer {
   }
 
   public void updateVisualization() {
-    Pose3d intakePose = new Pose3d();
-    Pose3d coralPose = new Pose3d();
 
-    Pose3d lowerStagePose = new Pose3d(
+    Pose3d elevatorHeight = new Pose3d(
       0.0, 0.0, Units.inchesToMeters(elevatorHeightInches) / 2.0,
       new Rotation3d()
     );
 
-    Pose3d upperStagePose = new Pose3d(
+    Pose3d armPose = new Pose3d(
         0.0, 0.0,
-        Units.inchesToMeters(elevatorHeightInches) * ((70.0 - 6.0) / 70.0),
+        Units.inchesToMeters(elevatorHeightInches) + 0.925, // offset to account for origin
+        new Rotation3d(0.0, Units.degreesToRadians(120), 0.0)
+    );
+
+    Pose3d coralPose = new Pose3d(
+        0.0, -0.3, 0.2,
         new Rotation3d()
     );
 
     Logger.recordOutput(key + "/3D Pose",
-        lowerStagePose, upperStagePose);
+        elevatorHeight, armPose, coralPose);
+    Logger.recordOutput("Test Point", coralPose);
   }
+
 }
