@@ -1,6 +1,7 @@
 package frc.robot.subsystems.coral;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.math.geometry.Rotation2d;
 
 public class CoralIOTalon implements CoralIO {
   private final TalonFX pivot;
@@ -13,6 +14,24 @@ public class CoralIOTalon implements CoralIO {
     hopper = new TalonFX(CoralConstants.HOPPER_ID);
     outerCoral = new TalonFX(CoralConstants.OUTER_ID);
     innerCoral = new TalonFX(CoralConstants.INNER_ID);
+  }
+
+  @Override
+  public void updateInputs(CoralIOInputsAutoLogged inputs) {
+    inputs.coralAppliedVoltage = new double[] {
+        pivot.getMotorVoltage().getValueAsDouble(),
+        hopper.getMotorVoltage().getValueAsDouble(),
+        outerCoral.getMotorVoltage().getValueAsDouble(),
+        innerCoral.getMotorVoltage().getValueAsDouble()
+    };
+    inputs.coralCurrentDraw = new double[] {
+        pivot.getSupplyCurrent().getValueAsDouble(),
+        hopper.getSupplyCurrent().getValueAsDouble(),
+        outerCoral.getSupplyCurrent().getValueAsDouble(),
+        innerCoral.getSupplyCurrent().getValueAsDouble()
+    };
+    inputs.hasCoral = false;
+    inputs.coralPivotAngle = Rotation2d.fromRotations(pivot.getPosition().getValueAsDouble());
   }
 
   @Override

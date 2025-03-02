@@ -20,8 +20,20 @@ public class CoralSubsystem extends SubsystemBase {
     Logger.processInputs("Coral", inputs);
   }
 
-//  public Command setPivotAngle(double angle) {
-//    return run
-//  }
+  public Command setPivotAngle(double angle) {
+    return run(() -> io.setPivotAngle(angle));
+  }
+
+  public Command setPivotVoltage(double voltage) {
+    return runEnd(() -> io.setPivotVoltage(voltage),
+        () -> io.setPivotVoltage(0.0));
+  }
+
+  public Command setScoringVoltages(double hopper, double outer, double inner) {
+    return run(() -> {
+      io.setHopperVoltage(hopper);
+      io.setCoralVoltage(outer, inner);
+    });
+  }
 }
 
