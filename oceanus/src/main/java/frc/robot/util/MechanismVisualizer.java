@@ -2,8 +2,6 @@ package frc.robot.util;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import lombok.Setter;
 import org.littletonrobotics.junction.Logger;
@@ -14,7 +12,7 @@ public class MechanismVisualizer {
   private final String key = "Visualizer";
 
   @Setter
-  private double intakeAngleDegrees;
+  private double algaeAngleDegrees;
   @Setter
   private double coralAngleDegrees;
   @Setter
@@ -30,7 +28,7 @@ public class MechanismVisualizer {
   }
 
   private MechanismVisualizer() {
-    intakeAngleDegrees = 0.0;
+    algaeAngleDegrees = 0.0;
     coralAngleDegrees = 0.0;
     elevatorHeightInches = 0.0;
   }
@@ -38,7 +36,7 @@ public class MechanismVisualizer {
   public void updateVisualization() {
 
     Pose3d elevatorHeight = new Pose3d(
-      0.0, 0.0, Units.inchesToMeters(elevatorHeightInches) / 2.0,
+      0.0, 0.0, Units.inchesToMeters(elevatorHeightInches),
       new Rotation3d()
     );
 
@@ -53,9 +51,18 @@ public class MechanismVisualizer {
         new Rotation3d()
     );
 
+    Pose3d algaePose = new Pose3d(
+        0.325, 0.0, 0.225,
+        new Rotation3d(
+            0.0,
+            Units.degreesToRadians(90 - 65 - algaeAngleDegrees),
+            0.0
+        )
+    );
+
     Logger.recordOutput(key + "/3D Pose",
-        elevatorHeight, armPose, coralPose);
-    Logger.recordOutput("Test Point", coralPose);
+        elevatorHeight, armPose, coralPose, algaePose);
+    Logger.recordOutput("Test Point", algaePose);
   }
 
 }

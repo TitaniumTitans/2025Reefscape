@@ -13,7 +13,7 @@ public class ElevatorIOSim implements ElevatorIO {
       0.1,
       ElevatorConstants.SPOOL_DIAMETER_METERS / 2.0,
       0.0,
-      Units.inchesToMeters(70),
+      Units.inchesToMeters(70 / 2.0),
       false,
       0.0,
       0.0,

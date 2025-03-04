@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
+import frc.robot.subsystems.algae.AlgaeIOSim;
+import frc.robot.subsystems.algae.AlgaeSubsystem;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
@@ -33,6 +35,7 @@ public class RobotContainer
 
     DriveSubsystem driveSubsystem;
     ElevatorSubsystem elevatorSubsystem;
+    AlgaeSubsystem algaeSubsystem;
 
     private SwerveDriveSimulation driveSimulation;
     public RobotContainer()
@@ -62,6 +65,7 @@ public class RobotContainer
               RobotState.getInstance().setDriveSimulation(Optional.of(driveSimulation));
 
               elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOSim());
+              algaeSubsystem = new AlgaeSubsystem(new AlgaeIOSim());
           }
           case REPLAY -> {
               driveSubsystem = new DriveSubsystem(
@@ -103,17 +107,11 @@ public class RobotContainer
             elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue)
         );
 
-        driverController.x().whileTrue(
-            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L2_SETPOINT::getValue)
-        ).onFalse(
-            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue)
-        );
-
-        driverController.y().whileTrue(
-            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L1_SETPOINT::getValue)
-        ).onFalse(
-            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue)
-        );
+       driverController.x().whileTrue(
+           algaeSubsystem.setAlgaeAngle(45)
+       ).whileFalse(
+           algaeSubsystem.setAlgaeAngle(90.0)
+       );
     }
     
     
