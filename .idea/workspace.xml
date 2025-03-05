@@ -6,10 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="2c585a44-a51b-455f-b323-bbe5119c28ff" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/commands/ElevatorPositionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/commands/ElevatorPositionCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/1L1Left.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/1L1Left.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/coralscoral/CoralScoralConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/coralscoral/CoralScoralConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/coralscoral/CoralScoralIOTalon.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/coralscoral/CoralScoralIOTalon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/1L1Right.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/1L1Right.traj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HPRB.traj" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/choreo/HPRB.traj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/pathplanner/autos/3L1Right.auto" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/pathplanner/autos/3L1Right.auto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/pathplanner/autos/4L1LeftFar.auto" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/pathplanner/autos/4L1LeftFar.auto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/deploy/pathplanner/autos/4L1Right.auto" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/deploy/pathplanner/autos/4L1Right.auto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/commands/AutoSelector.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/commands/AutoSelector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/coralscoral/CoralScoralSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/coralscoral/CoralScoralSubsystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/DriveConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/DriveConstants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/module/ModuleIOTalonFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/tethys/src/main/java/frc/robot/subsystems/drive/module/ModuleIOTalonFX.java" afterDir="false" />

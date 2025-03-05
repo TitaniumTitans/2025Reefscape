@@ -29,7 +29,7 @@ public class DriveConstants {
   public static final double MAX_LINEAR_SPEED_MPS = Units.feetToMeters(16.5);
   public static final double MAX_ANGULAR_SPEED = MAX_LINEAR_SPEED_MPS / DRIVE_BASE_RADIUS;
 
-  public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.918); // 1.976
+  public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.976); // 1.976
   public static final double DRIVE_GEAR_RATIO = 1.0 / ((14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0));
   public static final double STEER_GEAR_RATIO = (150.0 / 7.0);
 
@@ -53,7 +53,7 @@ public class DriveConstants {
 
   public static final RobotConfig ROBOT_CONFIG = new RobotConfig(
       Pounds.of(135),
-      KilogramSquareMeters.of(4),
+      KilogramSquareMeters.of(2),
       new ModuleConfig(
           WHEEL_RADIUS_METERS,
           MAX_LINEAR_SPEED_MPS,

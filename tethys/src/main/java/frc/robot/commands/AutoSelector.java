@@ -22,10 +22,10 @@ public class AutoSelector {
       new LoggedDashboardChooser<>("Auto Routine");
 
   public AutoSelector(DriveSubsystem drive, CoralScoralSubsystem coral, IntakeSubsystem intake) {
-    NamedCommands.registerCommand("score", coral.setScorerPowerFactory(2.75).withTimeout(0.5));
+    NamedCommands.registerCommand("score", coral.setScorerPowerFactory(2.75).withTimeout(0.45));
     NamedCommands.registerCommand("intake", Commands.print("Waiting"));
     NamedCommands.registerCommand("zeroIntake", intake.zeroPivot());
-    NamedCommands.registerCommand("pickupWait", Commands.waitSeconds(0.5));
+    NamedCommands.registerCommand("pickupWait", Commands.waitSeconds(0.025));
     NamedCommands.registerCommand("scoreWait", Commands.waitSeconds(0.25));
 
 //    autoChooser.addDefaultOption("3L1Left", AutoCommands.resetPoseAndFollowChoreoPath(drive, "3L1Left"));

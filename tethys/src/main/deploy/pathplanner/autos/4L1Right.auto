@@ -25,9 +25,9 @@
                       }
                     },
                     {
-                      "type": "wait",
+                      "type": "named",
                       "data": {
-                        "waitTime": 0.5
+                        "name": "pickupWait"
                       }
                     },
                     {
@@ -55,9 +55,9 @@
                       }
                     },
                     {
-                      "type": "wait",
+                      "type": "named",
                       "data": {
-                        "waitTime": 0.5
+                        "name": "pickupWait"
                       }
                     },
                     {
@@ -85,9 +85,9 @@
                       }
                     },
                     {
-                      "type": "wait",
+                      "type": "named",
                       "data": {
-                        "waitTime": 0.5
+                        "name": "pickupWait"
                       }
                     },
                     {

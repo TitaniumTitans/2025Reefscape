@@ -43,12 +43,6 @@
                       }
                     },
                     {
-                      "type": "named",
-                      "data": {
-                        "name": "scoreWait"
-                      }
-                    },
-                    {
                       "type": "path",
                       "data": {
                         "pathName": "KHPLF"

@@ -55,6 +55,6 @@ public class CoralScoralSubsystem extends SubsystemBase {
     }
 
     public Command holdPositionFactory() {
-        return run(() -> io.setPivotAngle(inputs.pivotPosition.getDegrees()));
+        return runOnce(() -> io.setPivotAngle(inputs.pivotPosition.getDegrees()));
     }
 }

@@ -185,7 +185,7 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveModuleState[] setpointStates;
 
     // calculate module setpoints
-    if (!DriverStation.isTeleop()) {
+    if (!DriverStation.isTeleop() || true) {
       ChassisSpeeds discretizedSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
       setpointStates = kinematics.toSwerveModuleStates(discretizedSpeeds);
       SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_LINEAR_SPEED_MPS);
