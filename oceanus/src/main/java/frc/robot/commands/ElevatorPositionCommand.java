@@ -29,7 +29,7 @@ public class ElevatorPositionCommand {
         () -> {
           SequentialCommandGroup group = new SequentialCommandGroup();
 
-          if (height == ScoringPose.HOME )
+          if (height == ScoringPose.HOME ) {}
 
           group.addRequirements(elevatorSubsystem, algaeSubsystem);
           return group;

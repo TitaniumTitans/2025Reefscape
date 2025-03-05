@@ -5,7 +5,7 @@ public class CoralScoralConstants {
     public static final int MASTER_PIVOT_ID = 14;
     public static final int FOLLOWER_PIVOT_ID = 15;
     public static final int[] LIDAR_IDS = {22, 21, 20, 23};
-    public static final double PIVOT_KP = 40.0;
+    public static final double PIVOT_KP = 60.0;
     public static final double PIVOT_KI = 0.0;
     public static final double PIVOT_KD = 0.0;
     public static final double LOOP_PERIOD_SECS = .02;

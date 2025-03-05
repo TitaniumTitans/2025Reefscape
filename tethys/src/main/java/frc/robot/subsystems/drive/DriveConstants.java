@@ -34,7 +34,7 @@ public class DriveConstants {
   public static final double STEER_GEAR_RATIO = (150.0 / 7.0);
 
   // Pathplanner stuff
-  public static final double WHEEL_COF = 1.2;
+  public static final double WHEEL_COF = 1.0;
 
   public static final DriveTrainSimulationConfig MAPLE_SIM_CONFIG = DriveTrainSimulationConfig.Default()
       .withCustomModuleTranslations(MODULE_TRANSLATIONS)
@@ -52,15 +52,15 @@ public class DriveConstants {
           WHEEL_COF));
 
   public static final RobotConfig ROBOT_CONFIG = new RobotConfig(
-      Pounds.of(145),
-      KilogramSquareMeters.of(6),
+      Pounds.of(135),
+      KilogramSquareMeters.of(4),
       new ModuleConfig(
           WHEEL_RADIUS_METERS,
           MAX_LINEAR_SPEED_MPS,
           1.0,
           DCMotor.getKrakenX60Foc(1)
               .withReduction(DRIVE_GEAR_RATIO),
-          40,
+          70,
           1
       ),
       MODULE_TRANSLATIONS

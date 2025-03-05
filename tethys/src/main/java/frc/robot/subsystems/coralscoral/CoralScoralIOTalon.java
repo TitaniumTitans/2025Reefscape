@@ -60,8 +60,8 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         masterPivotConfig.Slot0.kP = CoralScoralConstants.PIVOT_KP;
         masterPivotConfig.Slot0.kI = CoralScoralConstants.PIVOT_KI;
         masterPivotConfig.Slot0.kD = CoralScoralConstants.PIVOT_KD;
-        masterPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
-        masterPivotConfig.MotionMagic.MotionMagicAcceleration = 5;
+        masterPivotConfig.MotionMagic.MotionMagicCruiseVelocity = 10;
+        masterPivotConfig.MotionMagic.MotionMagicAcceleration = 10;
 
         masterPivot.getConfigurator().apply(masterPivotConfig);
 
