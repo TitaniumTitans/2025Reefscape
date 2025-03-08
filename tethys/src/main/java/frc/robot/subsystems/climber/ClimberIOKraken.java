@@ -9,6 +9,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 
@@ -46,6 +47,7 @@ public class ClimberIOKraken implements ClimberIO{
                 setpointSignal,
                 appliedOutputSignal);
 
+        climber.setPosition(0.0);
         climber.optimizeBusUtilization();
     }
     @Override
@@ -56,7 +58,7 @@ public class ClimberIOKraken implements ClimberIO{
                 setpointSignal,
                 appliedOutputSignal
         );
-        inputs.position = positionSignal.refresh().getValueAsDouble();
+        inputs.position = Units.rotationsToDegrees(positionSignal.refresh().getValueAsDouble());
         inputs.currentDraw = currentDrawSignal.refresh().getValueAsDouble();
         inputs.setpoint = setpointSignal.refresh().getValueAsDouble();
         inputs.appliedOutput = appliedOutputSignal.refresh().getValueAsDouble();

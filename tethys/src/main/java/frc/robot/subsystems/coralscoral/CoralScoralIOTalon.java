@@ -7,6 +7,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -28,7 +29,7 @@ public class CoralScoralIOTalon implements CoralScoralIO {
     private final StatusSignal<Temperature> scorerTemperatureSignal;
     private final StatusSignal<Temperature> masterPivotTemperatureSignal;
 
-    private final MotionMagicVoltage mmPivotRequest;
+    private final PositionVoltage mmPivotRequest;
     private final NeutralOut stopRequest;
 
     private final LaserCan[] lidars;
@@ -74,12 +75,13 @@ public class CoralScoralIOTalon implements CoralScoralIO {
         };
 
 
-        mmPivotRequest = new MotionMagicVoltage(0.0)
+        mmPivotRequest = new PositionVoltage(0.0)
             .withSlot(0);
 
         var pivotConfigs = new Slot0Configs();
 
         masterPivot.getConfigurator().apply(pivotConfigs);
+        masterPivot.setPosition(0.0);
 
         stopRequest = new NeutralOut();
 

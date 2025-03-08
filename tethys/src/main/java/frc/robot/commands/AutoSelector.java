@@ -22,10 +22,13 @@ public class AutoSelector {
       new LoggedDashboardChooser<>("Auto Routine");
 
   public AutoSelector(DriveSubsystem drive, CoralScoralSubsystem coral, IntakeSubsystem intake) {
-    NamedCommands.registerCommand("score", coral.setScorerPowerFactory(2.75).withTimeout(0.45));
+    NamedCommands.registerCommand("score",
+        coral.setScorerPowerFactory(-0.25)
+        .withTimeout(0.1)
+        .andThen(coral.setScorerPowerFactory(2.5)).withTimeout(0.5));
     NamedCommands.registerCommand("intake", Commands.print("Waiting"));
     NamedCommands.registerCommand("zeroIntake", intake.zeroPivot());
-    NamedCommands.registerCommand("pickupWait", Commands.waitSeconds(0.025));
+    NamedCommands.registerCommand("pickupWait", Commands.waitSeconds(0.035));
     NamedCommands.registerCommand("scoreWait", Commands.waitSeconds(0.25));
 
 //    autoChooser.addDefaultOption("3L1Left", AutoCommands.resetPoseAndFollowChoreoPath(drive, "3L1Left"));
@@ -40,6 +43,8 @@ public class AutoSelector {
     autoChooser.addOption("2L1LeftFar", AutoBuilder.buildAuto("2L1LeftFar"));
     autoChooser.addOption("3L1LeftFar", AutoBuilder.buildAuto("3L1LeftFar"));
     autoChooser.addOption("4L1LeftFar", AutoBuilder.buildAuto("4L1LeftFar"));
+
+    autoChooser.addOption("1L1Middle", AutoBuilder.buildAuto("1L1Middle"));
 
     // parametric autos
 //    autoChooser.addOption("LeftFar.IJ.K.L",

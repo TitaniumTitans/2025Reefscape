@@ -14,6 +14,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,6 +59,8 @@ public class RobotState {
   @Setter
   private Optional<SwerveDriveSimulation> driveSimulation = Optional.empty();
 
+  private Field2d poseField = new Field2d();
+
   private final SwerveDrivePoseEstimator poseEstimator =
       new SwerveDrivePoseEstimator(
           new SwerveDriveKinematics(DriveConstants.MODULE_TRANSLATIONS),
@@ -87,6 +91,7 @@ public class RobotState {
       qStdDevs.set(i, 0, Math.pow(odometryStateStdDevs.get(i, 0), 2));
     }
     AutoLogOutputManager.addObject(this);
+    SmartDashboard.putData("Robot Pose", poseField);
   }
 
   public void resetPose(Pose2d pose) {
@@ -110,6 +115,7 @@ public class RobotState {
 
   @AutoLogOutput(key = "RobotState/EstimatedPose")
   public Pose2d getEstimatedPose() {
+    poseField.setRobotPose(poseEstimator.getEstimatedPosition());
     return poseEstimator.getEstimatedPosition();
   }
 

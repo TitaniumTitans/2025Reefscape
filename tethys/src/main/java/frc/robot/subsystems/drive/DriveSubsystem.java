@@ -10,6 +10,7 @@ import com.pathplanner.lib.util.swerve.SwerveSetpoint;
 import com.pathplanner.lib.util.swerve.SwerveSetpointGenerator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
@@ -52,6 +53,8 @@ public class DriveSubsystem extends SubsystemBase {
   private SwerveSetpoint prevSetpoint;
   private final SwerveSetpointGenerator setpointGenerator;
   private final SysIdRoutine sysId;
+
+  private Rotation2d lastHeading = new Rotation2d();
 
   public DriveSubsystem(GyroIO gyro,
                         ModuleIO flModuleIo,
@@ -163,8 +166,19 @@ public class DriveSubsystem extends SubsystemBase {
       for (int j = 0; j < 4; j++) {
         wheelPositions[j] = modules[j].getOdometryPositions()[i];
       }
+
+      Rotation2d odomHeading;
+      if (gyroInputs.connected) {
+        odomHeading = gyroInputs.odometryYawPositions[i];
+      } else {
+        Twist2d twist = kinematics.toTwist2d(wheelPositions);
+        odomHeading = lastHeading.plus(Rotation2d.fromRadians(twist.dtheta));
+      }
+
+      lastHeading = odomHeading;
+
       RobotState.getInstance()
-          .addOdometryMeasurement(gyroInputs.odometryYawPositions[i],
+          .addOdometryMeasurement(odomHeading,
               wheelPositions,
               timestamps[i]);
     }

@@ -128,8 +128,8 @@ public class ModuleIOTalonFX implements ModuleIO {
         steerAbsolutePositionSignal
     );
 
-    steerMotor.setPosition(encoder.getAbsolutePosition().getValueAsDouble()
-        - config.encoderOffset().getRotations());
+//    steerMotor.setPosition(encoder.getAbsolutePosition().getValueAsDouble()
+//        - config.encoderOffset().getRotations());
 
     inputs.driveConnected = driveMotor.isConnected();
     inputs.drivePositionRads = Units.rotationsToRadians(drivePositionSignal.getValueAsDouble());
@@ -192,7 +192,7 @@ public class ModuleIOTalonFX implements ModuleIO {
         .withStatorCurrentLimitEnable(true)
         .withStatorCurrentLimit(80);
 
-    motorConfig.Slot0.withKP(0.0) // 0.05 0.075 2.15
+    motorConfig.Slot0.withKP(0.05) // 0.05 0.075 2.15
         .withKD(0.0)
         .withKS(0.14957)
         .withKV(0.75649) // 0.71149

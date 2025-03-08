@@ -77,21 +77,22 @@ public class RobotContainer {
             new ModuleIOSim(driveSimulation.getModules()[3])
         );
 
-        visionSubsystem = new VisionSubsystem(
-            VisionConstants.FILTER_PARAMETERS,
-            new VisionIOPhotonSimulation(
-                "SIM",
-                VisionConstants.SIM_CAMERA_TRANSFORM,
-                AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField),
-                VisionConstants.SIM_CAMERA_PROPERTIES
-            ));
+//        visionSubsystem = new VisionSubsystem(
+//            VisionConstants.FILTER_PARAMETERS,
+//            new VisionIOPhotonSimulation(
+//                "SIM",
+//                VisionConstants.SIM_CAMERA_TRANSFORM,
+//                AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField),
+//                VisionConstants.SIM_CAMERA_PROPERTIES
+//            ));
+
 
         VisionEnvironmentSimulator.getInstance().addAprilTags(AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField));
         VisionEnvironmentSimulator.getInstance().addRobotPoseSupplier(RobotState.getInstance()::getEstimatedPose);
 
         SimulatedArena.getInstance().resetFieldForAuto();
 
-        RobotState.getInstance().setDriveSimulation(Optional.of(driveSimulation));
+//        RobotState.getInstance().setDriveSimulation(Optional.of(driveSimulation));
 
         intakeSubsystem = new IntakeSubsystem(new IntakeIOSimulation());
         coralSubsystem = new CoralScoralSubsystem(new CoralScoralSimulation());
@@ -130,7 +131,7 @@ public class RobotContainer {
         RobotState.getInstance()::getEstimatedPose
     ).ignoringDisable(true));
 
-    coralSubsystem.setDefaultCommand(coralSubsystem.holdPositionFactory());
+//    coralSubsystem.setDefaultCommand(coralSubsystem.holdPositionFactory());
 //    intakeSubsystem.setDefaultCommand(intakeSubsystem.zeroPivot(0.6));
 
 //    coralSubsystem.setDefaultCommand(
@@ -140,22 +141,30 @@ public class RobotContainer {
 
     driveController.rightBumper().whileTrue(
         coralSubsystem.setPivotPowerFactory(-2.0)
+    ).onFalse(
+        coralSubsystem.holdPositionFactory()
     );
+
     driveController.leftBumper().whileTrue(
         coralSubsystem.setPivotPowerFactory(2.0)
+    ).onFalse(
+        coralSubsystem.holdPositionFactory()
     );
 
     driveController.b().whileTrue(
-        coralSubsystem.setScorerPowerFactory(2.5)
+        coralSubsystem.setScorerPowerFactory(-1.0)
+            .withTimeout(0.1)
+            .andThen(coralSubsystem.setScorerPowerFactory(1.85
+            ))
     );
     driveController.a().whileTrue(
-        coralSubsystem.setScorerPowerFactory(-3.0)
+        coralSubsystem.setScorerPowerFactory(2.0)
     );
 
-    driveController.x().whileTrue(
+    driveController.y().whileTrue(
         intakeSubsystem.pickUpAlgea()
     );
-    driveController.y().whileTrue(
+    driveController.x().whileTrue(
         intakeSubsystem.dropAlgae()
     ).onFalse(intakeSubsystem.setPivotPositionFactory(100)
         .withTimeout(0.5)
@@ -163,10 +172,10 @@ public class RobotContainer {
 
     driveController.povUp().onTrue(driveSubsystem.resetPoseFactory(new Pose2d()));
 
-    driveController.leftTrigger().whileTrue(
+    driveController.rightTrigger().whileTrue(
         climberSubsystem.setClimberPowerFactory(12.0)
     );
-    driveController.rightTrigger().whileTrue(
+    driveController.leftTrigger().whileTrue(
         climberSubsystem.setClimberPowerFactory(-12.0)
     );
 

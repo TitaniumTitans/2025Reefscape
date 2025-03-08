@@ -200,5 +200,5 @@
   "splits":[0]
  },
  "events":[
-   {"name":"score", "from":{"target":2, "targetTimestamp":1.48788, "offset":{"exp":"0 s", "val":0.0}}, "event":{"type":"named", "data":{"name":"score"}}}]
+   {"name":"score", "from":{"target":2, "targetTimestamp":1.48788, "offset":{"exp":"-0.1 s", "val":-0.1}}, "event":{"type":"named", "data":{"name":"score"}}}]
 }

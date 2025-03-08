@@ -1,0 +1,14 @@
+
+d
+java:S1192="IDefine a constant instead of duplicating this literal "canivore" 3 times.(‹áõúÿÿÿÿ
+Y	java:S125„"<This block of commented-out lines of code should be removed.(Ë…‹“8æòŒ×2
+e
+java:S1128"CRemove this unused import 'com.ctre.phoenix6.configs.Slot0Configs'.(ı…Ôüÿÿÿÿ8İö´åÖ2
+h
+java:S1128"KRemove this unused import 'com.ctre.phoenix6.swerve.SwerveModuleConstants'.(Ü¿º¾8Şö´åÖ2
+i
+java:S1128"GRemove this unused import 'edu.wpi.first.units.LinearAccelerationUnit'.(Ó÷‡†úÿÿÿÿ8Şö´åÖ2
+G
+java:S1068!"*Remove this unused "config" private field.(Â¤Ğ‰8¥óŒ×2
+L
+java:S1068$"6Remove this unused "driveTorqueRequest" private field.(…âØ‘

@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOInputsAutoLogged;
 
@@ -16,15 +17,21 @@ import java.util.Queue;
 
 /** IO implementation for Pigeon 2. */
 public class GyroIOPigeon2 implements GyroIO {
-  private final Pigeon2 pigeon = new Pigeon2(13, "canivore");
-  private final StatusSignal<Angle> yaw = pigeon.getYaw();
+  private final Pigeon2 pigeon;
+  private final StatusSignal<Angle> yaw;
   private final Queue<Double> yawPositionQueue;
   private final Queue<Double> yawTimestampQueue;
-  private final StatusSignal<AngularVelocity> yawVelocity = pigeon.getAngularVelocityZWorld();
+  private final StatusSignal<AngularVelocity> yawVelocity;
 
   public GyroIOPigeon2() {
+    Timer.delay(0.25);
+    pigeon = new Pigeon2(13, "canivore");
     pigeon.getConfigurator().apply(new Pigeon2Configuration());
-    pigeon.getConfigurator().setYaw(0.0);
+    pigeon.setYaw(0.0, 0.1);
+
+     yaw = pigeon.getYaw();
+     yawVelocity = pigeon.getAngularVelocityZWorld();
+
     yaw.setUpdateFrequency(250);
     yawVelocity.setUpdateFrequency(50.0);
     pigeon.optimizeBusUtilization();

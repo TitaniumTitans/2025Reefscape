@@ -50,11 +50,24 @@ public class CoralScoralSubsystem extends SubsystemBase {
     }
 
     public Command setPivotPowerFactory(double pivotPower) {
-        return runEnd(() -> setPivotPower(pivotPower),
-            () -> setPivotPower(0.0));
+        return runEnd(() -> {
+            double power = pivotPower;
+            if (inputs.pivotPosition.getDegrees() > 60.0) {
+                power = MathUtil.clamp(power, -12.0, 0.0);
+            }
+
+            setPivotPower(power);
+            },
+            () -> io.setPivotAngle(inputs.pivotPosition.getDegrees()));
     }
 
     public Command holdPositionFactory() {
-        return runOnce(() -> io.setPivotAngle(inputs.pivotPosition.getDegrees()));
+        return run(() -> {
+            if (inputs.pivotPosition.getDegrees() > 60) {
+                io.setMotorVoltagePivot(-0.25);
+            } else {
+                io.setMotorVoltagePivot(0.0);
+            }
+        });
     }
 }
