@@ -17,10 +17,7 @@ import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
 import frc.robot.subsystems.drive.module.ModuleIOTalonFX;
-import frc.robot.subsystems.elevator.ElevatorConstants;
-import frc.robot.subsystems.elevator.ElevatorIO;
-import frc.robot.subsystems.elevator.ElevatorIOSim;
-import frc.robot.subsystems.elevator.ElevatorSubsystem;
+import frc.robot.subsystems.elevator.*;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.Logger;
@@ -49,6 +46,8 @@ public class RobotContainer
                   new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[2]),
                   new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[3])
               );
+
+              elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOKraken());
           }
           case SIM -> {
               driveSimulation = new SwerveDriveSimulation(DriveConstants.MAPLE_SIM_CONFIG, new Pose2d(3, 3, new Rotation2d()));
@@ -112,6 +111,9 @@ public class RobotContainer
        ).whileFalse(
            algaeSubsystem.setAlgaeAngle(90.0)
        );
+
+       driverController.leftBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(3.0));
+       driverController.rightBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(-3.0));
     }
     
     

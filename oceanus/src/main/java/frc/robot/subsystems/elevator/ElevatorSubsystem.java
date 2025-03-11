@@ -67,5 +67,12 @@ public class ElevatorSubsystem extends SubsystemBase {
   public Command setElevatorSetpointFactory(DoubleSupplier goal) {
     return runOnce(() -> setElevatorSetpoint(goal));
   }
+
+  public Command setElevatorVoltageFactory(double voltage) {
+    return runEnd(
+        () -> io.setElevatorVoltage(voltage),
+        () -> io.setElevatorVoltage(0.0)
+    );
+  }
 }
 

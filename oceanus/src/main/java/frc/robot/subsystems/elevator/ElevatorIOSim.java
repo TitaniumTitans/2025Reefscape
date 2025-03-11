@@ -43,9 +43,9 @@ public class ElevatorIOSim implements ElevatorIO {
 
     sim.setInputVoltage(appliedVoltage);
 
-    inputs.elevatorAppliedVoltage = appliedVoltage;
+    inputs.elevatorAppliedVoltage = new double[] {appliedVoltage, 0.0};
     inputs.elevatorVelocityMPS = sim.getVelocityMetersPerSecond();
-    inputs.elevatorCurrentDraw = new double[]{sim.getCurrentDrawAmps(), 0.0};
+    inputs.elevatorCurrentDraw = new double[] {sim.getCurrentDrawAmps(), 0.0};
   }
 
   @Override

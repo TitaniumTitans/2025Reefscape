@@ -7,9 +7,10 @@ public interface ElevatorIO {
   class ElevatorIOInputs {
     public double elevatorPositionMeters = 0.0;
     public double elevatorVelocityMPS = 0.0;
-    public double elevatorAppliedVoltage = 0.0;
+    public double[] elevatorAppliedVoltage = {0.0, 0.0};
     public double[] elevatorCurrentDraw = {0.0, 0.0};
     public boolean bottomLimitSwitch = false;
+    public boolean upperLimitSwitch = false;
   }
 
   default void updateInputs(ElevatorIOInputsAutoLogged inputs) {}
