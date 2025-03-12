@@ -2,20 +2,26 @@ package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.gos.lib.properties.pid.PidProperty;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 public class ArmIOKraken implements ArmIO {
   private final TalonFX pivot;
+  private final TalonFX rollers;
   private final CANcoder pivotEncoder;
+
+  private final MotionMagicVoltage mmControl;
+  private final PidProperty pivotProperty;
 
   public ArmIOKraken() {
     pivot = new TalonFX(16);
+    rollers = new TalonFX(18);
     pivotEncoder = new CANcoder(17);
   }
 

@@ -26,6 +26,4 @@ public class ElevatorConstants {
       new GosDoubleProperty(false, "ElevatorSetpoints/L3 Setpoint", 0.0);
   public static final GosDoubleProperty L4_SETPOINT  =
       new GosDoubleProperty(false, "ElevatorSetpoints/L4 Setpoint", 0.0);
-
-
 }
