@@ -59,6 +59,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     MechanismVisualizer.getInstance().setElevatorHeightInches(Units.metersToInches(inputs.elevatorPositionMeters));
   }
 
+  public boolean atHome() {
+    return inputs.bottomLimitSwitch || inputs.elevatorPositionMeters < Units.inchesToMeters(0.5);
+  }
+
   public void setElevatorSetpoint(DoubleSupplier goal) {
     goalState = ElevatorState.POSITION_CONTROL;
     elevatorGoal = Units.inchesToMeters(goal.getAsDouble());
