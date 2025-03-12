@@ -10,7 +10,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.algae.AlgaeIOSim;
 import frc.robot.subsystems.algae.AlgaeSubsystem;
 import frc.robot.subsystems.arm.ArmIOKraken;
@@ -18,7 +17,6 @@ import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
-import frc.robot.subsystems.drive.module.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.*;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -121,8 +119,8 @@ public class RobotContainer
        driverController.leftBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(1.5));
        driverController.rightBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(-1.5));
 
-       driverController.leftTrigger().whileTrue(armSubsystem.setArmVoltage(1.5));
-       driverController.rightTrigger().whileTrue(armSubsystem.setArmVoltage(-1.5));
+       driverController.leftTrigger().whileTrue(armSubsystem.setArmVoltageFactory(1.5));
+       driverController.rightTrigger().whileTrue(armSubsystem.setArmVoltageFactory(-1.5));
     }
     
     
