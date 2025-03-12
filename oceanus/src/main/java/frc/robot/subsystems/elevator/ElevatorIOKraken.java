@@ -62,7 +62,7 @@ public class ElevatorIOKraken implements ElevatorIO {
     followerVoltageSignal = follower.getMotorVoltage();
     followerCurrentSignal = follower.getSupplyCurrent();
 
-    BaseStatusSignal.setUpdateFrequencyForAll(50,
+    BaseStatusSignal.setUpdateFrequencyForAll(50.0,
         masterPositionSignal,
         masterVelocitySignal,
         masterVoltageSignal,
@@ -80,7 +80,7 @@ public class ElevatorIOKraken implements ElevatorIO {
     inputs.bottomLimitSwitch = lowerLimit.get();
 
     inputs.elevatorPositionMeters =
-        masterPositionSignal.getValueAsDouble() * (ElevatorConstants.SPOOL_DIAMETER_METERS / 2.0);
+        Units.metersToInches(masterPositionSignal.refresh().getValueAsDouble() * ElevatorConstants.SPOOL_DIAMETER_METERS * Math.PI);
     inputs.elevatorVelocityMPS =
         masterVelocitySignal.getValueAsDouble() * (ElevatorConstants.SPOOL_DIAMETER_METERS / 2.0);
 
@@ -122,13 +122,18 @@ public class ElevatorIOKraken implements ElevatorIO {
 
     // current limits at default
     // PID control stuff
-    config.Feedback.SensorToMechanismRatio = ElevatorConstants.GEAR_REDUCTION;
+    config.Feedback.SensorToMechanismRatio = 1.0 / ElevatorConstants.GEAR_REDUCTION;
 
     // Motor output
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     master.getConfigurator().apply(config);
+
+    config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     follower.getConfigurator().apply(config);
+
+    master.setPosition(0.0);
+    follower.setPosition(0.0);
   }
 }

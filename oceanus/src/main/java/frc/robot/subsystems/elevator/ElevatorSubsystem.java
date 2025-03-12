@@ -70,7 +70,11 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public Command setElevatorVoltageFactory(double voltage) {
     return runEnd(
-        () -> io.setElevatorVoltage(voltage),
+        () -> {
+          if (!(inputs.elevatorPositionMeters < Units.inchesToMeters(0.5) && voltage < 0.0)) {
+            io.setElevatorVoltage(voltage);
+          }
+        },
         () -> io.setElevatorVoltage(0.0)
     );
   }

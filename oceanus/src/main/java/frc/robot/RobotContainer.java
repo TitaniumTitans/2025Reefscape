@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.algae.AlgaeIOSim;
 import frc.robot.subsystems.algae.AlgaeSubsystem;
+import frc.robot.subsystems.arm.ArmIOKraken;
+import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
@@ -33,21 +35,25 @@ public class RobotContainer
     DriveSubsystem driveSubsystem;
     ElevatorSubsystem elevatorSubsystem;
     AlgaeSubsystem algaeSubsystem;
+    ArmSubsystem armSubsystem;
 
     private SwerveDriveSimulation driveSimulation;
     public RobotContainer()
     {
+        Logger.recordOutput("Robot Mode", Constants.getMode());
+
         switch (Constants.getMode()) {
           case REAL -> {
-              driveSubsystem = new DriveSubsystem(
-                  new GyroIOPigeon2(),
-                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[0]),
-                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[1]),
-                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[2]),
-                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[3])
-              );
+//              driveSubsystem = new DriveSubsystem(
+//                  new GyroIOPigeon2(),
+//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[0]),
+//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[1]),
+//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[2]),
+//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[3])
+//              );
 
               elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOKraken());
+              armSubsystem = new ArmSubsystem(new ArmIOKraken());
           }
           case SIM -> {
               driveSimulation = new SwerveDriveSimulation(DriveConstants.MAPLE_SIM_CONFIG, new Pose2d(3, 3, new Rotation2d()));
@@ -85,35 +91,38 @@ public class RobotContainer
     
     
     private void configureBindings() {
-        driveSubsystem.setDefaultCommand(
-            DriveCommands.joystickDrive(
-                driveSubsystem,
-                () -> -driverController.getLeftY(),
-                () -> -driverController.getLeftX(),
-                () -> -driverController.getRightX()
-            )
-        );
+//        driveSubsystem.setDefaultCommand(
+//            DriveCommands.joystickDrive(
+//                driveSubsystem,
+//                () -> -driverController.getLeftY(),
+//                () -> -driverController.getLeftX(),
+//                () -> -driverController.getRightX()
+//            )
+//        );
 
-        driverController.a().whileTrue(
-            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L4_SETPOINT::getValue)
-        ).onFalse(
-            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue)
-        );
+//        driverController.a().whileTrue(
+//            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L4_SETPOINT::getValue)
+//        ).onFalse(
+//            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue)
+//        );
+//
+//        driverController.b().whileTrue(
+//            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L3_SETPOINT::getValue)
+//        ).onFalse(
+//            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue)
+//        );
 
-        driverController.b().whileTrue(
-            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L3_SETPOINT::getValue)
-        ).onFalse(
-            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue)
-        );
+//       driverController.x().whileTrue(
+//           algaeSubsystem.setAlgaeAngle(45)
+//       ).whileFalse(
+//           algaeSubsystem.setAlgaeAngle(90.0)
+//       );
 
-       driverController.x().whileTrue(
-           algaeSubsystem.setAlgaeAngle(45)
-       ).whileFalse(
-           algaeSubsystem.setAlgaeAngle(90.0)
-       );
+       driverController.leftBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(1.5));
+       driverController.rightBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(-1.5));
 
-       driverController.leftBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(3.0));
-       driverController.rightBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(-3.0));
+       driverController.leftTrigger().whileTrue(armSubsystem.setArmVoltage(1.5));
+       driverController.rightTrigger().whileTrue(armSubsystem.setArmVoltage(-1.5));
     }
     
     

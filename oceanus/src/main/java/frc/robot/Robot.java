@@ -74,7 +74,6 @@ public class Robot extends LoggedRobot
     public void robotPeriodic()
     {
         MechanismVisualizer.getInstance().updateVisualization();
-        SimulatedArena.getInstance().simulationPeriodic();
         CommandScheduler.getInstance().run();
     }
     
@@ -145,4 +144,9 @@ public class Robot extends LoggedRobot
     
     @Override
     public void testExit() {}
+
+    @Override
+    public void simulationPeriodic() {
+        SimulatedArena.getInstance().simulationPeriodic();
+    }
 }
