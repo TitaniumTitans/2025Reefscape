@@ -7,11 +7,9 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.swerve.SwerveSetpoint;
-import com.pathplanner.lib.util.swerve.SwerveSetpointGenerator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -46,8 +44,6 @@ public class DriveSubsystem extends SubsystemBase {
       new SwerveDriveKinematics(DriveConstants.MODULE_TRANSLATIONS);
 
   private final SwerveDriveOdometry wpiOdom;
-  private SwerveSetpoint prevSetpoint;
-  private final SwerveSetpointGenerator setpointGenerator;
   private final SysIdRoutine sysId;
 
   public DriveSubsystem(GyroIO gyro,
@@ -68,9 +64,6 @@ public class DriveSubsystem extends SubsystemBase {
     wpiOdom = new SwerveDriveOdometry(kinematics, new Rotation2d(), getModulePositions());
 
     RobotState.getInstance().resetPose(new Pose2d());
-    setpointGenerator = new SwerveSetpointGenerator(ROBOT_CONFIG, Units.degreesToRadians(1080));
-
-    prevSetpoint = new SwerveSetpoint(getChassisSpeeds(), getModuleStates(), DriveFeedforwards.zeros(ROBOT_CONFIG.numModules));
 
     AutoBuilder.configure(
         RobotState.getInstance()::getEstimatedPose,
@@ -141,14 +134,7 @@ public class DriveSubsystem extends SubsystemBase {
       }
 
       // log empty setpoints when disabled
-      Logger.recordOutput("SwerveStates/Setpoints", prevSetpoint.moduleStates());
       Logger.recordOutput("SwerveStates/Optimized", new SwerveModuleState[]{});
-
-      prevSetpoint = new SwerveSetpoint(
-          new ChassisSpeeds(),
-          getModuleStates(),
-          DriveFeedforwards.zeros(4)
-      );
     }
 
     // update robot velocity for feedforwards
@@ -190,29 +176,14 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveModuleState[] setpointStates;
 
     // calculate module setpoints
-    if (!DriverStation.isTeleop()) {
-      ChassisSpeeds discretizedSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
-      setpointStates = kinematics.toSwerveModuleStates(discretizedSpeeds);
-      SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_LINEAR_SPEED_MPS);
+    ChassisSpeeds discretizedSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
+    setpointStates = kinematics.toSwerveModuleStates(discretizedSpeeds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_LINEAR_SPEED_MPS);
 
-      Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
-      Logger.recordOutput("SwerveSpeeds/Setpoints", speeds);
-      Logger.recordOutput("SwerveSpeeds/Optimized", discretizedSpeeds);
-      Logger.recordOutput("SwerveStates/UsingSetpoints", false);
-    } else {
-      prevSetpoint = setpointGenerator.generateSetpoint(
-          prevSetpoint,
-          speeds,
-          0.02
-      );
-
-      Logger.recordOutput("SwerveStates/Setpoints", prevSetpoint.moduleStates());
-      Logger.recordOutput("SwerveSpeeds/Setpoints", prevSetpoint.robotRelativeSpeeds());
-      Logger.recordOutput("SwerveStates/UsingSetpoints", true);
-
-      setpointStates = prevSetpoint.moduleStates();
-      feedforwards = prevSetpoint.feedforwards();
-    }
+    Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
+    Logger.recordOutput("SwerveSpeeds/Setpoints", speeds);
+    Logger.recordOutput("SwerveSpeeds/Optimized", discretizedSpeeds);
+    Logger.recordOutput("SwerveStates/UsingSetpoints", false);
 
     Logger.recordOutput("SwerveStates/Actual Setpoints", setpointStates);
 
