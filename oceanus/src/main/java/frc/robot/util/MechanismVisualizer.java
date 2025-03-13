@@ -43,7 +43,7 @@ public class MechanismVisualizer {
     Pose3d armPose = new Pose3d(
         0.0, 0.0,
         Units.inchesToMeters(elevatorHeightInches) + 0.925, // offset to account for origin
-        new Rotation3d(0.0, Units.degreesToRadians(120), 0.0)
+        new Rotation3d(0.0, Units.degreesToRadians((120 - 90) - armAngleDegrees), 0.0)
     );
 
     Pose3d coralPose = new Pose3d(

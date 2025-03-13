@@ -10,15 +10,21 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.ElevatorPositionCommand;
+import frc.robot.subsystems.algae.AlgaeIO;
 import frc.robot.subsystems.algae.AlgaeIOSim;
 import frc.robot.subsystems.algae.AlgaeSubsystem;
+import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOKraken;
+import frc.robot.subsystems.arm.ArmIOSim;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.climber.ClimberIO;
 import frc.robot.subsystems.climber.ClimberIOKraken;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
+import frc.robot.subsystems.drive.module.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.*;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -32,11 +38,11 @@ public class RobotContainer
     private final CommandXboxController driverController = new CommandXboxController(0);
     private final CommandXboxController operatorController = new CommandXboxController(1);
 
-    DriveSubsystem driveSubsystem;
-    ElevatorSubsystem elevatorSubsystem;
-    AlgaeSubsystem algaeSubsystem;
-    ArmSubsystem armSubsystem;
-    ClimberSubsystem climberSubsystem;
+    private final DriveSubsystem driveSubsystem;
+    private final ElevatorSubsystem elevatorSubsystem;
+    private final AlgaeSubsystem algaeSubsystem;
+    private final ArmSubsystem armSubsystem;
+    private final ClimberSubsystem climberSubsystem;
 
     private SwerveDriveSimulation driveSimulation;
     public RobotContainer()
@@ -45,54 +51,60 @@ public class RobotContainer
 
         switch (Constants.getMode()) {
           case REAL -> {
-//              driveSubsystem = new DriveSubsystem(
-//                  new GyroIOPigeon2(),
-//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[0]),
-//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[1]),
-//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[2]),
-//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[3])
-//              );
+              driveSubsystem = new DriveSubsystem(
+                  new GyroIOPigeon2(),
+                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[0]),
+                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[1]),
+                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[2]),
+                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[3])
+              );
 
               elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOKraken());
+              algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
               armSubsystem = new ArmSubsystem(new ArmIOKraken());
               climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
           }
           case SIM -> {
-              driveSimulation = new SwerveDriveSimulation(DriveConstants.MAPLE_SIM_CONFIG, new Pose2d(3, 3, new Rotation2d()));
-              SimulatedArena.getInstance().addDriveTrainSimulation(driveSimulation);
-              driveSubsystem = new DriveSubsystem(
-                  new GyroIOSim(driveSimulation.getGyroSimulation()),
-                  new ModuleIOSim(driveSimulation.getModules()[0]),
-                  new ModuleIOSim(driveSimulation.getModules()[1]),
-                  new ModuleIOSim(driveSimulation.getModules()[2]),
-                  new ModuleIOSim(driveSimulation.getModules()[3])
-              );
+            driveSimulation = new SwerveDriveSimulation(DriveConstants.MAPLE_SIM_CONFIG, new Pose2d(3, 3, new Rotation2d()));
+            SimulatedArena.getInstance().addDriveTrainSimulation(driveSimulation);
+            driveSubsystem = new DriveSubsystem(
+                new GyroIOSim(driveSimulation.getGyroSimulation()),
+                new ModuleIOSim(driveSimulation.getModules()[0]),
+                new ModuleIOSim(driveSimulation.getModules()[1]),
+                new ModuleIOSim(driveSimulation.getModules()[2]),
+                new ModuleIOSim(driveSimulation.getModules()[3])
+            );
 
-              SimulatedArena.getInstance().resetFieldForAuto();
-              RobotState.getInstance().setDriveSimulation(Optional.of(driveSimulation));
+            SimulatedArena.getInstance().resetFieldForAuto();
+            RobotState.getInstance().setDriveSimulation(Optional.of(driveSimulation));
 
-              elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOSim());
-              algaeSubsystem = new AlgaeSubsystem(new AlgaeIOSim());
+            elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOSim());
+            algaeSubsystem = new AlgaeSubsystem(new AlgaeIOSim());
+            armSubsystem = new ArmSubsystem(new ArmIOSim());
+            climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
           }
-          case REPLAY -> {
-              driveSubsystem = new DriveSubsystem(
-                  new GyroIO() {
-                  },
-                  new ModuleIO() {},
-                  new ModuleIO() {},
-                  new ModuleIO() {},
-                  new ModuleIO() {}
-              );
+          default -> {
+            driveSubsystem = new DriveSubsystem(
+                new GyroIO() {
+                },
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {}
+            );
 
-              elevatorSubsystem = new ElevatorSubsystem(new ElevatorIO() {});
+            elevatorSubsystem = new ElevatorSubsystem(new ElevatorIO() {});
+            armSubsystem = new ArmSubsystem(new ArmIO() {});
+            algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
+            climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
           }
         }
 
-        configureBindings();
+      configureBindings();
     }
     
     
-    private void configureBindings() {
+  private void configureBindings() {
 //        driveSubsystem.setDefaultCommand(
 //            DriveCommands.joystickDrive(
 //                driveSubsystem,
@@ -102,23 +114,16 @@ public class RobotContainer
 //            )
 //        );
 
-//        driverController.a().whileTrue(
-//            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L4_SETPOINT::getValue)
-//        ).onFalse(
-//            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue)
-//        );
-//
-//        driverController.b().whileTrue(
-//            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L3_SETPOINT::getValue)
-//        ).onFalse(
-//            elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue)
-//        );
+    ElevatorPositionCommand elevatorCommand = new ElevatorPositionCommand(
+        algaeSubsystem,
+        elevatorSubsystem,
+        armSubsystem
+    );
 
-//       driverController.x().whileTrue(
-//           algaeSubsystem.setAlgaeAngle(45)
-//       ).whileFalse(
-//           algaeSubsystem.setAlgaeAngle(90.0)
-//       );
+      driverController.a().toggleOnTrue(Commands.startEnd(
+          () -> elevatorCommand.getCommand(ElevatorPositionCommand.ScoringPose.L4).schedule(),
+          () -> elevatorCommand.getCommand(ElevatorPositionCommand.ScoringPose.HOME).schedule()
+      ));
 
        driverController.leftBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(1.5));
        driverController.rightBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(-1.5));

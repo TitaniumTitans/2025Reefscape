@@ -50,7 +50,7 @@ public class ClimberIOKraken implements ClimberIO{
     );
     inputs.position = Units.rotationsToDegrees(positionSignal.refresh().getValueAsDouble());
     inputs.currentDraw = currentDrawSignal.refresh().getValueAsDouble();
-    inputs.appliedOutput = appliedVoltageSignal.refresh().getValueAsDouble();
+    inputs.appliedVoltage = appliedVoltageSignal.refresh().getValueAsDouble();
   }
   @Override
   public void setMotorVoltage(double voltage) {

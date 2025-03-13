@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.MechanismVisualizer;
 import lombok.extern.java.Log;
 import org.littletonrobotics.junction.Logger;
 
@@ -27,6 +28,8 @@ public class ArmSubsystem extends SubsystemBase {
     if (DriverStation.isDisabled()) {
       io.setArmPivotVoltage(0.0);
     }
+
+    MechanismVisualizer.getInstance().setArmAngleDegrees(inputs.armAngle.getDegrees());
   }
 
   public Command setArmPosition(Rotation2d angle) {

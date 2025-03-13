@@ -38,5 +38,13 @@
     "properties": {
       "persistent": true
     }
+  },
+  {
+    "name": "/Preferences/Drive/Max Turn Speed",
+    "type": "double",
+    "value": 0.7,
+    "properties": {
+      "persistent": true
+    }
   }
 ]
