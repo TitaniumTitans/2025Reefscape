@@ -136,7 +136,8 @@ public class RobotState {
 
   @AutoLogOutput(key = "RobotState/In Danger Zone")
   public boolean inReefZone() {
-    return keepoutZoneBlue.contains(GeometryConvertor.toDyn4jTransform(getEstimatedPose()).getTranslation());
+    return keepoutZoneBlue.contains(GeometryConvertor.toDyn4jTransform(getEstimatedPose()).getTranslation())
+        && keepoutZoneRed.contains(GeometryConvertor.toDyn4jTransform(getEstimatedPose()).getTranslation());
   }
 
 

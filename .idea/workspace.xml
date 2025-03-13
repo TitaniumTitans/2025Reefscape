@@ -7,7 +7,10 @@
     <list default="true" id="2c585a44-a51b-455f-b323-bbe5119c28ff" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/BuildConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/BuildConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotState.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralIOTalon.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralIOTalon.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

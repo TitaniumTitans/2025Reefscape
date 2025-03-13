@@ -1,5 +1,7 @@
 package frc.robot.subsystems.coral;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Rotation2d;
 
@@ -9,11 +11,15 @@ public class CoralIOTalon implements CoralIO {
   private final TalonFX outerCoral;
   private final TalonFX innerCoral;
 
+  private final MotionMagicVoltage mmControl;
+
   public CoralIOTalon() {
     pivot = new TalonFX(CoralConstants.PIVOT_ID);
     hopper = new TalonFX(CoralConstants.HOPPER_ID);
     outerCoral = new TalonFX(CoralConstants.OUTER_ID);
     innerCoral = new TalonFX(CoralConstants.INNER_ID);
+
+    mmControl = new MotionMagicVoltage(0.0);
   }
 
   @Override
@@ -35,6 +41,11 @@ public class CoralIOTalon implements CoralIO {
   }
 
   @Override
+  public void setPivotAngle(double appliedVolts) {
+    CoralIO.super.setPivotAngle(appliedVolts);
+  }
+
+  @Override
   public void setPivotVoltage(double appliedVolts) {
     pivot.setVoltage(appliedVolts);
   }
@@ -48,5 +59,11 @@ public class CoralIOTalon implements CoralIO {
   public void setCoralVoltage(double outerVolt, double innerVolt) {
     outerCoral.setVoltage(outerVolt);
     innerCoral.setVoltage(innerVolt);
+  }
+
+  public void configureDevices() {
+    var motorConfig = new TalonFXConfiguration();
+
+    motorConfig.Feedback.SensorToMechanismRatio = CoralConstants.PIVOT_GEAR_RATIO;
   }
 }

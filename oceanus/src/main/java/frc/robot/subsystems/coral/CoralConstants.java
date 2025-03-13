@@ -9,4 +9,5 @@ public class CoralConstants {
   public static final double KP = 0.0;
   public static final double KI = 0.0;
   public static final double KD = 0.0;
+  public static final double PIVOT_GEAR_RATIO = 5.0 * (72.0 / 22.0) * (48.0 / 18.0);
 }
