@@ -14,6 +14,8 @@ import frc.robot.subsystems.algae.AlgaeIOSim;
 import frc.robot.subsystems.algae.AlgaeSubsystem;
 import frc.robot.subsystems.arm.ArmIOKraken;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.climber.ClimberIOKraken;
+import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
@@ -34,6 +36,7 @@ public class RobotContainer
     ElevatorSubsystem elevatorSubsystem;
     AlgaeSubsystem algaeSubsystem;
     ArmSubsystem armSubsystem;
+    ClimberSubsystem climberSubsystem;
 
     private SwerveDriveSimulation driveSimulation;
     public RobotContainer()
@@ -52,6 +55,7 @@ public class RobotContainer
 
               elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOKraken());
               armSubsystem = new ArmSubsystem(new ArmIOKraken());
+              climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
           }
           case SIM -> {
               driveSimulation = new SwerveDriveSimulation(DriveConstants.MAPLE_SIM_CONFIG, new Pose2d(3, 3, new Rotation2d()));
