@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.MechanismVisualizer;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 import java.util.function.DoubleSupplier;
@@ -16,11 +17,12 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public enum ElevatorState {
     ZEROING,
+    VOLTAGE_CONTROL,
     POSITION_CONTROL,
     DISABLED
   }
 
-  private ElevatorState goalState = ElevatorState.ZEROING;
+  private ElevatorState goalState = ElevatorState.DISABLED;
   private double elevatorGoal = 0.0;
 
   public ElevatorSubsystem(ElevatorIO io) {
@@ -47,23 +49,27 @@ public class ElevatorSubsystem extends SubsystemBase {
           io.setElevatorVoltage(0.0);
         }
       }
-      case POSITION_CONTROL -> {
-        io.setElevatorPosition(elevatorGoal);
-      }
+      case POSITION_CONTROL -> io.setElevatorPosition(elevatorGoal);
       case DISABLED -> {
         elevatorGoal = inputs.elevatorPositionMeters;
         io.setElevatorPosition(elevatorGoal);
+      }
+      default -> {
+        // we're fine here, nothing needed to be done
+        return;
       }
     }
 
     MechanismVisualizer.getInstance().setElevatorHeightInches(Units.metersToInches(inputs.elevatorPositionMeters));
   }
 
+  @AutoLogOutput(key = "Elevator/At Home")
   public boolean atHome() {
     return inputs.bottomLimitSwitch
         || inputs.elevatorPositionMeters < Units.inchesToMeters(ElevatorConstants.HOME_CLEAR_SETPOINT.getValue());
   }
 
+  @AutoLogOutput(key = "Elevator/At L4")
   public boolean atL4() {
     return inputs.upperLimitSwitch
         || inputs.elevatorPositionMeters > Units.inchesToMeters(ElevatorConstants.L4_SETPOINT.getValue() - 5.0);
@@ -83,6 +89,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public Command setElevatorVoltageFactory(double voltage) {
+    goalState = ElevatorState.VOLTAGE_CONTROL;
     return runEnd(
         () -> {
           if (!(inputs.elevatorPositionMeters < Units.inchesToMeters(0.5) && voltage < 0.0)) {
