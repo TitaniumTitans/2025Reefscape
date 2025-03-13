@@ -22,6 +22,9 @@ import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.climber.ClimberIO;
 import frc.robot.subsystems.climber.ClimberIOKraken;
 import frc.robot.subsystems.climber.ClimberSubsystem;
+import frc.robot.subsystems.coral.CoralIO;
+import frc.robot.subsystems.coral.CoralIOTalon;
+import frc.robot.subsystems.coral.CoralSubsystem;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
@@ -44,6 +47,7 @@ public class RobotContainer
     private final AlgaeSubsystem algaeSubsystem;
     private final ArmSubsystem armSubsystem;
     private final ClimberSubsystem climberSubsystem;
+    private final CoralSubsystem coralSubsystem;
 
     private SwerveDriveSimulation driveSimulation;
     public RobotContainer()
@@ -52,18 +56,32 @@ public class RobotContainer
 
         switch (Constants.getMode()) {
           case REAL -> {
-              driveSubsystem = new DriveSubsystem(
-                  new GyroIOPigeon2(),
-                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[0]),
-                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[1]),
-                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[2]),
-                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[3])
-              );
+//              driveSubsystem = new DriveSubsystem(
+//                  new GyroIOPigeon2(),
+//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[0]),
+//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[1]),
+//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[2]),
+//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[3])
+//              );
+//
+//              elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOKraken());
+//              algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
+//              armSubsystem = new ArmSubsystem(new ArmIOKraken());
+//              climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
+            driveSubsystem = new DriveSubsystem(
+                new GyroIO() {
+                },
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {}
+            );
 
-              elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOKraken());
-              algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
-              armSubsystem = new ArmSubsystem(new ArmIOKraken());
-              climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
+            elevatorSubsystem = new ElevatorSubsystem(new ElevatorIO() {});
+            armSubsystem = new ArmSubsystem(new ArmIO() {});
+            algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
+            climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
+            coralSubsystem = new CoralSubsystem(new CoralIOTalon());
           }
           case SIM -> {
             driveSimulation = new SwerveDriveSimulation(DriveConstants.MAPLE_SIM_CONFIG, new Pose2d(3, 3, new Rotation2d()));
@@ -78,11 +96,13 @@ public class RobotContainer
 
             SimulatedArena.getInstance().resetFieldForAuto();
             RobotState.getInstance().setDriveSimulation(Optional.of(driveSimulation));
+            RobotState.getInstance().resetPose(new Pose2d(1.0, 1.0, Rotation2d.fromRadians(0.0)));
 
             elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOSim());
             algaeSubsystem = new AlgaeSubsystem(new AlgaeIOSim());
             armSubsystem = new ArmSubsystem(new ArmIOSim());
             climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
+            coralSubsystem = new CoralSubsystem(new CoralIO() {});
           }
           default -> {
             driveSubsystem = new DriveSubsystem(
@@ -98,6 +118,7 @@ public class RobotContainer
             armSubsystem = new ArmSubsystem(new ArmIO() {});
             algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
             climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
+            coralSubsystem = new CoralSubsystem(new CoralIO() {});
           }
         }
 
@@ -121,21 +142,31 @@ public class RobotContainer
         armSubsystem
     );
 
-      driverController.a().toggleOnTrue(Commands.startEnd(
-          () -> elevatorCommand.getCommand(ElevatorPositionCommand.ScoringPose.L4).schedule(),
-          () -> elevatorCommand.getCommand(ElevatorPositionCommand.ScoringPose.HOME).schedule()
-      ));
+//    driverController.a().toggleOnTrue(Commands.startEnd(
+//        () -> elevatorCommand.getCommand(ElevatorPositionCommand.ScoringPose.L4).schedule(),
+//        () -> elevatorCommand.getCommand(ElevatorPositionCommand.ScoringPose.HOME).schedule()
+//    ));
 
-      driverController.x().toggleOnTrue(Commands.startEnd(
-          () -> elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L4_SETPOINT::getValue).schedule(),
-          () -> elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue).schedule()
-      ));
+//    driverController.x().toggleOnTrue(Commands.startEnd(
+//        () -> elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L4_SETPOINT::getValue).schedule(),
+//        () -> elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue).schedule()
+//    ));
 
-       driverController.leftBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(1.5));
-       driverController.rightBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(-1.5));
+    driverController.leftBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(1.5));
+    driverController.rightBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(-1.5));
 
-       driverController.leftTrigger().whileTrue(armSubsystem.setArmVoltageFactory(1.5));
-       driverController.rightTrigger().whileTrue(armSubsystem.setArmVoltageFactory(-1.5));
+    driverController.leftTrigger().whileTrue(armSubsystem.setArmVoltageFactory(1.5));
+    driverController.rightTrigger().whileTrue(armSubsystem.setArmVoltageFactory(-1.5));
+
+    driverController.b()
+        .whileTrue(coralSubsystem.setScoringVoltages(0.0, 3.0, 0.0))
+        .whileFalse(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0));
+    driverController.y()
+        .whileTrue(coralSubsystem.setScoringVoltages(4.0, 3.0, 3.0))
+        .whileFalse(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0));
+    driverController.a()
+        .whileTrue(coralSubsystem.setScoringVoltages(-3.0, 0.0, 0.0))
+        .whileFalse(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0));
     }
     
     
