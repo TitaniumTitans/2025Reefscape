@@ -49,10 +49,10 @@ public class RobotState {
 
     for (int i = 0; i < 6; i++) {
       safezonePoints[i] = FieldConstants.Reef.center.plus(
-          new Translation2d(Units.inchesToMeters(10), angle)
+          new Translation2d(Units.inchesToMeters(70), angle)
       );
 
-      angle.plus(Rotation2d.fromDegrees(60));
+      angle = angle.plus(Rotation2d.fromDegrees(60));
     }
 
     Vector2[] blueVecs = Arrays.stream(safezonePoints).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
@@ -132,6 +132,11 @@ public class RobotState {
 
   public Rotation2d getRotation() {
     return poseEstimator.getEstimatedPosition().getRotation();
+  }
+
+  @AutoLogOutput(key = "RobotState/In Danger Zone")
+  public boolean inReefZone() {
+    return keepoutZoneBlue.contains(GeometryConvertor.toDyn4jTransform(getEstimatedPose()).getTranslation());
   }
 
 
