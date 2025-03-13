@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="2c585a44-a51b-455f-b323-bbe5119c28ff" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/arm/ArmIOKraken.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/arm/ArmIOKraken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/commands/ElevatorPositionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/commands/ElevatorPositionCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/arm/ArmSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/arm/ArmSubsystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/elevator/ElevatorConstants.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,23 +37,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="oceanus" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="oceanus" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="oceanus" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="deployutils" type="c8890929:TasksNode$1" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
