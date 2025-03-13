@@ -14,4 +14,11 @@ public class ArmConstants {
   public static final double KI = 0.0;
   public static final double KD = 0.0;
   public static final double KG = 0.0;
+
+  public static final Rotation2d ARM_HOME_SETPOINT = Rotation2d.fromDegrees(-90.0);
+  public static final Rotation2d L2_SETPOINT = Rotation2d.fromDegrees(-90.0);
+  public static final Rotation2d L3_SETPOINT = Rotation2d.fromDegrees(-90.0);
+  public static final Rotation2d L4_SETPOINT = Rotation2d.fromDegrees(-90.0);
+  public static final Rotation2d BARGE_SETPOINT = Rotation2d.fromDegrees(-90.0);
+  public static final Rotation2d ALGAE_SETPOINT = Rotation2d.fromDegrees(-90.0);
 }

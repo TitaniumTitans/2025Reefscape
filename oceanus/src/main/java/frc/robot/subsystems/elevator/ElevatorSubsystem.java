@@ -60,7 +60,17 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public boolean atHome() {
-    return inputs.bottomLimitSwitch || inputs.elevatorPositionMeters < Units.inchesToMeters(0.5);
+    return inputs.bottomLimitSwitch
+        || inputs.elevatorPositionMeters < Units.inchesToMeters(ElevatorConstants.HOME_CLEAR_SETPOINT.getValue());
+  }
+
+  public boolean atL4() {
+    return inputs.upperLimitSwitch
+        || inputs.elevatorPositionMeters > Units.inchesToMeters(ElevatorConstants.L4_SETPOINT.getValue() - 5.0);
+  }
+
+  public void setDisabled() {
+    goalState = ElevatorState.DISABLED;
   }
 
   public void setElevatorSetpoint(DoubleSupplier goal) {

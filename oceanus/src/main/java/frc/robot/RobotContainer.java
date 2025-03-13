@@ -66,7 +66,6 @@ public class RobotContainer
 //
 //              elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOKraken());
 //              algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
-//              armSubsystem = new ArmSubsystem(new ArmIOKraken());
 //              climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
             driveSubsystem = new DriveSubsystem(
                 new GyroIO() {
@@ -78,7 +77,7 @@ public class RobotContainer
             );
 
             elevatorSubsystem = new ElevatorSubsystem(new ElevatorIO() {});
-            armSubsystem = new ArmSubsystem(new ArmIO() {});
+            armSubsystem = new ArmSubsystem(new ArmIOKraken());
             algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
             climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
             coralSubsystem = new CoralSubsystem(new CoralIOTalon());
@@ -167,6 +166,8 @@ public class RobotContainer
     driverController.a()
         .whileTrue(coralSubsystem.setScoringVoltages(-3.0, 0.0, 0.0))
         .whileFalse(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0));
+    driverController.x()
+        .whileTrue(armSubsystem.setRollerVoltageFactory(3.0));
     }
     
     

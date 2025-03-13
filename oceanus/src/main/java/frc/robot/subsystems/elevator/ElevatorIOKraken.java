@@ -121,6 +121,9 @@ public class ElevatorIOKraken implements ElevatorIO {
     config.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(360);
 
     // current limits at default
+    config.CurrentLimits.SupplyCurrentLimit = 40;
+    config.CurrentLimits.StatorCurrentLimit = 80;
+
     // PID control stuff
     config.Feedback.SensorToMechanismRatio = 1.0 / ElevatorConstants.GEAR_REDUCTION;
 

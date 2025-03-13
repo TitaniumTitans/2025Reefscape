@@ -30,4 +30,8 @@ public class ElevatorConstants {
       new GosDoubleProperty(false, "ElevatorSetpoints/Barge Setpoint", 0.0);
   public static final GosDoubleProperty HOME_CLEAR_SETPOINT =
       new GosDoubleProperty(false, "ElevatorSetpoints/Home Clearance Setpoint", 0.0);
+  public static final GosDoubleProperty ALGAE_L2_SETPOINT =
+      new GosDoubleProperty(false, "ElevatorSetpoints/Algae L2", 0.0);
+  public static final GosDoubleProperty ALGAE_L3_SETPOINT =
+      new GosDoubleProperty(false, "ElevatorSetpoints/Algae L2", 0.0);
 }

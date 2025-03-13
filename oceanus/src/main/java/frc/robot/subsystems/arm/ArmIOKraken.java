@@ -120,6 +120,9 @@ public class ArmIOKraken implements ArmIO {
     motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(360);
     motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(360);
 
+    motorConfig.CurrentLimits.SupplyCurrentLimit = 40;
+    motorConfig.CurrentLimits.StatorCurrentLimit = 80;
+
     pivot.getConfigurator().apply(motorConfig);
 
     var encoderConfig = new CANcoderConfiguration();
