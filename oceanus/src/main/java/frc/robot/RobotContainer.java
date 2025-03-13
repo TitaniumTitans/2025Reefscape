@@ -125,6 +125,11 @@ public class RobotContainer
           () -> elevatorCommand.getCommand(ElevatorPositionCommand.ScoringPose.HOME).schedule()
       ));
 
+      driverController.x().toggleOnTrue(Commands.startEnd(
+          () -> elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L4_SETPOINT::getValue).schedule(),
+          () -> elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue).schedule()
+      ));
+
        driverController.leftBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(1.5));
        driverController.rightBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(-1.5));
 

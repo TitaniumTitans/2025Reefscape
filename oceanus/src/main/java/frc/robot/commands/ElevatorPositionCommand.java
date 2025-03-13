@@ -81,10 +81,10 @@ public class ElevatorPositionCommand {
             }
           }
 
-          group.addRequirements(elevatorSubsystem, algaeSubsystem);
+          group.addRequirements(elevatorSubsystem, algaeSubsystem, armSubsystem);
           return group;
         },
-        Set.of(elevatorSubsystem, algaeSubsystem)
+        Set.of(elevatorSubsystem, algaeSubsystem, armSubsystem)
     );
   }
 }

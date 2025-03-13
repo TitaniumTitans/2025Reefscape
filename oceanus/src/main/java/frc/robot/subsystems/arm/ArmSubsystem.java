@@ -35,7 +35,7 @@ public class ArmSubsystem extends SubsystemBase {
   public Command setArmPosition(Rotation2d angle) {
     armSetpoint = angle;
     Logger.recordOutput("Arm/Setpoint", armSetpoint);
-    return run(() -> io.setArmPivotAngle(armSetpoint));
+    return runOnce(() -> io.setArmPivotAngle(armSetpoint));
   }
 
   public Command setArmVoltageFactory(double voltage) {
@@ -53,11 +53,11 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public Command waitUntilAtSetpoint() {
-    return Commands.none().until(
+    return Commands.run(() -> {}).until(
         () -> MathUtil.isNear(
             armSetpoint.getDegrees(),
             inputs.armAngle.getDegrees(),
-            5
+            1
         )
     );
   }

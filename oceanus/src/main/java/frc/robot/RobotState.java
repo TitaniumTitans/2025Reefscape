@@ -1,24 +1,35 @@
 package frc.robot;
 
+import com.pathplanner.lib.util.FlippingUtil;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.TimeInterpolatableBuffer;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
 import frc.robot.subsystems.drive.DriveConstants;
+import frc.robot.util.AllianceFlipUtil;
+import frc.robot.util.FieldConstants;
 import frc.robot.util.FieldRelativeSpeeds;
 import lombok.Getter;
 import lombok.Setter;
+import org.dyn4j.geometry.Polygon;
+import org.dyn4j.geometry.Vector2;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
+import org.ironmaple.utils.mathutils.GeometryConvertor;
+import org.ironmaple.utils.mathutils.MapleCommonMath;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
+import org.littletonrobotics.junction.Logger;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 public class RobotState {
@@ -28,6 +39,29 @@ public class RobotState {
   public static RobotState getInstance() {
     if (instance == null) instance = new RobotState();
     return instance;
+  }
+
+  public static final Polygon keepoutZoneBlue;
+  public static final Polygon keepoutZoneRed;
+  static {
+    Translation2d[] safezonePoints = new Translation2d[6];
+    Rotation2d angle = Rotation2d.fromDegrees(30);
+
+    for (int i = 0; i < 6; i++) {
+      safezonePoints[i] = FieldConstants.Reef.center.plus(
+          new Translation2d(Units.inchesToMeters(10), angle)
+      );
+
+      angle.plus(Rotation2d.fromDegrees(60));
+    }
+
+    Vector2[] blueVecs = Arrays.stream(safezonePoints).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
+    Vector2[] redVecs = Arrays.stream(safezonePoints).map(AllianceFlipUtil::apply).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
+
+    Logger.recordOutput("Safezone", safezonePoints);
+
+    keepoutZoneBlue = new Polygon(blueVecs);
+    keepoutZoneRed = new Polygon(redVecs);
   }
 
   // Pose estimation

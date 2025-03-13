@@ -11,16 +11,16 @@ public class ArmIOSim implements ArmIO {
       ArmConstants.PIVOT_GEAR_RATIO,
       1.0,
       1.5,
-      0.0,
+      -Math.PI * 2,
       Math.PI * 2,
       false,
-      0.0,
+      -Math.PI / 2.0,
       0.0,
       0.0
   );
 
   private final PIDController pid =
-      new PIDController(1.0, 0.0, 0.0);
+      new PIDController(10.0, 0.0, 0.0);
 
   private boolean closedLoop = false;
   private double appliedVoltage = 0.0;
