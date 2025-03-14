@@ -20,7 +20,7 @@ public class ArmIOSim implements ArmIO {
   );
 
   private final PIDController pid =
-      new PIDController(10.0, 0.0, 0.0);
+      new PIDController(20.0, 0.0, 0.0);
 
   private boolean closedLoop = false;
   private double appliedVoltage = 0.0;

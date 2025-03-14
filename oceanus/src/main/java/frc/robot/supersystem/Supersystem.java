@@ -1,5 +1,6 @@
 package frc.robot.supersystem;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotState;
 import frc.robot.subsystems.arm.ArmConstants;
@@ -42,6 +43,11 @@ public class Supersystem {
   }
 
   public void periodic() {
+    if (DriverStation.isDisabled() || desiredState == SupersystemState.DISABLED) {
+      desiredState = SupersystemState.DISABLED;
+      return;
+    }
+
     // if we are coming or leaving home, go to a clearance state
     if (RobotState.getInstance().inReefZone()) {
       if (desiredState == SupersystemState.L4 && !elevatorSubsystem.atL4()) {
@@ -56,8 +62,8 @@ public class Supersystem {
         return;
       }
     } else if (
-        (desiredState == SupersystemState.HOME && !elevatorSubsystem.underClearance())
-        || (desiredState != SupersystemState.HOME && elevatorSubsystem.underClearance())
+        (desiredState == SupersystemState.HOME && elevatorSubsystem.overClearance() && !armSubsystem.atHome())
+        || (desiredState != SupersystemState.HOME && !elevatorSubsystem.overClearance())
     ) {
       elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.HOME_CLEAR_SETPOINT::getValue);
       armSubsystem.setArmPosition(ArmConstants.ARM_HOME_SETPOINT);

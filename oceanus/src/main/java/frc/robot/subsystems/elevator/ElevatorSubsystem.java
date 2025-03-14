@@ -66,15 +66,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   @AutoLogOutput(key = "Elevator/Over Clearance")
-  public boolean underClearance() {
-    return inputs.bottomLimitSwitch
-        || inputs.elevatorPositionMeters <= Units.inchesToMeters(ElevatorConstants.HOME_CLEAR_SETPOINT.getValue() - 1.0);
-  }
-
-  @AutoLogOutput(key = "Elevator/Under Clearance")
   public boolean overClearance() {
-    return inputs.bottomLimitSwitch
-        || inputs.elevatorPositionMeters <= Units.inchesToMeters(ElevatorConstants.HOME_CLEAR_SETPOINT.getValue() - 1.0);
+    return inputs.elevatorPositionMeters >= Units.inchesToMeters(ElevatorConstants.HOME_CLEAR_SETPOINT.getValue() - 1.0);
   }
 
   @AutoLogOutput(key = "Elevator/At L4")

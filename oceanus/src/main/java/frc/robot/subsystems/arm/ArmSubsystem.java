@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.elevator.ElevatorConstants;
 import frc.robot.util.MechanismVisualizer;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -65,6 +66,22 @@ public class ArmSubsystem extends SubsystemBase {
     armSetpoint = angle;
   }
 
+  public boolean atSetpoint() {
+    return MathUtil.isNear(
+        armSetpoint.getDegrees(),
+        inputs.armAngle.getDegrees(),
+        5
+    );
+  }
+
+  public boolean atHome() {
+    return MathUtil.isNear(
+        ArmConstants.ARM_HOME_SETPOINT.getDegrees(),
+        inputs.armAngle.getDegrees(),
+        5
+    );
+  }
+
   public Command setArmPositionFactory(Rotation2d angle) {
     goalState = ArmState.POSITION_CONTROL;
     return runOnce(() -> armSetpoint = angle);
@@ -86,13 +103,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public Command waitUntilAtSetpoint() {
-    return Commands.run(() -> {}).until(
-        () -> MathUtil.isNear(
-            armSetpoint.getDegrees(),
-            inputs.armAngle.getDegrees(),
-            1
-        )
-    );
+    return Commands.run(() -> {}).until(this::atSetpoint);
   }
 }
 
