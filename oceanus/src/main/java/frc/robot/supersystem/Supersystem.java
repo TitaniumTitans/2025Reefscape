@@ -2,6 +2,8 @@ package frc.robot.supersystem;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotState;
 import frc.robot.subsystems.arm.ArmConstants;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -10,7 +12,7 @@ import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
 
-public class Supersystem {
+public class Supersystem extends SubsystemBase {
   public enum SupersystemState {
     DISABLED,
     HOME,
@@ -39,72 +41,74 @@ public class Supersystem {
   }
 
   public Command setDesiredState(SupersystemState state) {
-    return armSubsystem.runOnce(() -> desiredState = state);
+    return Commands.runOnce(() -> desiredState = state);
   }
 
-  public void periodic() {
-    if (DriverStation.isDisabled() || desiredState == SupersystemState.DISABLED) {
-      desiredState = SupersystemState.DISABLED;
-      return;
-    }
-
-    // if we are coming or leaving home, go to a clearance state
-    if (RobotState.getInstance().inReefZone()) {
-      if (desiredState == SupersystemState.L4 && !elevatorSubsystem.atL4()) {
-        // we're at L4, and we're in the reef location
-        elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L3_SETPOINT::getValue);
-        armSubsystem.setArmPosition(ArmConstants.L3_SETPOINT);
-        return;
-      } else if (elevatorSubsystem.atL4()) {
-        // we're going to L4, and in the reef
-        elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L4_SETPOINT::getValue);
-        armSubsystem.setArmPosition(ArmConstants.L4_SETPOINT);
+  public Command periodicCommand() {
+    return Commands.run(() -> {
+      if (DriverStation.isDisabled() || desiredState == SupersystemState.DISABLED) {
+        desiredState = SupersystemState.DISABLED;
         return;
       }
-    } else if (
-        (desiredState == SupersystemState.HOME && elevatorSubsystem.overClearance() && !armSubsystem.atHome())
-        || (desiredState != SupersystemState.HOME && !elevatorSubsystem.overClearance())
-    ) {
-      elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.HOME_CLEAR_SETPOINT::getValue);
-      armSubsystem.setArmPosition(ArmConstants.ARM_HOME_SETPOINT);
-      // wait until everything is clear
-      return;
-    }
 
-    // Everything else passes, so we can move the arm and elevator to the desired locations
-    switch (desiredState) {
-      case DISABLED -> {
-        elevatorSubsystem.setDisabled();
-        armSubsystem.setDisabled();
-      }
-      case HOME -> {
-        elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.HOME_SETPOINT::getValue);
+      // if we are coming or leaving home, go to a clearance state
+      if (RobotState.getInstance().inReefZone()) {
+        if (desiredState == SupersystemState.L4 && !elevatorSubsystem.atL4()) {
+          // we're at L4, and we're in the reef location
+          elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L3_SETPOINT::getValue);
+          armSubsystem.setArmPosition(ArmConstants.L3_SETPOINT);
+          return;
+        } else if (elevatorSubsystem.atL4()) {
+          // we're going to L4, and in the reef
+          elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L4_SETPOINT::getValue);
+          armSubsystem.setArmPosition(ArmConstants.L4_SETPOINT);
+          return;
+        }
+      } else if (
+          (desiredState == SupersystemState.HOME && elevatorSubsystem.overClearance() && !armSubsystem.atHome())
+              || (desiredState != SupersystemState.HOME && !elevatorSubsystem.overClearance())
+      ) {
+        elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.HOME_CLEAR_SETPOINT::getValue);
         armSubsystem.setArmPosition(ArmConstants.ARM_HOME_SETPOINT);
+        // wait until everything is clear
+        return;
       }
-      case L2 -> {
-        elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L2_SETPOINT::getValue);
-        armSubsystem.setArmPosition(ArmConstants.L2_SETPOINT);
+
+      // Everything else passes, so we can move the arm and elevator to the desired locations
+      switch (desiredState) {
+        case DISABLED -> {
+          elevatorSubsystem.setDisabled();
+          armSubsystem.setDisabled();
+        }
+        case HOME -> {
+          elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.HOME_SETPOINT::getValue);
+          armSubsystem.setArmPosition(ArmConstants.ARM_HOME_SETPOINT);
+        }
+        case L2 -> {
+          elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L2_SETPOINT::getValue);
+          armSubsystem.setArmPosition(ArmConstants.L2_SETPOINT);
+        }
+        case L3 -> {
+          elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L3_SETPOINT::getValue);
+          armSubsystem.setArmPosition(ArmConstants.L3_SETPOINT);
+        }
+        case L4 -> {
+          elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L4_SETPOINT::getValue);
+          armSubsystem.setArmPosition(ArmConstants.L4_SETPOINT);
+        }
+        case BARGE -> {
+          elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.BARGE_SETPOINT::getValue);
+          armSubsystem.setArmPosition(ArmConstants.BARGE_SETPOINT);
+        }
+        case ALGAE_L2 -> {
+          elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.ALGAE_L2_SETPOINT::getValue);
+          armSubsystem.setArmPosition(ArmConstants.ALGAE_SETPOINT);
+        }
+        case ALGAE_L3 -> {
+          elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.ALGAE_L3_SETPOINT::getValue);
+          armSubsystem.setArmPosition(ArmConstants.ALGAE_SETPOINT);
+        }
       }
-      case L3 -> {
-        elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L3_SETPOINT::getValue);
-        armSubsystem.setArmPosition(ArmConstants.L3_SETPOINT);
-      }
-      case L4 -> {
-        elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L4_SETPOINT::getValue);
-        armSubsystem.setArmPosition(ArmConstants.L4_SETPOINT);
-      }
-      case BARGE -> {
-        elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.BARGE_SETPOINT::getValue);
-        armSubsystem.setArmPosition(ArmConstants.BARGE_SETPOINT);
-      }
-      case ALGAE_L2 -> {
-        elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.ALGAE_L2_SETPOINT::getValue);
-        armSubsystem.setArmPosition(ArmConstants.ALGAE_SETPOINT);
-      }
-      case ALGAE_L3 -> {
-        elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.ALGAE_L3_SETPOINT::getValue);
-        armSubsystem.setArmPosition(ArmConstants.ALGAE_SETPOINT);
-      }
-    }
+    }, this, armSubsystem, elevatorSubsystem);
   }
 }

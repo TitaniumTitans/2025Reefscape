@@ -138,6 +138,10 @@ public class RobotContainer
             )
         );
 
+        supersystem.setDefaultCommand(
+            supersystem.periodicCommand()
+        );
+
 
 //    driverController.a().toggleOnTrue(Commands.startEnd(
 //        () -> elevatorCommand.getCommand(ElevatorPositionCommand.ScoringPose.L4).schedule(),

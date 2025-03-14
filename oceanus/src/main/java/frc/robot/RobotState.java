@@ -6,6 +6,7 @@ import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.TimeInterpolatableBuffer;
@@ -32,6 +33,9 @@ import org.littletonrobotics.junction.Logger;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static edu.wpi.first.units.Units.Centimeters;
+import static edu.wpi.first.units.Units.Inches;
+
 public class RobotState {
 
   private static RobotState instance;
@@ -43,6 +47,7 @@ public class RobotState {
 
   public static final Polygon keepoutZoneBlue;
   public static final Polygon keepoutZoneRed;
+  public static final Rectangle2d keepoutZoneBarge;
   static {
     Translation2d[] safezonePoints = new Translation2d[6];
     Rotation2d angle = Rotation2d.fromDegrees(30);
@@ -62,6 +67,15 @@ public class RobotState {
 
     keepoutZoneBlue = new Polygon(blueVecs);
     keepoutZoneRed = new Polygon(redVecs);
+
+    // barge is 3ft, 8in (112 cm) structure
+    keepoutZoneBarge = new Rectangle2d(
+        new Pose2d(FieldConstants.fieldLength / 2.0, FieldConstants.fieldWidth / 2.0, new Rotation2d()),
+        Centimeters.of(112).plus(Inches.of(45.0)),
+        Centimeters.of(889.0)
+    );
+
+    Logger.recordOutput("Barge Safezone", keepoutZoneBarge);
   }
 
   // Pose estimation
@@ -137,12 +151,16 @@ public class RobotState {
     return poseEstimator.getEstimatedPosition().getRotation();
   }
 
-  @AutoLogOutput(key = "RobotState/In Danger Zone")
+  @AutoLogOutput(key = "RobotState/In Reef Zone")
   public boolean inReefZone() {
     return keepoutZoneBlue.contains(GeometryConvertor.toDyn4jTransform(getEstimatedPose()).getTranslation())
         && keepoutZoneRed.contains(GeometryConvertor.toDyn4jTransform(getEstimatedPose()).getTranslation());
   }
 
+  @AutoLogOutput(key = "RobotState/In Barge Zone")
+  public boolean inBargeZone() {
+    return keepoutZoneBarge.contains(getEstimatedPose().getTranslation());
+  }
 
   public record VisionObservation(Pose2d visionPose, double timestamp, Matrix<N3, N1> stdDevs) {}
 }

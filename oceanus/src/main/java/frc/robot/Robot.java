@@ -8,7 +8,6 @@ package frc.robot;
 import au.grapplerobotics.CanBridge;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.util.MechanismVisualizer;
@@ -73,7 +72,6 @@ public class Robot extends LoggedRobot
     @Override
     public void robotPeriodic()
     {
-        robotContainer.getSupersystem().periodic();
         MechanismVisualizer.getInstance().updateVisualization();
         CommandScheduler.getInstance().run();
     }
