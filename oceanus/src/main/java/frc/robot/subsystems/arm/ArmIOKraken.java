@@ -117,8 +117,8 @@ public class ArmIOKraken implements ArmIO {
 
     motorConfig.Feedback.SensorToMechanismRatio = ArmConstants.PIVOT_GEAR_RATIO;
 
-    motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(360);
-    motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(360);
+    motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(30);
+    motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(30);
 
     motorConfig.CurrentLimits.SupplyCurrentLimit = 40;
     motorConfig.CurrentLimits.StatorCurrentLimit = 80;

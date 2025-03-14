@@ -117,8 +117,8 @@ public class ElevatorIOKraken implements ElevatorIO {
     var config = new TalonFXConfiguration();
 
     // motion magic
-    config.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(360);
-    config.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(360);
+    config.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(90);
+    config.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(90);
 
     // current limits at default
     config.CurrentLimits.SupplyCurrentLimit = 40;
