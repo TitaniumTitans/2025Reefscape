@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.algae.AlgaeSubsystem;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -39,16 +38,16 @@ public class ElevatorPositionCommand {
 
           // check if going down to home, get the arm into home position
           // if going up from home we also need to make sure that the arm is in the home state
-          if ((setpoint == ScoringPose.HOME && !elevatorSubsystem.atHome())
-              || (setpoint != ScoringPose.HOME && elevatorSubsystem.atHome())) {
-            group.addCommands(armSubsystem.setArmPosition(Rotation2d.kCW_90deg));
+          if ((setpoint == ScoringPose.HOME && !elevatorSubsystem.underClearance())
+              || (setpoint != ScoringPose.HOME && elevatorSubsystem.underClearance())) {
+            group.addCommands(armSubsystem.setArmPositionFactory(Rotation2d.kCW_90deg));
             group.addCommands(armSubsystem.waitUntilAtSetpoint());
             group.addCommands(elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_CLEAR_SETPOINT::getValue));
           }
 
           switch (setpoint) {
             case HOME -> {
-              group.addCommands(armSubsystem.setArmPosition(Rotation2d.kCW_90deg));
+              group.addCommands(armSubsystem.setArmPositionFactory(Rotation2d.kCW_90deg));
               group.addCommands(armSubsystem.waitUntilAtSetpoint());
               group.addCommands(
                   elevatorSubsystem.setElevatorSetpointFactory(

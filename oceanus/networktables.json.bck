@@ -26,7 +26,7 @@
   {
     "name": "/Preferences/ElevatorSetpoints/L3 Setpoint",
     "type": "double",
-    "value": 50.0,
+    "value": 25.0,
     "properties": {
       "persistent": true
     }
@@ -34,7 +34,7 @@
   {
     "name": "/Preferences/ElevatorSetpoints/L4 Setpoint",
     "type": "double",
-    "value": 70.0,
+    "value": 35.0,
     "properties": {
       "persistent": true
     }
@@ -43,6 +43,30 @@
     "name": "/Preferences/Drive/Max Turn Speed",
     "type": "double",
     "value": 0.7,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/ElevatorSetpoints/Barge Setpoint",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/ElevatorSetpoints/Home Clearance Setpoint",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/ElevatorSetpoints/Algae L2",
+    "type": "double",
+    "value": 0.0,
     "properties": {
       "persistent": true
     }

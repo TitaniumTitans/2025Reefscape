@@ -1,12 +1,13 @@
 package frc.robot.supersystem;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotState;
 import frc.robot.subsystems.arm.ArmConstants;
 import frc.robot.subsystems.arm.ArmSubsystem;
-import frc.robot.subsystems.coral.CoralSubsystem;
 import frc.robot.subsystems.elevator.ElevatorConstants;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
-import org.dyn4j.geometry.Polygon;
+import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.AutoLogOutputManager;
 
 public class Supersystem {
   public enum SupersystemState {
@@ -23,8 +24,8 @@ public class Supersystem {
   private final ElevatorSubsystem elevatorSubsystem;
   private final ArmSubsystem armSubsystem;
 
+  @AutoLogOutput(key = "Supersystem State")
   private SupersystemState desiredState = SupersystemState.DISABLED;
-  private SupersystemState currentState = SupersystemState.DISABLED;
 
   public Supersystem(
       ElevatorSubsystem elevatorSubsystem,
@@ -32,22 +33,35 @@ public class Supersystem {
   ) {
     this.elevatorSubsystem = elevatorSubsystem;
     this.armSubsystem = armSubsystem;
+
+    AutoLogOutputManager.addObject(this);
+  }
+
+  public Command setDesiredState(SupersystemState state) {
+    return armSubsystem.runOnce(() -> desiredState = state);
   }
 
   public void periodic() {
     // if we are coming or leaving home, go to a clearance state
-    if (
-        (desiredState == SupersystemState.HOME && !elevatorSubsystem.atHome())
-        || (desiredState != SupersystemState.HOME && elevatorSubsystem.atHome())
+    if (RobotState.getInstance().inReefZone()) {
+      if (desiredState == SupersystemState.L4 && !elevatorSubsystem.atL4()) {
+        // we're at L4, and we're in the reef location
+        elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L3_SETPOINT::getValue);
+        armSubsystem.setArmPosition(ArmConstants.L3_SETPOINT);
+        return;
+      } else if (elevatorSubsystem.atL4()) {
+        // we're going to L4, and in the reef
+        elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L4_SETPOINT::getValue);
+        armSubsystem.setArmPosition(ArmConstants.L4_SETPOINT);
+        return;
+      }
+    } else if (
+        (desiredState == SupersystemState.HOME && !elevatorSubsystem.underClearance())
+        || (desiredState != SupersystemState.HOME && elevatorSubsystem.underClearance())
     ) {
       elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.HOME_CLEAR_SETPOINT::getValue);
       armSubsystem.setArmPosition(ArmConstants.ARM_HOME_SETPOINT);
       // wait until everything is clear
-      return;
-    } else if (desiredState == SupersystemState.L4 && RobotState.getInstance().inReefZone()) {
-      // we're going into L4, and we're in the reef location
-      elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L4_SETPOINT::getValue);
-      armSubsystem.setArmPosition(ArmConstants.L4_SETPOINT);
       return;
     }
 
@@ -55,6 +69,7 @@ public class Supersystem {
     switch (desiredState) {
       case DISABLED -> {
         elevatorSubsystem.setDisabled();
+        armSubsystem.setDisabled();
       }
       case HOME -> {
         elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.HOME_SETPOINT::getValue);

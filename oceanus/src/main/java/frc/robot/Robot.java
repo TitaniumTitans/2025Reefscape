@@ -73,6 +73,7 @@ public class Robot extends LoggedRobot
     @Override
     public void robotPeriodic()
     {
+        robotContainer.getSupersystem().periodic();
         MechanismVisualizer.getInstance().updateVisualization();
         CommandScheduler.getInstance().run();
     }

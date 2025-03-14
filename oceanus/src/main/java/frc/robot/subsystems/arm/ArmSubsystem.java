@@ -56,8 +56,17 @@ public class ArmSubsystem extends SubsystemBase {
     MechanismVisualizer.getInstance().setArmAngleDegrees(inputs.armAngle.getDegrees());
   }
 
-  public Command setArmPosition(Rotation2d angle) {
+  public void setDisabled() {
+    goalState = ArmState.DISABLED;
+  }
 
+  public void setArmPosition(Rotation2d angle) {
+    goalState = ArmState.POSITION_CONTROL;
+    armSetpoint = angle;
+  }
+
+  public Command setArmPositionFactory(Rotation2d angle) {
+    goalState = ArmState.POSITION_CONTROL;
     return runOnce(() -> armSetpoint = angle);
   }
 

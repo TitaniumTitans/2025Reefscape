@@ -30,6 +30,8 @@ import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
 import frc.robot.subsystems.drive.module.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.*;
+import frc.robot.supersystem.Supersystem;
+import lombok.Getter;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.Logger;
@@ -48,6 +50,9 @@ public class RobotContainer
     private final ArmSubsystem armSubsystem;
     private final ClimberSubsystem climberSubsystem;
     private final CoralSubsystem coralSubsystem;
+
+    @Getter
+    private final Supersystem supersystem;
 
     private SwerveDriveSimulation driveSimulation;
     public RobotContainer()
@@ -121,6 +126,7 @@ public class RobotContainer
           }
         }
 
+      supersystem = new Supersystem(elevatorSubsystem, armSubsystem);
       configureBindings();
     }
     
@@ -135,11 +141,6 @@ public class RobotContainer
             )
         );
 
-    ElevatorPositionCommand elevatorCommand = new ElevatorPositionCommand(
-        algaeSubsystem,
-        elevatorSubsystem,
-        armSubsystem
-    );
 
 //    driverController.a().toggleOnTrue(Commands.startEnd(
 //        () -> elevatorCommand.getCommand(ElevatorPositionCommand.ScoringPose.L4).schedule(),
@@ -151,11 +152,11 @@ public class RobotContainer
 //        () -> elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue).schedule()
 //    ));
 
-    driverController.leftBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(1.5));
-    driverController.rightBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(-1.5));
+//    driverController.leftBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(1.5));
+//    driverController.rightBumper().whileTrue(elevatorSubsystem.setElevatorVoltageFactory(-1.5));
 
-    driverController.leftTrigger().whileTrue(armSubsystem.setArmVoltageFactory(1.5));
-    driverController.rightTrigger().whileTrue(armSubsystem.setArmVoltageFactory(-1.5));
+//    driverController.leftTrigger().whileTrue(armSubsystem.setArmVoltageFactory(1.5));
+//    driverController.rightTrigger().whileTrue(armSubsystem.setArmVoltageFactory(-1.5));
 
     driverController.b()
         .whileTrue(coralSubsystem.setScoringVoltages(0.0, 3.0, 0.0))
@@ -167,7 +168,21 @@ public class RobotContainer
         .whileTrue(coralSubsystem.setScoringVoltages(-3.0, 0.0, 0.0))
         .whileFalse(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0));
     driverController.x()
-        .whileTrue(armSubsystem.setRollerVoltageFactory(3.0));
+        .whileTrue(armSubsystem.setRollerVoltageFactory(-3.0));
+
+    driverController.leftTrigger().onTrue(
+        supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
+    );
+
+    driverController.rightTrigger().onTrue(
+        supersystem.setDesiredState(Supersystem.SupersystemState.L4)
+    );
+    driverController.rightBumper().onTrue(
+        supersystem.setDesiredState(Supersystem.SupersystemState.L3)
+    );
+    driverController.leftBumper().onTrue(
+        supersystem.setDesiredState(Supersystem.SupersystemState.L2)
+    );
     }
     
     

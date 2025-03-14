@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.MechanismVisualizer;
 import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.Logger;
 
 import java.util.function.DoubleSupplier;
@@ -27,6 +28,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public ElevatorSubsystem(ElevatorIO io) {
     this.io = io;
+    AutoLogOutputManager.addObject(this);
   }
 
   @Override
@@ -63,16 +65,22 @@ public class ElevatorSubsystem extends SubsystemBase {
     MechanismVisualizer.getInstance().setElevatorHeightInches(Units.metersToInches(inputs.elevatorPositionMeters));
   }
 
-  @AutoLogOutput(key = "Elevator/At Home")
-  public boolean atHome() {
+  @AutoLogOutput(key = "Elevator/Over Clearance")
+  public boolean underClearance() {
     return inputs.bottomLimitSwitch
-        || inputs.elevatorPositionMeters < Units.inchesToMeters(ElevatorConstants.HOME_CLEAR_SETPOINT.getValue());
+        || inputs.elevatorPositionMeters <= Units.inchesToMeters(ElevatorConstants.HOME_CLEAR_SETPOINT.getValue() - 1.0);
+  }
+
+  @AutoLogOutput(key = "Elevator/Under Clearance")
+  public boolean overClearance() {
+    return inputs.bottomLimitSwitch
+        || inputs.elevatorPositionMeters <= Units.inchesToMeters(ElevatorConstants.HOME_CLEAR_SETPOINT.getValue() - 1.0);
   }
 
   @AutoLogOutput(key = "Elevator/At L4")
   public boolean atL4() {
     return inputs.upperLimitSwitch
-        || inputs.elevatorPositionMeters > Units.inchesToMeters(ElevatorConstants.L4_SETPOINT.getValue() - 5.0);
+        || inputs.elevatorPositionMeters >= Units.inchesToMeters(ElevatorConstants.L4_SETPOINT.getValue() - 5.0);
   }
 
   public void setDisabled() {

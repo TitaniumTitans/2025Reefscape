@@ -127,6 +127,9 @@ public class RobotState {
 
   @AutoLogOutput(key = "RobotState/EstimatedPose")
   public Pose2d getEstimatedPose() {
+    if (driveSimulation.isPresent()) {
+      return driveSimulation.get().getSimulatedDriveTrainPose();
+    }
     return poseEstimator.getEstimatedPosition();
   }
 
