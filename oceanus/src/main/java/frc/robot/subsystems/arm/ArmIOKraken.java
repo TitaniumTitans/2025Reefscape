@@ -1,5 +1,6 @@
 package frc.robot.subsystems.arm;
 
+import au.grapplerobotics.LaserCan;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
@@ -25,6 +26,7 @@ public class ArmIOKraken implements ArmIO {
   private final TalonFX pivot;
   private final TalonFX rollers;
   private final CANcoder pivotEncoder;
+  private final LaserCan laserCan;
 
   private final MotionMagicVoltage mmControl;
   private final PidProperty pivotProperty;
@@ -41,6 +43,7 @@ public class ArmIOKraken implements ArmIO {
     pivot = new TalonFX(ArmConstants.PIVOT_ID);
     rollers = new TalonFX(ArmConstants.ROLLER_ID);
     pivotEncoder = new CANcoder(ArmConstants.ENCODER_ID);
+    laserCan = new LaserCan(ArmConstants.LASER_CAN_ID);
 
     pivotProperty = new Phoenix6TalonPidPropertyBuilder(
         "Arm/PID", false, pivot, 0
@@ -91,6 +94,13 @@ public class ArmIOKraken implements ArmIO {
         pivotCurrentSignal.getValueAsDouble(),
         rollerCurrentSignal.getValueAsDouble()
     };
+
+    var measurement = laserCan.getMeasurement();
+    if (measurement != null) {
+      inputs.hasCoral = measurement.distance_mm < 30;
+    } else {
+      inputs.hasCoral = false;
+    }
   }
 
   @Override

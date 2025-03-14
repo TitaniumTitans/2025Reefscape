@@ -1,8 +1,10 @@
 package frc.robot.subsystems.coral;
 
+import au.grapplerobotics.LaserCan;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 public class CoralIOTalon implements CoralIO {
@@ -10,6 +12,7 @@ public class CoralIOTalon implements CoralIO {
   private final TalonFX hopper;
   private final TalonFX outerCoral;
   private final TalonFX innerCoral;
+  private final LaserCan laserCan;
 
   private final MotionMagicVoltage mmControl;
 
@@ -18,8 +21,11 @@ public class CoralIOTalon implements CoralIO {
     hopper = new TalonFX(CoralConstants.HOPPER_ID);
     outerCoral = new TalonFX(CoralConstants.OUTER_ID);
     innerCoral = new TalonFX(CoralConstants.INNER_ID);
+    laserCan = new LaserCan(CoralConstants.LASER_CAN_ID);
 
     mmControl = new MotionMagicVoltage(0.0);
+
+    configureDevices();
   }
 
   @Override
@@ -36,13 +42,19 @@ public class CoralIOTalon implements CoralIO {
         outerCoral.getSupplyCurrent().getValueAsDouble(),
         innerCoral.getSupplyCurrent().getValueAsDouble()
     };
-    inputs.hasCoral = false;
     inputs.coralPivotAngle = Rotation2d.fromRotations(pivot.getPosition().getValueAsDouble());
+
+    var measurement = laserCan.getMeasurement();
+    if (measurement != null) {
+      inputs.hasCoral = measurement.distance_mm < 70;
+    } else {
+      inputs.hasCoral = false;
+    }
   }
 
   @Override
-  public void setPivotAngle(double appliedVolts) {
-    CoralIO.super.setPivotAngle(appliedVolts);
+  public void setPivotAngle(double angleDegrees) {
+    pivot.setControl(mmControl.withPosition(angleDegrees));
   }
 
   @Override
@@ -65,5 +77,11 @@ public class CoralIOTalon implements CoralIO {
     var motorConfig = new TalonFXConfiguration();
 
     motorConfig.Feedback.SensorToMechanismRatio = CoralConstants.PIVOT_GEAR_RATIO;
+
+    motorConfig.Slot0.kP = CoralConstants.KP;
+    motorConfig.Slot0.kI = CoralConstants.KI;
+    motorConfig.Slot0.kD = CoralConstants.KD;
+    motorConfig.Slot0.kG = CoralConstants.KG;
+    motorConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
   }
 }

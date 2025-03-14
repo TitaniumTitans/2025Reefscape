@@ -14,7 +14,7 @@ public interface CoralIO {
 
   default void updateInputs(CoralIOInputsAutoLogged inputs) {}
   default void setPivotVoltage(double appliedVolts) {}
-  default void setPivotAngle(double appliedVolts) {}
+  default void setPivotAngle(double angleDegrees) {}
   default void setHopperVoltage(double appliedVolts) {}
   default void setCoralVoltage(double outerVolt, double innerVolt) {}
 }

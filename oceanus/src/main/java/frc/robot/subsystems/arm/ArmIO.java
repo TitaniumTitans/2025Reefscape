@@ -10,6 +10,7 @@ public interface ArmIO {
     public Rotation2d absoluteArmAngle = new Rotation2d();
     public double[] armVoltages = new double[] {0.0, 0.0};
     public double [] armCurrents = new double[] {0.0, 0.0};
+    public boolean hasCoral = false;
   }
 
   default void updateInputs(ArmIOInputsAutoLogged inputs) {}
