@@ -83,5 +83,10 @@ public class CoralIOTalon implements CoralIO {
     motorConfig.Slot0.kD = CoralConstants.KD;
     motorConfig.Slot0.kG = CoralConstants.KG;
     motorConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+
+    motorConfig.CurrentLimits.SupplyCurrentLimit = 40;
+    motorConfig.CurrentLimits.StatorCurrentLimit = 60;
+
+    pivot.getConfigurator().apply(motorConfig);
   }
 }

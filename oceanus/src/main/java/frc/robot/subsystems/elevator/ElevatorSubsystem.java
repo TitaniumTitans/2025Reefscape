@@ -42,9 +42,15 @@ public class ElevatorSubsystem extends SubsystemBase {
       goalState = ElevatorState.DISABLED;
     }
 
+    // reset elevator position
+    if (inputs.bottomLimitSwitch) {
+      io.resetElevatorPosition(0.0);
+    }
+
     Logger.recordOutput("Elevator/Goal State", goalState);
     Logger.recordOutput("Elevator/Setpoint", elevatorGoal);
 
+    // run state machine
     switch (goalState) {
       case ZEROING -> {
         if (!inputs.bottomLimitSwitch) {
