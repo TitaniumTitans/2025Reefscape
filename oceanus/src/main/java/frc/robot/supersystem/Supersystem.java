@@ -44,6 +44,13 @@ public class Supersystem extends SubsystemBase {
     return Commands.runOnce(() -> desiredState = state);
   }
 
+  public Command runArmRollers(double voltage) {
+    return Commands.runEnd(
+        () -> armSubsystem.setArmRollerVoltage(voltage),
+        () -> armSubsystem.setArmRollerVoltage(0.0)
+    );
+  }
+
   public Command periodicCommand() {
     return Commands.run(() -> {
       if (DriverStation.isDisabled() || desiredState == SupersystemState.DISABLED) {
@@ -53,15 +60,29 @@ public class Supersystem extends SubsystemBase {
 
       // if we are coming or leaving home, go to a clearance state
       if (RobotState.getInstance().inReefZone()) {
-        if (desiredState == SupersystemState.L4 && !elevatorSubsystem.atL4()) {
+        if (desiredState == SupersystemState.L4
+            && !elevatorSubsystem.atSetpoint(ElevatorConstants.L4_SETPOINT.getValue())) {
           // we're at L4, and we're in the reef location
           elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L3_SETPOINT::getValue);
           armSubsystem.setArmPosition(ArmConstants.L3_SETPOINT);
           return;
-        } else if (elevatorSubsystem.atL4()) {
+        } else if (elevatorSubsystem.atSetpoint(ElevatorConstants.L4_SETPOINT.getValue())) {
           // we're going to L4, and in the reef
           elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L4_SETPOINT::getValue);
           armSubsystem.setArmPosition(ArmConstants.L4_SETPOINT);
+          return;
+        }
+      } else if (RobotState.getInstance().inBargeZone()) {
+        if (desiredState == SupersystemState.BARGE
+            && !elevatorSubsystem.atSetpoint(ElevatorConstants.BARGE_SETPOINT.getValue())) {
+          // we're at L4, and we're in the reef location
+          elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.L3_SETPOINT::getValue);
+          armSubsystem.setArmPosition(ArmConstants.L3_SETPOINT);
+          return;
+        } else if (elevatorSubsystem.atSetpoint(ElevatorConstants.BARGE_SETPOINT.getValue())) {
+          // we're going to L4, and in the reef
+          elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.BARGE_SETPOINT::getValue);
+          armSubsystem.setArmPosition(ArmConstants.BARGE_SETPOINT);
           return;
         }
       } else if (

@@ -1,6 +1,7 @@
 package frc.robot.subsystems.elevator;
 
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -80,6 +81,14 @@ public class ElevatorSubsystem extends SubsystemBase {
   public boolean atL4() {
     return inputs.upperLimitSwitch
         || inputs.elevatorPositionMeters >= Units.inchesToMeters(ElevatorConstants.L4_SETPOINT.getValue() - 5.0);
+  }
+
+  public boolean atSetpoint(double setpoint) {
+    return MathUtil.isNear(
+        Units.inchesToMeters(setpoint),
+        inputs.elevatorPositionMeters,
+        Units.inchesToMeters(1.5)
+    );
   }
 
   public void setDisabled() {

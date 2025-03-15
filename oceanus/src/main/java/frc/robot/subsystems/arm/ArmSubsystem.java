@@ -66,9 +66,17 @@ public class ArmSubsystem extends SubsystemBase {
     armSetpoint = angle;
   }
 
+  public void setArmRollerVoltage(double voltage) {
+    io.setRollerVoltage(voltage);
+  }
+
   public boolean atSetpoint() {
+    return atSetpoint(armSetpoint.getDegrees());
+  }
+
+  public boolean atSetpoint(double setpoint) {
     return MathUtil.isNear(
-        armSetpoint.getDegrees(),
+        setpoint,
         inputs.armAngle.getDegrees(),
         5
     );
