@@ -34,5 +34,5 @@ public class ElevatorConstants {
   public static final GosDoubleProperty ALGAE_L2_SETPOINT =
       new GosDoubleProperty(false, "ElevatorSetpoints/Algae L2", 0.0);
   public static final GosDoubleProperty ALGAE_L3_SETPOINT =
-      new GosDoubleProperty(false, "ElevatorSetpoints/Algae L2", 0.0);
+      new GosDoubleProperty(false, "ElevatorSetpoints/Algae L3", 0.0);
 }

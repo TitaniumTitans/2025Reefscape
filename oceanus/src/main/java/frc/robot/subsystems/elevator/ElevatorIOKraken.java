@@ -118,9 +118,9 @@ public class ElevatorIOKraken implements ElevatorIO {
 //    config.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(120);
 //    config.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(120);
     config.MotionMagic.MotionMagicCruiseVelocity =
-        Units.inchesToMeters(10) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
+        Units.inchesToMeters(15) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
     config.MotionMagic.MotionMagicAcceleration =
-        Units.inchesToMeters(10) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
+        Units.inchesToMeters(15) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
 
     config.Slot0.kP = ElevatorConstants.ELEVATOR_KP;
     config.Slot0.kI = ElevatorConstants.ELEVATOR_KI;
@@ -129,8 +129,8 @@ public class ElevatorIOKraken implements ElevatorIO {
     config.Slot0.GravityType = GravityTypeValue.Elevator_Static;
 
     // current limits at default
-    config.CurrentLimits.SupplyCurrentLimit = 40;
-    config.CurrentLimits.StatorCurrentLimit = 80;
+    config.CurrentLimits.SupplyCurrentLimit = 60;
+    config.CurrentLimits.StatorCurrentLimit = 100;
 
     // PID control stuff
     config.Feedback.SensorToMechanismRatio = 1.0 / ElevatorConstants.GEAR_REDUCTION;

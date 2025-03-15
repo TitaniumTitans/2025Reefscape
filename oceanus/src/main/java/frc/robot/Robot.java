@@ -103,8 +103,7 @@ public class Robot extends LoggedRobot
     
     @Override
     public void autonomousPeriodic() {
-        SimulatedArena.getInstance().simulationPeriodic();
-        robotContainer.simTick();
+
     }
     
     
@@ -147,5 +146,6 @@ public class Robot extends LoggedRobot
     @Override
     public void simulationPeriodic() {
         SimulatedArena.getInstance().simulationPeriodic();
+        robotContainer.simTick();
     }
 }

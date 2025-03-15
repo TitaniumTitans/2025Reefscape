@@ -18,7 +18,7 @@
   {
     "name": "/Preferences/ElevatorSetpoints/L2 Setpoint",
     "type": "double",
-    "value": 30.0,
+    "value": 20.0,
     "properties": {
       "persistent": true
     }
@@ -67,6 +67,14 @@
     "name": "/Preferences/ElevatorSetpoints/Algae L2",
     "type": "double",
     "value": 20.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/ElevatorSetpoints/Algae L3",
+    "type": "double",
+    "value": 0.0,
     "properties": {
       "persistent": true
     }

@@ -44,7 +44,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     // reset elevator position
-    if (inputs.bottomLimitSwitch) {
+    if (inputs.bottomLimitSwitch && inputs.elevatorPositionMeters != 0.0) {
       io.resetElevatorPosition(0.0);
     }
 

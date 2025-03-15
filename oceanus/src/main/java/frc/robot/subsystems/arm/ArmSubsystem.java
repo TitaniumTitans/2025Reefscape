@@ -23,12 +23,13 @@ public class ArmSubsystem extends SubsystemBase {
   @AutoLogOutput(key = "Arm/Arm State")
   private ArmState goalState = ArmState.DISABLED;
 
+
+
   public enum ArmState {
     VOLTAGE_CONTROL,
     POSITION_CONTROL,
-    DISABLED
+    DISABLED;
   }
-
   public ArmSubsystem(ArmIO io) {
     AutoLogOutputManager.addObject(this);
     this.io = io;
@@ -75,6 +76,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public boolean atSetpoint() {
     return atSetpoint(armSetpoint.getDegrees());
+  }
+
+  public boolean hasCoral() {
+    return inputs.hasCoral;
   }
 
   public boolean atSetpoint(double setpoint) {

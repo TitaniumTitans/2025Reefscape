@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.*;
 import com.gos.lib.phoenix6.properties.pid.Phoenix6TalonPidPropertyBuilder;
 import com.gos.lib.properties.pid.PidProperty;
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
@@ -24,6 +25,8 @@ public class ArmIOKraken implements ArmIO {
   private final TalonFX rollers;
   private final CANcoder pivotEncoder;
   private final LaserCan laserCan;
+
+  private final Debouncer debouncer = new Debouncer(0.175);
 
   private final MotionMagicVoltage mmControl;
 
@@ -91,7 +94,7 @@ public class ArmIOKraken implements ArmIO {
 
     var measurement = laserCan.getMeasurement();
     if (measurement != null) {
-      inputs.hasCoral = measurement.distance_mm < 30;
+      inputs.hasCoral = debouncer.calculate(measurement.distance_mm < 30);
     } else {
       inputs.hasCoral = false;
     }
@@ -124,11 +127,11 @@ public class ArmIOKraken implements ArmIO {
     motorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
     motorConfig.Feedback.FeedbackRemoteSensorID = pivotEncoder.getDeviceID();
 
-    motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(30);
-    motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(30);
+    motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(120);
+    motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(120);
 
-    motorConfig.CurrentLimits.SupplyCurrentLimit = 40;
-    motorConfig.CurrentLimits.StatorCurrentLimit = 80;
+    motorConfig.CurrentLimits.SupplyCurrentLimit = 60;
+    motorConfig.CurrentLimits.StatorCurrentLimit = 100;
 
     motorConfig.Slot0.kP = ArmConstants.KP;
     motorConfig.Slot0.kI = ArmConstants.KI;

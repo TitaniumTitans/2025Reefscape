@@ -5,6 +5,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 public class CoralIOTalon implements CoralIO {
@@ -77,6 +78,8 @@ public class CoralIOTalon implements CoralIO {
     var motorConfig = new TalonFXConfiguration();
 
     motorConfig.Feedback.SensorToMechanismRatio = CoralConstants.PIVOT_GEAR_RATIO;
+
+    motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
     motorConfig.Slot0.kP = CoralConstants.KP;
     motorConfig.Slot0.kI = CoralConstants.KI;
