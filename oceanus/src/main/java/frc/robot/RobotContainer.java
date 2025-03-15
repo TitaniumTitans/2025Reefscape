@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.ArmMovementCommandGroup;
+import frc.robot.commands.ArmUpCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.algae.AlgaeIO;
 import frc.robot.subsystems.algae.AlgaeIOSim;
@@ -130,9 +132,9 @@ public class RobotContainer
         )
     );
 
-    supersystem.setDefaultCommand(
-        supersystem.periodicCommand()
-    );
+//    supersystem.setDefaultCommand(
+//        supersystem.periodicCommand()
+//    );
 
 //    driverController.leftTrigger()
 //        .whileTrue(armSubsystem.setArmPositionFactory(ArmConstants.ARM_HOME_SETPOINT))
@@ -151,37 +153,52 @@ public class RobotContainer
 //        .whileTrue(elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L4_SETPOINT::getValue))
 //        .whileFalse(Commands.runOnce(elevatorSubsystem::setDisabled, elevatorSubsystem));
 
-    driverController.leftTrigger().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
-    );
-    driverController.leftBumper().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.L2)
-    );
-    driverController.rightBumper().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.L3)
-    );
-    driverController.rightTrigger().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.L4)
+//    driverController.leftTrigger().onTrue(
+//        supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
+//    );
+//    driverController.leftBumper().onTrue(
+//        supersystem.setDesiredState(Supersystem.SupersystemState.L2)
+//    );
+//    driverController.rightBumper().onTrue(
+//        supersystem.setDesiredState(Supersystem.SupersystemState.L3)
+//    );
+//    driverController.rightTrigger().onTrue(
+//        supersystem.setDesiredState(Supersystem.SupersystemState.L4)
+//    );
+
+    driverController.leftTrigger().whileTrue(
+        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+            ElevatorConstants.HOME_SETPOINT.getValue(), ArmConstants.ARM_HOME_SETPOINT)
     );
 
-    driverController.povLeft()
-        .whileTrue(supersystem.runArmRollers(1.5))
-        .whileFalse(supersystem.runArmRollers(0.0));
-    driverController.povRight()
-        .whileTrue(
-            supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
-                .onlyIf(() -> !elevatorSubsystem.overClearance())
-                .andThen(
-                    supersystem.runArmRollers(-1.5)
-                        .alongWith(coralSubsystem.setScoringVoltages(3.0, 0.0, 0.0)
-                            .onlyIf(() -> !elevatorSubsystem.overClearance()))))
-        .whileFalse(
-            supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
-                .onlyIf(() -> !elevatorSubsystem.overClearance())
-                .andThen(
-                    supersystem.runArmRollers(0.0)
-                        .alongWith(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))));
+    driverController.leftBumper().whileTrue(
+        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+            ElevatorConstants.L2_SETPOINT.getValue(), ArmConstants.L2_SETPOINT)
+    );
 
+    driverController.rightBumper().whileTrue(
+        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+            ElevatorConstants.L3_SETPOINT.getValue(), ArmConstants.L3_SETPOINT)
+    );
+
+//    driverController.povLeft()
+//        .whileTrue(supersystem.runArmRollers(1.5))
+//        .whileFalse(supersystem.runArmRollers(0.0));
+//    driverController.povRight()
+//        .whileTrue(
+//            supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
+//                .onlyIf(() -> !elevatorSubsystem.overClearance())
+//                .andThen(
+//                    supersystem.runArmRollers(-1.5)
+//                        .alongWith(coralSubsystem.setScoringVoltages(3.0, 0.0, 0.0)
+//                            .onlyIf(() -> !elevatorSubsystem.overClearance()))))
+//        .whileFalse(
+//            supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
+//                .onlyIf(() -> !elevatorSubsystem.overClearance())
+//                .andThen(
+//                    supersystem.runArmRollers(0.0)
+//                        .alongWith(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))));
+//
     driverController.start().onTrue(
         Commands.runOnce(() -> RobotState.getInstance().resetPose(new Pose2d()))
     );
