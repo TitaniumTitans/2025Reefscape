@@ -37,8 +37,12 @@ public class ElevatorIOKraken implements ElevatorIO {
 
     configureDevices();
 
-    mmControl = new MotionMagicVoltage(0.0).withSlot(0).withEnableFOC(false);
-    followerControl = new Follower(master.getDeviceID(), true);
+    mmControl = new MotionMagicVoltage(0.0)
+        .withSlot(0)
+        .withEnableFOC(false)
+        .withUpdateFreqHz(100);
+    followerControl = new Follower(master.getDeviceID(), true)
+        .withUpdateFreqHz(100);
     follower.setControl(followerControl);
 
     lowerLimit = new DigitalInput(6);
@@ -118,13 +122,14 @@ public class ElevatorIOKraken implements ElevatorIO {
 //    config.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(120);
 //    config.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(120);
     config.MotionMagic.MotionMagicCruiseVelocity =
-        Units.inchesToMeters(15) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
+        Units.inchesToMeters(30) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
     config.MotionMagic.MotionMagicAcceleration =
-        Units.inchesToMeters(15) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
+        Units.inchesToMeters(30) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
 
     config.Slot0.kP = ElevatorConstants.ELEVATOR_KP;
     config.Slot0.kI = ElevatorConstants.ELEVATOR_KI;
     config.Slot0.kD = ElevatorConstants.ELEVATOR_KD;
+    config.Slot0.kS = ElevatorConstants.ELEVATOR_KS;
     config.Slot0.kG = ElevatorConstants.ELEVATOR_KG;
     config.Slot0.GravityType = GravityTypeValue.Elevator_Static;
 
@@ -142,7 +147,7 @@ public class ElevatorIOKraken implements ElevatorIO {
     master.getConfigurator().apply(config);
 
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     follower.getConfigurator().apply(config);
 
     master.setPosition(0.0);

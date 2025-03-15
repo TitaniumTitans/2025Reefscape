@@ -44,14 +44,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     // reset elevator position
-    if (inputs.bottomLimitSwitch && inputs.elevatorPositionMeters != 0.0) {
-      io.resetElevatorPosition(0.0);
-    }
+//    if (inputs.bottomLimitSwitch && inputs.elevatorPositionMeters != 0.0) {
+//      io.resetElevatorPosition(0.0);
+//    }
 
     Logger.recordOutput("Elevator/Goal State", goalState);
     Logger.recordOutput("Elevator/Setpoint", elevatorGoal);
 
-    elevatorGoal = MathUtil.clamp(elevatorGoal, 0.0, Units.inchesToMeters(30));
+    elevatorGoal = MathUtil.clamp(elevatorGoal, 0.0, Units.inchesToMeters(32));
 
     // run state machine
     switch (goalState) {
@@ -95,6 +95,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void setDisabled() {
     goalState = ElevatorState.DISABLED;
+  }
+
+  public void resetElevator(double positionMeters) {
+    io.resetElevatorPosition(positionMeters);
   }
 
   public void setElevatorSetpoint(DoubleSupplier goal) {

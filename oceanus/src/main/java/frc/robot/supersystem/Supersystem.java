@@ -117,7 +117,7 @@ public class Supersystem extends SubsystemBase {
           armSubsystem.setDisabled();
         }
         case INTAKE -> {
-          elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.HOME_SETPOINT::getValue);
+          elevatorSubsystem.setElevatorSetpoint(() -> ElevatorConstants.INTAKE_SETPOINT);
           armSubsystem.setArmPosition(ArmConstants.INTAKE_SETPOINT);
         }
         case HOME -> {

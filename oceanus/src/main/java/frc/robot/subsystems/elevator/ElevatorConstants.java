@@ -12,10 +12,11 @@ public class ElevatorConstants {
   // pd = PN/pi
   public static final double SPOOL_DIAMETER_METERS = ((5.0 * 24.0) / Math.PI) / 1000;
 
-  public static final double ELEVATOR_KP = 100.0;
+  public static final double ELEVATOR_KP = 50.0;
   public static final double ELEVATOR_KI = 0.0;
   public static final double ELEVATOR_KD = 0.0;
-  public static final double ELEVATOR_KG = 0.4;
+  public static final double ELEVATOR_KS = 0.1;
+  public static final double ELEVATOR_KG = 0.35;
 
   public static final GosDoubleProperty HOME_SETPOINT  =
       new GosDoubleProperty(false, "ElevatorSetpoints/Home Setpoint", 0.0);
@@ -35,4 +36,6 @@ public class ElevatorConstants {
       new GosDoubleProperty(false, "ElevatorSetpoints/Algae L2", 0.0);
   public static final GosDoubleProperty ALGAE_L3_SETPOINT =
       new GosDoubleProperty(false, "ElevatorSetpoints/Algae L3", 0.0);
+
+  public static double INTAKE_SETPOINT = 0.0;
 }
