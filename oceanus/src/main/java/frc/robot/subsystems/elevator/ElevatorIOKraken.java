@@ -5,6 +5,7 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.*;
 import com.gos.lib.phoenix6.properties.pid.Phoenix6TalonPidPropertyBuilder;
@@ -12,6 +13,7 @@ import com.gos.lib.properties.pid.PidProperty;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.*;
 import edu.wpi.first.wpilibj.DigitalInput;
+import org.littletonrobotics.junction.Logger;
 
 public class ElevatorIOKraken implements ElevatorIO {
   private final TalonFX master;
@@ -21,8 +23,6 @@ public class ElevatorIOKraken implements ElevatorIO {
 
   private final MotionMagicVoltage mmControl;
   private final Follower followerControl;
-
-  private final PidProperty masterProperty;
 
   private final StatusSignal<Angle> masterPositionSignal;
   private final StatusSignal<AngularVelocity> masterVelocitySignal;
@@ -37,17 +37,9 @@ public class ElevatorIOKraken implements ElevatorIO {
 
     configureDevices();
 
-    masterProperty = new Phoenix6TalonPidPropertyBuilder(
-        "Elevator/MasterPID", false, master, 0
-    )
-        .addP(ElevatorConstants.ELEVATOR_KP)
-        .addI(ElevatorConstants.ELEVATOR_KI)
-        .addD(ElevatorConstants.ELEVATOR_KD)
-        .addKG(0.0, GravityTypeValue.Elevator_Static)
-        .build();
-
-    mmControl = new MotionMagicVoltage(0.0);
+    mmControl = new MotionMagicVoltage(0.0).withSlot(0).withEnableFOC(false);
     followerControl = new Follower(master.getDeviceID(), true);
+    follower.setControl(followerControl);
 
     lowerLimit = new DigitalInput(6);
     upperLimit = new DigitalInput(7);
@@ -72,13 +64,20 @@ public class ElevatorIOKraken implements ElevatorIO {
 
   @Override
   public void updateInputs(ElevatorIOInputsAutoLogged inputs) {
-    masterProperty.updateIfChanged();
+    BaseStatusSignal.refreshAll(
+        masterPositionSignal,
+        masterVelocitySignal,
+        masterVoltageSignal,
+        masterCurrentSignal,
+        followerVoltageSignal,
+        followerCurrentSignal
+    );
 
     inputs.upperLimitSwitch = upperLimit.get();
     inputs.bottomLimitSwitch = lowerLimit.get();
 
     inputs.elevatorPositionMeters =
-        Units.metersToInches(masterPositionSignal.refresh().getValueAsDouble() * ElevatorConstants.SPOOL_DIAMETER_METERS * Math.PI);
+        masterPositionSignal.refresh().getValueAsDouble() * ElevatorConstants.SPOOL_DIAMETER_METERS * Math.PI;
     inputs.elevatorVelocityMPS =
         masterVelocitySignal.getValueAsDouble() * (ElevatorConstants.SPOOL_DIAMETER_METERS / 2.0);
 
@@ -90,19 +89,20 @@ public class ElevatorIOKraken implements ElevatorIO {
         masterCurrentSignal.getValueAsDouble(),
         followerCurrentSignal.getValueAsDouble()
     };
+
+    Logger.recordOutput("Elevator/Raw Rotations", masterPositionSignal.getValueAsDouble());
   }
 
   @Override
   public void setElevatorVoltage(double voltage) {
     master.setVoltage(voltage);
-    follower.setControl(followerControl);
   }
 
   @Override
   public void setElevatorPosition(double positionMeters) {
-    double rotations = positionMeters / (ElevatorConstants.SPOOL_DIAMETER_METERS / 2.0);
+    double rotations = positionMeters / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
+    Logger.recordOutput("Elevator/Raw Rotation Setpoint", rotations);
     master.setControl(mmControl.withPosition(rotations));
-    follower.setControl(followerControl);
   }
 
   @Override
@@ -115,8 +115,18 @@ public class ElevatorIOKraken implements ElevatorIO {
     var config = new TalonFXConfiguration();
 
     // motion magic
-    config.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(90);
-    config.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(90);
+//    config.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(120);
+//    config.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(120);
+    config.MotionMagic.MotionMagicCruiseVelocity =
+        Units.inchesToMeters(10) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
+    config.MotionMagic.MotionMagicAcceleration =
+        Units.inchesToMeters(10) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
+
+    config.Slot0.kP = ElevatorConstants.ELEVATOR_KP;
+    config.Slot0.kI = ElevatorConstants.ELEVATOR_KI;
+    config.Slot0.kD = ElevatorConstants.ELEVATOR_KD;
+    config.Slot0.kG = ElevatorConstants.ELEVATOR_KG;
+    config.Slot0.GravityType = GravityTypeValue.Elevator_Static;
 
     // current limits at default
     config.CurrentLimits.SupplyCurrentLimit = 40;
@@ -131,6 +141,7 @@ public class ElevatorIOKraken implements ElevatorIO {
 
     master.getConfigurator().apply(config);
 
+    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     follower.getConfigurator().apply(config);
 

@@ -8,10 +8,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.GravityTypeValue;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.ctre.phoenix6.signals.*;
 import com.gos.lib.phoenix6.properties.pid.Phoenix6TalonPidPropertyBuilder;
 import com.gos.lib.properties.pid.PidProperty;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -29,7 +26,6 @@ public class ArmIOKraken implements ArmIO {
   private final LaserCan laserCan;
 
   private final MotionMagicVoltage mmControl;
-  private final PidProperty pivotProperty;
 
   private final StatusSignal<Angle> pivotPositionSignal;
   private final StatusSignal<Angle> pivotAbsolutePositionSignal;
@@ -44,15 +40,6 @@ public class ArmIOKraken implements ArmIO {
     rollers = new TalonFX(ArmConstants.ROLLER_ID);
     pivotEncoder = new CANcoder(ArmConstants.ENCODER_ID);
     laserCan = new LaserCan(ArmConstants.LASER_CAN_ID);
-
-    pivotProperty = new Phoenix6TalonPidPropertyBuilder(
-        "Arm/PID", false, pivot, 0
-    )
-        .addP(ArmConstants.KP)
-        .addI(ArmConstants.KI)
-        .addD(ArmConstants.KD)
-        .addKG(ArmConstants.KG, GravityTypeValue.Arm_Cosine)
-        .build();
 
     mmControl = new MotionMagicVoltage(0.0);
 
@@ -82,7 +69,14 @@ public class ArmIOKraken implements ArmIO {
 
   @Override
   public void updateInputs(ArmIOInputsAutoLogged inputs) {
-    pivotProperty.updateIfChanged();
+    BaseStatusSignal.refreshAll(
+        pivotPositionSignal,
+        pivotAbsolutePositionSignal,
+        pivotVelocitySignal,
+        pivotVoltageSignal,
+        pivotCurrentSignal,
+        rollerVoltageSignal,
+        rollerCurrentSignal);
 
     inputs.armAngle = Rotation2d.fromRotations(pivotPositionSignal.getValueAsDouble());
     inputs.absoluteArmAngle = Rotation2d.fromRotations(pivotAbsolutePositionSignal.getValueAsDouble());
@@ -123,9 +117,12 @@ public class ArmIOKraken implements ArmIO {
     var motorConfig = new TalonFXConfiguration();
 
     motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    motorConfig.Feedback.SensorToMechanismRatio = ArmConstants.PIVOT_GEAR_RATIO;
+    motorConfig.Feedback.RotorToSensorRatio = ArmConstants.PIVOT_GEAR_RATIO;
+    motorConfig.Feedback.SensorToMechanismRatio = 1.0;
+    motorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+    motorConfig.Feedback.FeedbackRemoteSensorID = pivotEncoder.getDeviceID();
 
     motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(30);
     motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(30);
@@ -133,17 +130,22 @@ public class ArmIOKraken implements ArmIO {
     motorConfig.CurrentLimits.SupplyCurrentLimit = 40;
     motorConfig.CurrentLimits.StatorCurrentLimit = 80;
 
+    motorConfig.Slot0.kP = ArmConstants.KP;
+    motorConfig.Slot0.kI = ArmConstants.KI;
+    motorConfig.Slot0.kD = ArmConstants.KD;
+    motorConfig.Slot0.kG = ArmConstants.KG;
+    motorConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+
+
     pivot.getConfigurator().apply(motorConfig);
 
     var encoderConfig = new CANcoderConfiguration();
 
-    encoderConfig.MagnetSensor.MagnetOffset = 0.0;
-    encoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+    encoderConfig.MagnetSensor.MagnetOffset = ArmConstants.PIVOT_ENCODER_OFFSET.unaryMinus().getRotations();
+    encoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
 
     pivotEncoder.getConfigurator().apply(encoderConfig);
 
-    pivot.setPosition(
-        pivotAbsolutePositionSignal.getValueAsDouble() - ArmConstants.PIVOT_ENCODER_OFFSET.getRotations()
-    );
+    pivot.setPosition(pivotAbsolutePositionSignal.refresh().getValueAsDouble());
   }
 }

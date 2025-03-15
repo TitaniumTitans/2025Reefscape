@@ -134,7 +134,7 @@ public class DriveSubsystem extends SubsystemBase {
       }
 
       // log empty setpoints when disabled
-      Logger.recordOutput("SwerveStates/Optimized", new SwerveModuleState[]{});
+      Logger.recordOutput("SwerveStates/Optimized", new SwerveModuleState[] {});
     }
 
     // update robot velocity for feedforwards

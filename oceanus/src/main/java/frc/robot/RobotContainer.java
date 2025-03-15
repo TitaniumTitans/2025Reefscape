@@ -14,10 +14,7 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.algae.AlgaeIO;
 import frc.robot.subsystems.algae.AlgaeIOSim;
 import frc.robot.subsystems.algae.AlgaeSubsystem;
-import frc.robot.subsystems.arm.ArmIO;
-import frc.robot.subsystems.arm.ArmIOKraken;
-import frc.robot.subsystems.arm.ArmIOSim;
-import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.arm.*;
 import frc.robot.subsystems.climber.ClimberIO;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.coral.CoralIO;
@@ -26,6 +23,7 @@ import frc.robot.subsystems.coral.CoralSubsystem;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
+import frc.robot.subsystems.drive.module.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.*;
 import frc.robot.supersystem.Supersystem;
 import lombok.Getter;
@@ -48,8 +46,8 @@ public class RobotContainer
     private final ClimberSubsystem climberSubsystem;
     private final CoralSubsystem coralSubsystem;
 
-    @Getter
-    private final Supersystem supersystem;
+//    @Getter
+//    private final Supersystem supersystem;
 
     private SwerveDriveSimulation driveSimulation;
     public RobotContainer()
@@ -58,27 +56,18 @@ public class RobotContainer
 
         switch (Constants.getMode()) {
           case REAL -> {
-//              driveSubsystem = new DriveSubsystem(
-//                  new GyroIOPigeon2(),
-//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[0]),
-//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[1]),
-//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[2]),
-//                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[3])
-//              );
-//
-//              elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOKraken());
+              driveSubsystem = new DriveSubsystem(
+                  new GyroIOPigeon2(),
+                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[0]),
+                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[1]),
+                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[2]),
+                  new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[3])
+              );
+
 //              algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
 //              climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
-            driveSubsystem = new DriveSubsystem(
-                new GyroIO() {
-                },
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {}
-            );
 
-            elevatorSubsystem = new ElevatorSubsystem(new ElevatorIO() {});
+            elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOKraken());
             armSubsystem = new ArmSubsystem(new ArmIOKraken());
             algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
             climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
@@ -123,7 +112,7 @@ public class RobotContainer
           }
         }
 
-      supersystem = new Supersystem(elevatorSubsystem, armSubsystem);
+//      supersystem = new Supersystem(elevatorSubsystem, armSubsystem);
       configureBindings();
     }
     
@@ -138,9 +127,9 @@ public class RobotContainer
             )
         );
 
-        supersystem.setDefaultCommand(
-            supersystem.periodicCommand()
-        );
+//        supersystem.setDefaultCommand(
+//            supersystem.periodicCommand()
+//        );
 
 
 //    driverController.a().toggleOnTrue(Commands.startEnd(
@@ -170,6 +159,27 @@ public class RobotContainer
         .whileFalse(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0));
     driverController.x()
         .whileTrue(armSubsystem.setRollerVoltageFactory(-3.0));
+
+    driverController.leftTrigger()
+        .whileTrue(armSubsystem.setArmPositionFactory(ArmConstants.ARM_HOME_SETPOINT))
+        .whileFalse(Commands.runOnce(armSubsystem::setDisabled, armSubsystem));
+
+    driverController.rightTrigger()
+        .whileTrue(armSubsystem.setArmPositionFactory(Rotation2d.fromDegrees(-45.0)))
+        .whileFalse(Commands.runOnce(armSubsystem::setDisabled, armSubsystem));
+
+    driverController.leftBumper()
+        .whileTrue(elevatorSubsystem.setElevatorSetpointFactory(() -> 0.0))
+        .whileFalse(Commands.runOnce(elevatorSubsystem::setDisabled, elevatorSubsystem));
+
+    driverController.rightBumper()
+        .whileTrue(elevatorSubsystem.setElevatorSetpointFactory(() -> 10.0))
+        .whileFalse(Commands.runOnce(elevatorSubsystem::setDisabled, elevatorSubsystem));
+
+    driverController.povUp()
+        .whileTrue(elevatorSubsystem.setElevatorVoltageFactory(1.5));
+    driverController.povDown()
+        .whileTrue(elevatorSubsystem.setElevatorVoltageFactory(-1.5));
 
 //    driverController.leftTrigger().onTrue(
 //        supersystem.setDesiredState(Supersystem.SupersystemState.HOME)

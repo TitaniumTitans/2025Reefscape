@@ -4,12 +4,15 @@ package frc.robot.subsystems.arm;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.elevator.ElevatorConstants;
 import frc.robot.util.MechanismVisualizer;
+import lombok.extern.java.Log;
 import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.Logger;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -27,6 +30,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public ArmSubsystem(ArmIO io) {
+    AutoLogOutputManager.addObject(this);
     this.io = io;
   }
 
@@ -37,7 +41,7 @@ public class ArmSubsystem extends SubsystemBase {
     Logger.processInputs("Arm", inputs);
     Logger.recordOutput("Arm/Setpoint", armSetpoint);
 
-    if (DriverStation.isDisabled()) {
+    if (DriverStation.isDisabled() && goalState != ArmState.DISABLED) {
       goalState = ArmState.DISABLED;
       io.setArmPivotVoltage(0.0);
     }
@@ -50,7 +54,6 @@ public class ArmSubsystem extends SubsystemBase {
       }
       default -> {
         // Do nothing
-        return;
       }
     }
 
@@ -91,14 +94,18 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public Command setArmPositionFactory(Rotation2d angle) {
-    goalState = ArmState.POSITION_CONTROL;
-    return runOnce(() -> armSetpoint = angle);
+    return runOnce(() -> {
+      goalState = ArmState.POSITION_CONTROL;
+      armSetpoint = angle;
+    });
   }
 
   public Command setArmVoltageFactory(double voltage) {
-    goalState = ArmState.VOLTAGE_CONTROL;
     return runEnd(
-        () -> io.setArmPivotVoltage(voltage),
+        () -> {
+          goalState = ArmState.VOLTAGE_CONTROL;
+          io.setArmPivotVoltage(voltage);
+          },
         () -> io.setArmPivotVoltage(0.0)
     );
   }

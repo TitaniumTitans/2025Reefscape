@@ -20,10 +20,10 @@ public class DriveConstants {
   public static final double TRACK_WIDTH_X = Units.inchesToMeters(24.75);
   public static final double TRACK_WIDTH_Y = Units.inchesToMeters(24.25);
   public static final Translation2d[] MODULE_TRANSLATIONS = {
-      new Translation2d(-TRACK_WIDTH_X / 2, TRACK_WIDTH_Y / 2),
-      new Translation2d(-TRACK_WIDTH_X / 2, -TRACK_WIDTH_Y / 2),
       new Translation2d(TRACK_WIDTH_X / 2, TRACK_WIDTH_Y / 2),
-      new Translation2d(TRACK_WIDTH_X / 2, -TRACK_WIDTH_Y / 2)
+      new Translation2d(TRACK_WIDTH_X / 2, -TRACK_WIDTH_Y / 2),
+      new Translation2d(-TRACK_WIDTH_X / 2, TRACK_WIDTH_Y / 2),
+      new Translation2d(-TRACK_WIDTH_X / 2, -TRACK_WIDTH_Y / 2)
   };
 
   public static final double DRIVE_BASE_RADIUS = Math.hypot(TRACK_WIDTH_X / 2, TRACK_WIDTH_Y / 2);
@@ -32,7 +32,7 @@ public class DriveConstants {
 
   public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(2.0); //Units.inchesToMeters(1.976); // 2.0
   public static final double DRIVE_GEAR_RATIO = (50.0 / 16.0) * (17.0 / 27.0) * (45.0 / 15.0);
-  public static final double STEER_GEAR_RATIO = 21.428571428571427;
+  public static final double STEER_GEAR_RATIO = 18.75;
 
   // Pathplanner stuff
   public static final double WHEEL_COF = 1.2;
@@ -85,7 +85,7 @@ public class DriveConstants {
                 .driveId(1)
                 .steerId(2)
                 .encoderId(3)
-                .encoderOffset(Rotation2d.fromDegrees(0.0))
+                .encoderOffset(Rotation2d.fromRotations(0.087891))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build(),
@@ -94,7 +94,7 @@ public class DriveConstants {
                 .driveId(4)
                 .steerId(5)
                 .encoderId(6)
-                .encoderOffset(Rotation2d.fromDegrees(0.0))
+                .encoderOffset(Rotation2d.fromRotations(-0.429932))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build(),
@@ -103,7 +103,7 @@ public class DriveConstants {
                 .driveId(7)
                 .steerId(8)
                 .encoderId(9)
-                .encoderOffset(Rotation2d.fromDegrees(0.0))
+                .encoderOffset(Rotation2d.fromRotations(0.131104))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build(),
@@ -112,7 +112,7 @@ public class DriveConstants {
                 .driveId(10)
                 .steerId(11)
                 .encoderId(12)
-                .encoderOffset(Rotation2d.fromDegrees(0.0))
+                .encoderOffset(Rotation2d.fromRotations(0.377441))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build()

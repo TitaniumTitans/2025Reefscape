@@ -51,6 +51,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     Logger.recordOutput("Elevator/Goal State", goalState);
     Logger.recordOutput("Elevator/Setpoint", elevatorGoal);
 
+    elevatorGoal = MathUtil.clamp(elevatorGoal, 0.0, Units.inchesToMeters(30));
+
     // run state machine
     switch (goalState) {
       case ZEROING -> {
@@ -105,9 +107,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public Command setElevatorVoltageFactory(double voltage) {
-    goalState = ElevatorState.VOLTAGE_CONTROL;
     return runEnd(
         () -> {
+          goalState = ElevatorState.VOLTAGE_CONTROL;
           if (!(inputs.elevatorPositionMeters < Units.inchesToMeters(0.5) && voltage < 0.0)) {
             io.setElevatorVoltage(voltage);
           }
