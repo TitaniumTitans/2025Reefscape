@@ -171,19 +171,19 @@ public class RobotContainer
     driverController.x()
         .whileTrue(armSubsystem.setRollerVoltageFactory(-3.0));
 
-    driverController.leftTrigger().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
-    );
+//    driverController.leftTrigger().onTrue(
+//        supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
+//    );
 
-    driverController.rightTrigger().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.L4)
-    );
-    driverController.rightBumper().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.L3)
-    );
-    driverController.leftBumper().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.L2)
-    );
+//    driverController.rightTrigger().onTrue(
+//        supersystem.setDesiredState(Supersystem.SupersystemState.L4)
+//    );
+//    driverController.rightBumper().onTrue(
+//        supersystem.setDesiredState(Supersystem.SupersystemState.L3)
+//    );
+//    driverController.leftBumper().onTrue(
+//        supersystem.setDesiredState(Supersystem.SupersystemState.L2)
+//    );
     }
     
     
