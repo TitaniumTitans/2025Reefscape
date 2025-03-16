@@ -69,7 +69,7 @@ public class Module {
   // optimizes a module setpoint and runs it
   public void runSetpoint(SwerveModuleState state, LinearAcceleration torqueCurrent) {
     // optimize the state
-    state.optimize(getAngle());
+//    state.optimize(getAngle());
     state.cosineScale(getAngle());
 
     // apply the state

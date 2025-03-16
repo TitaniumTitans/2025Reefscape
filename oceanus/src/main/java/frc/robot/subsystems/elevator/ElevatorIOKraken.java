@@ -13,6 +13,7 @@ import com.gos.lib.properties.pid.PidProperty;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.*;
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.util.PhoenixUtil;
 import org.littletonrobotics.junction.Logger;
 
 public class ElevatorIOKraken implements ElevatorIO {
@@ -122,9 +123,9 @@ public class ElevatorIOKraken implements ElevatorIO {
 //    config.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(120);
 //    config.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(120);
     config.MotionMagic.MotionMagicCruiseVelocity =
-        Units.inchesToMeters(90) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
+        Units.inchesToMeters(100) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
     config.MotionMagic.MotionMagicAcceleration =
-        Units.inchesToMeters(90) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
+        Units.inchesToMeters(100) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
 
     config.Slot0.kP = ElevatorConstants.ELEVATOR_KP;
     config.Slot0.kI = ElevatorConstants.ELEVATOR_KI;
@@ -144,10 +145,11 @@ public class ElevatorIOKraken implements ElevatorIO {
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    master.getConfigurator().apply(config);
+    PhoenixUtil.tryUntilOk(5, () -> master.getConfigurator().apply(config));
 
     config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    follower.getConfigurator().apply(config);
+
+    PhoenixUtil.tryUntilOk(5, () -> follower.getConfigurator().apply(config));
 
     master.setPosition(0.0);
     follower.setPosition(0.0);

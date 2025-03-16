@@ -31,6 +31,7 @@ import frc.robot.subsystems.drive.module.ModuleIOSim;
 import frc.robot.subsystems.drive.module.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.*;
 import frc.robot.supersystem.Supersystem;
+import frc.robot.util.ChoreoUtils;
 import lombok.Getter;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -184,12 +185,12 @@ public class RobotContainer
             .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))
     );
 
-    driverController.y()
-        .whileTrue(
-            coralSubsystem.setPivotVoltageFactory(-1.5)
-        ).whileFalse(
-            coralSubsystem.setPivotVoltageFactory(0.0)
-        );
+//    driverController.y()
+//        .whileTrue(
+//            coralSubsystem.setPivotVoltageFactory(-1.5)
+//        ).whileFalse(
+//            coralSubsystem.setPivotVoltageFactory(0.0)
+//        );
 
 //    driverController.leftBumper().whileTrue(
 //        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
@@ -234,6 +235,79 @@ public class RobotContainer
     driverController.b().whileTrue(
         armSubsystem.setRollerVoltageFactory(-1.5)
     );
+
+    driverController.y().onTrue(
+        Commands.runOnce(() -> RobotState.getInstance().resetPose(
+            ChoreoPoses.AB.getPose()
+        ))
+    );
+
+    driverController.povUp()
+        .whileTrue(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.5,
+                () -> 0.0,
+                () -> 0.0
+            )
+        ).onFalse(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.0,
+                () -> 0.0,
+                () -> 0.0
+            )
+        );
+
+    driverController.povDown()
+        .whileTrue(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> -0.5,
+                () -> 0.0,
+                () -> 0.0
+            )
+        ).onFalse(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.0,
+                () -> 0.0,
+                () -> 0.0
+            )
+        );
+
+    driverController.povRight()
+        .whileTrue(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.0,
+                () -> -0.5,
+                () -> 0.0
+            )
+        ).onFalse(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.0,
+                () -> 0.0,
+                () -> 0.0
+            )
+        );
+    driverController.povLeft()
+        .whileTrue(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.0,
+                () -> 0.5,
+                () -> 0.0
+            )
+        ).onFalse(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.0,
+                () -> 0.0,
+                () -> 0.0
+            )
+        );
 
 //    driverController.povLeft()
 //        .whileTrue(supersystem.runArmRollers(1.5))

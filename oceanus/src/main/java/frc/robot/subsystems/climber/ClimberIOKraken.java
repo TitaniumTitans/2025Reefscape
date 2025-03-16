@@ -3,43 +3,50 @@ package frc.robot.subsystems.climber;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 
 public class ClimberIOKraken implements ClimberIO{
-  private final TalonFX climber;
+  private final TalonFX master;
+  private final TalonFX follower;
   private final PositionVoltage posRequest;
   private final StatusSignal<Angle> positionSignal;
   private final StatusSignal<Current> currentDrawSignal;
   private final StatusSignal<Voltage> appliedVoltageSignal;
   private final NeutralOut stopRequest;
+  private final Follower followerRequest;
+
   public ClimberIOKraken() {
-    climber = new TalonFX(ClimberConstants.CLIMBER_ID);
+    master = new TalonFX(ClimberConstants.CLIMBER_ID);
+    follower = new TalonFX(ClimberConstants.FOLLOWER_ID);
     configureDevices();
 
-    positionSignal = climber.getPosition();
-    currentDrawSignal = climber.getSupplyCurrent();
-    appliedVoltageSignal = climber.getMotorVoltage();
+    positionSignal = master.getPosition();
+    currentDrawSignal = master.getSupplyCurrent();
+    appliedVoltageSignal = master.getMotorVoltage();
 
     posRequest = new PositionVoltage(0).withSlot(0)
-        .withEnableFOC(climber.getIsProLicensed().getValue());
+        .withEnableFOC(master.getIsProLicensed().getValue());
     stopRequest = new NeutralOut();
+
+    followerRequest = new Follower(master.getDeviceID(), true);
+    follower.setControl(followerRequest);
 
     BaseStatusSignal.setUpdateFrequencyForAll(50.0,
         positionSignal,
         currentDrawSignal,
         appliedVoltageSignal);
 
-    climber.setPosition(0.0);
-    climber.optimizeBusUtilization();
+    master.setPosition(0.0);
+    master.optimizeBusUtilization();
   }
 
   @Override
@@ -55,19 +62,19 @@ public class ClimberIOKraken implements ClimberIO{
   }
   @Override
   public void setMotorVoltage(double voltage) {
-    climber.setVoltage(voltage);
+    master.setVoltage(voltage);
   }
   @Override
   public void setPosititon(double degrees) {
-    climber.setControl(posRequest.withPosition(degrees / 360.0));
+    master.setControl(posRequest.withPosition(degrees / 360.0));
   }
   @Override
   public void resetPosition() {
-    climber.setPosition(0);
+    master.setPosition(0);
   }
   @Override
   public void stop() {
-    climber.setControl(stopRequest);
+    master.setControl(stopRequest);
   }
   private void configureDevices() {
     var climberConfig = new TalonFXConfiguration();
@@ -82,6 +89,7 @@ public class ClimberIOKraken implements ClimberIO{
     climberConfig.CurrentLimits.SupplyCurrentLowerLimit = 40;
     climberConfig.CurrentLimits.StatorCurrentLimit = 120;
 
-    climber.getConfigurator().apply(climberConfig);
+    master.getConfigurator().apply(climberConfig);
+    follower.getConfigurator().apply(climberConfig);
   }
 }

@@ -161,16 +161,20 @@ public class RobotContainer {
         coralSubsystem.setScorerPowerFactory(2.0)
     );
 
-    driveController.y().whileTrue(
-        intakeSubsystem.pickUpAlgea()
-    );
+//    driveController.y().whileTrue(
+//        intakeSubsystem.pickUpAlgea()
+//    );
+
     driveController.x().whileTrue(
         intakeSubsystem.dropAlgae()
     ).onFalse(intakeSubsystem.setPivotPositionFactory(100)
         .withTimeout(0.5)
         .andThen(intakeSubsystem.zeroPivot()));
 
-    driveController.povUp().onTrue(driveSubsystem.resetPoseFactory(new Pose2d()));
+    driveController.y().onTrue(
+        driveSubsystem.resetPoseFactory(
+            ChoreoPoses.A_B)
+    );
 
     driveController.rightTrigger().whileTrue(
         climberSubsystem.setClimberPowerFactory(12.0)
@@ -185,6 +189,73 @@ public class RobotContainer {
             new Rotation2d())
         )
     );
+
+    driveController.povUp()
+        .whileTrue(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.5,
+                () -> 0.0,
+                () -> 0.0
+            )
+        ).onFalse(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.0,
+                () -> 0.0,
+                () -> 0.0
+            )
+        );
+
+    driveController.povDown()
+        .whileTrue(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> -0.5,
+                () -> 0.0,
+                () -> 0.0
+            )
+        ).onFalse(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.0,
+                () -> 0.0,
+                () -> 0.0
+            )
+        );
+
+    driveController.povRight()
+        .whileTrue(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.0,
+                () -> 0.5,
+                () -> 0.0
+            )
+        ).onFalse(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.0,
+                () -> 0.0,
+                () -> 0.0
+            )
+        );
+    driveController.povLeft()
+        .whileTrue(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.0,
+                () -> -0.5,
+                () -> 0.0
+            )
+        ).onFalse(
+            DriveCommands.joystickDrive(
+                driveSubsystem,
+                () -> 0.0,
+                () -> 0.0,
+                () -> 0.0
+            )
+        );
   }
 
   public Command getAutonomousCommand() {

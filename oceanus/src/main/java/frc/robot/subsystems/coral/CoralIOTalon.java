@@ -10,6 +10,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.util.PhoenixUtil;
 
 public class CoralIOTalon implements CoralIO {
   private final TalonFX pivot;
@@ -106,12 +107,12 @@ public class CoralIOTalon implements CoralIO {
     motorConfig.Slot0.kG = CoralConstants.KG;
     motorConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
-    motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(360);
-    motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(360);
+    motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(1080 + 360);
+    motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(1080 + 360);
 
     motorConfig.CurrentLimits.SupplyCurrentLimit = 40;
     motorConfig.CurrentLimits.StatorCurrentLimit = 60;
 
-    pivot.getConfigurator().apply(motorConfig);
+    PhoenixUtil.tryUntilOk(5, () -> pivot.getConfigurator().apply(motorConfig));
   }
 }

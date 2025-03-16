@@ -38,8 +38,11 @@ public class CoralSubsystem extends SubsystemBase {
   }
 
   public Command resetPivotFactory() {
-    return run(() -> io.setPivotVoltage(-1.0))
-        .until(() -> inputs.limitHit)
+    return run(() -> io.setPivotVoltage(1.0))
+        .until(() -> !inputs.limitHit)
+        .andThen(
+            run(() -> io.setPivotVoltage(-1.0))
+                .until(() -> inputs.limitHit))
         .andThen(runOnce(() -> io.setPivotVoltage(0.0)))
         .andThen(runOnce(() -> io.resetPivot(90)));
   }

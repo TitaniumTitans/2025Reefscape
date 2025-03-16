@@ -17,8 +17,8 @@ import static edu.wpi.first.units.Units.*;
 
 public class DriveConstants {
   public static final double ODOMETRY_FREQUENCY = 250;
-  public static final double TRACK_WIDTH_X = Units.inchesToMeters(24.75);
-  public static final double TRACK_WIDTH_Y = Units.inchesToMeters(24.25);
+  public static final double TRACK_WIDTH_X = Units.inchesToMeters(24.0);
+  public static final double TRACK_WIDTH_Y = Units.inchesToMeters(25.0);
   public static final Translation2d[] MODULE_TRANSLATIONS = {
       new Translation2d(TRACK_WIDTH_X / 2, TRACK_WIDTH_Y / 2),
       new Translation2d(TRACK_WIDTH_X / 2, -TRACK_WIDTH_Y / 2),
@@ -30,7 +30,7 @@ public class DriveConstants {
   public static final double MAX_LINEAR_SPEED_MPS = Units.feetToMeters(17.1 );
   public static final double MAX_ANGULAR_SPEED = MAX_LINEAR_SPEED_MPS / DRIVE_BASE_RADIUS;
 
-  public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.970); //Units.inchesToMeters(1.976); // 2.0
+  public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.967); //Units.inchesToMeters(1.976); // 2.0
   public static final double DRIVE_GEAR_RATIO = (50.0 / 16.0) * (17.0 / 27.0) * (45.0 / 15.0);
   public static final double STEER_GEAR_RATIO = 18.75;
 

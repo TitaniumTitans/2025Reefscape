@@ -18,6 +18,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
+import frc.robot.util.PhoenixUtil;
 import org.littletonrobotics.junction.Logger;
 
 public class ArmIOKraken implements ArmIO {
@@ -142,8 +143,7 @@ public class ArmIOKraken implements ArmIO {
     motorConfig.Slot0.kG = ArmConstants.KG;
     motorConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
-
-    pivot.getConfigurator().apply(motorConfig);
+    PhoenixUtil.tryUntilOk(5, () -> pivot.getConfigurator().apply(motorConfig));
 
     var encoderConfig = new CANcoderConfiguration();
 
