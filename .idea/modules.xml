@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/oceanus.main.iml" filepath="$PROJECT_DIR$/.idea/modules/oceanus.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/oceanus.test.iml" filepath="$PROJECT_DIR$/.idea/modules/oceanus.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tethys.main.iml" filepath="$PROJECT_DIR$/.idea/modules/tethys.main.iml" />
     </modules>
   </component>
 </project>

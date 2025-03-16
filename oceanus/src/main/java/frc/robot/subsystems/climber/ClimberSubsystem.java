@@ -24,7 +24,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public Command setClimberPowerFactory(double power) {
     return runEnd(() -> {
           double climberPower = power;
-          if (inputs.position > 1600) {
+          if (inputs.position.getDegrees() > 1600) {
             climberPower = MathUtil.clamp(climberPower, -12, 0);
           }
           setClimberPower(climberPower);

@@ -8,6 +8,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
@@ -48,9 +49,9 @@ public class ClimberIOKraken implements ClimberIO{
         currentDrawSignal,
         appliedVoltageSignal
     );
-    inputs.position = Units.rotationsToDegrees(positionSignal.refresh().getValueAsDouble());
-    inputs.currentDraw = currentDrawSignal.refresh().getValueAsDouble();
-    inputs.appliedVoltage = appliedVoltageSignal.refresh().getValueAsDouble();
+    inputs.position = Rotation2d.fromRotations(positionSignal.getValueAsDouble());
+    inputs.currentDraw = currentDrawSignal.getValueAsDouble();
+    inputs.appliedVoltage = appliedVoltageSignal.getValueAsDouble();
   }
   @Override
   public void setMotorVoltage(double voltage) {

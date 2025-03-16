@@ -70,13 +70,15 @@ public class ModuleIOTalonFX implements ModuleIO {
 
     driveRequest = new VelocityVoltage(0.0)
         .withEnableFOC(true)
-        .withSlot(0);
+        .withSlot(0)
+        .withUpdateFreqHz(0);
     driveTorqueRequest = new VelocityTorqueCurrentFOC(0.0)
         .withSlot(1);
 
     steerRequest = new PositionVoltage(0.0)
         .withEnableFOC(true)
-        .withSlot(0);
+        .withSlot(0)
+        .withUpdateFreqHz(0);
 
     drivePositionSignal = driveMotor.getPosition();
     driveVelocitySignal = driveMotor.getVelocity();
