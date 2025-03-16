@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ArmMovementCommandGroup;
-import frc.robot.commands.ArmUpCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.algae.AlgaeIO;
 import frc.robot.subsystems.algae.AlgaeIOSim;
 import frc.robot.subsystems.algae.AlgaeSubsystem;
 import frc.robot.subsystems.arm.*;
 import frc.robot.subsystems.climber.ClimberIO;
+import frc.robot.subsystems.climber.ClimberIOKraken;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.coral.CoralIO;
 import frc.robot.subsystems.coral.CoralIOTalon;
@@ -70,12 +70,10 @@ public class RobotContainer
         );
 
 //              algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
-//              climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
-
         elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOKraken());
         armSubsystem = new ArmSubsystem(new ArmIOKraken());
         algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
-        climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
+        climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
         coralSubsystem = new CoralSubsystem(new CoralIOTalon());
       }
       case SIM -> {
@@ -173,30 +171,51 @@ public class RobotContainer
     );
 
     driverController.leftBumper().whileTrue(
-        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-            ElevatorConstants.L2_SETPOINT.getValue(), ArmConstants.L2_SETPOINT)
+        coralSubsystem.setPivotAngle(90.0)
+    ).whileFalse(
+        coralSubsystem.setPivotVoltageFactory(0.0)
     );
 
     driverController.rightBumper().whileTrue(
-        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-            ElevatorConstants.L3_SETPOINT.getValue(), ArmConstants.L3_SETPOINT)
+        coralSubsystem.setPivotAngle(192)
+            .andThen(coralSubsystem.setScoringVoltages(0.0, 3.0, 0.0))
+    ).whileFalse(
+        coralSubsystem.setPivotAngle(90)
+            .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))
     );
+
+    driverController.y()
+        .whileTrue(
+            coralSubsystem.setPivotVoltageFactory(-1.5)
+        ).whileFalse(
+            coralSubsystem.setPivotVoltageFactory(0.0)
+        );
+
+//    driverController.leftBumper().whileTrue(
+//        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+//            ElevatorConstants.L2_SETPOINT.getValue(), ArmConstants.L2_SETPOINT)
+//    );
+
+//    driverController.rightBumper().whileTrue(
+//        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+//            ElevatorConstants.L3_SETPOINT.getValue(), ArmConstants.L3_SETPOINT)
+//    );
 
     driverController.rightTrigger().whileTrue(
         new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
             ElevatorConstants.L4_SETPOINT, ArmConstants.L4_SETPOINT)
     );
 
-    driverController.y().whileTrue(
-        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-            ElevatorConstants.BARGE_SETPOINT, ArmConstants.BARGE_SETPOINT)
-    );
+//    driverController.y().whileTrue(
+//        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+//            ElevatorConstants.BARGE_SETPOINT, ArmConstants.BARGE_SETPOINT)
+//    );
 
     driverController.x().whileTrue(
         new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
             ElevatorConstants.INTAKE_SETPOINT, ArmConstants.INTAKE_SETPOINT)
             .andThen(armSubsystem.setRollerVoltageFactory(-1.5)
-                .alongWith(coralSubsystem.setScoringVoltages(3.0, 0.0, 0.0)))
+                .alongWith(coralSubsystem.setScoringVoltages(4.0, 3.0, 3.0)))
     ).whileFalse(
         new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
             ElevatorConstants.HOME_SETPOINT.getValue(), ArmConstants.ARM_HOME_SETPOINT)
@@ -243,6 +262,7 @@ public class RobotContainer
     ShuffleboardTab tab = Shuffleboard.getTab("Commands");
 
     tab.add("Zero Elevator", Commands.runOnce(() -> elevatorSubsystem.resetElevator(0.0)));
+    tab.add("Zero Coral Pivot", coralSubsystem.resetPivotFactory());
   }
     
   public Command getAutonomousCommand()

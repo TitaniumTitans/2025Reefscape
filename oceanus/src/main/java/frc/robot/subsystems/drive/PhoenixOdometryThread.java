@@ -12,6 +12,7 @@ import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Threads;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,6 +108,7 @@ public class PhoenixOdometryThread extends Thread {
 
   @Override
   public void run() {
+    Threads.setCurrentThreadPriority(true, 99);
     while (true) {
       // Wait for updates from all signals
       signalsLock.lock();

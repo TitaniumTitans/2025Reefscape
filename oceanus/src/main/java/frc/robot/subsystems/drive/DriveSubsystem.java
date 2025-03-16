@@ -69,10 +69,10 @@ public class DriveSubsystem extends SubsystemBase {
         RobotState.getInstance()::getEstimatedPose,
         this::resetPose,
         this::getChassisSpeeds,
-        (ChassisSpeeds speeds, DriveFeedforwards feedforwards) ->  runVelocity(speeds, feedforwards),
+        (ChassisSpeeds speeds, DriveFeedforwards feedforwards) -> runVelocity(speeds, feedforwards),
         new PPHolonomicDriveController(
-            new PIDConstants(5.0, 0.5, 0.0),
-            new PIDConstants(5.0, 0.5, 0.0)
+            new PIDConstants(5.0, 0.0, 0.0),
+            new PIDConstants(5.0, 0.0, 0.0)
         ),
         ROBOT_CONFIG,
         () -> {

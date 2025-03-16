@@ -18,7 +18,7 @@ public class ClimberSubsystem extends SubsystemBase {
     io.updateInputs(inputs);
     Logger.processInputs("Climber", inputs);
   }
-  public void setClimberPower(double power) {
+  public void setClimberVoltage(double power) {
     io.setMotorVoltage(power);
   }
   public Command setClimberPowerFactory(double power) {
@@ -27,8 +27,8 @@ public class ClimberSubsystem extends SubsystemBase {
           if (inputs.position.getDegrees() > 1600) {
             climberPower = MathUtil.clamp(climberPower, -12, 0);
           }
-          setClimberPower(climberPower);
+          setClimberVoltage(climberPower);
         },
-        () -> setClimberPower(0.0));
+        () -> setClimberVoltage(0.0));
   }
 }

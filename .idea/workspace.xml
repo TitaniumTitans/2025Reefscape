@@ -5,12 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c585a44-a51b-455f-b323-bbe5119c28ff" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oceanus/choreo_variables_to_java.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/BuildConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/BuildConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/climber/ClimberIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/climber/ClimberIO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/commands/ArmDownCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/commands/ArmUpCommand.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/climber/ClimberIOKraken.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/climber/ClimberIOKraken.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/climber/ClimberSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/climber/ClimberSubsystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralIO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralIOTalon.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralIOTalon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralSubsystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/PhoenixOdometryThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/PhoenixOdometryThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/ModuleIOTalonFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/module/ModuleIOTalonFX.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -75,26 +85,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.oceanus [build].executor": "Run",
-    "Gradle.oceanus [deploy].executor": "Run",
-    "Gradle.oceanus [simulateJava].executor": "Run",
-    "Gradle.tethys [build].executor": "Run",
-    "Gradle.tethys [deploy].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "V2",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/lboog/GitHub/2025Reefscape/oceanus/src/main/java/frc/robot/subsystems",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.5103448",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.oceanus [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.oceanus [deploy].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.oceanus [simulateJava].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.tethys [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.tethys [deploy].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;V2&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/lboog/GitHub/2025Reefscape/oceanus/src/main/java/frc/robot/subsystems&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.5103448&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\lboog\GitHub\2025Reefscape\oceanus\src\main\java\frc\robot\subsystems" />
@@ -102,6 +112,8 @@
       <recent name="C:\Users\lboog\GitHub\2025Reefscape\oceanus\vendordeps" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\lboog\GitHub\2025Reefscape\oceanus\src\main\deploy" />
+      <recent name="C:\Users\lboog\GitHub\2025Reefscape\oceanus\src\main\deploy\deploy\choreo" />
       <recent name="C:\Users\lboog\GitHub\2025Reefscape\oceanus" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -109,7 +121,7 @@
       <recent name="frc.robot" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.oceanus [simulateJava]">
+  <component name="RunManager" selected="Gradle.oceanus [deploy]">
     <configuration name="oceanus [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -289,8 +301,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.oceanus [simulateJava]" />
         <item itemvalue="Gradle.oceanus [deploy]" />
+        <item itemvalue="Gradle.oceanus [simulateJava]" />
         <item itemvalue="Gradle.oceanus [build]" />
         <item itemvalue="Gradle.tethys [deploy]" />
         <item itemvalue="Gradle.tethys [build]" />
@@ -317,6 +329,6 @@
     <servers />
   </component>
   <component name="WpiLibVersionService">
-    <option name="lastChecked" value="20250316094206" />
+    <option name="lastChecked" value="20250316105803" />
   </component>
 </project>

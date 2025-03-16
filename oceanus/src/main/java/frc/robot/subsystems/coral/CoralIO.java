@@ -8,11 +8,13 @@ public interface CoralIO {
   class CoralIOInputs {
     public Rotation2d coralPivotAngle = new Rotation2d();
     public boolean hasCoral = false;
+    public boolean limitHit = false;
     public double[] coralAppliedVoltage = new double[] {0.0, 0.0, 0.0, 0.0};
     public double[] coralCurrentDraw = new double[] {0.0, 0.0, 0.0, 0.0};
   }
 
   default void updateInputs(CoralIOInputsAutoLogged inputs) {}
+  default void resetPivot(double angleDegrees) {}
   default void setPivotVoltage(double appliedVolts) {}
   default void setPivotAngle(double angleDegrees) {}
   default void setHopperVoltage(double appliedVolts) {}

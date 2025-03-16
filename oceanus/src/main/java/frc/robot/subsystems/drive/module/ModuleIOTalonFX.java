@@ -130,8 +130,8 @@ public class ModuleIOTalonFX implements ModuleIO {
         steerAbsolutePositionSignal
     );
 
-    steerMotor.setPosition(encoder.getAbsolutePosition().getValueAsDouble()
-        - config.encoderOffset().getRotations());
+//    steerMotor.setPosition(encoder.getAbsolutePosition().getValueAsDouble()
+//        - config.encoderOffset().getRotations());
 
     inputs.driveConnected = driveMotor.isConnected();
     inputs.drivePositionRads = Units.rotationsToRadians(drivePositionSignal.getValueAsDouble());
@@ -185,6 +185,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     motorConfig.Feedback.SensorToMechanismRatio = DriveConstants.DRIVE_GEAR_RATIO;
+    motorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 0.02;
 
     motorConfig.CurrentLimits = new CurrentLimitsConfigs()
         .withSupplyCurrentLimitEnable(true)
@@ -217,6 +218,7 @@ public class ModuleIOTalonFX implements ModuleIO {
         .withKS(0.0)
         .withKV(0.0);
 
+    motorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 0.0;
 
     steerMotor.getConfigurator().apply(motorConfig);
 

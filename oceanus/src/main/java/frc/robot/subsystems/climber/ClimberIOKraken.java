@@ -77,6 +77,11 @@ public class ClimberIOKraken implements ClimberIO{
     climberConfig.Slot0.kP = 0.0;
     climberConfig.Slot0.kI = 0.0;
     climberConfig.Slot0.kD = 0.0;
+
+    climberConfig.CurrentLimits.SupplyCurrentLimit = 70;
+    climberConfig.CurrentLimits.SupplyCurrentLowerLimit = 40;
+    climberConfig.CurrentLimits.StatorCurrentLimit = 120;
+
     climber.getConfigurator().apply(climberConfig);
   }
 }
