@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ArmMovementCommandGroup;
 import frc.robot.commands.ArmUpCommand;
@@ -179,6 +180,40 @@ public class RobotContainer
     driverController.rightBumper().whileTrue(
         new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
             ElevatorConstants.L3_SETPOINT.getValue(), ArmConstants.L3_SETPOINT)
+    );
+
+    driverController.rightTrigger().whileTrue(
+        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+            ElevatorConstants.L4_SETPOINT, ArmConstants.L4_SETPOINT)
+    );
+
+    driverController.y().whileTrue(
+        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+            ElevatorConstants.BARGE_SETPOINT, ArmConstants.BARGE_SETPOINT)
+    );
+
+    driverController.x().whileTrue(
+        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+            ElevatorConstants.INTAKE_SETPOINT, ArmConstants.INTAKE_SETPOINT)
+            .andThen(armSubsystem.setRollerVoltageFactory(-1.5)
+                .alongWith(coralSubsystem.setScoringVoltages(3.0, 0.0, 0.0)))
+    ).whileFalse(
+        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+            ElevatorConstants.HOME_SETPOINT.getValue(), ArmConstants.ARM_HOME_SETPOINT)
+            .andThen(armSubsystem.setRollerVoltageFactory(0.0)
+                .alongWith(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0)))
+    );
+
+    driverController.a().whileTrue(
+        new ConditionalCommand(
+            armSubsystem.setRollerVoltageFactory(1.5),
+            armSubsystem.setRollerVoltageFactory(12.0),
+            armSubsystem::hasCoral
+        )
+    );
+
+    driverController.b().whileTrue(
+        armSubsystem.setRollerVoltageFactory(-1.5)
     );
 
 //    driverController.povLeft()

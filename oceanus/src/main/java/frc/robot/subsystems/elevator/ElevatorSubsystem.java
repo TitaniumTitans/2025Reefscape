@@ -82,7 +82,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   @AutoLogOutput(key = "Elevator/At L4")
   public boolean atL4() {
     return inputs.upperLimitSwitch
-        || inputs.elevatorPositionMeters >= Units.inchesToMeters(ElevatorConstants.L4_SETPOINT.getValue() - 5.0);
+        || inputs.elevatorPositionMeters >= Units.inchesToMeters(ElevatorConstants.L4_SETPOINT - 5.0);
   }
 
   public boolean atSetpoint(double setpoint) {

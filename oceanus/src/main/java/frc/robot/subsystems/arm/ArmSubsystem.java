@@ -118,7 +118,13 @@ public class ArmSubsystem extends SubsystemBase {
   public Command setRollerVoltageFactory(double voltage) {
     return runEnd(
         () -> io.setRollerVoltage(voltage),
-        () -> io.setRollerVoltage(0.0)
+        () -> {
+          if (inputs.hasCoral) {
+            io.setRollerVoltage(0.0);
+          } else {
+            io.setRollerVoltage(-1.0);
+          }
+        }
     );
   }
 

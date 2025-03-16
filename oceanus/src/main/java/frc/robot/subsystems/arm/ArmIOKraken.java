@@ -120,6 +120,11 @@ public class ArmIOKraken implements ArmIO {
     var motorConfig = new TalonFXConfiguration();
 
     motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    motorConfig.CurrentLimits.SupplyCurrentLimit = 60;
+    motorConfig.CurrentLimits.StatorCurrentLimit = 80;
+
+    rollers.getConfigurator().apply(motorConfig);
+
     motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     motorConfig.Feedback.RotorToSensorRatio = ArmConstants.PIVOT_GEAR_RATIO;
@@ -127,11 +132,9 @@ public class ArmIOKraken implements ArmIO {
     motorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
     motorConfig.Feedback.FeedbackRemoteSensorID = pivotEncoder.getDeviceID();
 
-    motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(360);
-    motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(360);
+    motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(1080);
+    motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(1080);
 
-    motorConfig.CurrentLimits.SupplyCurrentLimit = 60;
-    motorConfig.CurrentLimits.StatorCurrentLimit = 100;
 
     motorConfig.Slot0.kP = ArmConstants.KP;
     motorConfig.Slot0.kI = ArmConstants.KI;
