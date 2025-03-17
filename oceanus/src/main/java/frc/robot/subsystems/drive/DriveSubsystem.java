@@ -4,6 +4,7 @@ package frc.robot.subsystems.drive;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.swerve.SwerveSetpoint;
@@ -260,9 +261,13 @@ public class DriveSubsystem extends SubsystemBase {
     return DriveConstants.MAX_ANGULAR_SPEED;
   }
 
-//  public Command driveToPose(Pose2d pose) {
-//
-//  }
+  public Command driveToPose(Pose2d pose) {
+    return AutoBuilder.pathfindToPose(
+        pose,
+        new PathConstraints(1.0, 1.0,
+            1.0, 1.0)
+    );
+  }
 
   public void resetPose(Pose2d pose) {
     Logger.recordOutput("Pose Reset To", pose);

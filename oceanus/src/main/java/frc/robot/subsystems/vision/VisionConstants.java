@@ -44,16 +44,16 @@ public class VisionConstants {
           new Rotation3d(0.0, degreesToRadians(0), degreesToRadians(180)))
   );
 
-  public static final TunableTransform3d BACK_CAMERA_TRANSFORM = new TunableTransform3d(
+  public static final TunableTransform3d RIGHT_CAMERA_TRANSFORM = new TunableTransform3d(
       false,
       "CameraTransforms/BackCamera",
       new Transform3d(
       new Translation3d(
-          inchesToMeters(-10.5),
+          inchesToMeters(0.0),
           inchesToMeters(0),
-          inchesToMeters(16.25)
+          inchesToMeters(0.0)
       ),
-      new Rotation3d(0.0, degreesToRadians(0), degreesToRadians(180)))
+      new Rotation3d(0.0, degreesToRadians(0), degreesToRadians(0.0)))
   );
 
   public static final Transform3d BACK_LEFT_TRANSFORM = new Transform3d(

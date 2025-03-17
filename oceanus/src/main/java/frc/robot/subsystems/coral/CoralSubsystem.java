@@ -27,7 +27,11 @@ public class CoralSubsystem extends SubsystemBase {
   public Command setPivotVoltageFactory(double voltage) {
     return runEnd(
         () -> io.setPivotVoltage(voltage),
-        () -> io.setPivotVoltage(0.0));
+        this::stop);
+  }
+
+  public void stop() {
+    io.setPivotVoltage(0.0);
   }
 
   public Command setScoringVoltages(double hopper, double outer, double inner) {

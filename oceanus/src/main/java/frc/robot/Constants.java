@@ -1,6 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.util.MaybeFlippedPose2d;
 
@@ -32,5 +34,9 @@ public class Constants {
     public static MaybeFlippedPose2d J = new MaybeFlippedPose2d(new Pose2d());
     public static MaybeFlippedPose2d K = new MaybeFlippedPose2d(new Pose2d());
     public static MaybeFlippedPose2d L = new MaybeFlippedPose2d(new Pose2d());
+
+    public static MaybeFlippedPose2d AB = new MaybeFlippedPose2d(
+        ChoreoPoses.AB.getBluePose().plus(new Transform2d(-1.0, 0.0, new Rotation2d()))
+    );
   }
 }

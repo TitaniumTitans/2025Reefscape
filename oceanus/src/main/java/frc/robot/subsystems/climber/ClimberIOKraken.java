@@ -90,6 +90,8 @@ public class ClimberIOKraken implements ClimberIO{
     climberConfig.CurrentLimits.StatorCurrentLimit = 120;
 
     master.getConfigurator().apply(climberConfig);
+
+    climberConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     follower.getConfigurator().apply(climberConfig);
   }
 }

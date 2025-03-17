@@ -5,6 +5,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -14,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ArmMovementCommandGroup;
+import frc.robot.commands.AutoScoreCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.algae.AlgaeIO;
 import frc.robot.subsystems.algae.AlgaeIOSim;
@@ -30,8 +34,10 @@ import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.subsystems.drive.module.ModuleIOSim;
 import frc.robot.subsystems.drive.module.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.*;
+import frc.robot.subsystems.vision.VisionConstants;
+import frc.robot.subsystems.vision.VisionIOPhotonReal;
+import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.supersystem.Supersystem;
-import frc.robot.util.ChoreoUtils;
 import lombok.Getter;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -51,6 +57,7 @@ public class RobotContainer
   private final ArmSubsystem armSubsystem;
   private final ClimberSubsystem climberSubsystem;
   private final CoralSubsystem coralSubsystem;
+  private VisionSubsystem visionSubsystem;
 
   @Getter
   private final Supersystem supersystem;
@@ -59,6 +66,8 @@ public class RobotContainer
   public RobotContainer()
   {
     Logger.recordOutput("Robot Mode", Constants.getMode());
+
+    AprilTagFieldLayout tagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
     switch (Constants.getMode()) {
       case REAL -> {
@@ -76,6 +85,11 @@ public class RobotContainer
         algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
         climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
         coralSubsystem = new CoralSubsystem(new CoralIOTalon());
+
+        visionSubsystem = new VisionSubsystem(
+            VisionConstants.FILTER_PARAMETERS,
+            new VisionIOPhotonReal("RightCamera", VisionConstants.RIGHT_CAMERA_TRANSFORM, tagFieldLayout)
+        );
       }
       case SIM -> {
         driveSimulation = new SwerveDriveSimulation(DriveConstants.MAPLE_SIM_CONFIG, new Pose2d(3, 3, new Rotation2d()));
@@ -132,6 +146,11 @@ public class RobotContainer
         )
     );
 
+    visionSubsystem.setDefaultCommand(
+        visionSubsystem.processVision(RobotState.getInstance()::getEstimatedPose)
+            .ignoringDisable(true)
+    );
+
 //    supersystem.setDefaultCommand(
 //        supersystem.periodicCommand()
 //    );
@@ -171,19 +190,33 @@ public class RobotContainer
             ElevatorConstants.HOME_SETPOINT.getValue(), ArmConstants.ARM_HOME_SETPOINT)
     );
 
-    driverController.leftBumper().whileTrue(
-        coralSubsystem.setPivotAngle(90.0)
-    ).whileFalse(
-        coralSubsystem.setPivotVoltageFactory(0.0)
-    );
+//    driverController.leftBumper().whileTrue(
+//        Commands.runEnd(
+//            () -> climberSubsystem.setClimberVoltage(3.0),
+//            () -> climberSubsystem.setClimberVoltage(0.0)
+//        )
+//    );
 
-    driverController.rightBumper().whileTrue(
-        coralSubsystem.setPivotAngle(192)
-            .andThen(coralSubsystem.setScoringVoltages(0.0, 3.0, 0.0))
-    ).whileFalse(
-        coralSubsystem.setPivotAngle(90)
-            .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))
-    );
+//    driverController.rightBumper().whileTrue(
+//        Commands.runEnd(
+//            () -> climberSubsystem.setClimberVoltage(-3.0),
+//            () -> climberSubsystem.setClimberVoltage(0.0)
+//        )
+//    );
+
+//    driverController.leftBumper().whileTrue(
+//        coralSubsystem.setPivotAngle(90.0)
+//    ).whileFalse(
+//        coralSubsystem.setPivotVoltageFactory(0.0)
+//    );
+
+//    driverController.rightBumper().whileTrue(
+//        coralSubsystem.setPivotAngle(192)
+//            .andThen(coralSubsystem.setScoringVoltages(0.0, 3.0, 0.0))
+//    ).whileFalse(
+//        coralSubsystem.setPivotAngle(90)
+//            .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))
+//    );
 
 //    driverController.y()
 //        .whileTrue(
@@ -192,10 +225,20 @@ public class RobotContainer
 //            coralSubsystem.setPivotVoltageFactory(0.0)
 //        );
 
-//    driverController.leftBumper().whileTrue(
-//        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-//            ElevatorConstants.L2_SETPOINT.getValue(), ArmConstants.L2_SETPOINT)
-//    );
+    driverController.leftBumper().whileTrue(
+        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+            ElevatorConstants.L2_SETPOINT.getValue(), ArmConstants.L2_SETPOINT)
+    );
+
+    driverController.rightBumper()
+        .whileTrue(
+            driveSubsystem.driveToPose(Constants.AlignmentGoals.AB.getPose())
+                .andThen(new AutoScoreCommand(
+                    driveSubsystem,
+                    elevatorSubsystem,
+                    ChoreoPoses.AB.getPose()
+                ))
+        );
 
 //    driverController.rightBumper().whileTrue(
 //        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
@@ -242,72 +285,72 @@ public class RobotContainer
         ))
     );
 
-    driverController.povUp()
-        .whileTrue(
-            DriveCommands.joystickDrive(
-                driveSubsystem,
-                () -> 0.5,
-                () -> 0.0,
-                () -> 0.0
-            )
-        ).onFalse(
-            DriveCommands.joystickDrive(
-                driveSubsystem,
-                () -> 0.0,
-                () -> 0.0,
-                () -> 0.0
-            )
-        );
-
-    driverController.povDown()
-        .whileTrue(
-            DriveCommands.joystickDrive(
-                driveSubsystem,
-                () -> -0.5,
-                () -> 0.0,
-                () -> 0.0
-            )
-        ).onFalse(
-            DriveCommands.joystickDrive(
-                driveSubsystem,
-                () -> 0.0,
-                () -> 0.0,
-                () -> 0.0
-            )
-        );
-
-    driverController.povRight()
-        .whileTrue(
-            DriveCommands.joystickDrive(
-                driveSubsystem,
-                () -> 0.0,
-                () -> -0.5,
-                () -> 0.0
-            )
-        ).onFalse(
-            DriveCommands.joystickDrive(
-                driveSubsystem,
-                () -> 0.0,
-                () -> 0.0,
-                () -> 0.0
-            )
-        );
-    driverController.povLeft()
-        .whileTrue(
-            DriveCommands.joystickDrive(
-                driveSubsystem,
-                () -> 0.0,
-                () -> 0.5,
-                () -> 0.0
-            )
-        ).onFalse(
-            DriveCommands.joystickDrive(
-                driveSubsystem,
-                () -> 0.0,
-                () -> 0.0,
-                () -> 0.0
-            )
-        );
+//    driverController.povUp()
+//        .whileTrue(
+//            DriveCommands.joystickDrive(
+//                driveSubsystem,
+//                () -> 0.5,
+//                () -> 0.0,
+//                () -> 0.0
+//            )
+//        ).onFalse(
+//            DriveCommands.joystickDrive(
+//                driveSubsystem,
+//                () -> 0.0,
+//                () -> 0.0,
+//                () -> 0.0
+//            )
+//        );
+//
+//    driverController.povDown()
+//        .whileTrue(
+//            DriveCommands.joystickDrive(
+//                driveSubsystem,
+//                () -> -0.5,
+//                () -> 0.0,
+//                () -> 0.0
+//            )
+//        ).onFalse(
+//            DriveCommands.joystickDrive(
+//                driveSubsystem,
+//                () -> 0.0,
+//                () -> 0.0,
+//                () -> 0.0
+//            )
+//        );
+//
+//    driverController.povRight()
+//        .whileTrue(
+//            DriveCommands.joystickDrive(
+//                driveSubsystem,
+//                () -> 0.0,
+//                () -> -0.5,
+//                () -> 0.0
+//            )
+//        ).onFalse(
+//            DriveCommands.joystickDrive(
+//                driveSubsystem,
+//                () -> 0.0,
+//                () -> 0.0,
+//                () -> 0.0
+//            )
+//        );
+//    driverController.povLeft()
+//        .whileTrue(
+//            DriveCommands.joystickDrive(
+//                driveSubsystem,
+//                () -> 0.0,
+//                () -> 0.5,
+//                () -> 0.0
+//            )
+//        ).onFalse(
+//            DriveCommands.joystickDrive(
+//                driveSubsystem,
+//                () -> 0.0,
+//                () -> 0.0,
+//                () -> 0.0
+//            )
+//        );
 
 //    driverController.povLeft()
 //        .whileTrue(supersystem.runArmRollers(1.5))
