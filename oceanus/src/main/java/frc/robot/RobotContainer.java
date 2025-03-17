@@ -5,7 +5,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -17,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ArmMovementCommandGroup;
-import frc.robot.commands.AutoScoreCommand;
+import frc.robot.commands.AutoDriveCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.algae.AlgaeIO;
 import frc.robot.subsystems.algae.AlgaeIOSim;
@@ -151,9 +150,9 @@ public class RobotContainer
             .ignoringDisable(true)
     );
 
-//    supersystem.setDefaultCommand(
-//        supersystem.periodicCommand()
-//    );
+    supersystem.setDefaultCommand(
+        supersystem.periodicCommand()
+    );
 
 //    driverController.leftTrigger()
 //        .whileTrue(armSubsystem.setArmPositionFactory(ArmConstants.ARM_HOME_SETPOINT))
@@ -172,23 +171,23 @@ public class RobotContainer
 //        .whileTrue(elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L4_SETPOINT::getValue))
 //        .whileFalse(Commands.runOnce(elevatorSubsystem::setDisabled, elevatorSubsystem));
 
-//    driverController.leftTrigger().onTrue(
-//        supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
-//    );
-//    driverController.leftBumper().onTrue(
-//        supersystem.setDesiredState(Supersystem.SupersystemState.L2)
-//    );
-//    driverController.rightBumper().onTrue(
-//        supersystem.setDesiredState(Supersystem.SupersystemState.L3)
-//    );
-//    driverController.rightTrigger().onTrue(
-//        supersystem.setDesiredState(Supersystem.SupersystemState.L4)
-//    );
-
-    driverController.leftTrigger().whileTrue(
-        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-            ElevatorConstants.HOME_SETPOINT.getValue(), ArmConstants.ARM_HOME_SETPOINT)
+    driverController.leftTrigger().onTrue(
+        supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
     );
+    driverController.leftBumper().onTrue(
+        supersystem.setDesiredState(Supersystem.SupersystemState.L2)
+    );
+    driverController.rightBumper().onTrue(
+        supersystem.setDesiredState(Supersystem.SupersystemState.L3)
+    );
+    driverController.rightTrigger().onTrue(
+        supersystem.setDesiredState(Supersystem.SupersystemState.L4)
+    );
+
+//    driverController.leftTrigger().whileTrue(
+//        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+//            ElevatorConstants.HOME_SETPOINT.getValue(), ArmConstants.ARM_HOME_SETPOINT)
+//    );
 
 //    driverController.leftBumper().whileTrue(
 //        Commands.runEnd(
@@ -225,19 +224,28 @@ public class RobotContainer
 //            coralSubsystem.setPivotVoltageFactory(0.0)
 //        );
 
-    driverController.leftBumper().whileTrue(
-        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-            ElevatorConstants.L2_SETPOINT.getValue(), ArmConstants.L2_SETPOINT)
-    );
+//    driverController.leftBumper().whileTrue(
+//        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+//            ElevatorConstants.L2_SETPOINT.getValue(), ArmConstants.L2_SETPOINT)
+//    );
 
-    driverController.rightBumper()
+    driverController.povLeft()
         .whileTrue(
             driveSubsystem.driveToPose(Constants.AlignmentGoals.AB.getPose())
-                .andThen(new AutoScoreCommand(
+                .andThen(new AutoDriveCommand(
                     driveSubsystem,
                     elevatorSubsystem,
                     ChoreoPoses.AB.getPose()
                 ))
+        );
+
+    driverController.povRight()
+        .whileTrue(
+            new AutoDriveCommand(
+                driveSubsystem,
+                elevatorSubsystem,
+                new Pose2d()
+            )
         );
 
 //    driverController.rightBumper().whileTrue(
@@ -245,10 +253,10 @@ public class RobotContainer
 //            ElevatorConstants.L3_SETPOINT.getValue(), ArmConstants.L3_SETPOINT)
 //    );
 
-    driverController.rightTrigger().whileTrue(
-        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-            ElevatorConstants.L4_SETPOINT, ArmConstants.L4_SETPOINT)
-    );
+//    driverController.rightTrigger().whileTrue(
+//        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
+//            ElevatorConstants.L4_SETPOINT, ArmConstants.L4_SETPOINT)
+//    );
 
 //    driverController.y().whileTrue(
 //        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
@@ -258,25 +266,29 @@ public class RobotContainer
     driverController.x().whileTrue(
         new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
             ElevatorConstants.INTAKE_SETPOINT, ArmConstants.INTAKE_SETPOINT)
-            .andThen(armSubsystem.setRollerVoltageFactory(-1.5)
+            .andThen(supersystem.runArmRollers(-1.5)
                 .alongWith(coralSubsystem.setScoringVoltages(4.0, 3.0, 3.0)))
     ).whileFalse(
         new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
             ElevatorConstants.HOME_SETPOINT.getValue(), ArmConstants.ARM_HOME_SETPOINT)
-            .andThen(armSubsystem.setRollerVoltageFactory(0.0)
+            .andThen(supersystem.runArmRollers(0.0)
                 .alongWith(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0)))
     );
 
     driverController.a().whileTrue(
         new ConditionalCommand(
-            armSubsystem.setRollerVoltageFactory(1.5),
-            armSubsystem.setRollerVoltageFactory(12.0),
+            supersystem.runArmRollers(1.5),
+            supersystem.runArmRollers(12.0),
             armSubsystem::hasCoral
         )
+    ).whileFalse(
+        supersystem.runArmRollers(0.0)
     );
 
     driverController.b().whileTrue(
-        armSubsystem.setRollerVoltageFactory(-1.5)
+        supersystem.runArmRollers(-1.5)
+    ).whileFalse(
+        supersystem.runArmRollers(0.0)
     );
 
     driverController.y().onTrue(

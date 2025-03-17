@@ -37,12 +37,11 @@ public class DriveConstants {
   // Pathplanner stuff
   public static final double WHEEL_COF = 1.2;
 
-  public static final double XY_KP = 0.5;
-  public static final double THETA_KP = 0.5][\
-    ];
+  public static final double XY_KP = 3.5;
+  public static final double THETA_KP = 2.5;
 
   public static final TrapezoidProfile.Constraints XY_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(0.5, 0.5); // m/s, m/s^2
+      new TrapezoidProfile.Constraints(1.5, 1.0); // m/s, m/s^2
   public static final TrapezoidProfile.Constraints THETA_CONSTRAINTS =
       new TrapezoidProfile.Constraints(0.5, 0.5); // rad/s, rad/s^2
 
