@@ -8,8 +8,10 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.swerve.SwerveSetpoint;
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -18,8 +20,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.RobotState;
+import frc.robot.commands.AutoDriveCommand;
 import frc.robot.subsystems.drive.module.Module;
 import frc.robot.subsystems.drive.module.ModuleIO;
+import frc.robot.util.AlgaePositions;
 import frc.robot.util.FieldRelativeSpeeds;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
@@ -209,6 +213,37 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void stop() {
     runVelocity(new ChassisSpeeds());
+  }
+
+  public AlgaePositions findClosestAlgae() {
+    Pose2d curPose = RobotState.getInstance().getEstimatedPose();
+    double minDist = 999999999999999999.9;
+    AlgaePositions closestAlgae = AlgaePositions.AB;
+    for (AlgaePositions pos : AlgaePositions.values()) {
+      Pose2d algaePose = pos.m_pose.getPose();
+      double dx = algaePose.getX() - curPose.getX();
+      double dy = algaePose.getY() - curPose.getY();
+      double distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < minDist) {
+        minDist = distance;
+        closestAlgae = pos;
+      }
+
+    }
+    return closestAlgae;
+  }
+
+  public Pair<Command, Command> autoAlignToClosest(boolean left) {
+      AlgaePositions closestAlgae = findClosestAlgae();
+      Pose2d pauseWaypoint = closestAlgae.m_pose.getPose()
+          .plus(new Transform2d(-1.0, 0.0, new Rotation2d()));
+      Pose2d scoreWaypoint =
+          left ? closestAlgae.m_coralLeft.m_pose.getPose()
+              : closestAlgae.m_coralRight.m_pose.getPose();
+
+      return Pair.of(driveToPose(pauseWaypoint),
+          new AutoDriveCommand(this, scoreWaypoint));
   }
 
   @AutoLogOutput(key = "SwerveStates/Measured")

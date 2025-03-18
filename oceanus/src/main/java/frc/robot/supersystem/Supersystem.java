@@ -59,6 +59,11 @@ public class Supersystem extends SubsystemBase {
     }
   }
 
+  public boolean atSetpoint() {
+    return armSubsystem.atSetpoint()
+        && elevatorSubsystem.atSetpoint();
+  }
+
   public Command periodicCommand() {
     return Commands.run(() -> {
       // run arm roller
@@ -67,13 +72,17 @@ public class Supersystem extends SubsystemBase {
       }
       armSubsystem.setArmRollerVoltage(rollerVoltage);
 
+      if (RobotState.getInstance().inCloseReefZone()) {
+        return;
+      }
+
       if (DriverStation.isDisabled() || desiredState == SupersystemState.DISABLED) {
         desiredState = SupersystemState.DISABLED;
         elevatorSubsystem.setDisabled();
         armSubsystem.setDisabled();
       } else {
         // if we are coming or leaving home, go to a clearance state
-        if (RobotState.getInstance().inReefZone()) {
+        if (RobotState.getInstance().inFarReefZone()) {
           if (desiredState == SupersystemState.L4
               && !elevatorSubsystem.atSetpoint(ElevatorConstants.L4_SETPOINT)) {
             // we're at L4, and we're in the reef location

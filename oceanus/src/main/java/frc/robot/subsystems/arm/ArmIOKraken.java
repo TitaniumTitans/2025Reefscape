@@ -133,8 +133,8 @@ public class ArmIOKraken implements ArmIO {
     motorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
     motorConfig.Feedback.FeedbackRemoteSensorID = pivotEncoder.getDeviceID();
 
-    motorConfig.MotionMagic.MotionMagicCruiseVelocity = 6;
-    motorConfig.MotionMagic.MotionMagicAcceleration = 6; // Units.degreesToRotations(1800)
+    motorConfig.MotionMagic.MotionMagicCruiseVelocity = 2; // 6
+    motorConfig.MotionMagic.MotionMagicAcceleration = 2; // Units.degreesToRotations(1800)
 
 
     motorConfig.Slot0.kP = ArmConstants.KP;
@@ -143,7 +143,7 @@ public class ArmIOKraken implements ArmIO {
     motorConfig.Slot0.kG = ArmConstants.KG;
     motorConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
-    PhoenixUtil.tryUntilOk(5, () -> pivot.getConfigurator().apply(motorConfig));
+    PhoenixUtil.tryUntilOk(10, () -> pivot.getConfigurator().apply(motorConfig));
 
     var encoderConfig = new CANcoderConfiguration();
 

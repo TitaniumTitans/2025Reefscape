@@ -5,6 +5,7 @@ import com.pathplanner.lib.config.RobotConfig;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
@@ -37,13 +38,13 @@ public class DriveConstants {
   // Pathplanner stuff
   public static final double WHEEL_COF = 1.2;
 
-  public static final double XY_KP = 3.5;
-  public static final double THETA_KP = 2.5;
+  public static final double XY_KP = 4.5;
+  public static final double THETA_KP = 4.5;
 
-  public static final TrapezoidProfile.Constraints XY_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(1.5, 1.0); // m/s, m/s^2
+  public static final TrajectoryConfig TRAJECTORY_CONFIG =
+      new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0));
   public static final TrapezoidProfile.Constraints THETA_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(0.5, 0.5); // rad/s, rad/s^2
+      new TrapezoidProfile.Constraints(Math.PI, Math.PI); // rad/s, rad/s^2
 
   public static final DriveTrainSimulationConfig MAPLE_SIM_CONFIG = DriveTrainSimulationConfig.Default()
       .withCustomModuleTranslations(MODULE_TRANSLATIONS)

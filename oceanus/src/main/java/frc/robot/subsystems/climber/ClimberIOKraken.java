@@ -37,7 +37,7 @@ public class ClimberIOKraken implements ClimberIO{
         .withEnableFOC(master.getIsProLicensed().getValue());
     stopRequest = new NeutralOut();
 
-    followerRequest = new Follower(master.getDeviceID(), true);
+    followerRequest = new Follower(master.getDeviceID(), false);
     follower.setControl(followerRequest);
 
     BaseStatusSignal.setUpdateFrequencyForAll(50.0,

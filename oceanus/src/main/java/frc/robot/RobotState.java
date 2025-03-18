@@ -1,15 +1,12 @@
 package frc.robot;
 
-import com.pathplanner.lib.util.FlippingUtil;
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.interpolation.TimeInterpolatableBuffer;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
@@ -25,7 +22,6 @@ import org.dyn4j.geometry.Polygon;
 import org.dyn4j.geometry.Vector2;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.ironmaple.utils.mathutils.GeometryConvertor;
-import org.ironmaple.utils.mathutils.MapleCommonMath;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.Logger;
@@ -45,28 +41,51 @@ public class RobotState {
     return instance;
   }
 
-  public static final Polygon keepoutZoneBlue;
-  public static final Polygon keepoutZoneRed;
+  public enum CoralLevel {
+    L2,
+    L3,
+    L4
+  }
+
+  @Getter
+  @Setter
+  @AutoLogOutput(key = "RobotState/Coral Height")
+  private CoralLevel coralLevel = CoralLevel.L2;
+
+  public static final Polygon farKeepoutZoneBlue;
+  public static final Polygon farKeepoutZoneRed;
+  public static final Polygon closeKeepoutZoneBlue;
+  public static final Polygon closeKeepoutZoneRed;
   public static final Rectangle2d keepoutZoneBarge;
   static {
-    Translation2d[] safezonePoints = new Translation2d[6];
+    Translation2d[] farSafezonePoints = new Translation2d[6];
+    Translation2d[] closeSafezonePoints = new Translation2d[6];
     Rotation2d angle = Rotation2d.fromDegrees(30);
 
     for (int i = 0; i < 6; i++) {
-      safezonePoints[i] = FieldConstants.Reef.center.plus(
-          new Translation2d(Units.inchesToMeters(70), angle)
+      farSafezonePoints[i] = FieldConstants.Reef.center.plus(
+          new Translation2d(Units.inchesToMeters(80), angle)
+      );
+
+      closeSafezonePoints[i] = FieldConstants.Reef.center.plus(
+          new Translation2d(Units.inchesToMeters(65), angle)
       );
 
       angle = angle.plus(Rotation2d.fromDegrees(60));
     }
 
-    Vector2[] blueVecs = Arrays.stream(safezonePoints).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
-    Vector2[] redVecs = Arrays.stream(safezonePoints).map(AllianceFlipUtil::apply).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
+    Vector2[] farBlueVecs = Arrays.stream(farSafezonePoints).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
+    Vector2[] farRedVecs = Arrays.stream(farSafezonePoints).map(AllianceFlipUtil::apply).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
+    Vector2[] closeBlueVecs = Arrays.stream(closeSafezonePoints).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
+    Vector2[] closeRedVecs = Arrays.stream(closeSafezonePoints).map(AllianceFlipUtil::apply).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
 
-    Logger.recordOutput("Safezone", safezonePoints);
+    Logger.recordOutput("Far Safezone", farSafezonePoints);
+    Logger.recordOutput("close Safezone", closeSafezonePoints);
 
-    keepoutZoneBlue = new Polygon(blueVecs);
-    keepoutZoneRed = new Polygon(redVecs);
+    farKeepoutZoneBlue = new Polygon(farBlueVecs);
+    farKeepoutZoneRed = new Polygon(farRedVecs);
+    closeKeepoutZoneBlue = new Polygon(closeBlueVecs);
+    closeKeepoutZoneRed = new Polygon(closeRedVecs);
 
     // barge is 3ft, 8in (112 cm) structure
     keepoutZoneBarge = new Rectangle2d(
@@ -151,10 +170,16 @@ public class RobotState {
     return poseEstimator.getEstimatedPosition().getRotation();
   }
 
-  @AutoLogOutput(key = "RobotState/In Reef Zone")
-  public boolean inReefZone() {
-    return keepoutZoneBlue.contains(GeometryConvertor.toDyn4jTransform(getEstimatedPose()).getTranslation())
-        && keepoutZoneRed.contains(GeometryConvertor.toDyn4jTransform(getEstimatedPose()).getTranslation());
+  @AutoLogOutput(key = "RobotState/In Far Reef Zone")
+  public boolean inFarReefZone() {
+    return farKeepoutZoneBlue.contains(GeometryConvertor.toDyn4jTransform(getEstimatedPose()).getTranslation())
+        || farKeepoutZoneRed.contains(GeometryConvertor.toDyn4jTransform(getEstimatedPose()).getTranslation());
+  }
+
+  @AutoLogOutput(key = "RobotState/In Close Reef Zone")
+  public boolean inCloseReefZone() {
+    return closeKeepoutZoneBlue.contains(GeometryConvertor.toDyn4jTransform(getEstimatedPose()).getTranslation())
+        || closeKeepoutZoneRed.contains(GeometryConvertor.toDyn4jTransform(getEstimatedPose()).getTranslation());
   }
 
   @AutoLogOutput(key = "RobotState/In Barge Zone")

@@ -7,6 +7,7 @@ package frc.robot;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -16,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ArmMovementCommandGroup;
-import frc.robot.commands.AutoDriveCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.algae.AlgaeIO;
 import frc.robot.subsystems.algae.AlgaeIOSim;
@@ -43,6 +43,7 @@ import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.Logger;
 
 import java.util.Optional;
+import java.util.Set;
 
 
 public class RobotContainer
@@ -87,7 +88,8 @@ public class RobotContainer
 
         visionSubsystem = new VisionSubsystem(
             VisionConstants.FILTER_PARAMETERS,
-            new VisionIOPhotonReal("RightCamera", VisionConstants.RIGHT_CAMERA_TRANSFORM, tagFieldLayout)
+            new VisionIOPhotonReal("RightCamera", VisionConstants.RIGHT_CAMERA_TRANSFORM, tagFieldLayout),
+            new VisionIOPhotonReal("LeftCamera", VisionConstants.LEFT_CAMERA_TRANSFORM, tagFieldLayout)
         );
       }
       case SIM -> {
@@ -154,123 +156,42 @@ public class RobotContainer
         supersystem.periodicCommand()
     );
 
-//    driverController.leftTrigger()
-//        .whileTrue(armSubsystem.setArmPositionFactory(ArmConstants.ARM_HOME_SETPOINT))
-//        .whileFalse(Commands.runOnce(armSubsystem::setDisabled, armSubsystem));
-//    driverController.rightTrigger()
-//        .whileTrue(armSubsystem.setArmPositionFactory(Rotation2d.fromDegrees(-45.0)))
-//        .whileFalse(Commands.runOnce(armSubsystem::setDisabled, armSubsystem));
-
-//    driverController.leftBumper()
-//        .whileTrue(elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_SETPOINT::getValue))
-//        .whileFalse(Commands.runOnce(elevatorSubsystem::setDisabled, elevatorSubsystem));
-//    driverController.rightBumper()
-//        .whileTrue(elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.HOME_CLEAR_SETPOINT::getValue))
-//        .whileFalse(Commands.runOnce(elevatorSubsystem::setDisabled, elevatorSubsystem));
-//    driverController.a()
-//        .whileTrue(elevatorSubsystem.setElevatorSetpointFactory(ElevatorConstants.L4_SETPOINT::getValue))
-//        .whileFalse(Commands.runOnce(elevatorSubsystem::setDisabled, elevatorSubsystem));
-
     driverController.leftTrigger().onTrue(
         supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
     );
-    driverController.leftBumper().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.L2)
-    );
-    driverController.rightBumper().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.L3)
-    );
+//    driverController.leftBumper().onTrue(
+//        supersystem.setDesiredState(Supersystem.SupersystemState.L2)
+//    );
+//    driverController.rightBumper().onTrue(
+//        supersystem.setDesiredState(Supersystem.SupersystemState.L3)
+//    );
     driverController.rightTrigger().onTrue(
         supersystem.setDesiredState(Supersystem.SupersystemState.L4)
     );
 
-//    driverController.leftTrigger().whileTrue(
-//        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-//            ElevatorConstants.HOME_SETPOINT.getValue(), ArmConstants.ARM_HOME_SETPOINT)
-//    );
-
-//    driverController.leftBumper().whileTrue(
-//        Commands.runEnd(
-//            () -> climberSubsystem.setClimberVoltage(3.0),
-//            () -> climberSubsystem.setClimberVoltage(0.0)
-//        )
-//    );
-
-//    driverController.rightBumper().whileTrue(
-//        Commands.runEnd(
-//            () -> climberSubsystem.setClimberVoltage(-3.0),
-//            () -> climberSubsystem.setClimberVoltage(0.0)
-//        )
-//    );
-
-//    driverController.leftBumper().whileTrue(
-//        coralSubsystem.setPivotAngle(90.0)
-//    ).whileFalse(
-//        coralSubsystem.setPivotVoltageFactory(0.0)
-//    );
-
-//    driverController.rightBumper().whileTrue(
-//        coralSubsystem.setPivotAngle(192)
-//            .andThen(coralSubsystem.setScoringVoltages(0.0, 3.0, 0.0))
-//    ).whileFalse(
-//        coralSubsystem.setPivotAngle(90)
-//            .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))
-//    );
-
-//    driverController.y()
-//        .whileTrue(
-//            coralSubsystem.setPivotVoltageFactory(-1.5)
-//        ).whileFalse(
-//            coralSubsystem.setPivotVoltageFactory(0.0)
-//        );
-
-//    driverController.leftBumper().whileTrue(
-//        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-//            ElevatorConstants.L2_SETPOINT.getValue(), ArmConstants.L2_SETPOINT)
-//    );
-
-    driverController.povLeft()
+    driverController.leftBumper()
         .whileTrue(
-            driveSubsystem.driveToPose(Constants.AlignmentGoals.AB.getPose())
-                .andThen(new AutoDriveCommand(
-                    driveSubsystem,
-                    elevatorSubsystem,
-                    ChoreoPoses.AB.getPose()
-                ))
+            autoScoreCommand(true)
+        );
+
+    driverController.rightBumper()
+        .whileTrue(
+            autoScoreCommand(false)
         );
 
     driverController.povRight()
-        .whileTrue(
-            new AutoDriveCommand(
-                driveSubsystem,
-                elevatorSubsystem,
-                new Pose2d()
-            )
-        );
-
-//    driverController.rightBumper().whileTrue(
-//        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-//            ElevatorConstants.L3_SETPOINT.getValue(), ArmConstants.L3_SETPOINT)
-//    );
-
-//    driverController.rightTrigger().whileTrue(
-//        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-//            ElevatorConstants.L4_SETPOINT, ArmConstants.L4_SETPOINT)
-//    );
-
-//    driverController.y().whileTrue(
-//        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-//            ElevatorConstants.BARGE_SETPOINT, ArmConstants.BARGE_SETPOINT)
-//    );
+            .onTrue(Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(RobotState.CoralLevel.L4)));
+    driverController.povUp()
+        .onTrue(Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(RobotState.CoralLevel.L3)));
+    driverController.povLeft()
+        .onTrue(Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(RobotState.CoralLevel.L2)));
 
     driverController.x().whileTrue(
-        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-            ElevatorConstants.INTAKE_SETPOINT, ArmConstants.INTAKE_SETPOINT)
+        supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
             .andThen(supersystem.runArmRollers(-1.5)
                 .alongWith(coralSubsystem.setScoringVoltages(4.0, 3.0, 3.0)))
     ).whileFalse(
-        new ArmMovementCommandGroup(armSubsystem, elevatorSubsystem,
-            ElevatorConstants.HOME_SETPOINT.getValue(), ArmConstants.ARM_HOME_SETPOINT)
+        supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
             .andThen(supersystem.runArmRollers(0.0)
                 .alongWith(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0)))
     );
@@ -297,91 +218,6 @@ public class RobotContainer
         ))
     );
 
-//    driverController.povUp()
-//        .whileTrue(
-//            DriveCommands.joystickDrive(
-//                driveSubsystem,
-//                () -> 0.5,
-//                () -> 0.0,
-//                () -> 0.0
-//            )
-//        ).onFalse(
-//            DriveCommands.joystickDrive(
-//                driveSubsystem,
-//                () -> 0.0,
-//                () -> 0.0,
-//                () -> 0.0
-//            )
-//        );
-//
-//    driverController.povDown()
-//        .whileTrue(
-//            DriveCommands.joystickDrive(
-//                driveSubsystem,
-//                () -> -0.5,
-//                () -> 0.0,
-//                () -> 0.0
-//            )
-//        ).onFalse(
-//            DriveCommands.joystickDrive(
-//                driveSubsystem,
-//                () -> 0.0,
-//                () -> 0.0,
-//                () -> 0.0
-//            )
-//        );
-//
-//    driverController.povRight()
-//        .whileTrue(
-//            DriveCommands.joystickDrive(
-//                driveSubsystem,
-//                () -> 0.0,
-//                () -> -0.5,
-//                () -> 0.0
-//            )
-//        ).onFalse(
-//            DriveCommands.joystickDrive(
-//                driveSubsystem,
-//                () -> 0.0,
-//                () -> 0.0,
-//                () -> 0.0
-//            )
-//        );
-//    driverController.povLeft()
-//        .whileTrue(
-//            DriveCommands.joystickDrive(
-//                driveSubsystem,
-//                () -> 0.0,
-//                () -> 0.5,
-//                () -> 0.0
-//            )
-//        ).onFalse(
-//            DriveCommands.joystickDrive(
-//                driveSubsystem,
-//                () -> 0.0,
-//                () -> 0.0,
-//                () -> 0.0
-//            )
-//        );
-
-//    driverController.povLeft()
-//        .whileTrue(supersystem.runArmRollers(1.5))
-//        .whileFalse(supersystem.runArmRollers(0.0));
-//    driverController.povRight()
-//        .whileTrue(
-//            supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
-//                .onlyIf(() -> !elevatorSubsystem.overClearance())
-//                .andThen(
-//                    supersystem.runArmRollers(-1.5)
-//                        .alongWith(coralSubsystem.setScoringVoltages(3.0, 0.0, 0.0)
-//                            .onlyIf(() -> !elevatorSubsystem.overClearance()))))
-//        .whileFalse(
-//            supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
-//                .onlyIf(() -> !elevatorSubsystem.overClearance())
-//                .andThen(
-//                    supersystem.runArmRollers(0.0)
-//                        .alongWith(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))));
-//
     driverController.start().onTrue(
         Commands.runOnce(() -> RobotState.getInstance().resetPose(new Pose2d()))
     );
@@ -401,5 +237,28 @@ public class RobotContainer
 
   public void simTick() {
     Logger.recordOutput("Sim/Simulated Robot Pose", driveSimulation.getSimulatedDriveTrainPose());
+  }
+
+  public Command autoScoreCommand(boolean left) {
+    return Commands.defer(() -> {
+      Pair<Command, Command> commandPair = driveSubsystem.autoAlignToClosest(left);
+      Command supersystemCommand = Commands.none();
+      switch (RobotState.getInstance().getCoralLevel()) {
+        case L2 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L2);
+        case L3 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L3);
+        case L4 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L4);
+      }
+
+      if (RobotState.getInstance().getCoralLevel() == RobotState.CoralLevel.L4) {
+        return commandPair.getFirst()
+            .andThen(supersystemCommand
+                .alongWith(Commands.waitUntil(supersystem::atSetpoint)))
+            .andThen(commandPair.getSecond());
+      } else {
+        return commandPair.getFirst()
+            .andThen(supersystemCommand
+                .alongWith(commandPair.getSecond()));
+      }
+    }, Set.of(driveSubsystem));
   }
 }

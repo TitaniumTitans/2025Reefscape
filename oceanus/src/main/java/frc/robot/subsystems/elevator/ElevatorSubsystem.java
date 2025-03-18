@@ -85,12 +85,16 @@ public class ElevatorSubsystem extends SubsystemBase {
         || inputs.elevatorPositionMeters >= Units.inchesToMeters(ElevatorConstants.L4_SETPOINT - 5.0);
   }
 
+  public boolean atSetpoint() {
+    return atSetpoint(Units.metersToInches(elevatorGoal));
+  }
+
   public boolean atSetpoint(double setpoint) {
     return MathUtil.isNear(
         Units.inchesToMeters(setpoint),
         inputs.elevatorPositionMeters,
-        Units.inchesToMeters(1.5)
-    );
+        Units.inchesToMeters(0.1)
+    ) && elevatorGoal == Units.inchesToMeters(setpoint);
   }
 
   public void setDisabled() {
