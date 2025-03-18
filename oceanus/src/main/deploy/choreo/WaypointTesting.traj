@@ -1,5 +1,5 @@
 {
- "name":"New Path",
+ "name":"WaypointTesting",
  "version":1,
  "snapshot":{
   "waypoints":[],
@@ -8,7 +8,7 @@
  },
  "params":{
   "waypoints":[
-    {"x":{"exp":"H.x", "val":5.826575756072998}, "y":{"exp":"H.y", "val":4.270238}, "heading":{"exp":"H.heading", "val":3.141592653589793}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+    {"x":{"exp":"H.x", "val":5.826575756072998}, "y":{"exp":"H.y", "val":4.190238}, "heading":{"exp":"H.heading", "val":3.141592653589793}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
   "constraints":[
     {"from":"first", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},

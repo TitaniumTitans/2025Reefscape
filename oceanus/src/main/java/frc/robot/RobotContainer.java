@@ -156,37 +156,20 @@ public class RobotContainer
         supersystem.periodicCommand()
     );
 
-    driverController.leftTrigger().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
-    );
-//    driverController.leftBumper().onTrue(
-//        supersystem.setDesiredState(Supersystem.SupersystemState.L2)
-//    );
-//    driverController.rightBumper().onTrue(
-//        supersystem.setDesiredState(Supersystem.SupersystemState.L3)
-//    );
-    driverController.rightTrigger().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.L4)
-    );
+//    driverController.leftBumper()
+//        .whileTrue(
+//            autoScoreCommand(true)
+//        );
 
-    driverController.leftBumper()
-        .whileTrue(
-            autoScoreCommand(true)
-        );
+//    driverController.rightBumper()
+//        .whileTrue(
+//            autoScoreCommand(false)
+//        );
 
-    driverController.rightBumper()
-        .whileTrue(
-            autoScoreCommand(false)
-        );
+    // Driver controls
 
-    driverController.povRight()
-            .onTrue(Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(RobotState.CoralLevel.L4)));
-    driverController.povUp()
-        .onTrue(Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(RobotState.CoralLevel.L3)));
-    driverController.povLeft()
-        .onTrue(Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(RobotState.CoralLevel.L2)));
-
-    driverController.x().whileTrue(
+    // Hopper
+    driverController.rightTrigger().whileTrue(
         supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
             .andThen(supersystem.runArmRollers(-1.5)
                 .alongWith(coralSubsystem.setScoringVoltages(4.0, 3.0, 3.0)))
@@ -195,8 +178,18 @@ public class RobotContainer
             .andThen(supersystem.runArmRollers(0.0)
                 .alongWith(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0)))
     );
+    driverController.leftTrigger().whileTrue(
+        supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
+            .andThen(supersystem.runArmRollers(1.5)
+                .alongWith(coralSubsystem.setScoringVoltages(-4.0, -3.0, -3.0)))
+    ).whileFalse(
+        supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
+            .andThen(supersystem.runArmRollers(0.0)
+                .alongWith(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0)))
+    );
 
-    driverController.a().whileTrue(
+    // arm rollers
+    driverController.y().whileTrue(
         new ConditionalCommand(
             supersystem.runArmRollers(1.5),
             supersystem.runArmRollers(12.0),
@@ -205,22 +198,76 @@ public class RobotContainer
     ).whileFalse(
         supersystem.runArmRollers(0.0)
     );
-
-    driverController.b().whileTrue(
+    driverController.x().whileTrue(
         supersystem.runArmRollers(-1.5)
     ).whileFalse(
         supersystem.runArmRollers(0.0)
     );
 
-    driverController.y().onTrue(
-        Commands.runOnce(() -> RobotState.getInstance().resetPose(
-            ChoreoPoses.AB.getPose()
-        ))
-    );
+    // ground intake
+    driverController.a()
+        .whileTrue(
+            coralSubsystem.setPivotAngle(135)
+                .andThen(coralSubsystem.setScoringVoltages(0.0, -3.0, 0.0))
+        ).whileFalse(
+            coralSubsystem.setPivotAngle(90)
+                .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))
+        );
+    driverController.b()
+        .whileTrue(
+            coralSubsystem.setPivotAngle(190)
+                .andThen(coralSubsystem.setScoringVoltages(0.0, 3.0, 0.0))
+        ).whileFalse(
+            coralSubsystem.setPivotAngle(90)
+                .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))
+        );
 
+    // trigger auto alignment
+    driverController.leftBumper()
+        .whileTrue(
+            autoScoreCommand(true)
+        );
+    driverController.rightBumper()
+        .whileTrue(
+            autoScoreCommand(false)
+        );
+
+    // drive reset
     driverController.start().onTrue(
         Commands.runOnce(() -> RobotState.getInstance().resetPose(new Pose2d()))
     );
+
+    // operator controls
+    // set scoring level
+    operatorController.x().onTrue(
+        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(RobotState.CoralLevel.L2))
+    );
+    operatorController.y().onTrue(
+        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(RobotState.CoralLevel.L3))
+    );
+    operatorController.b().onTrue(
+        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(RobotState.CoralLevel.L4))
+    );
+
+    // manual setpoints
+    operatorController.leftTrigger()
+        .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.HOME));
+    operatorController.a()
+        .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.BARGE));
+
+    //climber controls
+    operatorController.leftBumper()
+        .whileTrue(
+            climberSubsystem.setClimberPowerFactory(3.0)
+        ).whileFalse(
+            climberSubsystem.setClimberPowerFactory(0.0)
+        );
+    operatorController.rightBumper()
+        .whileTrue(
+            climberSubsystem.setClimberPowerFactory(-3.0)
+        ).whileFalse(
+            climberSubsystem.setClimberPowerFactory(0.0)
+        );
   }
 
   public void setupShuffleboardTab() {
