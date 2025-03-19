@@ -72,9 +72,9 @@ public class AutoDriveCommand extends Command {
 
     // Set tolerence in meters
     driveController.setTolerance(new Pose2d(
-        Units.inchesToMeters(1.0),
-        Units.inchesToMeters(1.0),
-        Rotation2d.fromDegrees(10)
+        Units.inchesToMeters(0.5),
+        Units.inchesToMeters(0.5),
+        Rotation2d.fromDegrees(0.5)
     ));
   }
 

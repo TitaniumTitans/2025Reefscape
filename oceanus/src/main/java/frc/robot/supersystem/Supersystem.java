@@ -10,10 +10,13 @@ import frc.robot.subsystems.arm.ArmConstants;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.elevator.ElevatorConstants;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
+import lombok.Setter;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
 
 public class Supersystem extends SubsystemBase {
+
+
   public enum SupersystemState {
     DISABLED,
     INTAKE,
@@ -23,15 +26,15 @@ public class Supersystem extends SubsystemBase {
     L4,
     BARGE,
     ALGAE_L2,
-    ALGAE_L3,
+    ALGAE_L3
   }
-
   private final ElevatorSubsystem elevatorSubsystem;
-  private final ArmSubsystem armSubsystem;
 
+  private final ArmSubsystem armSubsystem;
   @AutoLogOutput(key = "Supersystem State")
   private SupersystemState desiredState = SupersystemState.DISABLED;
 
+  @Setter
   private double rollerVoltage = 0.0;
 
   public Supersystem(
@@ -57,6 +60,10 @@ public class Supersystem extends SubsystemBase {
     if (DriverStation.isDisabled() || desiredState == SupersystemState.DISABLED) {
       desiredState = SupersystemState.DISABLED;
     }
+  }
+
+  public boolean hasCoral() {
+    return armSubsystem.hasCoral();
   }
 
   public boolean atSetpoint() {

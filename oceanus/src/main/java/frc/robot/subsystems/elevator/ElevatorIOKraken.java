@@ -112,8 +112,8 @@ public class ElevatorIOKraken implements ElevatorIO {
 
   @Override
   public void resetElevatorPosition(double positionMeters) {
-    master.setPosition(0.0);
-    follower.setPosition(0.0);
+    master.setPosition(positionMeters);
+    follower.setPosition(positionMeters);
   }
 
   private void configureDevices() {
@@ -123,9 +123,9 @@ public class ElevatorIOKraken implements ElevatorIO {
 //    config.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(120);
 //    config.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(120);
     config.MotionMagic.MotionMagicCruiseVelocity =
-        Units.inchesToMeters(50) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
+        Units.inchesToMeters(120) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
     config.MotionMagic.MotionMagicAcceleration =
-        Units.inchesToMeters(50) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI); // 100
+        Units.inchesToMeters(120) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI); // 100
 
     config.Slot0.kP = ElevatorConstants.ELEVATOR_KP;
     config.Slot0.kI = ElevatorConstants.ELEVATOR_KI;

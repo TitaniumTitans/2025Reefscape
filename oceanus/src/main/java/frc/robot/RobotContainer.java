@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ArmMovementCommandGroup;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.auto.AutoSelector;
 import frc.robot.subsystems.algae.AlgaeIO;
 import frc.robot.subsystems.algae.AlgaeIOSim;
 import frc.robot.subsystems.algae.AlgaeSubsystem;
@@ -62,6 +63,8 @@ public class RobotContainer
   @Getter
   private final Supersystem supersystem;
 
+  private final AutoSelector autoSelector;
+
   private SwerveDriveSimulation driveSimulation;
   public RobotContainer()
   {
@@ -78,13 +81,17 @@ public class RobotContainer
             new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[2]),
             new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[3])
         );
-
-//              algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
+        
         elevatorSubsystem = new ElevatorSubsystem(new ElevatorIOKraken());
         armSubsystem = new ArmSubsystem(new ArmIOKraken());
         algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
-        climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
         coralSubsystem = new CoralSubsystem(new CoralIOTalon());
+        climberSubsystem = new ClimberSubsystem(new ClimberIOKraken());
+
+//        elevatorSubsystem = new ElevatorSubsystem(new ElevatorIO() {});
+//        armSubsystem = new ArmSubsystem(new ArmIO() {});
+//        coralSubsystem = new CoralSubsystem(new CoralIO() {});
+//        algaeSubsystem = new AlgaeSubsystem(new AlgaeIO() {});
 
         visionSubsystem = new VisionSubsystem(
             VisionConstants.FILTER_PARAMETERS,
@@ -132,6 +139,7 @@ public class RobotContainer
     }
 
     supersystem = new Supersystem(elevatorSubsystem, armSubsystem);
+    autoSelector = new AutoSelector(driveSubsystem, supersystem, coralSubsystem);
     configureBindings();
     setupShuffleboardTab();
   }
@@ -189,7 +197,7 @@ public class RobotContainer
     );
 
     // arm rollers
-    driverController.y().whileTrue(
+    driverController.leftBumper().whileTrue(
         new ConditionalCommand(
             supersystem.runArmRollers(1.5),
             supersystem.runArmRollers(12.0),
@@ -198,16 +206,16 @@ public class RobotContainer
     ).whileFalse(
         supersystem.runArmRollers(0.0)
     );
-    driverController.x().whileTrue(
+    driverController.rightBumper().whileTrue(
         supersystem.runArmRollers(-1.5)
     ).whileFalse(
-        supersystem.runArmRollers(0.0)
+        supersystem.runArmRollers(-0.75)
     );
 
     // ground intake
     driverController.a()
         .whileTrue(
-            coralSubsystem.setPivotAngle(135)
+            coralSubsystem.setPivotAngle(90)
                 .andThen(coralSubsystem.setScoringVoltages(0.0, -3.0, 0.0))
         ).whileFalse(
             coralSubsystem.setPivotAngle(90)
@@ -223,19 +231,27 @@ public class RobotContainer
         );
 
     // trigger auto alignment
-    driverController.leftBumper()
+    driverController.x()
         .whileTrue(
             autoScoreCommand(true)
         );
-    driverController.rightBumper()
+    driverController.y()
         .whileTrue(
             autoScoreCommand(false)
         );
 
-    // drive reset
+    // resets
     driverController.start().onTrue(
         Commands.runOnce(() -> RobotState.getInstance().resetPose(new Pose2d()))
     );
+    driverController.povUp()
+        .onTrue(coralSubsystem.resetPivotFactory());
+    driverController.povLeft()
+        .whileTrue(driveSubsystem.driveToPose(ChoreoPoses.STARTING_POS_LEFT::getPose));
+    driverController.povDown()
+        .whileTrue(driveSubsystem.driveToPose(ChoreoPoses.STARTING_POS_CENTER::getPose));
+    driverController.povRight()
+        .whileTrue(driveSubsystem.driveToPose(ChoreoPoses.STARTING_POS_RIGHT::getPose));
 
     // operator controls
     // set scoring level
@@ -255,6 +271,16 @@ public class RobotContainer
     operatorController.a()
         .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.BARGE));
 
+    // Algae removal
+    operatorController.povUp().onTrue(
+        supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L3)
+    );
+    operatorController.povDown().onTrue(
+        supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L2)
+    );
+    operatorController.povLeft()
+        .onTrue(coralSubsystem.resetPivotFactory());
+
     //climber controls
     operatorController.leftBumper()
         .whileTrue(
@@ -273,13 +299,13 @@ public class RobotContainer
   public void setupShuffleboardTab() {
     ShuffleboardTab tab = Shuffleboard.getTab("Commands");
 
-    tab.add("Zero Elevator", Commands.runOnce(() -> elevatorSubsystem.resetElevator(0.0)));
+    tab.add("Zero Elevator", Commands.runOnce(() -> elevatorSubsystem.resetElevator(0.0)).ignoringDisable(true));
     tab.add("Zero Coral Pivot", coralSubsystem.resetPivotFactory());
   }
     
   public Command getAutonomousCommand()
   {
-    return DriveCommands.wheelRadiusCharacterization(driveSubsystem);
+    return autoSelector.getAutoCommand();
   }
 
   public void simTick() {

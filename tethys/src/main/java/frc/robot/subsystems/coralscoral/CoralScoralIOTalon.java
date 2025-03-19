@@ -80,6 +80,7 @@ public class CoralScoralIOTalon implements CoralScoralIO {
 
         var pivotConfigs = new Slot0Configs();
 
+
         masterPivot.getConfigurator().apply(pivotConfigs);
         masterPivot.setPosition(0.0);
 

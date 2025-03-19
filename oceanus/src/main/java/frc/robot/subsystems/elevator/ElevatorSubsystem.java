@@ -6,6 +6,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotState;
 import frc.robot.util.MechanismVisualizer;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
@@ -52,6 +53,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     Logger.recordOutput("Elevator/Setpoint", elevatorGoal);
 
     elevatorGoal = MathUtil.clamp(elevatorGoal, 0.0, Units.inchesToMeters(32));
+
+    RobotState.getInstance().setSlowSpeed(
+        inputs.elevatorPositionMeters >= Units.inchesToMeters(13.0)
+    );
 
     // run state machine
     switch (goalState) {

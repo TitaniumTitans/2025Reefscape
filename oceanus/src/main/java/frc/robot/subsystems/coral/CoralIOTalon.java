@@ -32,6 +32,7 @@ public class CoralIOTalon implements CoralIO {
     limit = new DigitalInput(8);
 
     mmControl = new MotionMagicVoltage(0.0);
+    pivot.setPosition(75.5);
 
     configureDevices();
   }

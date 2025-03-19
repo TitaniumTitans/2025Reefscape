@@ -35,20 +35,25 @@ public class CoralSubsystem extends SubsystemBase {
   }
 
   public Command setScoringVoltages(double hopper, double outer, double inner) {
-    return run(() -> {
+    return runOnce(() -> {
       io.setHopperVoltage(hopper);
       io.setCoralVoltage(outer, inner);
     });
   }
 
   public Command resetPivotFactory() {
-    return run(() -> io.setPivotVoltage(1.0))
-        .until(() -> !inputs.limitHit)
-        .andThen(
-            run(() -> io.setPivotVoltage(-1.0))
-                .until(() -> inputs.limitHit))
-        .andThen(runOnce(() -> io.setPivotVoltage(0.0)))
-        .andThen(runOnce(() -> io.resetPivot(90)));
+    return
+        run(() -> io.setPivotVoltage(1.0))
+            .until(() -> inputs.limitHit)
+            .withTimeout(0.5)
+            .andThen(
+                run(() -> io.setPivotVoltage(1.0))
+                    .until(() -> !inputs.limitHit))
+            .andThen(
+                run(() -> io.setPivotVoltage(-1.0))
+                    .until(() -> inputs.limitHit))
+            .andThen(runOnce(() -> io.setPivotVoltage(0.0)))
+            .andThen(runOnce(() -> io.resetPivot(90)));
   }
 }
 

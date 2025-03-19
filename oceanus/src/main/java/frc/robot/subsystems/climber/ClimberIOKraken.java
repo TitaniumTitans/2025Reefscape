@@ -16,7 +16,6 @@ import edu.wpi.first.units.measure.Voltage;
 
 public class ClimberIOKraken implements ClimberIO{
   private final TalonFX master;
-  private final TalonFX follower;
   private final PositionVoltage posRequest;
   private final StatusSignal<Angle> positionSignal;
   private final StatusSignal<Current> currentDrawSignal;
@@ -26,7 +25,6 @@ public class ClimberIOKraken implements ClimberIO{
 
   public ClimberIOKraken() {
     master = new TalonFX(ClimberConstants.CLIMBER_ID);
-    follower = new TalonFX(ClimberConstants.FOLLOWER_ID);
     configureDevices();
 
     positionSignal = master.getPosition();
@@ -38,7 +36,6 @@ public class ClimberIOKraken implements ClimberIO{
     stopRequest = new NeutralOut();
 
     followerRequest = new Follower(master.getDeviceID(), false);
-    follower.setControl(followerRequest);
 
     BaseStatusSignal.setUpdateFrequencyForAll(50.0,
         positionSignal,
@@ -90,8 +87,5 @@ public class ClimberIOKraken implements ClimberIO{
     climberConfig.CurrentLimits.StatorCurrentLimit = 120;
 
     master.getConfigurator().apply(climberConfig);
-
-    climberConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    follower.getConfigurator().apply(climberConfig);
   }
 }

@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c585a44-a51b-455f-b323-bbe5119c28ff" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/BuildConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/BuildConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/climber/ClimberIOKraken.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/climber/ClimberIOKraken.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralSubsystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/vision/VisionConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/vision/VisionConstants.java" afterDir="false" />
-    </list>
+    <list default="true" id="2c585a44-a51b-455f-b323-bbe5119c28ff" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -319,6 +312,6 @@
     <servers />
   </component>
   <component name="WpiLibVersionService">
-    <option name="lastChecked" value="20250316150341" />
+    <option name="lastChecked" value="20250318175853" />
   </component>
 </project>

@@ -38,13 +38,13 @@ public class DriveConstants {
   // Pathplanner stuff
   public static final double WHEEL_COF = 1.2;
 
-  public static final double XY_KP = 4.5;
-  public static final double THETA_KP = 4.5;
+  public static final double XY_KP = 5.5;
+  public static final double THETA_KP = 5.5;
 
   public static final TrajectoryConfig TRAJECTORY_CONFIG =
-      new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0));
+      new TrajectoryConfig(Units.feetToMeters(4.0), Units.feetToMeters(4.0));
   public static final TrapezoidProfile.Constraints THETA_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(Math.PI, Math.PI); // rad/s, rad/s^2
+      new TrapezoidProfile.Constraints(4 * Math.PI, 4 * Math.PI); // rad/s, rad/s^2
 
   public static final DriveTrainSimulationConfig MAPLE_SIM_CONFIG = DriveTrainSimulationConfig.Default()
       .withCustomModuleTranslations(MODULE_TRANSLATIONS)

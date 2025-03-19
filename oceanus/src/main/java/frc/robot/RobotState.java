@@ -108,6 +108,10 @@ public class RobotState {
   @Getter
   private FieldRelativeSpeeds lastFieldRelativeSpeeds = new FieldRelativeSpeeds();
 
+  @Setter
+  @Getter
+  private boolean slowSpeed = false;
+
   // use for simulation
   @Setter
   private Optional<SwerveDriveSimulation> driveSimulation = Optional.empty();
@@ -124,7 +128,7 @@ public class RobotState {
           },
           new Pose2d(),
           VecBuilder.fill(0.01, 0.01, 0.02),
-          VecBuilder.fill(0.1, 0.1, 0.03)
+          VecBuilder.fill(0.08, 0.08, 0.03)
       );
 
   // used to filter vision measurements into odometry estimation

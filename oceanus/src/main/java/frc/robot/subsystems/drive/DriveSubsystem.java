@@ -76,8 +76,8 @@ public class DriveSubsystem extends SubsystemBase {
         this::getChassisSpeeds,
         (ChassisSpeeds speeds, DriveFeedforwards feedforwards) -> runVelocity(speeds, feedforwards),
         new PPHolonomicDriveController(
-            new PIDConstants(5.0, 0.0, 0.0),
-            new PIDConstants(5.0, 0.0, 0.0)
+            new PIDConstants(4.5, 0.0, 0.0),
+            new PIDConstants(4.5, 0.0, 0.0)
         ),
         ROBOT_CONFIG,
         () -> {
@@ -237,7 +237,7 @@ public class DriveSubsystem extends SubsystemBase {
   public Pair<Command, Command> autoAlignToClosest(boolean left) {
       AlgaePositions closestAlgae = findClosestAlgae();
       Pose2d pauseWaypoint = closestAlgae.m_pose.getPose()
-          .plus(new Transform2d(-1.0, 0.0, new Rotation2d()));
+          .plus(new Transform2d(-0.7, 0.0, new Rotation2d()));
       Pose2d scoreWaypoint =
           left ? closestAlgae.m_coralLeft.m_pose.getPose()
               : closestAlgae.m_coralRight.m_pose.getPose();
@@ -292,13 +292,25 @@ public class DriveSubsystem extends SubsystemBase {
     return DriveConstants.MAX_LINEAR_SPEED_MPS;
   }
 
+  public double getSlowLinearSpeedMetersPerSec() {
+    return DriveConstants.MAX_LINEAR_SPEED_MPS * 0.25;
+  }
+
   public double getMaxAngularSpeedRadPerSec() {
     return DriveConstants.MAX_ANGULAR_SPEED;
   }
 
+  public double getSlowAngularSpeedRadPerSec() {
+    return DriveConstants.MAX_ANGULAR_SPEED * 0.25;
+  }
+
   public Command driveToPose(Pose2d pose) {
+    return driveToPose(() -> pose);
+  }
+
+  public Command driveToPose(Supplier<Pose2d> pose) {
     return AutoBuilder.pathfindToPose(
-        pose,
+        pose.get(),
         new PathConstraints(1.0, 1.0,
             1.0, 1.0)
     );

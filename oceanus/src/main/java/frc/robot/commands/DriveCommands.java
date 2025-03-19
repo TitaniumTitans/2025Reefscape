@@ -91,12 +91,17 @@ public class DriveCommands {
           // Square rotation value for more precise control
           omega = Math.copySign(omega * omega, omega);
 
+          double maxLinearSpeed = RobotState.getInstance().isSlowSpeed() ?
+              drive.getSlowLinearSpeedMetersPerSec() : drive.getMaxLinearSpeedMetersPerSec();
+          double maxAngularSpeed = RobotState.getInstance().isSlowSpeed() ?
+              drive.getSlowAngularSpeedRadPerSec() : drive.getMaxAngularSpeedRadPerSec();
+
           // Convert to field relative speeds & send command
           ChassisSpeeds speeds =
               new ChassisSpeeds(
-                  linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
-                  linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
-                  omega * drive.getMaxAngularSpeedRadPerSec() * MAX_TURN_SPEED.getValue());
+                  linearVelocity.getX() * maxLinearSpeed,
+                  linearVelocity.getY() * maxAngularSpeed,
+                  omega * maxAngularSpeed * MAX_TURN_SPEED.getValue());
           boolean isFlipped =
               DriverStation.getAlliance().isPresent()
                   && DriverStation.getAlliance().get() == Alliance.Red;

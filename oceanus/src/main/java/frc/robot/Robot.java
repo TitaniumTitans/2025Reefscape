@@ -6,6 +6,7 @@
 package frc.robot;
 
 import au.grapplerobotics.CanBridge;
+import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,6 +30,7 @@ public class Robot extends LoggedRobot
     public Robot() {
         // record metadata
         CanBridge.runTCP();
+        PathfindingCommand.warmupCommand().schedule();
 
         // Set up data receivers & replay source
         switch (Constants.getMode()) {
