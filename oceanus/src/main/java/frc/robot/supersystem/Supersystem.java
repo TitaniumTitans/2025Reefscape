@@ -74,8 +74,8 @@ public class Supersystem extends SubsystemBase {
   public Command periodicCommand() {
     return Commands.run(() -> {
       // run arm roller
-      if (!elevatorSubsystem.overClearance() && armSubsystem.hasCoral()) {
-        rollerVoltage = MathUtil.clamp(rollerVoltage, 0, 12.0);
+      if ((RobotState.getInstance().isSlowSpeed() && armSubsystem.atSetpoint(ArmConstants.L4_SETPOINT.getDegrees()))) {
+        rollerVoltage = MathUtil.clamp(rollerVoltage, -0.75, 12.0);
       }
       armSubsystem.setArmRollerVoltage(rollerVoltage);
 

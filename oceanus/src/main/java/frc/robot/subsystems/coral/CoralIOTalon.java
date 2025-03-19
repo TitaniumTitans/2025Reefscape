@@ -108,8 +108,8 @@ public class CoralIOTalon implements CoralIO {
     motorConfig.Slot0.kG = CoralConstants.KG;
     motorConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
-    motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(1080 + 360);
-    motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(1080 + 360);
+    motorConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
+    motorConfig.MotionMagic.MotionMagicAcceleration = 5;
 
     motorConfig.CurrentLimits.SupplyCurrentLimit = 40;
     motorConfig.CurrentLimits.StatorCurrentLimit = 60;

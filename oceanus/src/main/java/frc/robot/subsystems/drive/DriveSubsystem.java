@@ -311,8 +311,8 @@ public class DriveSubsystem extends SubsystemBase {
   public Command driveToPose(Supplier<Pose2d> pose) {
     return AutoBuilder.pathfindToPose(
         pose.get(),
-        new PathConstraints(1.0, 1.0,
-            1.0, 1.0)
+        new PathConstraints(1.25, 1.25,
+            1.25, 1.25)
     );
   }
 

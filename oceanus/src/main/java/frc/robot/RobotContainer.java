@@ -224,10 +224,10 @@ public class RobotContainer
     driverController.b()
         .whileTrue(
             coralSubsystem.setPivotAngle(190)
-                .andThen(coralSubsystem.setScoringVoltages(0.0, 3.0, 0.0))
+                .andThen(coralSubsystem.setScoringVoltages(0.0, 4.0, 0.0))
         ).whileFalse(
             coralSubsystem.setPivotAngle(90)
-                .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))
+                .andThen(coralSubsystem.setScoringVoltages(0.0, 1.0, 0.0))
         );
 
     // trigger auto alignment

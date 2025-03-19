@@ -55,7 +55,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorGoal = MathUtil.clamp(elevatorGoal, 0.0, Units.inchesToMeters(32));
 
     RobotState.getInstance().setSlowSpeed(
-        inputs.elevatorPositionMeters >= Units.inchesToMeters(13.0)
+        inputs.elevatorPositionMeters >= Units.inchesToMeters(18.0)
     );
 
     // run state machine

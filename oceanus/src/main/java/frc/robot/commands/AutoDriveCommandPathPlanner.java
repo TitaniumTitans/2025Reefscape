@@ -1,29 +1,29 @@
 package frc.robot.commands;
 
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.Waypoint;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.DriveConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
-import frc.robot.subsystems.elevator.ElevatorSubsystem;
-import frc.robot.util.FieldRelativeSpeeds;
 import org.littletonrobotics.junction.Logger;
 
 import java.util.List;
 
 
-public class AutoDriveCommand extends Command {
+public class AutoDriveCommandPathPlanner extends Command {
   private final DriveSubsystem driveSubsystem;
 
   private final PIDController xController;
@@ -34,9 +34,10 @@ public class AutoDriveCommand extends Command {
 
   private Pose2d goal;
   private Trajectory traj;
+  private PathPlannerPath path;
   private final Timer timer = new Timer();
 
-  public AutoDriveCommand(DriveSubsystem driveSubsystem, Pose2d goal) {
+  public AutoDriveCommandPathPlanner(DriveSubsystem driveSubsystem, Pose2d goal) {
     this.driveSubsystem = driveSubsystem;
     this.goal = goal;
     // each subsystem used by the command must be passed into the
@@ -85,6 +86,25 @@ public class AutoDriveCommand extends Command {
         List.of(),
         goal,
         DriveConstants.TRAJECTORY_CONFIG
+    );
+
+    List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
+        RobotState.getInstance().getEstimatedPose(),
+        new Pose2d(
+            goal.getX(),
+            goal.getY(),
+            RobotState.getInstance().getRotation()
+        )
+    );
+
+    path = new PathPlannerPath(
+        waypoints,
+        new PathConstraints(
+            Units.feetToMeters(4.0), Units.feetToMeters(4.0),
+            2 * Math.PI, 2 * Math.PI
+        ),
+        null,
+        new GoalEndState(0.0, goal.getRotation())
     );
 
     timer.restart();
