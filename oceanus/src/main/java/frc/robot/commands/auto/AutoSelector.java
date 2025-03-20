@@ -22,7 +22,17 @@ public class AutoSelector {
         AutoCommands.resetPoseAndFollowChoreoPath(drive, "LeftJ")
             .andThen(supersystem.runArmRollers(3.0))
             .andThen(Commands.waitSeconds(1.0))
-            .andThen(supersystem.runArmRollers(0.0)));
+            .andThen(supersystem.runArmRollers(0.0))
+            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
+            .andThen(AutoCommands.followChoreoPath("JHPLeft")));
+
+    chooser.addOption("1L4RightE",
+        AutoCommands.resetPoseAndFollowChoreoPath(drive, "LeftE")
+            .andThen(supersystem.runArmRollers(3.0))
+            .andThen(Commands.waitSeconds(1.0))
+            .andThen(supersystem.runArmRollers(0.0))
+            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
+            .andThen(AutoCommands.followChoreoPath("EHPRight")));
 
     // Two piece
     chooser.addOption("2L4LeftJK",
@@ -42,6 +52,25 @@ public class AutoSelector {
             .andThen(supersystem.runArmRollers(0.0))
             .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
             .andThen(AutoCommands.followChoreoPath("KHPLeft"))
+    );
+
+    chooser.addOption("2L4RightED",
+        AutoCommands.resetPoseAndFollowChoreoPath(drive, "RightE")
+            // score
+            .andThen(supersystem.runArmRollers(3.0))
+            .andThen(Commands.waitSeconds(0.5))
+            .andThen(supersystem.runArmRollers(0.0))
+            // HP
+            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
+            .andThen(AutoCommands.followChoreoPath("EHPRight"))
+            .andThen(AutoCommands.intakeUntilCoral(coral, supersystem))
+            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.L4))
+            .andThen(AutoCommands.followChoreoPath("HPRightD"))
+            .andThen(supersystem.runArmRollers(3.0))
+            .andThen(Commands.waitSeconds(0.5))
+            .andThen(supersystem.runArmRollers(0.0))
+            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
+            .andThen(AutoCommands.followChoreoPath("DHPRight"))
     );
   }
 
