@@ -33,3 +33,19 @@ Ctethys/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java,0\3\0397f4
 .tethys/src/main/java/frc/robot/RobotState.java,3\d\3d88cce8fee26e8b3d069c19e16454888e44b811
 C
 tethys/build.gradle,9\8\98c5b65ee48ef21991991545d3dd0cbcbdbe6b82
+P
+ tethys/vendordeps/photonlib.json,3\c\3c02b92844b69840f7da390af0a872ccc5cfe3ab
+i
+9tethys/src/main/java/frc/robot/commands/AutoCommands.java,8\2\8290aa1df08913c3bcb346b4c284c7181395cbef
+c
+3oceanus/src/main/java/frc/robot/RobotContainer.java,9\7\97a6af877a1b3756b36abed95c0cd5395233591c
+_
+/oceanus/src/main/java/frc/robot/RobotState.java,3\2\326f8e5380c8639b3e29a9fd3948c745de63d7b6
+Z
+*oceanus/src/main/java/frc/robot/Robot.java,2\f\2fe4a8fc73562b3d9611f4c12040be9b13b5881f
+o
+?oceanus/src/main/java/frc/robot/commands/auto/AutoSelector.java,9\6\96119d707f88a10cb8a193191f20a086298a6426
+l
+<oceanus/src/main/java/frc/robot/supersystem/Supersystem.java,7\5\750f8b501e04cd9263d0ed996404229a91e671ec
+o
+?oceanus/src/main/java/frc/robot/commands/auto/AutoCommands.java,9\1\915fad17626a036b06800b064a551a1e28676b5f

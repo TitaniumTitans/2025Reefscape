@@ -62,6 +62,7 @@ public class Supersystem extends SubsystemBase {
     }
   }
 
+  @AutoLogOutput(key = "RobotState/Has Coral")
   public boolean hasCoral() {
     return armSubsystem.hasCoral();
   }
@@ -87,7 +88,10 @@ public class Supersystem extends SubsystemBase {
         desiredState = SupersystemState.DISABLED;
         elevatorSubsystem.setDisabled();
         armSubsystem.setDisabled();
-      } else if (RobotState.getInstance().useAuto()) {
+        return;
+      }
+
+      if (RobotState.getInstance().useAuto()) {
         // if we are coming or leaving home, go to a clearance state
         if (RobotState.getInstance().inFarReefZone()) {
           if (desiredState == SupersystemState.L4

@@ -67,11 +67,13 @@ public class AutoCommands {
     return supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
         .andThen(supersystem.runArmRollers(-1.5)
             .alongWith(coral.setScoringVoltages(4.0, 3.0, 3.0)))
-        .until(supersystem::hasCoral)
-        .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
-        .andThen(Commands.runOnce(() -> {
-          supersystem.setRollerVoltage(0.0);
-          coral.setScoringVoltages(0.0, 0.0, 0.0).schedule();
-        }));
+        .repeatedly()
+        .until(supersystem::hasCoral);
+  }
+
+  public static Command intakeStopCommand(CoralSubsystem coral, Supersystem supersystem) {
+    return supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
+        .andThen(supersystem.runArmRollers(0.0))
+        .andThen(coral.setScoringVoltages(0.0, 0.0, 0.0));
   }
 }

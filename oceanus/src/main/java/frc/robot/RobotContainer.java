@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ArmMovementCommandGroup;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.auto.AutoCommands;
 import frc.robot.commands.auto.AutoSelector;
 import frc.robot.subsystems.algae.AlgaeIO;
 import frc.robot.subsystems.algae.AlgaeIOSim;
@@ -45,6 +46,8 @@ import org.littletonrobotics.junction.Logger;
 
 import java.util.Optional;
 import java.util.Set;
+
+import static frc.robot.RobotState.CoralLevel.*;
 
 
 public class RobotContainer
@@ -256,13 +259,13 @@ public class RobotContainer
     // operator controls
     // set scoring level
     operatorController.x().onTrue(
-        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(RobotState.CoralLevel.L2))
+        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(L2))
     );
     operatorController.y().onTrue(
-        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(RobotState.CoralLevel.L3))
+        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(L3))
     );
     operatorController.b().onTrue(
-        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(RobotState.CoralLevel.L4))
+        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(L4))
     );
 
     // manual setpoints
@@ -280,6 +283,10 @@ public class RobotContainer
     );
     operatorController.povLeft()
         .onTrue(coralSubsystem.resetPivotFactory());
+    operatorController.povRight().whileTrue(AutoCommands.intakeUntilCoral(coralSubsystem, supersystem)
+            .andThen(AutoCommands.intakeStopCommand(coralSubsystem, supersystem)
+            ))
+            .whileFalse(AutoCommands.intakeStopCommand(coralSubsystem, supersystem));
 
     //climber controls
     operatorController.leftBumper()
@@ -301,6 +308,7 @@ public class RobotContainer
 
     tab.add("Zero Elevator", Commands.runOnce(() -> elevatorSubsystem.resetElevator(0.0)).ignoringDisable(true));
     tab.add("Zero Coral Pivot", coralSubsystem.resetPivotFactory());
+    tab.add("Auto Hopper", AutoCommands.intakeUntilCoral(coralSubsystem, supersystem));
   }
     
   public Command getAutonomousCommand()
@@ -326,7 +334,7 @@ public class RobotContainer
         return supersystemCommand;
       }
 
-      if (RobotState.getInstance().getCoralLevel() == RobotState.CoralLevel.L4) {
+      if (RobotState.getInstance().getCoralLevel() == L4) {
         return commandPair.getFirst()
             .andThen(supersystemCommand
                 .alongWith(Commands.waitUntil(supersystem::atSetpoint)))
