@@ -25,6 +25,8 @@ import org.ironmaple.utils.mathutils.GeometryConvertor;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.LoggedDashboardBoolean;
+import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -116,6 +118,9 @@ public class RobotState {
   @Setter
   private Optional<SwerveDriveSimulation> driveSimulation = Optional.empty();
 
+  private final LoggedNetworkBoolean useAuto =
+      new LoggedNetworkBoolean("Smartdashboard/Use Auto?", true);
+
   private final SwerveDrivePoseEstimator poseEstimator =
       new SwerveDrivePoseEstimator(
           new SwerveDriveKinematics(DriveConstants.MODULE_TRANSLATIONS),
@@ -189,6 +194,11 @@ public class RobotState {
   @AutoLogOutput(key = "RobotState/In Barge Zone")
   public boolean inBargeZone() {
     return keepoutZoneBarge.contains(getEstimatedPose().getTranslation());
+  }
+
+  @AutoLogOutput(key = "RobotState/Use Auto")
+  public boolean useAuto() {
+    return useAuto.get();
   }
 
   public record VisionObservation(Pose2d visionPose, double timestamp, Matrix<N3, N1> stdDevs) {}

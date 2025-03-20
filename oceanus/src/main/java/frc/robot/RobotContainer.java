@@ -322,6 +322,10 @@ public class RobotContainer
         case L4 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L4);
       }
 
+      if (!RobotState.getInstance().useAuto()) {
+        return supersystemCommand;
+      }
+
       if (RobotState.getInstance().getCoralLevel() == RobotState.CoralLevel.L4) {
         return commandPair.getFirst()
             .andThen(supersystemCommand
