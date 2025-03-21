@@ -104,26 +104,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.oceanus [build].executor": "Run",
-    "Gradle.oceanus [deploy].executor": "Run",
-    "Gradle.oceanus [simulateJava].executor": "Run",
-    "Gradle.tethys [build].executor": "Run",
-    "Gradle.tethys [deploy].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "V2",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Robot/Documents/Github/2025Reefscape",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.5103448",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.oceanus [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.oceanus [deploy].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.oceanus [simulateJava].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.tethys [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.tethys [deploy].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;V2&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Robot/Documents/Github/2025Reefscape&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.5103448&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\lboog\GitHub\2025Reefscape\oceanus\src\main\java\frc\robot\subsystems" />
@@ -141,7 +141,7 @@
       <recent name="frc.robot" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.oceanus [deploy]">
+  <component name="RunManager" selected="Gradle.oceanus [simulateJava]">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="oceanus" />
       <option name="ENV_FILES" value="" />
@@ -321,8 +321,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.oceanus [deploy]" />
         <item itemvalue="Gradle.oceanus [simulateJava]" />
+        <item itemvalue="Gradle.oceanus [deploy]" />
         <item itemvalue="Gradle.oceanus [build]" />
         <item itemvalue="Gradle.tethys [deploy]" />
         <item itemvalue="Gradle.tethys [build]" />
