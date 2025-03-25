@@ -1,0 +1,16 @@
+
+W	java:S125""<This block of commented-out lines of code should be removed.(Ì™L8à¾óàÖ2
+]	java:S125:"<This block of commented-out lines of code should be removed.(ÁÒÎşÿÿÿÿ8€¿óàÖ2
+]	java:S125N"<This block of commented-out lines of code should be removed.(ÁÒÎşÿÿÿÿ8‚¿óàÖ2
+V
+java:S1128"4Remove this unused import 'choreo.auto.AutoFactory'.(úê¸øıÿÿÿÿ8î†à‰×2
+f
+java:S1128"DRemove this unused import 'com.pathplanner.lib.events.EventTrigger'.(¤§ê†ÿÿÿÿÿ8î†à‰×2
+n
+java:S1128"LRemove this unused import 'frc.robot.commands.AutoCommands.HumanPlayerSide'.(íå†Œÿÿÿÿÿ8î†à‰×2
+p
+java:S1128"NRemove this unused import 'frc.robot.commands.AutoCommands.StartingPositions'.(àÿô¥ùÿÿÿÿ8î†à‰×2
+h
+java:S1128"KRemove this unused import 'frc.robot.commands.AutoCommands.CoralLocations'.(É¯ñä8î†à‰×2
+M
+java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8î†à‰×2

@@ -1,0 +1,14 @@
+
+u
+java:S1192–"WDefine a constant instead of duplicating this literal "SwerveStates/Setpoints" 3 times.(ÎáĞä8¿ö’†×2
+P
+java:S1611z"3Remove the parentheses around the "state" parameter(é‰¯ô8Œø’†×2
+W
+java:S1611|"5Remove the parentheses around the "voltage" parameter(œ´™§ÿÿÿÿÿ8œø’†×2
+>
+java:S3878—"Remove this array creation.(ÈèÍøÿÿÿÿ8¾ø’†×2
+J
+java:S1125Ê"'Remove the unnecessary boolean literal.(õ°§üÿÿÿÿ8Ïø’†×2
+^	java:S125­"<This block of commented-out lines of code should be removed.(‰å¸˜ûÿÿÿÿ8úø’†×2
+N
+java:S1172¶"+Remove this unused method parameter "pose".(³‡¹şÿÿÿÿ8ıø’†×2

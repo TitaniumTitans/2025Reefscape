@@ -1,0 +1,22 @@
+
+»
+java:S6548 "˜A Singleton implementation was detected. Make sure the use of the Singleton pattern is required and the implementation is the right one for the context.(ÖÛüøÿÿÿÿ8Á”†×2
+a
+java:S1128	"DRemove this unused import 'edu.wpi.first.math.geometry.Transform2d'.(ù‹Â8æ–‚†×2
+b
+java:S1128
+"@Remove this unused import 'edu.wpi.first.math.geometry.Twist2d'.(¤üÔ€şÿÿÿÿ8æ–‚†×2
+r
+java:S1128"VRemove this unused import 'edu.wpi.first.math.interpolation.TimeInterpolatableBuffer'.(éÕÈg8ç–‚†×2
+R
+java:S1128"5Remove this unused import 'lombok.EqualsAndHashCode'.(Ìà‰ò8è–‚†×2
+G
+java:S1128"*Remove this unused import 'lombok.Getter'.(ùÒµÙ8è–‚†×2
+I
+java:S1128",Remove this unused import 'lombok.ToString'.(¹ÂÄÓ8é–‚†×2
+d
+java:S1128"BRemove this unused import 'org.littletonrobotics.junction.Logger'.(‹¡¦Šÿÿÿÿÿ8é–‚†×2
+_
+java:S1128"=Remove this unused import 'java.util.NoSuchElementException'.(®“ÿéúÿÿÿÿ8ê–‚†×2
+Z
+java:S1068!"8Remove this unused "POSE_BUFFER_SIZE_SEC" private field.(¹ô™£üÿÿÿÿ8¤•†×2

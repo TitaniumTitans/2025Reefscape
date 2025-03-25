@@ -1,0 +1,28 @@
+
+o
+java:S1104	"YMake pivotPosition a static final constant or non-public and provide accessors if needed.(€ÉÌÂ
+t
+java:S1104
+"YMake pivotVelocity a static final constant or non-public and provide accessors if needed.(§÷·Òøÿÿÿÿ
+p
+java:S1104"ZMake scorerVelocity a static final constant or non-public and provide accessors if needed.(ÕÁå
+t
+java:S1104"YMake scorerVoltage a static final constant or non-public and provide accessors if needed.(ÉÕ±üøÿÿÿÿ
+s
+java:S1104"^Make masterPivotVoltage a static final constant or non-public and provide accessors if needed.(ÎÁÄ/
+v
+java:S1104"`Make followerPivotVoltage a static final constant or non-public and provide accessors if needed.(íÏ¢
+s
+java:S1104"]Make scorerCurrentDraw a static final constant or non-public and provide accessors if needed.(Öœ¼
+x
+java:S1104"bMake masterPivotCurrentDraw a static final constant or non-public and provide accessors if needed.(£µÓö
+z
+java:S1104"dMake followerPivotCurrentDraw a static final constant or non-public and provide accessors if needed.(ûË¨Ã
+x
+java:S1104"]Make scorerTemperature a static final constant or non-public and provide accessors if needed.(½ò¹Åûÿÿÿÿ
+}
+java:S1104"bMake masterPivotTemperature a static final constant or non-public and provide accessors if needed.(×Òßÿÿÿÿÿ
+
+java:S1104"dMake followerPivotTemperature a static final constant or non-public and provide accessors if needed.(²óúšşÿÿÿÿ
+r
+java:S1104"WMake coralRanges a static final constant or non-public and provide accessors if needed.(¼º¯ûúÿÿÿÿ
