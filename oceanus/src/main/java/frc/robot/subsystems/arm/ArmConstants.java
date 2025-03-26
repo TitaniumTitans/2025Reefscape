@@ -23,5 +23,5 @@ public class ArmConstants {
   public static final Rotation2d L4_SETPOINT = Rotation2d.fromDegrees(29.0);
   public static final Rotation2d BARGE_SETPOINT = Rotation2d.fromDegrees(60.0);
   public static final Rotation2d ALGAE_SETPOINT = Rotation2d.fromDegrees(-65.0);
-  public static final Rotation2d INTAKE_SETPOINT = Rotation2d.fromDegrees(-79.0);
+  public static final Rotation2d INTAKE_SETPOINT = Rotation2d.fromDegrees(-80.0);
 }
