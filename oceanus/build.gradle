@@ -8,6 +8,16 @@ plugins {
     id "idea"
 }
 
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+// Set this to the latest version of StuyLib.
+// You can check here: https://github.com/StuyPulse/StuyLib/releases.
+final String STUYLIB_VERSION = 'v2025.1.2'
+
 task(replayWatch, type: JavaExec) {
     mainClass = "org.littletonrobotics.junction.ReplayWatch"
     classpath = sourceSets.main.runtimeClasspath
@@ -91,6 +101,8 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api"
     testImplementation "org.junit.jupiter:junit-jupiter-params"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+
+    implementation "com.github.StuyPulse:StuyLib:${STUYLIB_VERSION}";
 }
 
 test{

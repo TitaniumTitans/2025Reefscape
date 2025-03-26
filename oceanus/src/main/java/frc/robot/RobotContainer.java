@@ -158,10 +158,12 @@ public class RobotContainer
         )
     );
 
-    visionSubsystem.setDefaultCommand(
-        visionSubsystem.processVision(RobotState.getInstance()::getEstimatedPose)
-            .ignoringDisable(true)
-    );
+    if (Robot.isReal()) {
+      visionSubsystem.setDefaultCommand(
+          visionSubsystem.processVision(RobotState.getInstance()::getEstimatedPose)
+              .ignoringDisable(true)
+      );
+    }
 
     supersystem.setDefaultCommand(
         supersystem.periodicCommand()
@@ -260,12 +262,15 @@ public class RobotContainer
     // set scoring level
     operatorController.x().onTrue(
         Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(L2))
+            .ignoringDisable(true)
     );
     operatorController.y().onTrue(
         Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(L3))
+            .ignoringDisable(true)
     );
     operatorController.b().onTrue(
         Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(L4))
+            .ignoringDisable(true)
     );
 
     // manual setpoints

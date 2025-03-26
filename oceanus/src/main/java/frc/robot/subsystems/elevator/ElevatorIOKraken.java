@@ -145,11 +145,11 @@ public class ElevatorIOKraken implements ElevatorIO {
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    PhoenixUtil.tryUntilOk(10, () -> master.getConfigurator().apply(config));
+    PhoenixUtil.tryUntilOk(5, () -> master.getConfigurator().apply(config));
 
     config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    PhoenixUtil.tryUntilOk(10, () -> follower.getConfigurator().apply(config));
+    PhoenixUtil.tryUntilOk(5, () -> follower.getConfigurator().apply(config));
 
     master.setPosition(0.0);
     follower.setPosition(0.0);

@@ -38,8 +38,13 @@ public class DriveConstants {
   // Pathplanner stuff
   public static final double WHEEL_COF = 1.2;
 
-  public static final double XY_KP = 6.0;
-  public static final double THETA_KP = 6.0;
+  public static final double XY_KP = 4.0;
+  public static final double XY_KI = 0.0;
+  public static final double XY_KD = 0.0;
+
+  public static final double THETA_KP = 3.5;
+  public static final double THETA_KI = 0.0;
+  public static final double THETA_KD = 0.0;
 
   public static final TrajectoryConfig TRAJECTORY_CONFIG =
       new TrajectoryConfig(Units.feetToMeters(4.25), Units.feetToMeters(4.25));
@@ -77,6 +82,13 @@ public class DriveConstants {
   );
 
   public static final ModuleConstants[] MODULE_CONSTANTS;
+
+  public static final double MAX_ALIGNMENT_LINEAR_VELOCITY = Units.feetToMeters(4.0);
+  public static final double MAX_ALIGNMENT_LINEAR_ACCELERATION = Units.feetToMeters(4.0);
+  public static final Number MAX_ALIGNMENT_ANGULAR_VELOCITY = Units.degreesToRadians(60.0); // rads/sec
+  public static final Number MAX_ALIGNMENT_ANGULAR_ACCELERATION = Units.degreesToRadians(60.0); // rads/sec/sec
+
+
   static {
     switch (Constants.getMode()) {
       case REAL -> {

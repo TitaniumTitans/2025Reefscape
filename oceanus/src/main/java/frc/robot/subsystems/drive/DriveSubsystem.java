@@ -7,7 +7,6 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.pathplanner.lib.util.PathPlannerLogging;
-import com.pathplanner.lib.util.swerve.SwerveSetpoint;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,7 +19,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.RobotState;
-import frc.robot.commands.AutoDriveCommand;
+import frc.robot.commands.swerve.AutoDriveCommand;
+import frc.robot.commands.swerve.SwerveDrivePIDToPose;
 import frc.robot.subsystems.drive.module.Module;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.util.AlgaePositions;
@@ -242,8 +242,8 @@ public class DriveSubsystem extends SubsystemBase {
           left ? closestAlgae.m_coralLeft.m_pose.getPose()
               : closestAlgae.m_coralRight.m_pose.getPose();
 
-      return Pair.of(driveToPose(pauseWaypoint),
-          new AutoDriveCommand(this, scoreWaypoint));
+      return Pair.of(new SwerveDrivePIDToPose(this, pauseWaypoint),
+          new SwerveDrivePIDToPose(this, scoreWaypoint));
   }
 
   @AutoLogOutput(key = "SwerveStates/Measured")
