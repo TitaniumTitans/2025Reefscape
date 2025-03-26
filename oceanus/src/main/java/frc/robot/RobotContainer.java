@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.ArmMovementCommandGroup;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.auto.AutoCommands;
 import frc.robot.commands.auto.AutoSelector;
+import frc.robot.commands.swerve.SwerveDrivePIDToPose;
 import frc.robot.subsystems.algae.AlgaeIO;
 import frc.robot.subsystems.algae.AlgaeIOSim;
 import frc.robot.subsystems.algae.AlgaeSubsystem;
@@ -55,7 +55,7 @@ public class RobotContainer
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController operatorController = new CommandXboxController(1);
 
-  private final DriveSubsystem driveSubsystem;
+  private final DriveSubsystem swerve;
   private final ElevatorSubsystem elevatorSubsystem;
   private final AlgaeSubsystem algaeSubsystem;
   private final ArmSubsystem armSubsystem;
@@ -77,7 +77,7 @@ public class RobotContainer
 
     switch (Constants.getMode()) {
       case REAL -> {
-        driveSubsystem = new DriveSubsystem(
+        swerve = new DriveSubsystem(
             new GyroIOPigeon2(),
             new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[0]),
             new ModuleIOTalonFX(DriveConstants.MODULE_CONSTANTS[1]),
@@ -105,7 +105,7 @@ public class RobotContainer
       case SIM -> {
         driveSimulation = new SwerveDriveSimulation(DriveConstants.MAPLE_SIM_CONFIG, new Pose2d(3, 3, new Rotation2d()));
         SimulatedArena.getInstance().addDriveTrainSimulation(driveSimulation);
-        driveSubsystem = new DriveSubsystem(
+        swerve = new DriveSubsystem(
             new GyroIOSim(driveSimulation.getGyroSimulation()),
             new ModuleIOSim(driveSimulation.getModules()[0]),
             new ModuleIOSim(driveSimulation.getModules()[1]),
@@ -124,7 +124,7 @@ public class RobotContainer
         coralSubsystem = new CoralSubsystem(new CoralIO() {});
       }
       default -> {
-        driveSubsystem = new DriveSubsystem(
+        swerve = new DriveSubsystem(
             new GyroIO() {
             },
             new ModuleIO() {},
@@ -142,16 +142,16 @@ public class RobotContainer
     }
 
     supersystem = new Supersystem(elevatorSubsystem, armSubsystem);
-    autoSelector = new AutoSelector(driveSubsystem, supersystem, coralSubsystem);
+    autoSelector = new AutoSelector(swerve, supersystem, coralSubsystem);
     configureBindings();
     setupShuffleboardTab();
   }
     
     
   private void configureBindings() {
-    driveSubsystem.setDefaultCommand(
+    swerve.setDefaultCommand(
         DriveCommands.joystickDrive(
-            driveSubsystem,
+            swerve,
             () -> -driverController.getLeftY(),
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()
@@ -238,11 +238,13 @@ public class RobotContainer
     // trigger auto alignment
     driverController.x()
         .whileTrue(
-            autoScoreCommand(true)
+            new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance)
+                .andThen(new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(true)))
         );
     driverController.y()
         .whileTrue(
-            autoScoreCommand(false)
+            new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance)
+                .andThen(new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(false)))
         );
 
     // resets
@@ -252,11 +254,11 @@ public class RobotContainer
     driverController.povUp()
         .onTrue(coralSubsystem.resetPivotFactory());
     driverController.povLeft()
-        .whileTrue(driveSubsystem.driveToPose(ChoreoPoses.STARTING_POS_LEFT::getPose));
+        .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_LEFT::getPose));
     driverController.povDown()
-        .whileTrue(driveSubsystem.driveToPose(ChoreoPoses.STARTING_POS_CENTER::getPose));
+        .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_CENTER::getPose));
     driverController.povRight()
-        .whileTrue(driveSubsystem.driveToPose(ChoreoPoses.STARTING_POS_RIGHT::getPose));
+        .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_RIGHT::getPose));
 
     // operator controls
     // set scoring level
@@ -327,7 +329,7 @@ public class RobotContainer
 
   public Command autoScoreCommand(boolean left) {
     return Commands.defer(() -> {
-      Pair<Command, Command> commandPair = driveSubsystem.autoAlignToClosest(left);
+      Pair<Command, Command> commandPair = swerve.autoAlignToClosest(left);
       Command supersystemCommand = Commands.none();
       switch (RobotState.getInstance().getCoralLevel()) {
         case L2 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L2);
@@ -349,6 +351,6 @@ public class RobotContainer
             .andThen(supersystemCommand
                 .alongWith(commandPair.getSecond()));
       }
-    }, Set.of(driveSubsystem));
+    }, Set.of(swerve));
   }
 }

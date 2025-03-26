@@ -133,9 +133,9 @@ public class ArmIOKraken implements ArmIO {
     motorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
     motorConfig.Feedback.FeedbackRemoteSensorID = pivotEncoder.getDeviceID();
 
-    motorConfig.MotionMagic.MotionMagicCruiseVelocity = 8; // 6
-    motorConfig.MotionMagic.MotionMagicAcceleration = 8; // Units.degreesToRotations(1800)
-
+    // max vel is 1.25 rev/s
+    motorConfig.MotionMagic.MotionMagicCruiseVelocity = 1.25;
+    motorConfig.MotionMagic.MotionMagicAcceleration = 1.25 / 0.5;
 
     motorConfig.Slot0.kP = ArmConstants.KP;
     motorConfig.Slot0.kI = ArmConstants.KI;

@@ -246,6 +246,21 @@ public class DriveSubsystem extends SubsystemBase {
           new SwerveDrivePIDToPose(this, scoreWaypoint));
   }
 
+  public Pose2d getClosestBranch(boolean left) {
+    AlgaePositions closestAlgae = findClosestAlgae();
+    if (left) {
+      return closestAlgae.m_coralLeft.m_pose.getPose();
+    }
+
+    return closestAlgae.m_coralRight.m_pose.getPose();
+  }
+
+  public Pose2d getClosestClearance() {
+    AlgaePositions closestAlgae = findClosestAlgae();
+    return closestAlgae.m_pose.getPose()
+        .plus(new Transform2d(-0.7, 0.0, new Rotation2d()));
+  }
+
   @AutoLogOutput(key = "SwerveStates/Measured")
   private SwerveModuleState[] getModuleStates() {
     SwerveModuleState[] states = new SwerveModuleState[4];

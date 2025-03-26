@@ -12,27 +12,26 @@ import com.stuypulse.stuylib.streams.booleans.filters.BDebounceRC;
 import com.stuypulse.stuylib.streams.numbers.IStream;
 import com.stuypulse.stuylib.streams.numbers.filters.LowPassFilter;
 import com.stuypulse.stuylib.streams.vectors.VStream;
-import com.stuypulse.stuylib.streams.vectors.filters.VMotionProfile;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.DriveConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.util.HolonomicController;
 import frc.robot.util.TranslationMotionProfileIan;
+import org.littletonrobotics.junction.Logger;
 
 public class SwerveDrivePIDToPose extends Command {
 
   private final DriveSubsystem swerve;
 
   private final HolonomicController controller;
-  private final Supplier<Pose2d> targetPose;
+  private final Supplier<Pose2d> pose2dSupplier;
+  private Pose2d targetPose;
 
   private double maxVelocity;
   private double maxAcceleration;
@@ -47,11 +46,11 @@ public class SwerveDrivePIDToPose extends Command {
 
   private VStream translationSetpoint;
 
-  public SwerveDrivePIDToPose(DriveSubsystem swerve, Pose2d targetPose) {
-    this(swerve, () -> targetPose);
+  public SwerveDrivePIDToPose(DriveSubsystem swerve, Pose2d pose2dSupplier) {
+    this(swerve, () -> pose2dSupplier);
   }
 
-  public SwerveDrivePIDToPose(DriveSubsystem swerve, Supplier<Pose2d> targetPose) {
+  public SwerveDrivePIDToPose(DriveSubsystem swerve, Supplier<Pose2d> pose2dSupplier) {
     this.swerve = swerve;
 
     controller = new HolonomicController(
@@ -65,7 +64,7 @@ public class SwerveDrivePIDToPose extends Command {
 
     translationSetpoint = getNewTranslationSetpointGenerator();
 
-    this.targetPose = targetPose;
+    this.pose2dSupplier = pose2dSupplier;
 
     isAligned = BStream.create(this::isAligned)
         .filtered(new BDebounceRC.Both(0.15));
@@ -96,13 +95,13 @@ public class SwerveDrivePIDToPose extends Command {
   }
 
   public SwerveDrivePIDToPose withoutMotionProfile() {
-    this.translationSetpoint = VStream.create(() -> new Vector2D(targetPose.get().getTranslation()));
+    this.translationSetpoint = VStream.create(() -> new Vector2D(pose2dSupplier.get().getTranslation()));
     return this;
   }
 
   // the VStream needs to be recreated everytime the command is scheduled to allow the target tranlation to jump to the start of the path
   private VStream getNewTranslationSetpointGenerator() {
-    return VStream.create(() -> new Vector2D(targetPose.get().getTranslation()))
+    return VStream.create(() -> new Vector2D(targetPose.getTranslation()))
         .filtered(new TranslationMotionProfileIan(
             this.maxVelocity,
             this.maxAcceleration,
@@ -112,19 +111,20 @@ public class SwerveDrivePIDToPose extends Command {
 
   @Override
   public void initialize() {
+    targetPose = pose2dSupplier.get();
     translationSetpoint = getNewTranslationSetpointGenerator();
   }
 
   private boolean isAlignedX() {
-    return Math.abs(targetPose.get().getX() - RobotState.getInstance().getEstimatedPose().getX()) < xTolerance.doubleValue();
+    return Math.abs(targetPose.getX() - RobotState.getInstance().getEstimatedPose().getX()) < xTolerance.doubleValue();
   }
 
   private boolean isAlignedY() {
-    return Math.abs(targetPose.get().getY() - RobotState.getInstance().getEstimatedPose().getY()) < yTolerance.doubleValue();
+    return Math.abs(targetPose.getY() - RobotState.getInstance().getEstimatedPose().getY()) < yTolerance.doubleValue();
   }
 
   private boolean isAlignedTheta() {
-    return Math.abs(targetPose.get().getRotation().minus(RobotState.getInstance().getEstimatedPose().getRotation()).getRadians()) < thetaTolerance.doubleValue();
+    return Math.abs(targetPose.getRotation().minus(RobotState.getInstance().getEstimatedPose().getRotation()).getRadians()) < thetaTolerance.doubleValue();
   }
 
   private boolean isAligned() {
@@ -133,12 +133,21 @@ public class SwerveDrivePIDToPose extends Command {
 
   @Override
   public void execute() {
-    controller.update(new Pose2d(translationSetpoint.get().getTranslation2d(), targetPose.get().getRotation()), RobotState.getInstance().getEstimatedPose());
+    controller.update(new Pose2d(translationSetpoint.get().getTranslation2d(), targetPose.getRotation()), RobotState.getInstance().getEstimatedPose());
 
     swerve.runVelocity(new ChassisSpeeds(
         controller.getOutput().vxMetersPerSecond,
         controller.getOutput().vyMetersPerSecond,
         controller.getOutput().omegaRadiansPerSecond));
+
+    Logger.recordOutput("Alignment/Target", targetPose);
+    Logger.recordOutput("Alignment/Target X", targetPose.getX());
+    Logger.recordOutput("Alignment/Target Y", targetPose.getY());
+    Logger.recordOutput("Alignment/Target Theta", targetPose.getRotation());
+
+    Logger.recordOutput("Alignment/Output X", controller.getOutput().vxMetersPerSecond);
+    Logger.recordOutput("Alignment/Output Y", controller.getOutput().vyMetersPerSecond);
+    Logger.recordOutput("Alignment/Output Theta", controller.getOutput().omegaRadiansPerSecond);
   }
 
   @Override

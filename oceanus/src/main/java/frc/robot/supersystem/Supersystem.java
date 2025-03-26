@@ -120,9 +120,8 @@ public class Supersystem extends SubsystemBase {
             return;
           }
         } else if (
-            ((desiredState == SupersystemState.HOME || desiredState == SupersystemState.INTAKE) && elevatorSubsystem.overClearance() && !armSubsystem.atHome())
-                || (desiredState != SupersystemState.HOME && !elevatorSubsystem.overClearance() && desiredState != SupersystemState.INTAKE)
-        ) {
+            (desiredState == SupersystemState.HOME || desiredState == SupersystemState.INTAKE)
+                && elevatorSubsystem.overClearance() && !armSubsystem.atHome()) {
           elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.HOME_CLEAR_SETPOINT::getValue);
           armSubsystem.setArmPosition(ArmConstants.ARM_HOME_SETPOINT);
           // wait until everything is clear
@@ -168,6 +167,13 @@ public class Supersystem extends SubsystemBase {
           elevatorSubsystem.setElevatorSetpoint(ElevatorConstants.ALGAE_L3_SETPOINT::getValue);
           armSubsystem.setArmPosition(ArmConstants.ALGAE_SETPOINT);
         }
+      }
+
+      // when leaving home watch for arm while moving up
+      if (!elevatorSubsystem.overClearance()
+          && desiredState != SupersystemState.HOME
+          && desiredState != SupersystemState.INTAKE) {
+        armSubsystem.setArmPosition(ArmConstants.ARM_HOME_SETPOINT);
       }
     }, this, armSubsystem, elevatorSubsystem);
   }

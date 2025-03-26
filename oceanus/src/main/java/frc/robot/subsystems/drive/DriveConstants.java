@@ -84,9 +84,9 @@ public class DriveConstants {
   public static final ModuleConstants[] MODULE_CONSTANTS;
 
   public static final double MAX_ALIGNMENT_LINEAR_VELOCITY = Units.feetToMeters(4.0);
-  public static final double MAX_ALIGNMENT_LINEAR_ACCELERATION = Units.feetToMeters(4.0);
-  public static final Number MAX_ALIGNMENT_ANGULAR_VELOCITY = Units.degreesToRadians(60.0); // rads/sec
-  public static final Number MAX_ALIGNMENT_ANGULAR_ACCELERATION = Units.degreesToRadians(60.0); // rads/sec/sec
+  public static final double MAX_ALIGNMENT_LINEAR_ACCELERATION = MAX_ALIGNMENT_LINEAR_VELOCITY / 0.25;
+  public static final Number MAX_ALIGNMENT_ANGULAR_VELOCITY = Units.degreesToRadians(400.0); // rads/sec
+  public static final Number MAX_ALIGNMENT_ANGULAR_ACCELERATION = Units.degreesToRadians(900.0); // rads/sec/sec
 
 
   static {
