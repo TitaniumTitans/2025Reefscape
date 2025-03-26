@@ -220,10 +220,10 @@ public class RobotContainer
     // ground intake
     driverController.a()
         .whileTrue(
-            coralSubsystem.setPivotAngle(90)
+            coralSubsystem.setPivotAngle(78)
                 .andThen(coralSubsystem.setScoringVoltages(0.0, -3.0, 0.0))
         ).whileFalse(
-            coralSubsystem.setPivotAngle(90)
+            coralSubsystem.setPivotAngle(78)
                 .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))
         );
     driverController.b()
@@ -231,7 +231,7 @@ public class RobotContainer
             coralSubsystem.setPivotAngle(190)
                 .andThen(coralSubsystem.setScoringVoltages(0.0, 4.0, 0.0))
         ).whileFalse(
-            coralSubsystem.setPivotAngle(90)
+            coralSubsystem.setPivotAngle(78)
                 .andThen(coralSubsystem.setScoringVoltages(0.0, 1.0, 0.0))
         );
 
