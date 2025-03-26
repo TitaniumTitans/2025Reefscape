@@ -182,8 +182,8 @@ public class RobotContainer
     // Hopper
     driverController.rightTrigger().whileTrue(
         supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
-            .andThen(supersystem.runArmRollers(-1.5)
-                .alongWith(coralSubsystem.setScoringVoltages(4.0, 3.0, 3.0)))
+            .andThen(supersystem.runArmRollers(-2.0)
+                .alongWith(coralSubsystem.setScoringVoltages(6.0, 3.0, 3.0)))
     ).whileFalse(
         supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
             .andThen(supersystem.runArmRollers(0.0)

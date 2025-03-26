@@ -9,7 +9,7 @@ public class ArmConstants {
   public static final int LASER_CAN_ID = 27;
 
   public static final double PIVOT_GEAR_RATIO = (25.0) * (72.0 / 22.0);
-  public static final Rotation2d PIVOT_ENCODER_OFFSET = Rotation2d.fromRotations(-1.326416)
+  public static final Rotation2d PIVOT_ENCODER_OFFSET = Rotation2d.fromRotations(-1.278809)
       .plus(Rotation2d.fromDegrees(85));
 
   public static final double KP = 60.0;
