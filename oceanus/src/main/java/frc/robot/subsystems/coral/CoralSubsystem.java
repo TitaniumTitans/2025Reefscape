@@ -2,6 +2,7 @@ package frc.robot.subsystems.coral;
 
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -43,17 +44,28 @@ public class CoralSubsystem extends SubsystemBase {
 
   public Command resetPivotFactory() {
     return
-        run(() -> io.setPivotVoltage(1.0))
-            .until(() -> inputs.limitHit)
-            .withTimeout(0.5)
-            .andThen(
-                run(() -> io.setPivotVoltage(1.0))
-                    .until(() -> !inputs.limitHit))
-            .andThen(
-                run(() -> io.setPivotVoltage(-1.0))
-                    .until(() -> inputs.limitHit))
-            .andThen(runOnce(() -> io.setPivotVoltage(0.0)))
-            .andThen(runOnce(() -> io.resetPivot(90)));
+        defer(() -> {
+          Command command = Commands.none();
+          if (!inputs.limitHit) {
+            command = command.andThen(
+                setPivotVoltageFactory(1.0)
+                    .withTimeout(1.0)
+                    .andThen(setPivotVoltageFactory(-1.0))
+            ).until(() -> inputs.limitHit);
+          }
+
+          return command.andThen(
+              setPivotVoltageFactory(1.0)
+                  .until(() -> !inputs.limitHit)
+          ).andThen(
+              setPivotVoltageFactory(-1.0)
+                  .until(() -> inputs.limitHit)
+          ).andThen(
+              setPivotVoltageFactory(0.0)
+          ).andThen(
+              runOnce(() -> setPivotAngle(90.0))
+          );
+        });
   }
 }
 

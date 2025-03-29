@@ -258,7 +258,7 @@ public class DriveSubsystem extends SubsystemBase {
   public Pose2d getClosestClearance() {
     AlgaePositions closestAlgae = findClosestAlgae();
     return closestAlgae.m_pose.getPose()
-        .plus(new Transform2d(-0.7, 0.0, new Rotation2d()));
+        .plus(new Transform2d(-0.8, 0.0, new Rotation2d()));
   }
 
   @AutoLogOutput(key = "SwerveStates/Measured")

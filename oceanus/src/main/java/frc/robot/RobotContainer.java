@@ -69,6 +69,11 @@ public class RobotContainer
   private final AutoSelector autoSelector;
 
   private SwerveDriveSimulation driveSimulation;
+
+  private final Command scoreDriveLeft;
+  private final Command scoreDriveRight;
+  private final Command clearanceDrive;
+
   public RobotContainer()
   {
     Logger.recordOutput("Robot Mode", Constants.getMode());
@@ -141,6 +146,10 @@ public class RobotContainer
       }
     }
 
+    clearanceDrive = new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance);
+    scoreDriveLeft = new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(true));
+    scoreDriveRight = new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(false));
+
     supersystem = new Supersystem(elevatorSubsystem, armSubsystem);
     autoSelector = new AutoSelector(swerve, supersystem, coralSubsystem);
     configureBindings();
@@ -185,7 +194,7 @@ public class RobotContainer
     driverController.rightTrigger().whileTrue(
         supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
             .andThen(supersystem.runArmRollers(-1.5)
-                .alongWith(coralSubsystem.setScoringVoltages(3.0, 3.0, 3.0)))
+                .alongWith(coralSubsystem.setScoringVoltages(4.0, 4.0, 3.0)))
     ).whileFalse(
         supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
             .andThen(supersystem.runArmRollers(0.0)
@@ -239,11 +248,13 @@ public class RobotContainer
     driverController.x()
         .whileTrue(
             new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance)
+                .andThen(armMoveAutoScoreCommand())
                 .andThen(new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(true)))
         );
     driverController.y()
         .whileTrue(
             new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance)
+                .andThen(armMoveAutoScoreCommand())
                 .andThen(new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(false)))
         );
 
@@ -252,7 +263,8 @@ public class RobotContainer
         Commands.runOnce(() -> RobotState.getInstance().resetPose(new Pose2d()))
     );
     driverController.povUp()
-        .onTrue(coralSubsystem.resetPivotFactory());
+        .whileTrue(coralSubsystem.resetPivotFactory())
+        .whileFalse(coralSubsystem.setPivotVoltageFactory(0.0));
     driverController.povLeft()
         .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_LEFT::getPose));
     driverController.povDown()
@@ -290,10 +302,16 @@ public class RobotContainer
     );
     operatorController.povLeft()
         .onTrue(coralSubsystem.resetPivotFactory());
-    operatorController.povRight().whileTrue(AutoCommands.intakeUntilCoral(coralSubsystem, supersystem)
-            .andThen(AutoCommands.intakeStopCommand(coralSubsystem, supersystem)
-            ))
-            .whileFalse(AutoCommands.intakeStopCommand(coralSubsystem, supersystem));
+    operatorController.povRight()
+        .onTrue(Commands.defer(() -> {
+          Command supersystemCommand = Commands.none();
+          switch (RobotState.getInstance().getCoralLevel()) {
+            case L2 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L2);
+            case L3 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L3);
+            case L4 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L4);
+          }
+          return supersystemCommand;
+        }, Set.of(supersystem)));
 
     //climber controls
     operatorController.leftBumper()
@@ -329,7 +347,7 @@ public class RobotContainer
 
   public Command autoScoreCommand(boolean left) {
     return Commands.defer(() -> {
-      Pair<Command, Command> commandPair = swerve.autoAlignToClosest(left);
+      Command score = left ? scoreDriveLeft.asProxy() : scoreDriveRight.asProxy();
       Command supersystemCommand = Commands.none();
       switch (RobotState.getInstance().getCoralLevel()) {
         case L2 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L2);
@@ -342,15 +360,37 @@ public class RobotContainer
       }
 
       if (RobotState.getInstance().getCoralLevel() == L4) {
-        return commandPair.getFirst()
+        return clearanceDrive
             .andThen(supersystemCommand
                 .alongWith(Commands.waitUntil(supersystem::atSetpoint)))
-            .andThen(commandPair.getSecond());
+            .andThen(score);
       } else {
-        return commandPair.getFirst()
+        return clearanceDrive
             .andThen(supersystemCommand
-                .alongWith(commandPair.getSecond()));
+                .alongWith(score));
       }
     }, Set.of(swerve));
+  }
+
+  public Command armMoveAutoScoreCommand() {
+    return Commands.defer(() -> {
+      Command supersystemCommand = Commands.none();
+      switch (RobotState.getInstance().getCoralLevel()) {
+        case L2 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L2);
+        case L3 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L3);
+        case L4 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L4);
+      }
+
+      if (!RobotState.getInstance().useAuto()) {
+        return supersystemCommand;
+      }
+
+      if (RobotState.getInstance().getCoralLevel() == L4) {
+        return supersystemCommand
+                .alongWith(Commands.waitUntil(supersystem::atSetpoint));
+      } else {
+        return supersystemCommand;
+      }
+    }, Set.of());
   }
 }

@@ -12,10 +12,10 @@ public class ArmConstants {
   public static final Rotation2d PIVOT_ENCODER_OFFSET = Rotation2d.fromRotations(-1.278809)
       .plus(Rotation2d.fromDegrees(85));
 
-  public static final double KP = 60.0;
-  public static final double KI = 1.0;
+  public static final double KP = 50.0;
+  public static final double KI = 0.0;
   public static final double KD = 0.0;
-  public static final double KG = 0.355;
+  public static final double KG = 0.360;
 
   public static final Rotation2d ARM_HOME_SETPOINT = Rotation2d.fromDegrees(-75.0);
   public static final Rotation2d L2_SETPOINT = Rotation2d.fromDegrees(-60.0);

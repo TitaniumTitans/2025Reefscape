@@ -90,6 +90,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         || inputs.elevatorPositionMeters >= Units.inchesToMeters(ElevatorConstants.L4_SETPOINT - 5.0);
   }
 
+  @AutoLogOutput(key = "Elevator/At Setpoint")
   public boolean atSetpoint() {
     return atSetpoint(Units.metersToInches(elevatorGoal));
   }

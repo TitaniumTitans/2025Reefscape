@@ -67,6 +67,7 @@ public class Supersystem extends SubsystemBase {
     return armSubsystem.hasCoral();
   }
 
+  @AutoLogOutput(key = "Supersystem/At Setpoint")
   public boolean atSetpoint() {
     return armSubsystem.atSetpoint()
         && elevatorSubsystem.atSetpoint();
