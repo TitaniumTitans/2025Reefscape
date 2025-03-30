@@ -10,6 +10,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -248,12 +249,16 @@ public class RobotContainer
     driverController.x()
         .whileTrue(
             new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance)
+                .withTranslationalConstraints(
+                    Units.feetToMeters(12.0), Units.feetToMeters(12.0 / 0.125))
                 .andThen(armMoveAutoScoreCommand())
                 .andThen(new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(true)))
         );
     driverController.y()
         .whileTrue(
             new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance)
+                .withTranslationalConstraints(
+                    Units.feetToMeters(12.0), Units.feetToMeters(12.0 / 0.125))
                 .andThen(armMoveAutoScoreCommand())
                 .andThen(new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(false)))
         );
