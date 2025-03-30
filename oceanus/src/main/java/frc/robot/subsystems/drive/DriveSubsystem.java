@@ -76,8 +76,8 @@ public class DriveSubsystem extends SubsystemBase {
         this::getChassisSpeeds,
         (ChassisSpeeds speeds, DriveFeedforwards feedforwards) -> runVelocity(speeds, feedforwards),
         new PPHolonomicDriveController(
-            new PIDConstants(4.5, 0.0, 0.0),
-            new PIDConstants(4.5, 0.0, 0.0)
+            new PIDConstants(6.0, 0.0, 0.0), // 3.0, 0.03
+            new PIDConstants(6.0, 0.0, 0.0) // 3.0, 0.03
         ),
         ROBOT_CONFIG,
         () -> {

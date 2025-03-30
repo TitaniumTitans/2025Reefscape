@@ -38,7 +38,7 @@ public class DriveConstants {
   // Pathplanner stuff
   public static final double WHEEL_COF = 1.2;
 
-  public static final double XY_KP = 4.0;
+  public static final double XY_KP = 3.5;
   public static final double XY_KI = 0.0;
   public static final double XY_KD = 0.0;
 
@@ -83,8 +83,8 @@ public class DriveConstants {
 
   public static final ModuleConstants[] MODULE_CONSTANTS;
 
-  public static final double MAX_ALIGNMENT_LINEAR_VELOCITY = Units.feetToMeters(6.5);
-  public static final double MAX_ALIGNMENT_LINEAR_ACCELERATION = MAX_ALIGNMENT_LINEAR_VELOCITY / 0.125;
+  public static final double MAX_ALIGNMENT_LINEAR_VELOCITY = 4;
+  public static final double MAX_ALIGNMENT_LINEAR_ACCELERATION = 15;
   public static final Number MAX_ALIGNMENT_ANGULAR_VELOCITY = Units.degreesToRadians(400.0); // rads/sec
   public static final Number MAX_ALIGNMENT_ANGULAR_ACCELERATION = Units.degreesToRadians(900.0); // rads/sec/sec
 

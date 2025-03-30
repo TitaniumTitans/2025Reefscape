@@ -123,9 +123,9 @@ public class ElevatorIOKraken implements ElevatorIO {
 //    config.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(120);
 //    config.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(120);
     config.MotionMagic.MotionMagicCruiseVelocity =
-        Units.inchesToMeters(70.0) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
+        2 / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
     config.MotionMagic.MotionMagicAcceleration =
-        Units.inchesToMeters(70.0 * 5.0) / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI); // 100
+        5 / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI); // 100
     // 140
 
     config.Slot0.kP = ElevatorConstants.ELEVATOR_KP;

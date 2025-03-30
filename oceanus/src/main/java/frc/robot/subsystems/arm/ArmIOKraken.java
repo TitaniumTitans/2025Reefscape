@@ -82,6 +82,8 @@ public class ArmIOKraken implements ArmIO {
         rollerVoltageSignal,
         rollerCurrentSignal);
 
+    Logger.recordOutput("Arm/Raw Kraken Setpoint", Rotation2d.fromRotations(pivot.getClosedLoopReference().getValueAsDouble()));
+
     inputs.armAngle = Rotation2d.fromRotations(pivotPositionSignal.getValueAsDouble());
     inputs.absoluteArmAngle = Rotation2d.fromRotations(pivotAbsolutePositionSignal.getValueAsDouble());
     inputs.armVoltages = new double[] {
@@ -136,12 +138,14 @@ public class ArmIOKraken implements ArmIO {
     // max vel is 1.25 rev/s
 //    motorConfig.MotionMagic.MotionMagicCruiseVelocity = 1.25;
 //    motorConfig.MotionMagic.MotionMagicAcceleration = 1.25 / 0.125;
-    motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(350);
+    motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(370);
     motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(700);
 
     motorConfig.Slot0.kP = ArmConstants.KP;
     motorConfig.Slot0.kI = ArmConstants.KI;
     motorConfig.Slot0.kD = ArmConstants.KD;
+    motorConfig.Slot0.kV = ArmConstants.KV;
+    motorConfig.Slot0.kS = ArmConstants.KS;
     motorConfig.Slot0.kG = ArmConstants.KG;
     motorConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 

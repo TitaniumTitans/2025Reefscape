@@ -65,7 +65,7 @@ public class AutoCommands {
 
   public static Command intakeUntilCoral(CoralSubsystem coral, Supersystem supersystem) {
     return supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
-        .andThen(supersystem.runArmRollers(-1.5)
+        .andThen(supersystem.runArmRollers(-2.5)
             .alongWith(coral.setScoringVoltages(4.0, 3.0, 3.0)))
         .repeatedly()
         .until(supersystem::hasCoral);

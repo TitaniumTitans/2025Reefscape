@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.ScoreSequenceCommandGroup;
 import frc.robot.commands.auto.AutoCommands;
 import frc.robot.commands.auto.AutoSelector;
 import frc.robot.commands.swerve.SwerveDrivePIDToPose;
@@ -194,8 +195,8 @@ public class RobotContainer
     // Hopper
     driverController.rightTrigger().whileTrue(
         supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
-            .andThen(supersystem.runArmRollers(-1.5)
-                .alongWith(coralSubsystem.setScoringVoltages(4.0, 4.0, 3.0)))
+            .andThen(supersystem.runArmRollers(-2.5)
+                .alongWith(coralSubsystem.setScoringVoltages(4.0, 3.0, 3.0)))
     ).whileFalse(
         supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
             .andThen(supersystem.runArmRollers(0.0)
@@ -204,7 +205,7 @@ public class RobotContainer
     driverController.leftTrigger().whileTrue(
         supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
             .andThen(supersystem.runArmRollers(1.5)
-                .alongWith(coralSubsystem.setScoringVoltages(-4.0, -3.0, -3.0)))
+                .alongWith(coralSubsystem.setScoringVoltages(-4.0, -4.0, -3.0)))
     ).whileFalse(
         supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
             .andThen(supersystem.runArmRollers(0.0)
@@ -246,21 +247,21 @@ public class RobotContainer
         );
 
     // trigger auto alignment
+//    driverController.x()
+//        .whileTrue(
+//            new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance)
+//                .withTranslationalConstraints(
+//                    Units.feetToMeters(12.0), Units.feetToMeters(12.0 / 0.125))
+//                .andThen(armMoveAutoScoreCommand())
+//                .andThen(new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(true)))
+//        );
     driverController.x()
         .whileTrue(
-            new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance)
-                .withTranslationalConstraints(
-                    Units.feetToMeters(12.0), Units.feetToMeters(12.0 / 0.125))
-                .andThen(armMoveAutoScoreCommand())
-                .andThen(new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(true)))
+            new ScoreSequenceCommandGroup(swerve, supersystem, true)
         );
     driverController.y()
         .whileTrue(
-            new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance)
-                .withTranslationalConstraints(
-                    Units.feetToMeters(12.0), Units.feetToMeters(12.0 / 0.125))
-                .andThen(armMoveAutoScoreCommand())
-                .andThen(new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(false)))
+            new ScoreSequenceCommandGroup(swerve, supersystem, false)
         );
 
     // resets
@@ -339,6 +340,8 @@ public class RobotContainer
     tab.add("Zero Elevator", Commands.runOnce(() -> elevatorSubsystem.resetElevator(0.0)).ignoringDisable(true));
     tab.add("Zero Coral Pivot", coralSubsystem.resetPivotFactory());
     tab.add("Auto Hopper", AutoCommands.intakeUntilCoral(coralSubsystem, supersystem));
+
+    tab.add("StartRightE Path", AutoCommands.followChoreoPath("RightE"));
   }
     
   public Command getAutonomousCommand()

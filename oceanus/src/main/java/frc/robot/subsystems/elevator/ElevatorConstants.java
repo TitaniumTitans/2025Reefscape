@@ -12,10 +12,10 @@ public class ElevatorConstants {
   // pd = PN/pi
   public static final double SPOOL_DIAMETER_METERS = ((5.0 * 24.0) / Math.PI) / 1000;
 
-  public static final double ELEVATOR_KP = 38.0;
+  public static final double ELEVATOR_KP = 35.0;
   public static final double ELEVATOR_KI = 0.0;
   public static final double ELEVATOR_KD = 0.0;
-  public static final double ELEVATOR_KS = 0.1;
+  public static final double ELEVATOR_KS = 0.09;
   public static final double ELEVATOR_KG = 0.35;
 
   public static final GosDoubleProperty HOME_SETPOINT  =

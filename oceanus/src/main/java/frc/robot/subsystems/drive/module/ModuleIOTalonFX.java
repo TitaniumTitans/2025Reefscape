@@ -185,7 +185,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     motorConfig.Feedback.SensorToMechanismRatio = DriveConstants.DRIVE_GEAR_RATIO;
-    motorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 0.01;
+    motorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 0.0;
 
     motorConfig.CurrentLimits = new CurrentLimitsConfigs()
         .withSupplyCurrentLimitEnable(true)
@@ -199,7 +199,7 @@ public class ModuleIOTalonFX implements ModuleIO {
         .withKD(0.0)
         .withKS(0.15173) // 0.14957
         .withKV(0.69406) // 0.75649
-        .withKA(0.0); // 0.2
+        .withKA(0.0); // 0.25
 
     motorConfig.Slot1.withKP(62.5) // 0.05 0.075
         .withKD(0.0)
