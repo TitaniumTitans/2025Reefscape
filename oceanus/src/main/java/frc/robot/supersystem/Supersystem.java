@@ -10,6 +10,7 @@ import frc.robot.subsystems.arm.ArmConstants;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.elevator.ElevatorConstants;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
+import lombok.Getter;
 import lombok.Setter;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
@@ -32,6 +33,7 @@ public class Supersystem extends SubsystemBase {
 
   private final ArmSubsystem armSubsystem;
   @AutoLogOutput(key = "Supersystem State")
+  @Getter
   private SupersystemState desiredState = SupersystemState.DISABLED;
 
   @Setter
