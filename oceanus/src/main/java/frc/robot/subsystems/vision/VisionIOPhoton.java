@@ -61,7 +61,7 @@ public abstract class VisionIOPhoton implements VisionIO {
     public void updateInputs(VisionInputsAutoLogged inputs) {
         // Pass the camera name to the inputs
         inputs.cameraName = cameraName;
-
+        
         cameraToRobotTransform = robotToCameraTuneable.getTransform().inverse();
 
         List<PhotonPipelineResult> resultList = camera.getAllUnreadResults();
