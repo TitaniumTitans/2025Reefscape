@@ -73,28 +73,6 @@ public class AutoSelector {
             .andThen(AutoCommands.followChoreoPath("KHPLeft"))
     );
 
-    chooser.addOption("2L4LeftJKTele",
-        drive.resetPoseFactory(ChoreoUtils.getPathStartingPose("LeftJ").getPose())
-            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.L4))
-            .andThen(new SwerveDrivePIDToPose(drive, ChoreoPoses.J.getPose()))
-            // score
-            .andThen(supersystem.runArmRollers(3.0))
-            .andThen(Commands.waitSeconds(0.5))
-            .andThen(supersystem.runArmRollers(0.0))
-            // HP
-            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
-            .andThen(AutoCommands.followChoreoPath("JHPLeft"))
-            .andThen(AutoCommands.intakeUntilCoral(coral, supersystem))
-            .andThen(AutoCommands.intakeStopCommand(coral, supersystem))
-            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.L4))
-            .andThen(new SwerveDrivePIDToPose(drive, ChoreoPoses.K.getPose()))
-            .andThen(supersystem.runArmRollers(3.0))
-            .andThen(Commands.waitSeconds(0.5))
-            .andThen(supersystem.runArmRollers(0.0))
-            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
-            .andThen(new SwerveDrivePIDToPose(drive, ChoreoPoses.HUMAN_PLAYER_LEFT.getPose()))
-    );
-
     chooser.addOption("2L4RightED",
         AutoCommands.resetPoseAndFollowChoreoPath(drive, "RightE")
             // score
@@ -149,6 +127,41 @@ public class AutoSelector {
             // hp
             .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
             .andThen(AutoCommands.followChoreoPath("CHPRight"))
+            .andThen(AutoCommands.intakeUntilCoral(coral, supersystem))
+            .andThen(AutoCommands.intakeStopCommand(coral, supersystem))
+    );
+
+    chooser.addOption("3L4LeftJKL",
+        AutoCommands.resetPoseAndFollowChoreoPath(drive, "LeftJ")
+            // score
+            .andThen(supersystem.runArmRollers(3.0))
+            .andThen(Commands.waitSeconds(0.5))
+            .andThen(supersystem.runArmRollers(0.0))
+            // HP
+            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
+            .andThen(AutoCommands.followChoreoPath("JHPLeft"))
+            .andThen(AutoCommands.intakeUntilCoral(coral, supersystem))
+            .andThen(AutoCommands.intakeStopCommand(coral, supersystem))
+            // score
+            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.L4))
+            .andThen(AutoCommands.followChoreoPath("HPLeftK"))
+            .andThen(supersystem.runArmRollers(3.0))
+            .andThen(Commands.waitSeconds(0.5))
+            .andThen(supersystem.runArmRollers(0.0))
+            // hp
+            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
+            .andThen(AutoCommands.followChoreoPath("KHPLeft"))
+            .andThen(AutoCommands.intakeUntilCoral(coral, supersystem))
+            .andThen(AutoCommands.intakeStopCommand(coral, supersystem))
+            // score
+            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.L4))
+            .andThen(AutoCommands.followChoreoPath("HPLeftL"))
+            .andThen(supersystem.runArmRollers(3.0))
+            .andThen(Commands.waitSeconds(0.5))
+            .andThen(supersystem.runArmRollers(0.0))
+            // hp
+            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
+            .andThen(AutoCommands.followChoreoPath("LHPLeft"))
             .andThen(AutoCommands.intakeUntilCoral(coral, supersystem))
             .andThen(AutoCommands.intakeStopCommand(coral, supersystem))
     );

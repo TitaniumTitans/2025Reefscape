@@ -196,7 +196,7 @@ public class RobotContainer
     driverController.rightTrigger().whileTrue(
         supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
             .andThen(supersystem.runArmRollers(-2.5)
-                .alongWith(coralSubsystem.setScoringVoltages(4.0, 3.0, 3.0)))
+                .alongWith(coralSubsystem.setScoringVoltages(4.0, 4.0, 3.0)))
     ).whileFalse(
         supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
             .andThen(supersystem.runArmRollers(0.0)
@@ -239,10 +239,10 @@ public class RobotContainer
         );
     driverController.b()
         .whileTrue(
-            coralSubsystem.setPivotAngle(190)
+            coralSubsystem.setPivotAngle(185)
                 .andThen(coralSubsystem.setScoringVoltages(0.0, 4.0, 0.0))
         ).whileFalse(
-            coralSubsystem.setPivotAngle(78)
+            coralSubsystem.setPivotAngle(80)
                 .andThen(coralSubsystem.setScoringVoltages(0.0, 1.0, 0.0))
         );
 
@@ -274,7 +274,8 @@ public class RobotContainer
     driverController.povLeft()
         .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_LEFT::getPose));
     driverController.povDown()
-        .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_CENTER::getPose));
+        .whileTrue(coralSubsystem.setPivotVoltageFactory(-1.0))
+        .whileFalse(coralSubsystem.setPivotVoltageFactory(0.0));
     driverController.povRight()
         .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_RIGHT::getPose));
 

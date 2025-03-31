@@ -63,7 +63,7 @@ public class CoralSubsystem extends SubsystemBase {
           ).andThen(
               setPivotVoltageFactory(0.0)
           ).andThen(
-              runOnce(() -> setPivotAngle(90.0))
+              runOnce(() -> io.setPivotAngle(92.0))
           );
         });
   }
