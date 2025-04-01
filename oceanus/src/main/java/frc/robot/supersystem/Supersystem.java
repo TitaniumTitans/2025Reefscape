@@ -25,6 +25,7 @@ public class Supersystem extends SubsystemBase {
     L2,
     L3,
     L4,
+    L4_OVERRIDE,
     BARGE,
     ALGAE_L2,
     ALGAE_L3
@@ -82,6 +83,13 @@ public class Supersystem extends SubsystemBase {
         rollerVoltage = MathUtil.clamp(rollerVoltage, -0.75, 12.0);
       }
       armSubsystem.setArmRollerVoltage(rollerVoltage);
+
+      // L4 override takes all priority
+      if (desiredState == SupersystemState.L4_OVERRIDE) {
+        armSubsystem.setArmPosition(ArmConstants.L4_SETPOINT);
+        elevatorSubsystem.setElevatorSetpoint(() -> ElevatorConstants.L4_SETPOINT);
+        return;
+      }
 
       if (RobotState.getInstance().inCloseReefZone()) {
         return;

@@ -120,7 +120,7 @@
       <recent name="frc.robot" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.oceanus [build]">
+  <component name="RunManager" selected="Gradle.oceanus [simulateJava]">
     <configuration name="oceanus [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -279,29 +279,29 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Gradle.Clean Build &amp; Run Simulate Java" />
-      <item itemvalue="Gradle.Clean Build &amp; Deploy Robot for Debugging" />
       <item itemvalue="Gradle.Build &amp; Deploy Robot" />
-      <item itemvalue="Gradle.Build &amp; Run Simulate Java" />
       <item itemvalue="Gradle.Build &amp; Deploy Robot for Debugging" />
+      <item itemvalue="Gradle.Build &amp; Run Simulate Java" />
       <item itemvalue="Gradle.Build Robot" />
       <item itemvalue="Gradle.Clean" />
       <item itemvalue="Gradle.Clean Build &amp; Deploy Robot" />
+      <item itemvalue="Gradle.Clean Build &amp; Deploy Robot for Debugging" />
+      <item itemvalue="Gradle.Clean Build &amp; Run Simulate Java" />
       <item itemvalue="Gradle.Clean Build Robot" />
-      <item itemvalue="Gradle.oceanus [deploy]" />
       <item itemvalue="Gradle.oceanus [build]" />
+      <item itemvalue="Gradle.oceanus [deploy]" />
       <item itemvalue="Gradle.oceanus [simulateJava]" />
       <item itemvalue="Gradle.tethys [build]" />
       <item itemvalue="Gradle.tethys [deploy]" />
-      <item itemvalue="JAR Application.Launch SmartDashboard" />
       <item itemvalue="JAR Application.Launch Shuffleboard" />
+      <item itemvalue="JAR Application.Launch SmartDashboard" />
       <item itemvalue="Remote JVM Debug.Debug Robot via IP" />
       <item itemvalue="Remote JVM Debug.Debug Robot via USB" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.oceanus [build]" />
         <item itemvalue="Gradle.oceanus [simulateJava]" />
+        <item itemvalue="Gradle.oceanus [build]" />
         <item itemvalue="Gradle.oceanus [deploy]" />
         <item itemvalue="Gradle.tethys [deploy]" />
         <item itemvalue="Gradle.tethys [build]" />
