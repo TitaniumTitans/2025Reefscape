@@ -1,0 +1,11 @@
+
+[
+java:S1612M">Replace this lambda with method reference 'this::runVelocity'.(°ƒ¯8Œ½æß2
+P
+java:S1611r"3Remove the parentheses around the "state" parameter(é‰¯ô8“½æß2
+W
+java:S1611t"5Remove the parentheses around the "voltage" parameter(œ´™§ÿÿÿÿÿ8”½æß2
+>
+java:S3878"Remove this array creation.(ÈèÍøÿÿÿÿ8˜½æß2
+c
+java:S1128"GRemove this unused import 'frc.robot.commands.swerve.AutoDriveCommand'.(û¤i8É½æß2

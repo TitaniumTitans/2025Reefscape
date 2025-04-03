@@ -337,11 +337,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public Command resetPoseFactory(Pose2d pose) {
-    return runOnce(() -> resetPose(pose));
+    return resetPoseFactory(() -> pose);
   }
 
   public Command resetPoseFactory(Supplier<Pose2d> pose) {
-    return resetPoseFactory(pose.get());
+    return runOnce(() -> resetPose(pose.get()));
   }
 
   /** Returns a command to run a quasistatic test in the specified direction. */

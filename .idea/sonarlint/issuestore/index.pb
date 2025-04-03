@@ -49,3 +49,13 @@ l
 <oceanus/src/main/java/frc/robot/supersystem/Supersystem.java,7\5\750f8b501e04cd9263d0ed996404229a91e671ec
 o
 ?oceanus/src/main/java/frc/robot/commands/auto/AutoCommands.java,9\1\915fad17626a036b06800b064a551a1e28676b5f
+r
+Boceanus/src/main/java/frc/robot/subsystems/coral/CoralIOTalon.java,d\4\d4ca875e527800707a763781728160fc9020b22d
+p
+@oceanus/src/main/java/frc/robot/subsystems/arm/ArmConstants.java,6\8\6867bb3fae9eac61dd54eb7c20be048c03d29bcb
+e
+5oceanus/src/main/java/frc/robot/util/ChoreoUtils.java,e\b\ebdb28d19ec940f2c12b28c48faf32d53a026e04
+l
+<oceanus/src/main/java/frc/robot/util/MaybeFlippedPose2d.java,7\d\7d5bad9ffbbe063c9296d84a80054e9914082306
+t
+Doceanus/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java,6\9\695cfe21c806e1fe81b94fadc9fcc7f7b5ced101

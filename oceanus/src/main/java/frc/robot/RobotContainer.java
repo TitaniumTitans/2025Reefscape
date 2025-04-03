@@ -196,7 +196,7 @@ public class RobotContainer
     driverController.rightTrigger().whileTrue(
         supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
             .andThen(supersystem.runArmRollers(-2.5)
-                .alongWith(coralSubsystem.setScoringVoltages(4.0, 4.0, 3.0)))
+                .alongWith(coralSubsystem.setScoringVoltages(5.0, 3.0, 2.5)))
     ).whileFalse(
         supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
             .andThen(supersystem.runArmRollers(0.0)
@@ -232,7 +232,7 @@ public class RobotContainer
     driverController.a()
         .whileTrue(
             coralSubsystem.setPivotAngle(78)
-                .andThen(coralSubsystem.setScoringVoltages(0.0, -3.0, 0.0))
+                .andThen(coralSubsystem.setScoringVoltages(0.0, -2.0, 0.0))
         ).whileFalse(
             coralSubsystem.setPivotAngle(78)
                 .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))
@@ -242,7 +242,7 @@ public class RobotContainer
             coralSubsystem.setPivotAngle(185)
                 .andThen(coralSubsystem.setScoringVoltages(0.0, 4.0, 0.0))
         ).whileFalse(
-            coralSubsystem.setPivotAngle(80)
+            coralSubsystem.setPivotAngle(93)
                 .andThen(coralSubsystem.setScoringVoltages(0.0, 1.0, 0.0))
         );
 
@@ -297,6 +297,8 @@ public class RobotContainer
     // manual setpoints
     operatorController.leftTrigger()
         .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.HOME));
+    operatorController.rightTrigger()
+        .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.L4_OVERRIDE));
     operatorController.a()
         .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.BARGE));
 
@@ -308,17 +310,12 @@ public class RobotContainer
         supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L2)
     );
     operatorController.povLeft()
-        .onTrue(coralSubsystem.resetPivotFactory());
+        .whileTrue(coralSubsystem.resetPivotFactory())
+        .whileFalse(coralSubsystem.setPivotVoltageFactory(0.0));
     operatorController.povRight()
-        .onTrue(Commands.defer(() -> {
-          Command supersystemCommand = Commands.none();
-          switch (RobotState.getInstance().getCoralLevel()) {
-            case L2 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L2);
-            case L3 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L3);
-            case L4 -> supersystemCommand = supersystem.setDesiredState(Supersystem.SupersystemState.L4);
-          }
-          return supersystemCommand;
-        }, Set.of(supersystem)));
+        .whileTrue(coralSubsystem.setPivotVoltageFactory(-1.0))
+        .whileFalse(coralSubsystem.setPivotVoltageFactory(0.0));
+
 
     //climber controls
     operatorController.leftBumper()
