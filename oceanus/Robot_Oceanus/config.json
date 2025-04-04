@@ -1,0 +1,114 @@
+{
+  "name": "4467 Oceanus",
+  "sourceUrl": "https://cad.onshape.com/documents/7bc29be4342772fc741ea201/w/72d85fa68f0e9d0ce28c624b/e/033aff10bbfab8525e72a496",
+  "rotations": [
+    {
+      "axis": "x",
+      "degrees": 0
+    },
+    {
+      "axis" : "y",
+      "degrees": 180
+    },
+    {
+      "axis": "z",
+      "degrees": -90
+    }
+  ],
+  "position": [
+    -0.005, 
+    -0.02, 
+    0.0
+  ],
+  "cameras": [],
+  "components": [
+	{
+	  "zeroedRotations": [
+		{
+		  "axis": "x",
+		  "degrees": 0
+		},
+		{
+		  "axis": "y",
+		  "degrees": 180
+		},
+		{
+		  "axis": "z",
+		  "degrees": -90
+		}
+	  ],
+	  
+	  "zeroedPosition": [
+		0.0,
+		-0.02,
+		-0.59
+	  ]
+	},
+	{
+	  "zeroedRotations": [
+		{
+		  "axis": "x",
+		  "degrees": 0
+		},
+		{
+		  "axis": "y",
+		  "degrees": 180
+		},
+		{
+		  "axis": "z",
+		  "degrees": -90
+		}
+	  ],
+		
+	  "zeroedPosition": [
+	    0.0,
+	    -0.02,
+		-1.75
+	  ]
+	},
+	{
+	  "zeroedRotations": [
+		{
+		  "axis": "x",
+		  "degrees": 180
+		},
+		{
+		  "axis": "y",
+		  "degrees": 0
+		},
+		{
+		  "axis": "z",
+		  "degrees": 90
+		}
+	  ],
+		
+	  "zeroedPosition": [
+	    0.0,
+	    0.29,
+		-0.2
+	  ]
+	},
+	{
+	  "zeroedRotations": [
+		{
+		  "axis": "x",
+		  "degrees": 0
+		},
+		{
+		  "axis": "y",
+		  "degrees": 180
+		},
+		{
+		  "axis": "z",
+		  "degrees": -90
+		}
+	  ],
+		
+	  "zeroedPosition": [
+	    -0.325,
+	    0.0,
+		-0.225
+	  ]
+	}
+  ]
+}
