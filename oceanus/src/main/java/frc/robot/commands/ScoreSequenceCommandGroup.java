@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotState;
 import frc.robot.commands.swerve.SwerveDrivePIDToPose;
@@ -20,7 +21,7 @@ public class ScoreSequenceCommandGroup extends SequentialCommandGroup {
 
     addCommands(
         new WaitUntilCommand(() -> isClear(supersystem))
-            .deadlineFor(new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance))
+            .alongWith(new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance))
             .alongWith(armMoveAutoScoreCommand(supersystem)),
         new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(left))
     );
@@ -56,6 +57,6 @@ public class ScoreSequenceCommandGroup extends SequentialCommandGroup {
     } else if (coralLevel == RobotState.CoralLevel.L4) {
       goalState = Supersystem.SupersystemState.L4;
     }
-    return supersystem.atSetpoint() && supersystem.getDesiredState() == goalState;
+    return supersystem.atSetpoint();// && supersystem.getDesiredState() == goalState;
   }
 }
