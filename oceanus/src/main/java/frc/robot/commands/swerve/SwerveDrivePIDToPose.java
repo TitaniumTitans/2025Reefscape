@@ -140,7 +140,8 @@ public class SwerveDrivePIDToPose extends Command {
         controller.getOutput().vyMetersPerSecond,
         controller.getOutput().omegaRadiansPerSecond));
 
-    Logger.recordOutput("Alignment/Target", targetPose);
+//    Logger.recordOutput("Alignment/Target", targetPose);
+    Logger.recordOutput("Alignment/Target", new Pose2d(translationSetpoint.get().getTranslation2d(), targetPose.getRotation()));
     Logger.recordOutput("Alignment/Target X", targetPose.getX());
     Logger.recordOutput("Alignment/Target Y", targetPose.getY());
     Logger.recordOutput("Alignment/Target Theta", targetPose.getRotation());

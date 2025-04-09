@@ -20,7 +20,7 @@ public class ScoreSequenceCommandGroup extends SequentialCommandGroup {
 
     addCommands(
         new WaitUntilCommand(() -> isClear(supersystem))
-            .alongWith(new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance))
+            .deadlineFor(new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance))
             .alongWith(armMoveAutoScoreCommand(supersystem)),
         new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(left))
     );
@@ -56,6 +56,6 @@ public class ScoreSequenceCommandGroup extends SequentialCommandGroup {
     } else if (coralLevel == RobotState.CoralLevel.L4) {
       goalState = Supersystem.SupersystemState.L4;
     }
-    return supersystem.atSetpoint();// && supersystem.getDesiredState() == goalState;
+    return supersystem.atSetpoint() && supersystem.getDesiredState() == goalState;
   }
 }
