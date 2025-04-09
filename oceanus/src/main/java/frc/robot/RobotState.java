@@ -133,7 +133,7 @@ public class RobotState {
           },
           new Pose2d(),
           VecBuilder.fill(0.01, 0.01, 0.02),
-          VecBuilder.fill(0.08, 0.08, 0.03)
+          VecBuilder.fill(0.05, 0.05, 0.03)
       );
 
   // used to filter vision measurements into odometry estimation

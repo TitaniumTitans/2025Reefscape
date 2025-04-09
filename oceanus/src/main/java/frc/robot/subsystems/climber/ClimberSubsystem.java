@@ -31,4 +31,11 @@ public class ClimberSubsystem extends SubsystemBase {
         },
         () -> setClimberVoltage(0.0));
   }
+
+  public Command setClimberPosition(double degrees) {
+    return runEnd(
+        () -> io.setPosititon(degrees),
+        () -> io.setMotorVoltage(0.0)
+    );
+  }
 }

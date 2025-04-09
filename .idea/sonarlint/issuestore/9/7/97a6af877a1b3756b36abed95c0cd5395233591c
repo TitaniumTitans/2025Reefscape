@@ -1,14 +1,15 @@
 
-]	java:S125e"<This block of commented-out lines of code should be removed.(™§‚þÿÿÿÿ8á‰Ñßß2
+]	java:S125e"<This block of commented-out lines of code should be removed.(™§‚þÿÿÿÿ8§Õ†“á2
 i
-java:S3252¬"FUse static access with "edu.wpi.first.wpilibj.RobotBase" for "isReal".(”ìšôþÿÿÿÿ8”ŠÑßß2
-^	java:S125º"<This block of commented-out lines of code should be removed.(¼è÷ïøÿÿÿÿ8˜ŠÑßß2
-^	java:S125¿"<This block of commented-out lines of code should be removed.(¼è÷ïøÿÿÿÿ8˜ŠÑßß2
-^	java:S125"<This block of commented-out lines of code should be removed.(¼è÷ïøÿÿÿÿ8§ŠÑßß2
+java:S3252¬"FUse static access with "edu.wpi.first.wpilibj.RobotBase" for "isReal".(”ìšôþÿÿÿÿ8ÌÕ†“á2
+^	java:S125º"<This block of commented-out lines of code should be removed.(¼è÷ïøÿÿÿÿ8ÏÕ†“á2
+^	java:S125¿"<This block of commented-out lines of code should be removed.(¼è÷ïøÿÿÿÿ8ÏÕ†“á2
+^	java:S125"<This block of commented-out lines of code should be removed.(¼è÷ïøÿÿÿÿ8ÖÕ†“á2
+^	java:S125Æ"<This block of commented-out lines of code should be removed.(¼è÷ïøÿÿÿÿ8ßÕ†“á2
 Q
 java:S1128
-"4Remove this unused import 'edu.wpi.first.math.Pair'.(¯Çïû8Ò…¤ëß2
+"4Remove this unused import 'edu.wpi.first.math.Pair'.(¯Çïû8ëÕ†“á2
 \
-java:S1128":Remove this unused import 'edu.wpi.first.math.util.Units'.(’Ð¢¥þÿÿÿÿ8Ó…¤ëß2
+java:S1128":Remove this unused import 'edu.wpi.first.math.util.Units'.(’Ð¢¥þÿÿÿÿ8ìÕ†“á2
 T
-java:S1068>"2Remove this unused "algaeSubsystem" private field.(ƒœ—Ðüÿÿÿÿ8ðŠÑßß2
+java:S1068>"2Remove this unused "algaeSubsystem" private field.(ƒœ—Ðüÿÿÿÿ8íÕ†“á2

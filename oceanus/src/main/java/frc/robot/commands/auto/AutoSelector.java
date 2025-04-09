@@ -41,16 +41,13 @@ public class AutoSelector {
         AutoCommands.resetPoseAndFollowChoreoPath(drive, "CenterG")
             .andThen(supersystem.runArmRollers(3.0))
             .andThen(Commands.waitSeconds(1.0))
-            .andThen(supersystem.runArmRollers(0.0))
-            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
-            .andThen(AutoCommands.followChoreoPath("GCenter")));
+            .andThen(supersystem.runArmRollers(0.0)));
+
     chooser.addOption("1L4CenterH",
         AutoCommands.resetPoseAndFollowChoreoPath(drive, "CenterH")
             .andThen(supersystem.runArmRollers(3.0))
             .andThen(Commands.waitSeconds(1.0))
-            .andThen(supersystem.runArmRollers(0.0))
-            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
-            .andThen(AutoCommands.followChoreoPath("HCenter")));
+            .andThen(supersystem.runArmRollers(0.0)));
 
     // Two piece
     chooser.addOption("2L4LeftJK",

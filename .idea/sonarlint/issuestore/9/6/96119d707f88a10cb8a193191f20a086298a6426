@@ -1,5 +1,13 @@
 
 j
-java:S1192"HDefine a constant instead of duplicating this literal "JHPLeft" 4 times.(—Îõïøÿÿÿÿ8’ûà¬Û2
+java:S1192"HDefine a constant instead of duplicating this literal "JHPLeft" 4 times.(—Îõïøÿÿÿÿ8Ø¿ÈŠà2
 h
-java:S1192"FDefine a constant instead of duplicating this literal "LeftJ" 4 times.(ƒÖÅ‚ÿÿÿÿÿ8’ûà¬Û2
+java:S1192"FDefine a constant instead of duplicating this literal "LeftJ" 4 times.(ƒÖÅ‚ÿÿÿÿÿ8Ù¿ÈŠà2
+f
+java:S1128"DRemove this unused import 'com.pathplanner.lib.events.EventTrigger'.(¤§ê†ÿÿÿÿÿ8®ÀÈŠà2
+T
+java:S1128"2Remove this unused import 'frc.robot.ChoreoPoses'.(´ÏÁÆùÿÿÿÿ8®ÀÈŠà2
+h
+java:S1128"KRemove this unused import 'frc.robot.commands.swerve.SwerveDrivePIDToPose'.(ü®”ç8¯ÀÈŠà2
+T
+java:S1128"7Remove this unused import 'frc.robot.util.ChoreoUtils'.(û±¤8¯ÀÈŠà2

@@ -27,7 +27,7 @@ public class ArmIOKraken implements ArmIO {
   private final CANcoder pivotEncoder;
   private final LaserCan laserCan;
 
-  private final Debouncer debouncer = new Debouncer(0.25);
+  private final Debouncer debouncer = new Debouncer(0.4);
 
   private final MotionMagicVoltage mmControl;
 

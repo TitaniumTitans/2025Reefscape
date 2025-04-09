@@ -78,7 +78,7 @@ public class ClimberIOKraken implements ClimberIO{
     climberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     climberConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     climberConfig.Feedback.SensorToMechanismRatio = ClimberConstants.CLIMBER_GEAR_RATIO;
-    climberConfig.Slot0.kP = 0.0;
+    climberConfig.Slot0.kP = 100.0;
     climberConfig.Slot0.kI = 0.0;
     climberConfig.Slot0.kD = 0.0;
 

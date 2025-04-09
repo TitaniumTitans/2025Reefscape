@@ -105,7 +105,7 @@ public class RobotContainer
 
         visionSubsystem = new VisionSubsystem(
             VisionConstants.FILTER_PARAMETERS,
-//            new VisionIOPhotonReal("RightCamera", VisionConstants.RIGHT_CAMERA_TRANSFORM, tagFieldLayout),
+            new VisionIOPhotonReal("RightCamera", VisionConstants.RIGHT_CAMERA_TRANSFORM, tagFieldLayout),
             new VisionIOPhotonReal("LeftCamera", VisionConstants.LEFT_CAMERA_TRANSFORM, tagFieldLayout)
         );
       }
@@ -195,8 +195,8 @@ public class RobotContainer
     // Hopper
     driverController.rightTrigger().whileTrue(
         supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
-            .andThen(supersystem.runArmRollers(-2.5)
-                .alongWith(coralSubsystem.setScoringVoltages(5.0, 3.0, 2.5)))
+            .andThen(supersystem.runArmRollers(-3.5)
+                .alongWith(coralSubsystem.setScoringVoltages(6.0, 3.0, 2.5)))
     ).whileFalse(
         supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
             .andThen(supersystem.runArmRollers(0.0)
@@ -231,10 +231,10 @@ public class RobotContainer
     // ground intake
     driverController.a()
         .whileTrue(
-            coralSubsystem.setPivotAngle(78)
-                .andThen(coralSubsystem.setScoringVoltages(0.0, -2.0, 0.0))
+            coralSubsystem.setPivotAngle(93)
+                .andThen(coralSubsystem.setScoringVoltages(0.0, -2.5, 0.0))
         ).whileFalse(
-            coralSubsystem.setPivotAngle(78)
+            coralSubsystem.setPivotAngle(93)
                 .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))
         );
     driverController.b()
@@ -310,23 +310,25 @@ public class RobotContainer
         supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L2)
     );
     operatorController.povLeft()
-        .whileTrue(coralSubsystem.resetPivotFactory())
-        .whileFalse(coralSubsystem.setPivotVoltageFactory(0.0));
+        .whileTrue(climberSubsystem.setClimberPowerFactory(-3.0))
+        .whileFalse(climberSubsystem.setClimberPowerFactory(0.0));
     operatorController.povRight()
         .whileTrue(coralSubsystem.setPivotVoltageFactory(-1.0))
         .whileFalse(coralSubsystem.setPivotVoltageFactory(0.0));
 
 
     //climber controls
+//    operatorController.leftBumper()
+//        .whileTrue(
+//            climberSubsystem.setClimberPowerFactory(5.0)
+//        ).whileFalse(
+//            climberSubsystem.setClimberPowerFactory(0.0)
+//        );
     operatorController.leftBumper()
-        .whileTrue(
-            climberSubsystem.setClimberPowerFactory(3.0)
-        ).whileFalse(
-            climberSubsystem.setClimberPowerFactory(0.0)
-        );
+            .whileTrue(climberSubsystem.setClimberPosition(170));
     operatorController.rightBumper()
         .whileTrue(
-            climberSubsystem.setClimberPowerFactory(-3.0)
+            climberSubsystem.setClimberPowerFactory(3.0)
         ).whileFalse(
             climberSubsystem.setClimberPowerFactory(0.0)
         );
