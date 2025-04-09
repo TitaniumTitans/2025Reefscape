@@ -279,8 +279,14 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   @AutoLogOutput(key = "SwerveSpeeds/Measured")
-  private ChassisSpeeds getChassisSpeeds() {
+  public ChassisSpeeds getChassisSpeeds() {
     return kinematics.toChassisSpeeds(getModuleStates());
+  }
+
+  public ChassisSpeeds getFieldRelativeSpeeds() {
+    return ChassisSpeeds.fromRobotRelativeSpeeds(
+        kinematics.toChassisSpeeds(getModuleStates()),
+        RobotState.getInstance().getRotation());
   }
 
   public double[] getWheelRadiusCharacterizationPositions() {

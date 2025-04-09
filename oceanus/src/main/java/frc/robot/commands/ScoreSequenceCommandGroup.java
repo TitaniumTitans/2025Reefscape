@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotState;
 import frc.robot.commands.swerve.SwerveDrivePIDToPose;
+import frc.robot.commands.swerve.SwerveDrivePPToPose;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.supersystem.Supersystem;
 
@@ -19,11 +20,18 @@ public class ScoreSequenceCommandGroup extends SequentialCommandGroup {
       Supersystem supersystem,
       boolean left) {
 
+//    addCommands(
+//        new WaitUntilCommand(() -> isClear(supersystem))
+//            .alongWith(new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance))
+//            .alongWith(armMoveAutoScoreCommand(supersystem)),
+//        new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(left))
+//    );
+
     addCommands(
         new WaitUntilCommand(() -> isClear(supersystem))
-            .alongWith(new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance))
+            .deadlineFor(new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance))
             .alongWith(armMoveAutoScoreCommand(supersystem)),
-        new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(left))
+        new SwerveDrivePPToPose(swerve, () -> swerve.getClosestBranch(left)).getDriveCommand()
     );
   }
 

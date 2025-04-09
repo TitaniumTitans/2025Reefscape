@@ -2,6 +2,7 @@ package frc.robot.subsystems.drive;
 
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -51,6 +52,15 @@ public class DriveConstants {
   public static final TrapezoidProfile.Constraints THETA_CONSTRAINTS =
       new TrapezoidProfile.Constraints(4.5 * Math.PI, 4.5 * Math.PI); // rad/s, rad/s^2
 
+  public static final double MAX_ALIGNMENT_LINEAR_VELOCITY = 4;
+  public static final double MAX_ALIGNMENT_LINEAR_ACCELERATION = 15;
+  public static final Number MAX_ALIGNMENT_ANGULAR_VELOCITY = Units.degreesToRadians(400.0); // rads/sec
+  public static final Number MAX_ALIGNMENT_ANGULAR_ACCELERATION = Units.degreesToRadians(900.0); // rads/sec/sec
+
+  public static PathConstraints CONSTRAINTS =
+       new PathConstraints(Units.feetToMeters(4.25), Units.feetToMeters(4.25),
+           MAX_ALIGNMENT_ANGULAR_VELOCITY.doubleValue(), MAX_ALIGNMENT_ANGULAR_ACCELERATION.doubleValue());
+
   public static final DriveTrainSimulationConfig MAPLE_SIM_CONFIG = DriveTrainSimulationConfig.Default()
       .withCustomModuleTranslations(MODULE_TRANSLATIONS)
       .withRobotMass(Pounds.of(115))
@@ -82,11 +92,6 @@ public class DriveConstants {
   );
 
   public static final ModuleConstants[] MODULE_CONSTANTS;
-
-  public static final double MAX_ALIGNMENT_LINEAR_VELOCITY = 4;
-  public static final double MAX_ALIGNMENT_LINEAR_ACCELERATION = 15;
-  public static final Number MAX_ALIGNMENT_ANGULAR_VELOCITY = Units.degreesToRadians(400.0); // rads/sec
-  public static final Number MAX_ALIGNMENT_ANGULAR_ACCELERATION = Units.degreesToRadians(900.0); // rads/sec/sec
 
 
   static {
