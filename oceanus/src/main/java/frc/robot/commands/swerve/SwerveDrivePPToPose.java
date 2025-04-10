@@ -6,6 +6,7 @@ import com.pathplanner.lib.path.IdealStartingState;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.Waypoint;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.RobotState;
@@ -35,7 +36,7 @@ public class SwerveDrivePPToPose {
   public Command getDriveCommand() {
     return Commands.defer( () -> {
       List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
-          RobotState.getInstance().getEstimatedPose(),
+          new Pose2d(RobotState.getInstance().getEstimatedPose().getTranslation(), pointAt()),
           poseSupplier.get()
       );
       path = new PathPlannerPath(
@@ -44,11 +45,19 @@ public class SwerveDrivePPToPose {
           new IdealStartingState(
               Math.hypot(driveSubsystem.getFieldRelativeSpeeds().vxMetersPerSecond,
                   driveSubsystem.getFieldRelativeSpeeds().vyMetersPerSecond),
-              poseSupplier.get().getRotation()),
+              RobotState.getInstance().getRotation()),
           new GoalEndState(0.0, poseSupplier.get().getRotation())
       );
 
       return AutoBuilder.followPath(path);
     }, Set.of(driveSubsystem));
+  }
+
+  public Rotation2d pointAt() {
+    return pointAt(RobotState.getInstance().getEstimatedPose(), poseSupplier.get());
+  }
+
+  public Rotation2d pointAt(Pose2d start, Pose2d end) {
+    return Rotation2d.fromRadians(Math.atan2(end.getY() - start.getY(), end.getX() - start.getX()));
   }
 }

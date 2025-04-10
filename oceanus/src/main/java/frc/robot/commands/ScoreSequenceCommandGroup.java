@@ -65,6 +65,6 @@ public class ScoreSequenceCommandGroup extends SequentialCommandGroup {
     } else if (coralLevel == RobotState.CoralLevel.L4) {
       goalState = Supersystem.SupersystemState.L4;
     }
-    return supersystem.atSetpoint();// && supersystem.getDesiredState() == goalState;
+    return supersystem.atSetpoint(coralLevel);// && supersystem.getDesiredState() == goalState;
   }
 }

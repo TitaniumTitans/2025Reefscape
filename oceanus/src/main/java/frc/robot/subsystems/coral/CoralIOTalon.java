@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.util.PhoenixUtil;
+import org.photonvision.PhotonUtils;
 
 public class CoralIOTalon implements CoralIO {
   private final TalonFX pivot;
@@ -96,6 +97,11 @@ public class CoralIOTalon implements CoralIO {
   public void configureDevices() {
     var motorConfig = new TalonFXConfiguration();
 
+    motorConfig.CurrentLimits.SupplyCurrentLimit = 70;
+    motorConfig.CurrentLimits.StatorCurrentLimit = 140;
+
+    PhoenixUtil.tryUntilOk(5, () -> outerCoral.getConfigurator().apply(motorConfig));
+
     motorConfig.Feedback.SensorToMechanismRatio = CoralConstants.PIVOT_GEAR_RATIO;
 
     motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -111,8 +117,8 @@ public class CoralIOTalon implements CoralIO {
     motorConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
     motorConfig.MotionMagic.MotionMagicAcceleration = 5;
 
-    motorConfig.CurrentLimits.SupplyCurrentLimit = 40;
-    motorConfig.CurrentLimits.StatorCurrentLimit = 60;
+    motorConfig.CurrentLimits.SupplyCurrentLimit = 60;
+    motorConfig.CurrentLimits.StatorCurrentLimit = 80;
 
     PhoenixUtil.tryUntilOk(5, () -> pivot.getConfigurator().apply(motorConfig));
   }

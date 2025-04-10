@@ -76,6 +76,25 @@ public class Supersystem extends SubsystemBase {
         && elevatorSubsystem.atSetpoint();
   }
 
+  public boolean atSetpoint(RobotState.CoralLevel coralLevel) {
+    switch (coralLevel) {
+      case L2 -> {
+        return armSubsystem.atSetpoint(ArmConstants.L2_SETPOINT.getDegrees())
+            && elevatorSubsystem.atSetpoint(ElevatorConstants.L2_SETPOINT.getValue());
+      }
+      case L3 -> {
+        return armSubsystem.atSetpoint(ArmConstants.L3_SETPOINT.getDegrees())
+            && elevatorSubsystem.atSetpoint(ElevatorConstants.L3_SETPOINT.getValue());
+      }
+      case L4 -> {
+        return armSubsystem.atSetpoint(ArmConstants.L4_SETPOINT.getDegrees())
+            && elevatorSubsystem.atSetpoint(ElevatorConstants.L4_SETPOINT);
+      }
+    }
+
+    return false;
+  }
+
   public Command periodicCommand() {
     return Commands.run(() -> {
       // run arm roller
