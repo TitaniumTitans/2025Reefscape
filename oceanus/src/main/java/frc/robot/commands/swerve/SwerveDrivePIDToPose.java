@@ -118,8 +118,9 @@ public class SwerveDrivePIDToPose extends Command {
                 RobotState.getInstance().getEstimatedPose().getTranslation()
                     .plus(
                         new Translation2d(
-                            swerve.getFieldRelativeSpeeds().vxMetersPerSecond * 0.2,
-                            swerve.getFieldRelativeSpeeds().vyMetersPerSecond * 0.2
+                            swerve.getFieldRelativeSpeeds().vxMetersPerSecond * 0.18,
+                            swerve.getFieldRelativeSpeeds().vyMetersPerSecond * 0.18[]\
+    
                         )
                     )),
             Vector2D.kOrigin));
