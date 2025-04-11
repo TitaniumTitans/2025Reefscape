@@ -29,7 +29,7 @@ public class SwerveDrivePIDToPose extends Command {
 
   private final DriveSubsystem swerve;
 
-  private final HolonomicController controller;
+  private HolonomicController controller;
   private final Supplier<Pose2d> pose2dSupplier;
   private Pose2d targetPose;
 
@@ -94,6 +94,15 @@ public class SwerveDrivePIDToPose extends Command {
     return this;
   }
 
+  public SwerveDrivePIDToPose withClosedLoopGains(double kp, double ki, double kd) {
+    controller = new HolonomicController(
+        new PIDController(kp, ki, kd).add(new MotorFeedforward(0, 0, 0).position()),
+        new PIDController(kp, ki, kd).add(new MotorFeedforward(0, 0, 0).position()),
+        new AnglePIDController(DriveConstants.THETA_KP, DriveConstants.THETA_KI, DriveConstants.THETA_KD)
+            .setSetpointFilter(new AMotionProfile(DriveConstants.MAX_ALIGNMENT_ANGULAR_VELOCITY, DriveConstants.MAX_ALIGNMENT_ANGULAR_ACCELERATION)));
+    return this;
+  }
+
   public SwerveDrivePIDToPose withoutMotionProfile() {
     this.translationSetpoint = VStream.create(() -> new Vector2D(pose2dSupplier.get().getTranslation()));
     return this;
@@ -105,7 +114,14 @@ public class SwerveDrivePIDToPose extends Command {
         .filtered(new TranslationMotionProfileIan(
             this.maxVelocity,
             this.maxAcceleration,
-            new Vector2D(RobotState.getInstance().getEstimatedPose().getTranslation()),
+            new Vector2D(
+                RobotState.getInstance().getEstimatedPose().getTranslation()
+                    .plus(
+                        new Translation2d(
+                            swerve.getFieldRelativeSpeeds().vxMetersPerSecond * 0.2,
+                            swerve.getFieldRelativeSpeeds().vyMetersPerSecond * 0.2
+                        )
+                    )),
             Vector2D.kOrigin));
   }
 

@@ -70,7 +70,7 @@ public class RobotState {
       );
 
       closeSafezonePoints[i] = FieldConstants.Reef.center.plus(
-          new Translation2d(Units.inchesToMeters(65), angle)
+          new Translation2d(Units.inchesToMeters(70), angle)
       );
 
       angle = angle.plus(Rotation2d.fromDegrees(60));

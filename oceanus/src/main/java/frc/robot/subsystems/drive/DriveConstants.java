@@ -39,9 +39,9 @@ public class DriveConstants {
   // Pathplanner stuff
   public static final double WHEEL_COF = 1.2;
 
-  public static final double XY_KP = 5.5;
+  public static final double XY_KP = 3.75;
   public static final double XY_KI = 0.0;
-  public static final double XY_KD = 0.0;
+  public static final double XY_KD = 0.01;
 
   public static final double THETA_KP = 3.5;
   public static final double THETA_KI = 0.0;
@@ -53,7 +53,7 @@ public class DriveConstants {
       new TrapezoidProfile.Constraints(4.5 * Math.PI, 4.5 * Math.PI); // rad/s, rad/s^2
 
   public static final double MAX_ALIGNMENT_LINEAR_VELOCITY = 4;
-  public static final double MAX_ALIGNMENT_LINEAR_ACCELERATION = 15;
+  public static final double MAX_ALIGNMENT_LINEAR_ACCELERATION = 15; //15
   public static final Number MAX_ALIGNMENT_ANGULAR_VELOCITY = Units.degreesToRadians(400.0); // rads/sec
   public static final Number MAX_ALIGNMENT_ANGULAR_ACCELERATION = Units.degreesToRadians(900.0); // rads/sec/sec
 
