@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.AlgaeSequenceCommandGroup;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.ScoreSequenceCommandGroup;
 import frc.robot.commands.auto.AutoCommands;
@@ -304,8 +305,11 @@ public class RobotContainer
         .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.BARGE));
 
     // Algae removal
-    operatorController.povUp().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L3)
+//    operatorController.povUp().onTrue(
+//        supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L3)
+//    );
+    operatorController.povUp().whileTrue(
+        new AlgaeSequenceCommandGroup(swerve, supersystem)
     );
     operatorController.povDown().onTrue(
         supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L2)

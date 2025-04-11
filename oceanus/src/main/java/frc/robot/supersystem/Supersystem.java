@@ -95,6 +95,52 @@ public class Supersystem extends SubsystemBase {
     return false;
   }
 
+  public boolean atSetpoint(SupersystemState state) {
+    switch (state) {
+      case DISABLED -> {
+        return true;
+      }
+      case INTAKE -> {
+        return armSubsystem.atSetpoint(ArmConstants.INTAKE_SETPOINT.getDegrees())
+            && elevatorSubsystem.atSetpoint(ElevatorConstants.INTAKE_SETPOINT);
+      }
+      case HOME -> {
+        return armSubsystem.atSetpoint(ArmConstants.ARM_HOME_SETPOINT.getDegrees())
+            && elevatorSubsystem.atSetpoint(ElevatorConstants.HOME_SETPOINT.getValue());
+      }
+      case L2 -> {
+        return armSubsystem.atSetpoint(ArmConstants.L2_SETPOINT.getDegrees())
+            && elevatorSubsystem.atSetpoint(ElevatorConstants.L2_SETPOINT.getValue());
+      }
+      case L3 -> {
+        return armSubsystem.atSetpoint(ArmConstants.L3_SETPOINT.getDegrees())
+            && elevatorSubsystem.atSetpoint(ElevatorConstants.L3_SETPOINT.getValue());
+      }
+      case L4 -> {
+        return armSubsystem.atSetpoint(ArmConstants.L4_SETPOINT.getDegrees())
+            && elevatorSubsystem.atSetpoint(ElevatorConstants.L4_SETPOINT);
+      }
+      case L4_OVERRIDE -> {
+        return armSubsystem.atSetpoint(ArmConstants.L4_SETPOINT.getDegrees())
+            && elevatorSubsystem.atSetpoint(ElevatorConstants.L4_SETPOINT);
+      }
+      case BARGE -> {
+        return armSubsystem.atSetpoint(ArmConstants.BARGE_SETPOINT.getDegrees())
+            && elevatorSubsystem.atSetpoint(ElevatorConstants.BARGE_SETPOINT);
+      }
+      case ALGAE_L2 -> {
+        return armSubsystem.atSetpoint(ArmConstants.ALGAE_SETPOINT.getDegrees())
+            && elevatorSubsystem.atSetpoint(ElevatorConstants.ALGAE_L2_SETPOINT.getValue());
+      }
+      case ALGAE_L3 -> {
+        return armSubsystem.atSetpoint(ArmConstants.ALGAE_SETPOINT.getDegrees())
+            && elevatorSubsystem.atSetpoint(ElevatorConstants.ALGAE_L3_SETPOINT.getValue());
+      }
+    }
+
+    return false;
+  }
+
   public Command periodicCommand() {
     return Commands.run(() -> {
       // run arm roller
