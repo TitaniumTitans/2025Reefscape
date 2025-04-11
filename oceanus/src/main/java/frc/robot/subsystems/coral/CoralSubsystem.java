@@ -79,5 +79,9 @@ public class CoralSubsystem extends SubsystemBase {
   public void resetPivotAngle(double angle) {
     io.resetPivot(angle);
   }
+
+  public boolean hasCoral() {
+    return inputs.hasCoral;
+  }
 }
 

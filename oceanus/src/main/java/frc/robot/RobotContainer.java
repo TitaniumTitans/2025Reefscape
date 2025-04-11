@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.AlgaeBargeScoreCommandGroup;
 import frc.robot.commands.AlgaeSequenceCommandGroup;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.ScoreSequenceCommandGroup;
@@ -205,13 +206,11 @@ public class RobotContainer
                 .alongWith(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0)))
     );
     driverController.leftTrigger().whileTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
-            .andThen(supersystem.runArmRollers(1.5)
-                .alongWith(coralSubsystem.setScoringVoltages(-4.0, -4.0, -3.0)))
-    ).whileFalse(
-        supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
-            .andThen(supersystem.runArmRollers(0.0)
-                .alongWith(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0)))
+        coralSubsystem.setPivotAngle(125)
+            .andThen(coralSubsystem.setScoringVoltages(0.0, -3.0, 0.0))
+    ).onFalse(
+        coralSubsystem.setPivotAngle(125)
+            .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))
     );
 
     // arm rollers
@@ -233,8 +232,12 @@ public class RobotContainer
     // ground intake
     driverController.a()
         .whileTrue(
+            new ConditionalCommand(
             coralSubsystem.setPivotAngle(93)
-                .andThen(coralSubsystem.setScoringVoltages(0.0, -2.5, 0.0))
+                .andThen(coralSubsystem.setScoringVoltages(0.0, -2.5, 0.0)),
+                coralSubsystem.setPivotAngle(125)
+                    .andThen(coralSubsystem.setScoringVoltages(0.0, 3.0, 0.0)),
+                coralSubsystem::hasCoral)
         ).whileFalse(
             coralSubsystem.setPivotAngle(93)
                 .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0))
@@ -301,34 +304,27 @@ public class RobotContainer
         .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.HOME));
     operatorController.rightTrigger()
         .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.L4_OVERRIDE));
+//    operatorController.a()
+//        .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.BARGE));
     operatorController.a()
-        .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.BARGE));
+            .onTrue(new AlgaeBargeScoreCommandGroup(swerve, supersystem));
+
+    operatorController.povLeft().whileTrue(
+        supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
+            .andThen(coralSubsystem.setScoringVoltages(-3.0, -3.0, -3.0)
+                .alongWith(supersystem.runArmRollers(1.0)))
+    ).onFalse(
+        supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
+            .andThen(coralSubsystem.setScoringVoltages(0.0, 0.0, 0.0)
+                .alongWith(supersystem.runArmRollers(0.0)))
+    );
 
     // Algae removal
-//    operatorController.povUp().onTrue(
-//        supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L3)
-//    );
     operatorController.povUp().whileTrue(
         new AlgaeSequenceCommandGroup(swerve, supersystem)
     );
-    operatorController.povDown().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L2)
-    );
-    operatorController.povLeft()
-        .whileTrue(climberSubsystem.setClimberPowerFactory(-3.0))
-        .whileFalse(climberSubsystem.setClimberPowerFactory(0.0));
-    operatorController.povRight()
-        .whileTrue(coralSubsystem.setPivotVoltageFactory(-1.0))
-        .whileFalse(coralSubsystem.setPivotVoltageFactory(0.0));
-
 
     //climber controls
-//    operatorController.leftBumper()
-//        .whileTrue(
-//            climberSubsystem.setClimberPowerFactory(5.0)
-//        ).whileFalse(
-//            climberSubsystem.setClimberPowerFactory(0.0)
-//        );
     operatorController.leftBumper()
             .whileTrue(climberSubsystem.setClimberPosition(170));
     operatorController.rightBumper()
@@ -337,6 +333,10 @@ public class RobotContainer
         ).whileFalse(
             climberSubsystem.setClimberPowerFactory(0.0)
         );
+
+    operatorController.povRight()
+        .whileTrue(climberSubsystem.setClimberPowerFactory(-3.0))
+        .whileFalse(climberSubsystem.setClimberPowerFactory(0.0));
   }
 
   public void setupShuffleboardTab() {

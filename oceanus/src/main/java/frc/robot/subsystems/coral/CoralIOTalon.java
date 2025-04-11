@@ -1,6 +1,8 @@
 package frc.robot.subsystems.coral;
 
+import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
+import au.grapplerobotics.interfaces.LaserCanInterface;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -11,7 +13,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.util.PhoenixUtil;
-import org.photonvision.PhotonUtils;
+import org.littletonrobotics.junction.Logger;
 
 public class CoralIOTalon implements CoralIO {
   private final TalonFX pivot;
@@ -31,6 +33,12 @@ public class CoralIOTalon implements CoralIO {
     innerCoral = new TalonFX(CoralConstants.INNER_ID);
     laserCan = new LaserCan(CoralConstants.LASER_CAN_ID);
     limit = new DigitalInput(8);
+
+    try {
+      laserCan.setRegionOfInterest(new LaserCanInterface.RegionOfInterest(0, 0, 16, 16));
+    } catch (ConfigurationFailedException ignored) {
+      // hehehe no
+    }
 
     mmControl = new MotionMagicVoltage(0.0);
     pivot.setPosition(Units.degreesToRotations(72.5));
@@ -62,7 +70,8 @@ public class CoralIOTalon implements CoralIO {
 
     var measurement = laserCan.getMeasurement();
     if (measurement != null) {
-      inputs.hasCoral = measurement.distance_mm < 70;
+      inputs.hasCoral = measurement.distance_mm < 300;
+      Logger.recordOutput("Coral/LaserCAN measurement", measurement.distance_mm);
     } else {
       inputs.hasCoral = false;
     }

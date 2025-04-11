@@ -31,9 +31,9 @@ public class CoralResetCommand extends Command {
     // check initial conditions
     if (!coralSubsystem.limitHit() && !limitTriggered) {
       // watch for timer (coral above limit)
-      if (downTimer.hasElapsed(0.5)) {
+      if (downTimer.hasElapsed(0.1)) {
         Logger.recordOutput("Coral/ResetState", "Clearing Above Limit");
-        coralSubsystem.setPivotVoltage(-1.0);
+        coralSubsystem.setPivotVoltage(-2.0);
       } else {
         Logger.recordOutput("Coral/ResetState", "Moving up to limit");
         coralSubsystem.setPivotVoltage(1.0);
