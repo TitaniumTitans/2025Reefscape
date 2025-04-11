@@ -119,7 +119,7 @@ public class SwerveDrivePIDToPose extends Command {
                     .plus(
                         new Translation2d(
                             swerve.getFieldRelativeSpeeds().vxMetersPerSecond * 0.18,
-                            swerve.getFieldRelativeSpeeds().vyMetersPerSecond * 0.18[]\
+                            swerve.getFieldRelativeSpeeds().vyMetersPerSecond * 0.18
     
                         )
                     )),

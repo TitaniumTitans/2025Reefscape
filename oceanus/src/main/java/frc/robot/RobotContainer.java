@@ -21,6 +21,7 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.commands.ScoreSequenceCommandGroup;
 import frc.robot.commands.auto.AutoCommands;
 import frc.robot.commands.auto.AutoSelector;
+import frc.robot.commands.coral.CoralResetCommand;
 import frc.robot.commands.swerve.SwerveDrivePIDToPose;
 import frc.robot.subsystems.algae.AlgaeIO;
 import frc.robot.subsystems.algae.AlgaeIOSim;
@@ -196,7 +197,7 @@ public class RobotContainer
     driverController.rightTrigger().whileTrue(
         supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
             .andThen(supersystem.runArmRollers(-3.5)
-                .alongWith(coralSubsystem.setScoringVoltages(6.0, 3.0, 2.5)))
+                .alongWith(coralSubsystem.setScoringVoltages(6.0, 3.0, 3.0)))
     ).whileFalse(
         supersystem.setDesiredState(Supersystem.SupersystemState.HOME)
             .andThen(supersystem.runArmRollers(0.0)
@@ -243,7 +244,7 @@ public class RobotContainer
                 .andThen(coralSubsystem.setScoringVoltages(0.0, 4.0, 0.0))
         ).whileFalse(
             coralSubsystem.setPivotAngle(93)
-                .andThen(coralSubsystem.setScoringVoltages(0.0, 1.0, 0.0))
+                .andThen(coralSubsystem.setScoringVoltages(0.0, 1.5, 0.0))
         );
 
     // trigger auto alignment
@@ -269,7 +270,7 @@ public class RobotContainer
         Commands.runOnce(() -> RobotState.getInstance().resetPose(new Pose2d()))
     );
     driverController.povUp()
-        .whileTrue(coralSubsystem.resetPivotFactory())
+        .whileTrue(new CoralResetCommand(coralSubsystem))
         .whileFalse(coralSubsystem.setPivotVoltageFactory(0.0));
     driverController.povLeft()
         .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_LEFT::getPose));

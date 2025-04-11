@@ -35,6 +35,14 @@ public class CoralSubsystem extends SubsystemBase {
     io.setPivotVoltage(0.0);
   }
 
+  public boolean limitHit() {
+    return inputs.limitHit;
+  }
+
+  public void setPivotVoltage(double voltage) {
+    io.setPivotVoltage(voltage);
+  }
+
   public Command setScoringVoltages(double hopper, double outer, double inner) {
     return runOnce(() -> {
       io.setHopperVoltage(hopper);
@@ -66,6 +74,10 @@ public class CoralSubsystem extends SubsystemBase {
               runOnce(() -> io.setPivotAngle(92.0))
           );
         });
+  }
+
+  public void resetPivotAngle(double angle) {
+    io.resetPivot(angle);
   }
 }
 
