@@ -306,7 +306,7 @@ public class RobotContainer
 //    operatorController.a()
 //        .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.BARGE));
     operatorController.a()
-            .onTrue(new AlgaeBargeScoreCommandGroup(swerve, supersystem));
+            .whileTrue(new AlgaeBargeScoreCommandGroup(swerve, supersystem));
 
     operatorController.povLeft().whileTrue(
         supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)

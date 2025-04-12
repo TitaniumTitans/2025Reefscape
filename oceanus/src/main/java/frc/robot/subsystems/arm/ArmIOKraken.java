@@ -21,6 +21,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import frc.robot.util.PhoenixUtil;
+import lombok.extern.java.Log;
 import org.littletonrobotics.junction.Logger;
 
 public class ArmIOKraken implements ArmIO {
@@ -29,7 +30,7 @@ public class ArmIOKraken implements ArmIO {
   private final CANcoder pivotEncoder;
   private final LaserCan laserCan;
 
-  private final Debouncer debouncer = new Debouncer(0.4);
+  private final Debouncer debouncer = new Debouncer(0.18); // 0.325
 
   private final MotionMagicVoltage mmControl;
 
@@ -99,7 +100,8 @@ public class ArmIOKraken implements ArmIO {
 
     var measurement = laserCan.getMeasurement();
     if (measurement != null) {
-      inputs.hasCoral = debouncer.calculate(measurement.distance_mm < 30);
+      inputs.hasCoral = debouncer.calculate(measurement.distance_mm < 10);
+      Logger.recordOutput("Arm/Raw LiDaR measurement", measurement.distance_mm);
     } else {
       inputs.hasCoral = false;
     }

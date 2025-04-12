@@ -27,6 +27,7 @@ public class ChoreoPoses {
     with open(output_file, "w") as f:
         f.write(output_contents)
 
+    print(output_contents)
     return output_contents
 
 

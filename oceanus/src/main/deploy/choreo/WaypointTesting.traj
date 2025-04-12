@@ -8,7 +8,7 @@
  },
  "params":{
   "waypoints":[
-    {"x":{"exp":"StartingPosLeft.x", "val":7.2374252}, "y":{"exp":"StartingPosLeft.y", "val":6.168517}, "heading":{"exp":"StartingPosLeft.heading", "val":3.9269908169872414}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+    {"x":{"exp":"StartingPosLeft.x", "val":7.1612252}, "y":{"exp":"StartingPosLeft.y", "val":6.168517}, "heading":{"exp":"StartingPosLeft.heading", "val":3.9269908169872414}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
   "constraints":[
     {"from":"first", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
