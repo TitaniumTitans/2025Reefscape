@@ -279,8 +279,7 @@ public class RobotContainer
     driverController.povLeft()
         .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_LEFT::getPose));
     driverController.povDown()
-        .whileTrue(coralSubsystem.setPivotVoltageFactory(-1.0))
-        .whileFalse(coralSubsystem.setPivotVoltageFactory(0.0));
+        .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_CENTER::getPose));
     driverController.povRight()
         .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_RIGHT::getPose));
 
