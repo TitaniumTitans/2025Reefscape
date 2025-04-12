@@ -1,15 +1,11 @@
 package frc.robot.commands.auto;
 
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.events.EventTrigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.ChoreoPoses;
-import frc.robot.commands.swerve.SwerveDrivePIDToPose;
 import frc.robot.subsystems.coral.CoralSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.supersystem.Supersystem;
-import frc.robot.util.ChoreoUtils;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class AutoSelector {
