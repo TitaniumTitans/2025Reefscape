@@ -28,11 +28,9 @@ public class AlgaeSequenceCommandGroup extends SequentialCommandGroup {
             .onlyIf(() -> !isClear(swerve, supersystem)),
         supersystem.runArmRollers(-1.5),
         new SwerveDrivePIDToPose(swerve, () ->
-          swerve.getClosestClearance().plus(new Transform2d(0.75, 0.0, new Rotation2d()))
+          swerve.getClosestClearance().plus(new Transform2d(0.8, 0.0, new Rotation2d()))
         )
-            .withTranslationalConstraints(Units.feetToMeters(7.0), Units.feetToMeters(12)),
-        new WaitCommand(1.0),
-        supersystem.runArmRollers(-0.75)
+            .withTranslationalConstraints(Units.feetToMeters(7.0), Units.feetToMeters(12))
     );
 
 //    addCommands(

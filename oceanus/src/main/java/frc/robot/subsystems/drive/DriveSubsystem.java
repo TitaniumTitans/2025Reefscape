@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
@@ -25,11 +26,13 @@ import frc.robot.subsystems.drive.module.Module;
 import frc.robot.subsystems.drive.module.ModuleIO;
 import frc.robot.util.AlgaePositions;
 import frc.robot.util.FieldRelativeSpeeds;
+import frc.robot.util.MaybeFlippedPose2d;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.Logger;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
@@ -325,16 +328,13 @@ public class DriveSubsystem extends SubsystemBase {
     return DriveConstants.MAX_ANGULAR_SPEED * 0.25;
   }
 
-  public Command driveToPose(Pose2d pose) {
-    return driveToPose(() -> pose);
-  }
-
-  public Command driveToPose(Supplier<Pose2d> pose) {
-    return AutoBuilder.pathfindToPose(
-        pose.get(),
-        new PathConstraints(1.25, 1.25,
-            1.25, 1.25)
-    );
+  public Command driveToPose(MaybeFlippedPose2d pose) {
+    return Commands.defer(() ->
+      AutoBuilder.pathfindToPose(
+          pose.getPose(),
+          new PathConstraints(1.75, 1.75,
+              1.75, 1.75)
+      ), Set.of(this));
   }
 
   public void resetPose(Pose2d pose) {

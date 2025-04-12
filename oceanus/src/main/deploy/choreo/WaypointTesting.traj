@@ -8,7 +8,7 @@
  },
  "params":{
   "waypoints":[
-    {"x":{"exp":"BlueNet.x", "val":8.01905}, "y":{"exp":"BlueNet.y", "val":5.724017}, "heading":{"exp":"BlueNet.heading", "val":3.141592653589793}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+    {"x":{"exp":"7.5 m", "val":7.5}, "y":{"exp":"BlueNet.y", "val":5.724017}, "heading":{"exp":"BlueNet.heading", "val":3.141592653589793}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
   "constraints":[
     {"from":"first", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},

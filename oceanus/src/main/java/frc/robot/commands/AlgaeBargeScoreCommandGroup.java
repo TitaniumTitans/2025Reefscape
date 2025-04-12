@@ -12,9 +12,7 @@ import frc.robot.supersystem.Supersystem;
 public class AlgaeBargeScoreCommandGroup extends SequentialCommandGroup {
   public AlgaeBargeScoreCommandGroup(DriveSubsystem swerve, Supersystem supersystem) {
     super(
-        swerve.driveToPose(ChoreoPoses.BLUE_NET.getPose().plus(
-            new Transform2d(0.5, 0.0, new Rotation2d())
-        )),
+        swerve.driveToPose(ChoreoPoses.NET_CLEAR),
         supersystem.setDesiredState(Supersystem.SupersystemState.BARGE),
         new SwerveDrivePIDToPose(swerve, ChoreoPoses.BLUE_NET.getPose())
             .withTranslationalConstraints(0.5, 0.5)

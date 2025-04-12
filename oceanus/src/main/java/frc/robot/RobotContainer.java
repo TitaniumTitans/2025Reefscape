@@ -281,11 +281,11 @@ public class RobotContainer
         .whileTrue(new CoralResetCommand(coralSubsystem))
         .whileFalse(coralSubsystem.setPivotVoltageFactory(0.0));
     driverController.povLeft()
-        .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_LEFT::getPose));
+        .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_LEFT));
     driverController.povDown()
-        .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_CENTER::getPose));
+        .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_CENTER));
     driverController.povRight()
-        .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_RIGHT::getPose));
+        .whileTrue(swerve.driveToPose(ChoreoPoses.STARTING_POS_RIGHT));
 
     // operator controls
     // set scoring level

@@ -148,6 +148,33 @@ public class AutoSelector {
             .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
             .andThen(AutoCommands.followChoreoPath("LHPLeft"))
     );
+
+    // Center Algae
+    chooser.addOption("CenterL4HGH",
+        // score first
+        AutoCommands.resetPoseAndFollowChoreoPath(drive, "CenterH")
+            .andThen(AutoCommands.dropCoral(supersystem))
+            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L2))
+            // reset
+            .andThen(AutoCommands.followChoreoPath("HCenter"))
+            // grab first algae
+            .andThen(AutoCommands.followChoreoPath("CenterGH")
+                .alongWith(supersystem.runArmRollers(-2.5)))
+            .andThen(supersystem.runArmRollers(-1.0))
+            // get to safe barge zone
+            .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.BARGE))
+            .andThen(AutoCommands.followChoreoPath("GHBargeClear"))
+            // wait until arm up
+            .andThen(AutoCommands.followChoreoPath("BargeClearBarge"))
+            // drop algae
+            .andThen(supersystem.runArmRollers(6.0))
+            .andThen(Commands.waitSeconds(0.75))
+            .andThen(supersystem.runArmRollers(0.0))
+            // move for second clear and wait for arm clear
+            .andThen(AutoCommands.followChoreoPath("BargeIJ")
+                .alongWith(Commands.waitSeconds(0.25)
+                    .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))))
+    );
   }
 
   public Command getAutoCommand() {
