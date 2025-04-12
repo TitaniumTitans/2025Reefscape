@@ -29,7 +29,7 @@ public class ScoreSequenceCommandGroup extends SequentialCommandGroup {
                 .alongWith(armMoveAutoScoreCommand(supersystem)))
             .onlyIf(() -> !isClear(supersystem)),
         new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(left))
-            .withTranslationalConstraints(Units.feetToMeters(7.0), Units.feetToMeters(12))
+            .withTranslationalConstraints(Units.feetToMeters(7.0), Units.feetToMeters(10))
     );
 
 //    addCommands(

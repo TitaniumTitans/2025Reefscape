@@ -39,9 +39,9 @@ public class DriveConstants {
   // Pathplanner stuff
   public static final double WHEEL_COF = 1.2;
 
-  public static final double XY_KP = 3.75;
+  public static final double XY_KP = 3.75; // 3.75
   public static final double XY_KI = 0.0;
-  public static final double XY_KD = 0.01;
+  public static final double XY_KD = 0.01; // 0.01
 
   public static final double THETA_KP = 3.5;
   public static final double THETA_KI = 0.0;

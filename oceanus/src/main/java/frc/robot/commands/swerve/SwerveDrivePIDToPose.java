@@ -54,8 +54,8 @@ public class SwerveDrivePIDToPose extends Command {
     this.swerve = swerve;
 
     controller = new HolonomicController(
-        new PIDController(DriveConstants.XY_KP, DriveConstants.XY_KI, DriveConstants.XY_KD).add(new MotorFeedforward(0, 0, 0).position()),
-        new PIDController(DriveConstants.XY_KP, DriveConstants.XY_KI, DriveConstants.XY_KD).add(new MotorFeedforward(0, 0, 0).position()),
+        new PIDController(DriveConstants.XY_KP, DriveConstants.XY_KI, DriveConstants.XY_KD).add(new MotorFeedforward(0, 0.75, 0).position()),
+        new PIDController(DriveConstants.XY_KP, DriveConstants.XY_KI, DriveConstants.XY_KD).add(new MotorFeedforward(0, 0.75, 0).position()),
         new AnglePIDController(DriveConstants.THETA_KP, DriveConstants.THETA_KI, DriveConstants.THETA_KD)
             .setSetpointFilter(new AMotionProfile(DriveConstants.MAX_ALIGNMENT_ANGULAR_VELOCITY, DriveConstants.MAX_ALIGNMENT_ANGULAR_ACCELERATION)));
 
@@ -96,8 +96,8 @@ public class SwerveDrivePIDToPose extends Command {
 
   public SwerveDrivePIDToPose withClosedLoopGains(double kp, double ki, double kd) {
     controller = new HolonomicController(
-        new PIDController(kp, ki, kd).add(new MotorFeedforward(0, 0, 0).position()),
-        new PIDController(kp, ki, kd).add(new MotorFeedforward(0, 0, 0).position()),
+        new PIDController(kp, ki, kd).add(new MotorFeedforward(0, 0.75, 0).position()),
+        new PIDController(kp, ki, kd).add(new MotorFeedforward(0, 0.75, 0).position()),
         new AnglePIDController(DriveConstants.THETA_KP, DriveConstants.THETA_KI, DriveConstants.THETA_KD)
             .setSetpointFilter(new AMotionProfile(DriveConstants.MAX_ALIGNMENT_ANGULAR_VELOCITY, DriveConstants.MAX_ALIGNMENT_ANGULAR_ACCELERATION)));
     return this;
