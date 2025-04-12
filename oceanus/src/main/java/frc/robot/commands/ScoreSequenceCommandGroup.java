@@ -8,6 +8,7 @@ import frc.robot.RobotState;
 import frc.robot.commands.swerve.SwerveDrivePIDToPose;
 import frc.robot.commands.swerve.SwerveDrivePPToPose;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.led.LEDController;
 import frc.robot.supersystem.Supersystem;
 
 import java.util.Objects;
@@ -22,6 +23,7 @@ public class ScoreSequenceCommandGroup extends SequentialCommandGroup {
       boolean left) {
 
     addCommands(
+        Commands.runOnce(() -> LEDController.getInstance().setCoralAlignment(true)),
         new WaitUntilCommand(() -> isClear(supersystem))
             .deadlineFor(new SwerveDrivePIDToPose(swerve, swerve::getClosestClearance)
                 .withClosedLoopGains(4.5, 0.0, 0.01)
@@ -29,7 +31,8 @@ public class ScoreSequenceCommandGroup extends SequentialCommandGroup {
                 .alongWith(armMoveAutoScoreCommand(supersystem)))
             .onlyIf(() -> !isClear(supersystem)),
         new SwerveDrivePIDToPose(swerve, () -> swerve.getClosestBranch(left))
-            .withTranslationalConstraints(Units.feetToMeters(7.0), Units.feetToMeters(10))
+            .withTranslationalConstraints(Units.feetToMeters(7.0), Units.feetToMeters(10)),
+        Commands.runOnce(() -> LEDController.getInstance().setCoralAlignment(false))
     );
 
 //    addCommands(

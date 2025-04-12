@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.led.LEDController;
 import frc.robot.util.MechanismVisualizer;
 import org.ironmaple.simulation.SimulatedArena;
 import org.littletonrobotics.junction.AutoLogOutputManager;
@@ -26,20 +27,11 @@ public class Robot extends LoggedRobot
     private Command autonomousCommand;
     
     private RobotContainer robotContainer;
-    private final AddressableLED led;
 
     public Robot() {
         // record metadata
         CanBridge.runTCP();
         PathfindingCommand.warmupCommand().schedule();
-
-        led = new AddressableLED(9);
-        AddressableLEDBuffer buffer = new AddressableLEDBuffer(61);
-        led.setLength(buffer.getLength());
-
-        LEDPattern.solid(Color.kRed).applyTo(buffer);
-        led.setData(buffer);
-        led.start();
 
         // Set up data receivers & replay source
         switch (Constants.getMode()) {
@@ -85,6 +77,7 @@ public class Robot extends LoggedRobot
     {
         MechanismVisualizer.getInstance().updateVisualization();
         CommandScheduler.getInstance().run();
+        LEDController.getInstance().periodic();
     }
     
     

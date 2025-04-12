@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.elevator.ElevatorConstants;
+import frc.robot.subsystems.led.LEDController;
 import frc.robot.util.MechanismVisualizer;
 import lombok.extern.java.Log;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -41,6 +42,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     Logger.processInputs("Arm", inputs);
     Logger.recordOutput("Arm/Setpoint", armSetpoint);
+
+    LEDController.getInstance().setHasCoralArm(inputs.hasCoral);
 
     if (DriverStation.isDisabled() && goalState != ArmState.DISABLED) {
       goalState = ArmState.DISABLED;
