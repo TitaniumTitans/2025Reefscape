@@ -7,12 +7,15 @@ package frc.robot;
 
 import au.grapplerobotics.CanBridge;
 import com.pathplanner.lib.commands.PathfindingCommand;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.led.LEDController;
 import frc.robot.util.MechanismVisualizer;
+import lombok.extern.java.Log;
 import org.ironmaple.simulation.SimulatedArena;
 import org.littletonrobotics.junction.AutoLogOutputManager;
 import org.littletonrobotics.junction.LogFileUtil;
@@ -78,6 +81,10 @@ public class Robot extends LoggedRobot
         MechanismVisualizer.getInstance().updateVisualization();
         CommandScheduler.getInstance().run();
         LEDController.getInstance().periodic();
+
+        Logger.recordOutput("Coral Pose",
+            RobotState.getInstance().getEstimatedPose()
+                .plus(new Transform2d(1.0, 0.0, new Rotation2d())));
     }
     
     
