@@ -92,9 +92,7 @@ public class AutoSelector {
     chooser.addOption("3L4RightEDC",
         AutoCommands.resetPoseAndFollowChoreoPath(drive, "RightE")
             // score
-            .andThen(supersystem.runArmRollers(3.5))
-            .andThen(Commands.waitSeconds(0.35))
-            .andThen(supersystem.runArmRollers(0.0))
+            .andThen(AutoCommands.dropCoral(supersystem))
             // HP
             .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
             .andThen(AutoCommands.followChoreoPath("EHPRight"))
@@ -103,9 +101,7 @@ public class AutoSelector {
             // score 2
             .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.L4))
             .andThen(AutoCommands.followChoreoPath("HPRightD"))
-            .andThen(supersystem.runArmRollers(3.5))
-            .andThen(Commands.waitSeconds(0.35))
-            .andThen(supersystem.runArmRollers(0.0))
+            .andThen(AutoCommands.dropCoral(supersystem))
             // hp
             .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
             .andThen(AutoCommands.followChoreoPath("DHPRight"))
@@ -114,9 +110,7 @@ public class AutoSelector {
             // score C
             .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.L4))
             .andThen(AutoCommands.followChoreoPath("HPRightC"))
-            .andThen(supersystem.runArmRollers(3.5))
-            .andThen(Commands.waitSeconds(0.35))
-            .andThen(supersystem.runArmRollers(0.0))
+            .andThen(AutoCommands.dropCoral(supersystem))
             // hp
             .andThen(supersystem.setDesiredState(Supersystem.SupersystemState.HOME))
             .andThen(AutoCommands.followChoreoPath("CHPRight"))
