@@ -63,10 +63,16 @@ public class AutoCommands {
     );
   }
 
+  public static Command dropCoral(Supersystem supersystem) {
+    return supersystem.runArmRollers(5.0)
+        .andThen(Commands.waitSeconds(0.25))
+        .andThen(supersystem.runArmRollers(0.0));
+  }
+
   public static Command intakeUntilCoral(CoralSubsystem coral, Supersystem supersystem) {
     return supersystem.setDesiredState(Supersystem.SupersystemState.INTAKE)
-        .andThen(supersystem.runArmRollers(-2.25)
-            .alongWith(coral.setScoringVoltages(3.5, 3.0, 3.0)))
+        .andThen(supersystem.runArmRollers(-3.5) // -2.25
+            .alongWith(coral.setScoringVoltages(6.0, 3.0, 3.0)))// 3.5
         .repeatedly()
         .until(supersystem::hasCoral);
   }

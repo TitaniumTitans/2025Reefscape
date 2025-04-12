@@ -217,7 +217,11 @@ public class RobotContainer
     driverController.leftBumper().whileTrue(
         new ConditionalCommand(
             supersystem.runArmRollers(1.5),
-            supersystem.runArmRollers(12.0),
+            new ConditionalCommand(
+                supersystem.runArmRollers(6.0),
+                supersystem.runArmRollers(12.0),
+                () -> armSubsystem.atSetpoint(ArmConstants.BARGE_SETPOINT.getDegrees())
+            ),
             armSubsystem::hasCoral
         )
     ).whileFalse(

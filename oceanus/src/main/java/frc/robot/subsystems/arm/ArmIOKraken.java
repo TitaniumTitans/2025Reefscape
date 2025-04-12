@@ -30,7 +30,7 @@ public class ArmIOKraken implements ArmIO {
   private final CANcoder pivotEncoder;
   private final LaserCan laserCan;
 
-  private final Debouncer debouncer = new Debouncer(0.18); // 0.325
+  private final Debouncer debouncer = new Debouncer(0.18); // 0.325 0.18
 
   private final MotionMagicVoltage mmControl;
 
@@ -100,7 +100,7 @@ public class ArmIOKraken implements ArmIO {
 
     var measurement = laserCan.getMeasurement();
     if (measurement != null) {
-      inputs.hasCoral = debouncer.calculate(measurement.distance_mm < 10);
+      inputs.hasCoral = debouncer.calculate(measurement.distance_mm < 20);
       Logger.recordOutput("Arm/Raw LiDaR measurement", measurement.distance_mm);
     } else {
       inputs.hasCoral = false;
