@@ -11,6 +11,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.util.PhoenixUtil;
 import org.littletonrobotics.junction.Logger;
@@ -25,6 +26,8 @@ public class CoralIOTalon implements CoralIO {
   private final DigitalInput limit;
 
   private final MotionMagicVoltage mmControl;
+
+  private final Alert outerOverheatAlert = new Alert("Ground Intake Overheating", Alert.AlertType.kWarning);
 
   public CoralIOTalon() {
     pivot = new TalonFX(CoralConstants.PIVOT_ID);
@@ -61,8 +64,11 @@ public class CoralIOTalon implements CoralIO {
         innerCoral.getSupplyCurrent().getValueAsDouble()
     };
     inputs.coralPivotAngle = Rotation2d.fromRotations(pivot.getPosition().getValueAsDouble());
+    inputs.outerTemperature = outerCoral.getDeviceTemp().getValueAsDouble();
 
     inputs.limitHit = limit.get();
+
+    outerOverheatAlert.set(inputs.outerTemperature > 40);
 
 //    if (inputs.limitHit && inputs.coralPivotAngle.getDegrees() != 90.0) {
 //      pivot.setPosition(Units.degreesToRotations(90.0));

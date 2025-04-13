@@ -5,26 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c585a44-a51b-455f-b323-bbe5119c28ff" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/CHPRight.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/CHPRight.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/CenterG.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/CenterG.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/CenterH.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/CenterH.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/ChoreoAutos.chor" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/ChoreoAutos.chor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/DHPRight.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/DHPRight.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/EHPRight.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/EHPRight.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/GCenter.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/GCenter.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/HCenter.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/HCenter.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/HPLeftK.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/HPLeftK.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/HPLeftL.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/HPLeftL.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/HPRightC.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/HPRightC.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/HPRightD.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/HPRightD.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/JHPLeft.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/JHPLeft.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/KHPLeft.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/KHPLeft.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/LHPLeft.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/LHPLeft.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/LeftI.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/LeftI.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/LeftJ.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/LeftJ.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/RightE.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/RightE.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/RightF.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/RightF.traj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oceanus/vendordeps/photonlib.json" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/vendordeps/photonlib.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/oceanus.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/oceanus.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/oceanus.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/oceanus.test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/WaypointTesting.traj" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/deploy/choreo/WaypointTesting.traj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/BuildConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/BuildConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/commands/auto/AutoCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/commands/auto/AutoCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralIO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralIOTalon.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/coral/CoralIOTalon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/oceanus/src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +131,7 @@
       <recent name="frc.robot" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.oceanus [simulateJava]">
+  <component name="RunManager" selected="Gradle.oceanus [deploy]">
     <configuration name="oceanus [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -322,9 +311,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.oceanus [simulateJava]" />
         <item itemvalue="Gradle.oceanus [deploy]" />
         <item itemvalue="Gradle.oceanus [build]" />
+        <item itemvalue="Gradle.oceanus [simulateJava]" />
         <item itemvalue="Gradle.tethys [deploy]" />
         <item itemvalue="Gradle.tethys [build]" />
       </list>
@@ -334,6 +323,7 @@
     <attachedChunks>
       <set>
         <option value="jdk-20.0.2-corretto-20.0.2.1-4caba194b151-5bc9ecd2" />
+        <option value="jdk-21.0.2-corretto-21.0.2-4caba194b151-51586f01" />
       </set>
     </attachedChunks>
   </component>
@@ -349,6 +339,6 @@
     <servers />
   </component>
   <component name="WpiLibVersionService">
-    <option name="lastChecked" value="20250409214749" />
+    <option name="lastChecked" value="20250413123203" />
   </component>
 </project>

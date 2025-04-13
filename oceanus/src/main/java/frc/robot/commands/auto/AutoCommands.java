@@ -64,7 +64,7 @@ public class AutoCommands {
   }
 
   public static Command dropCoral(Supersystem supersystem) {
-    return supersystem.runArmRollers(5.0)
+    return supersystem.runArmRollers(6.0)
         .andThen(Commands.waitSeconds(0.25))
         .andThen(supersystem.runArmRollers(0.0));
   }

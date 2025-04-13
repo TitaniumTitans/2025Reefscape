@@ -9,6 +9,7 @@ public interface CoralIO {
     public Rotation2d coralPivotAngle = new Rotation2d();
     public boolean hasCoral = false;
     public boolean limitHit = false;
+    public double outerTemperature = 0.0;
     public double[] coralAppliedVoltage = new double[] {0.0, 0.0, 0.0, 0.0};
     public double[] coralCurrentDraw = new double[] {0.0, 0.0, 0.0, 0.0};
   }
