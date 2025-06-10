@@ -28,7 +28,7 @@ public class DriveConstants {
   };
 
   public static final double DRIVE_BASE_RADIUS = Math.hypot(TRACK_WIDTH_X / 2, TRACK_WIDTH_Y / 2);
-  public static final double MAX_LINEAR_SPEED_MPS = Units.feetToMeters(17.1 );
+  public static final double MAX_LINEAR_SPEED_MPS =  Units.feetToMeters(10.0);
   public static final double MAX_ANGULAR_SPEED = MAX_LINEAR_SPEED_MPS / DRIVE_BASE_RADIUS;
 
   public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.967); //Units.inchesToMeters(1.976); // 2.0
