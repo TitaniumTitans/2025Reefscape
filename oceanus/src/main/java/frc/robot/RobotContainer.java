@@ -234,14 +234,19 @@ public class RobotContainer
         );
 
     // trigger auto alignment
-    driverController.x()
-        .whileTrue(
-            autoScoreCommand(true)
-        );
-    driverController.y()
-        .whileTrue(
-            autoScoreCommand(false)
-        );
+//    driverController.x()
+//        .whileTrue(
+//            autoScoreCommand(true)
+//        );
+//    driverController.y()
+//        .whileTrue(
+//            autoScoreCommand(false)
+//        );
+
+    // manual setpoints
+    driverController.povUp().onTrue(
+            supersystem.setDesiredState(Supersystem.SupersystemState.L3)
+    );
 
     // resets
     driverController.start().onTrue(
@@ -249,58 +254,53 @@ public class RobotContainer
     );
     driverController.povUp()
         .onTrue(coralSubsystem.resetPivotFactory());
-    driverController.povLeft()
-        .whileTrue(driveSubsystem.driveToPose(ChoreoPoses.STARTING_POS_LEFT::getPose));
-    driverController.povDown()
-        .whileTrue(driveSubsystem.driveToPose(ChoreoPoses.STARTING_POS_CENTER::getPose));
-    driverController.povRight()
-        .whileTrue(driveSubsystem.driveToPose(ChoreoPoses.STARTING_POS_RIGHT::getPose));
+
 
     // operator controls
     // set scoring level
-    operatorController.x().onTrue(
-        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(L2))
-    );
-    operatorController.y().onTrue(
-        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(L3))
-    );
-    operatorController.b().onTrue(
-        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(L4))
-    );
-
-    // manual setpoints
-    operatorController.leftTrigger()
-        .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.HOME));
-    operatorController.a()
-        .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.BARGE));
-
-    // Algae removal
-    operatorController.povUp().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L3)
-    );
-    operatorController.povDown().onTrue(
-        supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L2)
-    );
-    operatorController.povLeft()
-        .onTrue(coralSubsystem.resetPivotFactory());
-    operatorController.povRight().whileTrue(AutoCommands.intakeUntilCoral(coralSubsystem, supersystem)
-            .andThen(AutoCommands.intakeStopCommand(coralSubsystem, supersystem)
-            ))
-            .whileFalse(AutoCommands.intakeStopCommand(coralSubsystem, supersystem));
-
-    //climber controls
-    operatorController.leftBumper()
-        .whileTrue(
-            climberSubsystem.setClimberPowerFactory(3.0)
-        ).whileFalse(
-            climberSubsystem.setClimberPowerFactory(0.0)
-        );
-    operatorController.rightBumper()
-        .whileTrue(
-            climberSubsystem.setClimberPowerFactory(-3.0)
-        ).whileFalse(
-            climberSubsystem.setClimberPowerFactory(0.0)
-        );
+//    operatorController.x().onTrue(
+//        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(L2))
+//    );
+//    operatorController.y().onTrue(
+//        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(L3))
+//    );
+//    operatorController.b().onTrue(
+//        Commands.runOnce(() -> RobotState.getInstance().setCoralLevel(L4))
+//    );
+//
+//    // manual setpoints
+//    operatorController.leftTrigger()
+//        .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.HOME));
+//    operatorController.a()
+//        .onTrue(supersystem.setDesiredState(Supersystem.SupersystemState.BARGE));
+//
+//    // Algae removal
+//    operatorController.povUp().onTrue(
+//        supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L3)
+//    );
+//    operatorController.povDown().onTrue(
+//        supersystem.setDesiredState(Supersystem.SupersystemState.ALGAE_L2)
+//    );
+//    operatorController.povLeft()
+//        .onTrue(coralSubsystem.resetPivotFactory());
+//    operatorController.povRight().whileTrue(AutoCommands.intakeUntilCoral(coralSubsystem, supersystem)
+//            .andThen(AutoCommands.intakeStopCommand(coralSubsystem, supersystem)
+//            ))
+//            .whileFalse(AutoCommands.intakeStopCommand(coralSubsystem, supersystem));
+//
+//    //climber controls
+//    operatorController.leftBumper()
+//        .whileTrue(
+//            climberSubsystem.setClimberPowerFactory(3.0)
+//        ).whileFalse(
+//            climberSubsystem.setClimberPowerFactory(0.0)
+//        );
+//    operatorController.rightBumper()
+//        .whileTrue(
+//            climberSubsystem.setClimberPowerFactory(-3.0)
+//        ).whileFalse(
+//            climberSubsystem.setClimberPowerFactory(0.0)
+//        );
   }
 
   public void setupShuffleboardTab() {
