@@ -10,6 +10,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
+import frc.robot.SpeedConstants;
 import lombok.Builder;
 import org.ironmaple.simulation.drivesims.COTS;
 import org.ironmaple.simulation.drivesims.configs.DriveTrainSimulationConfig;
@@ -29,12 +30,12 @@ public class DriveConstants {
   };
 
   public static final double DRIVE_BASE_RADIUS = Math.hypot(TRACK_WIDTH_X / 2, TRACK_WIDTH_Y / 2);
-  public static final double MAX_LINEAR_SPEED_MPS = Units.feetToMeters(17.1 );
-  public static final double MAX_ANGULAR_SPEED = MAX_LINEAR_SPEED_MPS / DRIVE_BASE_RADIUS;
+  public static final double MAX_LINEAR_SPEED_MPS = SpeedConstants.DRIVETRAIN_SPEED_MPS;
+  public static final double MAX_ANGULAR_SPEED = (MAX_LINEAR_SPEED_MPS / DRIVE_BASE_RADIUS) * SpeedConstants.DRIVETRAIN_ANGULAR_SPEED_PERCENTAGE;
 
   public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.967); //Units.inchesToMeters(1.976); // 2.0
   public static final double DRIVE_GEAR_RATIO = (50.0 / 16.0) * (17.0 / 27.0) * (45.0 / 15.0);
-  public static final double STEER_GEAR_RATIO = 18.75;
+  public static final double STEER_GEAR_RATIO = (50.0 / 14.0) * (60.0 / 10.0); // 18.75
 
   // Pathplanner stuff
   public static final double WHEEL_COF = 1.2;
@@ -52,10 +53,10 @@ public class DriveConstants {
   public static final TrapezoidProfile.Constraints THETA_CONSTRAINTS =
       new TrapezoidProfile.Constraints(4.5 * Math.PI, 4.5 * Math.PI); // rad/s, rad/s^2
 
-  public static final double MAX_ALIGNMENT_LINEAR_VELOCITY = 4;
-  public static final double MAX_ALIGNMENT_LINEAR_ACCELERATION = 15; //15
-  public static final Number MAX_ALIGNMENT_ANGULAR_VELOCITY = Units.degreesToRadians(400.0); // rads/sec
-  public static final Number MAX_ALIGNMENT_ANGULAR_ACCELERATION = Units.degreesToRadians(900.0); // rads/sec/sec
+  public static final double MAX_ALIGNMENT_LINEAR_VELOCITY = SpeedConstants.MAX_ALIGNMENT_LINEAR_VELOCITY;
+  public static final double MAX_ALIGNMENT_LINEAR_ACCELERATION = SpeedConstants.MAX_ALIGNMENT_LINEAR_ACCELERATION; //15
+  public static final Number MAX_ALIGNMENT_ANGULAR_VELOCITY = SpeedConstants.MAX_ALIGNMENT_ANGULAR_VELOCITY; // rads/sec
+  public static final Number MAX_ALIGNMENT_ANGULAR_ACCELERATION = SpeedConstants.MAX_ALIGNMENT_ANGULAR_ACCELERATION; // rads/sec/sec
 
   public static PathConstraints CONSTRAINTS =
        new PathConstraints(Units.feetToMeters(4.25), Units.feetToMeters(4.25),
@@ -103,7 +104,7 @@ public class DriveConstants {
                 .driveId(1)
                 .steerId(2)
                 .encoderId(3)
-                .encoderOffset(Rotation2d.fromRotations(0.087891))
+                .encoderOffset(Rotation2d.fromRotations(-0.410156).plus(Rotation2d.k180deg))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build(),
@@ -112,7 +113,7 @@ public class DriveConstants {
                 .driveId(4)
                 .steerId(5)
                 .encoderId(6)
-                .encoderOffset(Rotation2d.fromRotations(-0.429932))
+                .encoderOffset(Rotation2d.fromRotations(-0.422607))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build(),
@@ -121,7 +122,7 @@ public class DriveConstants {
                 .driveId(7)
                 .steerId(8)
                 .encoderId(9)
-                .encoderOffset(Rotation2d.fromRotations(0.131104))
+                .encoderOffset(Rotation2d.fromRotations(0.133545))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build(),
@@ -130,7 +131,7 @@ public class DriveConstants {
                 .driveId(10)
                 .steerId(11)
                 .encoderId(12)
-                .encoderOffset(Rotation2d.fromRotations(0.377441))
+                .encoderOffset(Rotation2d.fromRotations(0.374756))
                 .steerInverted(true)
                 .turnInverted(false)
                 .build()

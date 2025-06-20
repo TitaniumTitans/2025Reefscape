@@ -103,6 +103,10 @@ public class Module {
     return new SwerveModuleState(getVelocityMetersPerSecond(), getAngle());
   }
 
+  public SwerveModuleState getAbsoluteState() {
+    return new SwerveModuleState(getVelocityMetersPerSecond(), inputs.steerAbsolutePosition);
+  }
+
   // gets the module position
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(getPositionMeters(), getAngle());

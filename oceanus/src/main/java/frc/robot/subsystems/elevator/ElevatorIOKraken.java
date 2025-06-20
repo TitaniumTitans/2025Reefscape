@@ -13,6 +13,7 @@ import com.gos.lib.properties.pid.PidProperty;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.*;
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.SpeedConstants;
 import frc.robot.util.PhoenixUtil;
 import org.littletonrobotics.junction.Logger;
 
@@ -123,9 +124,9 @@ public class ElevatorIOKraken implements ElevatorIO {
 //    config.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(120);
 //    config.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(120);
     config.MotionMagic.MotionMagicCruiseVelocity =
-        2 / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
+        SpeedConstants.ELEVATOR_MAX_SPEED_MPS / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI);
     config.MotionMagic.MotionMagicAcceleration =
-        5 / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI); // 100
+        SpeedConstants.ELEVATOR_MAX_ACCELERATION_MPS / (ElevatorConstants.SPOOL_DIAMETER_METERS  * Math.PI); // 100
     // 140
 
     config.Slot0.kP = ElevatorConstants.ELEVATOR_KP;

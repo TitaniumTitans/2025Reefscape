@@ -275,6 +275,15 @@ public class DriveSubsystem extends SubsystemBase {
     return states;
   }
 
+  @AutoLogOutput(key = "SwerveStates/AbsoluteMeasured")
+  private SwerveModuleState[] getAbsoluteModuleStates() {
+    SwerveModuleState[] states = new SwerveModuleState[4];
+    for (int i = 0; i < 4; i++) {
+      states[i] = modules[i].getAbsoluteState();
+    }
+    return states;
+  }
+
   private SwerveModulePosition[] getModulePositions() {
     SwerveModulePosition[] states = new SwerveModulePosition[4];
     for (int i = 0; i < 4; i++) {

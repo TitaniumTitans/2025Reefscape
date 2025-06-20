@@ -144,7 +144,8 @@ public class ModuleIOTalonFX implements ModuleIO {
     inputs.steerVelocityRadsPerSec = Units.rotationsToRadians(steerVelocitySignal.getValueAsDouble());
     inputs.steerAppliedVolts = steerVoltageSignal.getValueAsDouble();
     inputs.steerCurrentAmps = steerCurrentSignal.getValueAsDouble();
-    inputs.steerAbsolutePosition = Rotation2d.fromRotations(steerAbsolutePositionSignal.getValueAsDouble());
+    inputs.steerAbsolutePosition = Rotation2d.fromRotations(
+        steerAbsolutePositionSignal.getValueAsDouble() - config.encoderOffset().getRotations());
 
     inputs.odometryTimestamps =
         odometryTimestampQueue.stream().mapToDouble((Double value) -> value).toArray();
@@ -213,7 +214,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     motorConfig.MotorOutput.withInverted(InvertedValue.Clockwise_Positive);
     motorConfig.CurrentLimits.withStatorCurrentLimit(60);
     motorConfig.ClosedLoopGeneral.ContinuousWrap = true;
-    motorConfig.Slot0.withKP(75.0) // 80.0
+    motorConfig.Slot0.withKP(80.0) // 80.0
         .withKD(1.0)
         .withKS(0.0)
         .withKV(0.0);

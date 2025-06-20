@@ -30,6 +30,7 @@ import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static edu.wpi.first.units.Units.Centimeters;
 import static edu.wpi.first.units.Units.Inches;
@@ -81,7 +82,7 @@ public class RobotState {
     Vector2[] closeBlueVecs = Arrays.stream(closeSafezonePoints).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
     Vector2[] closeRedVecs = Arrays.stream(closeSafezonePoints).map(AllianceFlipUtil::apply).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
 
-    Logger.recordOutput("Far Safezone", farSafezonePoints);
+    Logger.recordOutput("Far Safezone", Arrays.stream(farSafezonePoints).map(AllianceFlipUtil::apply).toArray(Translation2d[]::new));
     Logger.recordOutput("close Safezone", closeSafezonePoints);
 
     farKeepoutZoneBlue = new Polygon(farBlueVecs);

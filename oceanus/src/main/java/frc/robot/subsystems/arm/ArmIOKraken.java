@@ -20,6 +20,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
+import frc.robot.SpeedConstants;
 import frc.robot.util.PhoenixUtil;
 import lombok.extern.java.Log;
 import org.littletonrobotics.junction.Logger;
@@ -142,8 +143,8 @@ public class ArmIOKraken implements ArmIO {
     // max vel is 1.25 rev/s
 //    motorConfig.MotionMagic.MotionMagicCruiseVelocity = 1.25;
 //    motorConfig.MotionMagic.MotionMagicAcceleration = 1.25 / 0.125;
-    motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(370);
-    motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(700);
+    motorConfig.MotionMagic.MotionMagicCruiseVelocity = Units.degreesToRotations(SpeedConstants.ARM_MAX_SPEED_DEGREES);
+    motorConfig.MotionMagic.MotionMagicAcceleration = Units.degreesToRotations(SpeedConstants.ARM_MAX_ACCELERATION_DEGREES);
 
     motorConfig.Slot0.kP = ArmConstants.KP;
     motorConfig.Slot0.kI = ArmConstants.KI;
