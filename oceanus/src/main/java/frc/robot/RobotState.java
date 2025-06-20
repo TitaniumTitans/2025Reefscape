@@ -78,11 +78,11 @@ public class RobotState {
     }
 
     Vector2[] farBlueVecs = Arrays.stream(farSafezonePoints).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
-    Vector2[] farRedVecs = Arrays.stream(farSafezonePoints).map(AllianceFlipUtil::apply).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
+    Vector2[] farRedVecs = Arrays.stream(farSafezonePoints).map(translation2d -> AllianceFlipUtil.apply(translation2d, true)).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
     Vector2[] closeBlueVecs = Arrays.stream(closeSafezonePoints).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
-    Vector2[] closeRedVecs = Arrays.stream(closeSafezonePoints).map(AllianceFlipUtil::apply).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
+    Vector2[] closeRedVecs = Arrays.stream(closeSafezonePoints).map(translation2d -> AllianceFlipUtil.apply(translation2d, true)).map(GeometryConvertor::toDyn4jVector2).toArray(Vector2[]::new);
 
-    Logger.recordOutput("Far Safezone", Arrays.stream(farSafezonePoints).map(AllianceFlipUtil::apply).toArray(Translation2d[]::new));
+    Logger.recordOutput("Far Safezone", Arrays.stream(farSafezonePoints).map(translation2d -> AllianceFlipUtil.apply(translation2d, true)).toArray(Translation2d[]::new));
     Logger.recordOutput("close Safezone", closeSafezonePoints);
 
     farKeepoutZoneBlue = new Polygon(farBlueVecs);

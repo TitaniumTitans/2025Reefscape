@@ -29,7 +29,7 @@ public class AllianceFlipUtil {
   }
 
   public static Translation2d apply(Translation2d translation) {
-    return new Translation2d(applyX(translation.getX()), applyY(translation.getY()));
+    return apply(translation, false);
   }
 
   public static Translation2d apply(Translation2d translation, boolean force) {
